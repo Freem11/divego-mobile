@@ -13,6 +13,21 @@ const INITIAL_POSITION = {
   longitudeDelta: 5 * (width / height),
 };
 
+function formatHeatVals(heatValues) {
+  let newArr = [];
+  heatValues.forEach((heatPoint) => {
+    let newpt = {
+      latitude: heatPoint.lat,
+      longitude: heatPoint.lng,
+      weight: heatPoint.weight,
+    };
+    newArr.push(newpt);
+  });
+  return newArr;
+}
+
+let heatPoints = formatHeatVals(heatVals);
+
 export default function Map() {
   return (
     <View style={styles.container}>
@@ -32,6 +47,10 @@ export default function Map() {
               image={anchorIcon}
             />
         ))}
+        <Heatmap 
+        points={heatPoints}
+        radius={20}
+        />
       </MapView>
     </View>
   );
