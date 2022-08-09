@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Dimensions, Slider, Text } from "react-native";
+import { StyleSheet, View, Dimensions, Text } from "react-native";
+import Slider from '@react-native-community/slider';
 
 export default function MonthSlider() {
   const [month, setMonth] = useState(8);
@@ -47,12 +48,17 @@ export default function MonthSlider() {
 
   return (
     <View style={styles.container}>
-      <Text>{monthVal}</Text>
+      <Text style={{fontWeight: 'bold'}}>{monthVal}</Text>
       <Slider
-        style={{ width: 200, height: 40 }}
+        style={{ width: 300, height: 40 }}
         minimumValue={1}
         maximumValue={12}
-        onValueChange={(value) => setMonth(value)}
+        value={month}
+        onValueChange={(value) => setMonth(Math.round(value))}
+        minimumTrackTintColor="black"
+        maximumTrackTintColor="black"
+        thumbTintColor="black"
+        step={12}
       />
     </View>
   );
@@ -61,9 +67,15 @@ export default function MonthSlider() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    position: "absolute",
+    backgroundColor: "white",
+    opacity: 0.6,
     alignItems: "center",
     justifyContent: "center",
-    zIndex: 2
+    zIndex: 2,
+    top: 30,
+    height: 60,
+    borderRadius: 15 
+    
   },
 });

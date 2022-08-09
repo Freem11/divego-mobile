@@ -1664,6 +1664,11 @@
     "sudo-prompt" "^9.0.0"
     "wcwidth" "^1.0.1"
 
+"@react-native-community/slider@^4.3.0":
+  "integrity" "sha512-oAMJ8uSnZSEJNg1ObrEv1LcunT55qsduAJwRHctPxI/X2uZnAKpf/dVAr+9/DtAwUTlj0fknokDncHxGMyrfrQ=="
+  "resolved" "https://registry.npmjs.org/@react-native-community/slider/-/slider-4.3.0.tgz"
+  "version" "4.3.0"
+
 "@react-native/assets@1.0.0":
   "integrity" "sha512-KrwSpS1tKI70wuKl68DwJZYEvXktDHdZMG0k2AXD/rJVSlB23/X2CB2cutVR0HwNMJIal9HOUOBB2rVfa6UGtQ=="
   "resolved" "https://registry.npmjs.org/@react-native/assets/-/assets-1.0.0.tgz"
