@@ -1,6 +1,8 @@
 import * as React from "react";
-import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, { PROVIDER_GOOGLE, Marker, Heatmap } from "react-native-maps";
 import { StyleSheet, View, Dimensions } from "react-native";
+import { diveSitesFake, heatVals } from "./data/testdata";
+import anchorIcon from "../compnents/png/anchor11.png";
 
 const { width, height } = Dimensions.get("window");
 
@@ -21,7 +23,16 @@ export default function Map() {
         mapType="satellite"
         maxZoomLevel={12}
         minZoomLevel={3}
-      />
+      >
+        {diveSitesFake.map((diveSite, index) => (
+            <Marker
+              key={index}
+              coordinate={{ latitude: diveSite.lat, longitude: diveSite.lng }}
+              title={diveSite.name}
+              image={anchorIcon}
+            />
+        ))}
+      </MapView>
     </View>
   );
 }
