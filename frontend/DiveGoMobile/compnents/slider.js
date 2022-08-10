@@ -50,7 +50,7 @@ export default function MonthSlider() {
     <View style={styles.container}>
       <Text style={{fontWeight: 'bold'}}>{monthVal}</Text>
       <Slider
-        style={{ width: 300, height: 40 }}
+        style={{ width: 300, height: 30,transform: [{scaleX: 1}, {scaleY: 0.8}]}}
         minimumValue={1}
         maximumValue={12}
         value={month}
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     zIndex: 2,
     top: 30,
-    height: 60,
+    height: 55,
     borderRadius: 15 
     
   },
