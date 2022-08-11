@@ -1,8 +1,9 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import MapView, { PROVIDER_GOOGLE, Marker, Heatmap } from "react-native-maps";
 import { StyleSheet, View, Dimensions } from "react-native";
 import { diveSitesFake, heatVals } from "./data/testdata";
 import anchorIcon from "../compnents/png/anchor11.png";
+import { filterSites, formatHeatVals } from "./helpers/mapHelpers";
 
 const { width, height } = Dimensions.get("window");
 
@@ -13,22 +14,46 @@ const INITIAL_POSITION = {
   longitudeDelta: 5 * (width / height),
 };
 
-function formatHeatVals(heatValues) {
-  let newArr = [];
-  heatValues.forEach((heatPoint) => {
-    let newpt = {
-      latitude: heatPoint.lat,
-      longitude: heatPoint.lng,
-      weight: heatPoint.weight,
-    };
-    newArr.push(newpt);
-  });
-  return newArr;
-}
-
 let heatPoints = formatHeatVals(heatVals);
 
 export default function Map() {
+
+  const [mapRef, setMapRef] = useState(null);
+  const [boundaries, setBoundaries] = useState(null);
+  const [newSites, setnewSites] = useState([]);
+  const [newHeat, setNewHeat] = useState([]);
+
+  useEffect(() => {
+    if (mapRef) {
+      let bounds = mapRef.getMapBoundaries()
+      Promise.all([bounds])
+          .then((response) => {
+            setBoundaries(response[0])
+            let filtered =filterSites(response[0], diveSitesFake)
+            setnewSites(filtered)
+
+            let filteredHeat = formatHeatVals(filterSites(response[0], heatVals))
+            setNewHeat(filteredHeat)
+
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+    }
+  }, []);
+
+  const handleMapChange = async () => {
+    if (mapRef) {
+      let bounds = await mapRef.getMapBoundaries()
+      setBoundaries(bounds)
+      let filtered = filterSites(bounds, diveSitesFake)
+      setnewSites(filtered)
+
+      let filteredHeat = formatHeatVals(filterSites(bounds, heatVals))
+      setNewHeat(filteredHeat)
+    }
+  };
+
   return (
     <View style={styles.container}>
       <MapView
@@ -38,19 +63,19 @@ export default function Map() {
         mapType="satellite"
         maxZoomLevel={12}
         minZoomLevel={3}
+        ref={(ref) => setMapRef(ref)}
+        onMapReady={()=> handleMapChange()}
+        onRegionChangeComplete={() => handleMapChange()}
       >
-        {diveSitesFake.map((diveSite, index) => (
-            <Marker
-              key={index}
-              coordinate={{ latitude: diveSite.lat, longitude: diveSite.lng }}
-              title={diveSite.name}
-              image={anchorIcon}
-            />
+        {newSites.map((diveSite, index) => (
+          <Marker
+            key={index}
+            coordinate={{ latitude: diveSite.lat, longitude: diveSite.lng }}
+            title={diveSite.name}
+            image={anchorIcon}
+          />
         ))}
-        <Heatmap 
-        points={heatPoints}
-        radius={20}
-        />
+        <Heatmap points={newHeat} radius={20} />
       </MapView>
     </View>
   );
