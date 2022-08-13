@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import MapView, { PROVIDER_GOOGLE, Marker, Heatmap } from "react-native-maps";
+import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 import { StyleSheet, View, Dimensions } from "react-native";
-import { diveSitesFake, heatVals } from "./data/testdata";
+import { diveSitesFake } from "./data/testdata";
 import anchorIcon from "../compnents/png/anchor11.png";
 import anchorClust from "../compnents/png/anchor3.png";
-import { filterSites, formatHeatVals } from "./helpers/mapHelpers";
+import { filterSites } from "./helpers/mapHelpers";
 import { setupClusters } from "./helpers/clusterHelpers";
 import useSupercluster from "use-supercluster";
 
@@ -17,11 +17,10 @@ const INITIAL_POSITION = {
   longitudeDelta: 5 * (width / height),
 };
 
-export default function Map() {
+export default function PinMap() {
   const [mapRef, setMapRef] = useState(null);
   const [boundaries, setBoundaries] = useState([]);
   const [newSites, setnewSites] = useState([]);
-  const [newHeat, setNewHeat] = useState([]);
   const [zoomlev, setZoomLev] = useState(INITIAL_POSITION.latitudeDelta);
 
   useEffect(() => {
@@ -33,9 +32,6 @@ export default function Map() {
           setBoundaries([response[0].southWest.longitude, response[0].southWest.latitude, response[0].northEast.longitude, response[0].northEast.latitude]);
           let filtered = filterSites(response[0], diveSitesFake);
           setnewSites(filtered);
-
-          let filteredHeat = formatHeatVals(filterSites(response[0], heatVals));
-          setNewHeat(filteredHeat);
 
           let zoom =
             Math.log2(
@@ -56,9 +52,6 @@ export default function Map() {
       setBoundaries([bounds.southWest.longitude, bounds.southWest.latitude, bounds.northEast.longitude, bounds.northEast.latitude]);
       let filtered = filterSites(bounds, diveSitesFake);
       setnewSites(filtered);
-
-      let filteredHeat = formatHeatVals(filterSites(bounds, heatVals));
-      setNewHeat(filteredHeat);
 
       let zoom =
         Math.log2(
@@ -91,7 +84,6 @@ export default function Map() {
         onMapReady={() => handleMapChange()}
         onRegionChangeComplete={() => handleMapChange()}
       >
-        <Heatmap points={newHeat} radius={20} />
 
         {clusters.map((cluster) => {
           const [longitude, latitude] = cluster.geometry.coordinates;

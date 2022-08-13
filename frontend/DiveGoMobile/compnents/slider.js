@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Dimensions, Text } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import Slider from '@react-native-community/slider';
 
 export default function MonthSlider() {
