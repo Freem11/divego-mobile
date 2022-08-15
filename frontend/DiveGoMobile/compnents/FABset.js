@@ -1,4 +1,5 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
+import { DiveSitesContext } from "./contexts/diveSiteToggleContext";
 import { StyleSheet, View, TouchableWithoutFeedback } from "react-native";
 import { MaterialIcons, FontAwesome5 } from "@expo/vector-icons";
 import Animated, {
@@ -11,6 +12,9 @@ import Animated, {
 } from "react-native-reanimated";
 
 export default function FABButtons() {
+
+  const { diveSitesTog, setDiveSitesTog} = useContext(DiveSitesContext);
+
   const rotationVal = useSharedValue(0);
   const transYanchor = useSharedValue(0);
   const transYsearch = useSharedValue(0);
@@ -46,6 +50,7 @@ export default function FABButtons() {
       transYphoto.value = withSpring(-215);
       transYgeo.value = withSpring(-265);
       transYinfo.value = withSpring(-315);
+
     }
   };
 
@@ -117,7 +122,7 @@ export default function FABButtons() {
         </Animated.View>
       </TouchableWithoutFeedback>
 
-      <TouchableWithoutFeedback>
+      <TouchableWithoutFeedback onPress={() => setDiveSitesTog(!diveSitesTog)}>
         <Animated.View
           style={[styles.buttonwrapper, styles.anchorWrapper, transAnchorY]}
         >
@@ -159,7 +164,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     height: 55,
     width: 55,
-    opacity: 1,
+    opacity: 0.7,
     
   },
   buttonwrapper: {
@@ -169,12 +174,13 @@ const styles = StyleSheet.create({
     position: "absolute",
     height: 45,
     width: 45,
-    opacity: 1,
+    opacity: 0.7,
     backgroundColor: "black",
   },
   menuWrapper: {
     backgroundColor: "aquamarine",
     bottom: 0,
+    opacity: 1
   },
   anchorWrapper: {
     bottom: 0,

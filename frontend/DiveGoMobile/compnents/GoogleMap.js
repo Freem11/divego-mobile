@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { DiveSitesContext } from "./contexts/diveSiteToggleContext";
 import MapView, { PROVIDER_GOOGLE, Marker, Heatmap } from "react-native-maps";
 import { StyleSheet, View, Dimensions } from "react-native";
 import { diveSitesFake, heatVals } from "./data/testdata";
@@ -24,6 +25,9 @@ export default function Map() {
   const [newHeat, setNewHeat] = useState([]);
   const [zoomlev, setZoomLev] = useState(INITIAL_POSITION.latitudeDelta);
 
+  const { diveSitesTog, setDiveSitesTog} = useContext(DiveSitesContext);
+
+
   useEffect(() => {
     if (mapRef) {
       let bounds = mapRef.getMapBoundaries();
@@ -32,7 +36,10 @@ export default function Map() {
 
           setBoundaries([response[0].southWest.longitude, response[0].southWest.latitude, response[0].northEast.longitude, response[0].northEast.latitude]);
           let filtered = filterSites(response[0], diveSitesFake);
-          setnewSites(filtered);
+
+          if (filtered) {
+            !diveSitesTog ? setnewSites([]) : setnewSites(filtered);
+          }
 
           let filteredHeat = formatHeatVals(filterSites(response[0], heatVals));
           setNewHeat(filteredHeat);
@@ -55,7 +62,10 @@ export default function Map() {
       let bounds = await mapRef.getMapBoundaries();
       setBoundaries([bounds.southWest.longitude, bounds.southWest.latitude, bounds.northEast.longitude, bounds.northEast.latitude]);
       let filtered = filterSites(bounds, diveSitesFake);
-      setnewSites(filtered);
+
+      if (filtered) {
+        !diveSitesTog ? setnewSites([]) : setnewSites(filtered);
+      }
 
       let filteredHeat = formatHeatVals(filterSites(bounds, heatVals));
       setNewHeat(filteredHeat);
@@ -69,6 +79,22 @@ export default function Map() {
     }
   };
  
+  useEffect(() => {
+    if (mapRef) {
+      let bounds = mapRef.getMapBoundaries();
+      Promise.all([bounds])
+        .then((response) => {
+
+          setBoundaries([response[0].southWest.longitude, response[0].southWest.latitude, response[0].northEast.longitude, response[0].northEast.latitude]);
+          let filtered = filterSites(response[0], diveSitesFake);
+
+          if (filtered) {
+            !diveSitesTog ? setnewSites([]) : setnewSites(filtered);
+          }
+    })
+  }
+  }, [diveSitesTog])
+
   const points = setupClusters(newSites);
 
   const { clusters, supercluster } = useSupercluster({
