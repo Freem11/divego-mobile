@@ -18,10 +18,9 @@
     "react-dom": "17.0.2",
     "react-native": "0.68.2",
     "react-native-branch": "^5.5.0",
-    "react-native-clusterer": "^1.2.0",
-    "react-native-map-clustering": "^3.4.2",
     "react-native-maps": "^0.30.2",
     "react-native-paper": "^4.12.4",
+    "react-native-reanimated": "^2.9.1",
     "react-native-vector-icons": "^9.2.0",
     "react-native-web": "0.17.7",
     "use-supercluster": "^0.4.0"
