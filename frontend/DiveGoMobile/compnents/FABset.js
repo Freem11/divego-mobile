@@ -10,6 +10,7 @@ import Animated, {
   withSpring,
   withTiming,
 } from "react-native-reanimated";
+import AnimalAutoComplete from './animalAutocomplete';
 
 export default function FABButtons() {
 
@@ -22,6 +23,8 @@ export default function FABButtons() {
   const transYphoto = useSharedValue(0);
   const transYgeo = useSharedValue(0);
   const transYinfo = useSharedValue(0);
+
+  const animalWidth = useSharedValue(0);
 
   const rotation = useDerivedValue(() => {
     return interpolate(rotationVal.value, [0, 45], [0, 45]);
@@ -42,6 +45,7 @@ export default function FABButtons() {
       transYphoto.value = withTiming(0);
       transYgeo.value = withTiming(0);
       transYinfo.value = withTiming(0);
+      animalWidth.value = withTiming(0);
     } else {
       rotationVal.value = withSpring(45);
       transYanchor.value = withSpring(-65);
@@ -50,9 +54,28 @@ export default function FABButtons() {
       transYphoto.value = withSpring(-215);
       transYgeo.value = withSpring(-265);
       transYinfo.value = withSpring(-315);
-
+ 
     }
   };
+
+  const scale = useDerivedValue(() => {
+    return interpolate(animalWidth.value, [0, 200], [0, 1]);
+  });
+
+  const animalReveal = useAnimatedStyle(() => {
+    return {
+      transform: [{ scaleX: -scale.value }],
+    };
+  });
+
+  const startAnimalButtonAnimations = () => {
+    if (animalWidth.value === 0){
+      animalWidth.value = withTiming(200);
+    } else {  
+      animalWidth.value = withTiming(0);
+    }
+     
+  }
 
   const transAnchorY = useAnimatedStyle(() => {
     return {
@@ -116,7 +139,7 @@ export default function FABButtons() {
         </Animated.View>
       </TouchableWithoutFeedback>
 
-      <TouchableWithoutFeedback>
+      <TouchableWithoutFeedback onPress={startAnimalButtonAnimations}>
         <Animated.View style={[styles.buttonwrapper, styles.searchWrapper, transSearchY]}>
           <MaterialIcons name="search" color="aquamarine" size={32} />
         </Animated.View>
@@ -141,6 +164,11 @@ export default function FABButtons() {
           <FontAwesome5 name="plus" color="black" size={32} />
         </Animated.View>
       </TouchableWithoutFeedback>
+
+        <Animated.View style={[styles.animal, animalReveal]}>
+          <AnimalAutoComplete />  
+        </Animated.View>
+      
     </View>
   );
 }
@@ -200,4 +228,12 @@ const styles = StyleSheet.create({
   questionWrapper: {
     bottom: 0,
   },
+  animal: {
+    bottom: 148,
+    width: 0,
+    right: 30,
+    backgroundColor: "grey",
+    borderRadius: 10,
+    zIndex: 2,
+  }
 });

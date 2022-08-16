@@ -1,12 +1,12 @@
 
 export const photos = [
-  { label: "Giant Pacific Octopus", Latitude: 49.3134, Longitude: -124.2424, DateTaken: '2019-08-05', PhotoFile: 'octo.jpg'},
-  { label: "Chimera", Latitude: 50.846, Longitude: -127.643, DateTaken: '2019-07-11', PhotoFile: 'Ghost.jpg'},
-  { label: "Dog Fish", Latitude: 49.3714, Longitude: -123.2925, DateTaken: '2019-05-24', PhotoFile: 'lilShark.jpg'},
-  { label: "Flavillinea", Latitude: 49.5615, Longitude: -123.236944, DateTaken: '2019-03-08', PhotoFile: 'Nudi.jpg'},
-  { label: "Brittle Star", Latitude: 49.217, Longitude: -123.893, DateTaken: '2019-09-28', PhotoFile: 'BrittleStar.jpg'},
-  { label: "Basket Star", Latitude: 50.1325, Longitude: -125.336, DateTaken: '2019-11-12', PhotoFile: 'Basket.jpg'},
-  { label: "Grunt Sculpin", Latitude: 49.4495, Longitude: -123.2405, DateTaken: '2019-02-22', PhotoFile: 'Gsculp.jpg' },
+  { id: 1, label: "Giant Pacific Octopus", Latitude: 49.3134, Longitude: -124.2424, DateTaken: '2019-08-05', PhotoFile: 'octo.jpg'},
+  { id: 2, label: "Chimera", Latitude: 50.846, Longitude: -127.643, DateTaken: '2019-07-11', PhotoFile: 'Ghost.jpg'},
+  { id: 3, label: "Dog Fish", Latitude: 49.3714, Longitude: -123.2925, DateTaken: '2019-05-24', PhotoFile: 'lilShark.jpg'},
+  { id: 4, label: "Flavillinea", Latitude: 49.5615, Longitude: -123.236944, DateTaken: '2019-03-08', PhotoFile: 'Nudi.jpg'},
+  { id: 5, label: "Brittle Star", Latitude: 49.217, Longitude: -123.893, DateTaken: '2019-09-28', PhotoFile: 'BrittleStar.jpg'},
+  { id: 6, label: "Basket Star", Latitude: 50.1325, Longitude: -125.336, DateTaken: '2019-11-12', PhotoFile: 'Basket.jpg'},
+  { id: 7, label: "Grunt Sculpin", Latitude: 49.4495, Longitude: -123.2405, DateTaken: '2019-02-22', PhotoFile: 'Gsculp.jpg' },
 ];
 
 export const heatVals = [

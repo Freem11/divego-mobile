@@ -4333,7 +4333,7 @@
   dependencies:
     "p-locate" "^5.0.0"
 
-"lodash.debounce@^4.0.8":
+"lodash.debounce@*", "lodash.debounce@^4.0.8":
   "integrity" "sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow=="
   "resolved" "https://registry.npmjs.org/lodash.debounce/-/lodash.debounce-4.0.8.tgz"
   "version" "4.0.8"
@@ -5485,6 +5485,21 @@
   "resolved" "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"
   "version" "16.13.1"
 
+"react-native-autocomplete-dropdown@^2.0.7":
+  "integrity" "sha512-MktabrfeAE0oJ+WgxtIkesHxtbYbZwbdyR7MTJ9roFPNmAyOqrcRWzZowmOblXM0Ljv6zlg5b7n7waSM+4iATw=="
+  "resolved" "https://registry.npmjs.org/react-native-autocomplete-dropdown/-/react-native-autocomplete-dropdown-2.0.7.tgz"
+  "version" "2.0.7"
+  dependencies:
+    "lodash.debounce" "*"
+    "prop-types" "*"
+    "react-native-size-matters" "^0.3.0 || ^0.4.0"
+    "react-native-vector-icons" ">=7.0.0"
+
+"react-native-autocomplete-input@^5.1.0":
+  "integrity" "sha512-y6gIBm189hcsJO+6a4Hn8lNdy1qmY7yw1NAA6Bgvg8rznZk0r+35xXd1tu81aOZYJo9/LxGNlNL6Zblo3N1kGw=="
+  "resolved" "https://registry.npmjs.org/react-native-autocomplete-input/-/react-native-autocomplete-input-5.1.0.tgz"
+  "version" "5.1.0"
+
 "react-native-branch@^5.5.0":
   "integrity" "sha512-f1kv/+tVyqPPKKobstcS8CO2u9PIZBgMDFsSPPrPZP6AZm1FyYDrifbdpJRRbfyky/fApEUNBgl0ZAC+ABPQyA=="
   "resolved" "https://registry.npmjs.org/react-native-branch/-/react-native-branch-5.5.0.tgz"
@@ -5541,7 +5556,12 @@
     "setimmediate" "^1.0.5"
     "string-hash-64" "^1.0.3"
 
-"react-native-vector-icons@*", "react-native-vector-icons@^9.2.0":
+"react-native-size-matters@^0.3.0 || ^0.4.0":
+  "integrity" "sha512-8/C0htHrFWeUm9N8JegmadovUfgTWkGBkDPZ1N3YkXtDWb+98Ya2gThiKcu445r8c7YhcrBfnHz/mYsXIusaOQ=="
+  "resolved" "https://registry.npmjs.org/react-native-size-matters/-/react-native-size-matters-0.4.0.tgz"
+  "version" "0.4.0"
+
+"react-native-vector-icons@*", "react-native-vector-icons@^9.2.0", "react-native-vector-icons@>=7.0.0":
   "integrity" "sha512-wKYLaFuQST/chH3AJRjmOLoLy3JEs1JR6zMNgTaemFpNoXs0ztRnTxcxFD9xhX7cJe1/zoN5BpQYe7kL0m5yyA=="
   "resolved" "https://registry.npmjs.org/react-native-vector-icons/-/react-native-vector-icons-9.2.0.tgz"
   "version" "9.2.0"
@@ -5562,7 +5582,7 @@
     "normalize-css-color" "^1.0.2"
     "prop-types" "^15.6.0"
 
-"react-native@*", "react-native@>= 0.51", "react-native@>= 0.60", "react-native@>=0.42.0", "react-native@0.68.2":
+"react-native@*", "react-native@>= 0.51", "react-native@>= 0.60", "react-native@>=0.40.0", "react-native@>=0.42.0", "react-native@0.68.2":
   "integrity" "sha512-qNMz+mdIirCEmlrhapAtAG+SWVx6MAiSfCbFNhfHqiqu1xw1OKXdzIrjaBEPihRC2pcORCoCHduHGQe/Pz9Yuw=="
   "resolved" "https://registry.npmjs.org/react-native/-/react-native-0.68.2.tgz"
   "version" "0.68.2"
