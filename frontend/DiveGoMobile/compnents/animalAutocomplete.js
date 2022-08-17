@@ -8,11 +8,11 @@ export default function AnimalAutoComplete() {
 
 const [searchVal, setSearchVal] = useState('')
 const list = filterCreatures(photos);
-console.log("list", searchVal)
 
 return(
     <View style={styles.container}>
         <AutocompleteDropdown
+        initialValue='Spicies'
         textInputProps={{
             style: {
                 backgroundColor: "white",

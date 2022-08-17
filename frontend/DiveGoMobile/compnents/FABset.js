@@ -11,6 +11,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import AnimalAutoComplete from './animalAutocomplete';
+import GeocodeAutocomplete from './geocodeAutocomplete';
 
 export default function FABButtons() {
 
@@ -25,6 +26,7 @@ export default function FABButtons() {
   const transYinfo = useSharedValue(0);
 
   const animalWidth = useSharedValue(0);
+  const geocodeWidth = useSharedValue(0);
 
   const rotation = useDerivedValue(() => {
     return interpolate(rotationVal.value, [0, 45], [0, 45]);
@@ -46,6 +48,7 @@ export default function FABButtons() {
       transYgeo.value = withTiming(0);
       transYinfo.value = withTiming(0);
       animalWidth.value = withTiming(0);
+      geocodeWidth.value = withTiming(0);
     } else {
       rotationVal.value = withSpring(45);
       transYanchor.value = withSpring(-65);
@@ -73,8 +76,25 @@ export default function FABButtons() {
       animalWidth.value = withTiming(200);
     } else {  
       animalWidth.value = withTiming(0);
-    }
-     
+    } 
+  }
+
+  const scaleGeo = useDerivedValue(() => {
+    return interpolate(geocodeWidth.value, [0, 200], [0, 1]);
+  });
+
+  const geocodeReveal = useAnimatedStyle(() => {
+    return {
+      transform: [{ scaleX: -scaleGeo.value }],
+    };
+  });
+
+  const startGeoCodeButtonAnimations = () => {
+    if (geocodeWidth.value === 0){
+      geocodeWidth.value = withTiming(200);
+    } else {  
+      geocodeWidth.value = withTiming(0);
+    } 
   }
 
   const transAnchorY = useAnimatedStyle(() => {
@@ -121,7 +141,7 @@ export default function FABButtons() {
         </Animated.View>
       </TouchableWithoutFeedback>
 
-      <TouchableWithoutFeedback>
+      <TouchableWithoutFeedback onPress={startGeoCodeButtonAnimations}>
         <Animated.View style={[styles.buttonwrapper, styles.exploreWrapper, transGeoY]}>
           <MaterialIcons name="explore" color="aquamarine" size={32} />
         </Animated.View>
@@ -167,6 +187,10 @@ export default function FABButtons() {
 
         <Animated.View style={[styles.animal, animalReveal]}>
           <AnimalAutoComplete />  
+        </Animated.View>
+
+        <Animated.View style={[styles.geoCoder, geocodeReveal]}>
+          <GeocodeAutocomplete />  
         </Animated.View>
       
     </View>
@@ -232,7 +256,13 @@ const styles = StyleSheet.create({
     bottom: 148,
     width: 0,
     right: 30,
-    backgroundColor: "grey",
+    borderRadius: 10,
+    zIndex: 2,
+  },
+  geoCoder: {
+    bottom: 308,
+    width: 0,
+    right: 40,
     borderRadius: 10,
     zIndex: 2,
   }

@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import { DiveSitesContext } from "./contexts/diveSiteToggleContext";
+import { MapCenterContext } from "./contexts/mapCenterContext";
 import MapView, { PROVIDER_GOOGLE, Marker, Heatmap } from "react-native-maps";
-import { StyleSheet, View, Dimensions } from "react-native";
+import { StyleSheet, View, Dimensions, Keyboard } from "react-native";
 import { diveSitesFake, heatVals } from "./data/testdata";
 import anchorIcon from "../compnents/png/anchor11.png";
 import anchorClust from "../compnents/png/anchor3.png";
@@ -11,14 +12,31 @@ import useSupercluster from "use-supercluster";
 
 const { width, height } = Dimensions.get("window");
 
-const INITIAL_POSITION = {
-  latitude: 49.246292,
-  longitude: -123.116226,
-  latitudeDelta: 5,
-  longitudeDelta: 5 * (width / height),
-};
-
 export default function Map() {
+
+  const { mapCenter } = useContext(MapCenterContext);
+  console.log("center", mapCenter)
+
+  useEffect(() => {
+    if (mapRef){
+      mapRef.animateCamera({
+        center: {
+          latitude: mapCenter.lat,
+          longitude: mapCenter.lng
+        }
+      })
+      Keyboard.dismiss()
+    }
+
+  }, [mapCenter])
+
+  const INITIAL_POSITION = {
+    latitude: mapCenter.lat,
+    longitude: mapCenter.lng,
+    latitudeDelta: 5,
+    longitudeDelta: 5 * (width / height),
+  };
+
   const [mapRef, setMapRef] = useState(null);
   const [boundaries, setBoundaries] = useState([]);
   const [newSites, setnewSites] = useState([]);
