@@ -5,15 +5,18 @@ import MonthSlider from "./slider";
 import FABButtons from "./FABset";
 import { DiveSitesContext } from "./contexts/diveSiteToggleContext";
 import { MapCenterContext } from "./contexts/mapCenterContext";
+
 export default function MapPage() {
+
+  
   const [diveSitesTog, setDiveSitesTog] = useState(true);
   const [mapCenter, setMapCenter] = useState({
     lat: 49.246292,
     lng: -123.116226,
   });
 
-  console.log("at mapPage", mapCenter)
   return (
+    
     <MapCenterContext.Provider value={{mapCenter, setMapCenter}}>
       <DiveSitesContext.Provider value={{ diveSitesTog, setDiveSitesTog }}>
         <View style={styles.container}>

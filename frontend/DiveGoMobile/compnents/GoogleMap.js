@@ -15,7 +15,6 @@ const { width, height } = Dimensions.get("window");
 export default function Map() {
 
   const { mapCenter } = useContext(MapCenterContext);
-  console.log("center", mapCenter)
 
   useEffect(() => {
     if (mapRef){

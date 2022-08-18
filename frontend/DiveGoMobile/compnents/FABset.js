@@ -1,6 +1,13 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
 import { DiveSitesContext } from "./contexts/diveSiteToggleContext";
-import { StyleSheet, View, TouchableWithoutFeedback } from "react-native";
+import { PictureAdderContext } from "./contexts/picModalContext";
+import {
+  StyleSheet,
+  View,
+  TouchableWithoutFeedback,
+  Modal,
+  Text,
+} from "react-native";
 import { MaterialIcons, FontAwesome5 } from "@expo/vector-icons";
 import Animated, {
   useSharedValue,
@@ -10,12 +17,15 @@ import Animated, {
   withSpring,
   withTiming,
 } from "react-native-reanimated";
-import AnimalAutoComplete from './animalAutocomplete';
-import GeocodeAutocomplete from './geocodeAutocomplete';
+import AnimalAutoComplete from "./animalAutocomplete";
+import GeocodeAutocomplete from "./geocodeAutocomplete";
 
 export default function FABButtons() {
+  const { diveSitesTog, setDiveSitesTog } = useContext(DiveSitesContext);
 
-  const { diveSitesTog, setDiveSitesTog} = useContext(DiveSitesContext);
+  const { picAdderModal, setPicAdderModal } = useContext(PictureAdderContext);
+  const [diveSiteAdderModal, setDiveSiteAdderModal] = useState(false);
+  const [guideModal, setGuideModal] = useState(false);
 
   const rotationVal = useSharedValue(0);
   const transYanchor = useSharedValue(0);
@@ -57,7 +67,6 @@ export default function FABButtons() {
       transYphoto.value = withSpring(-215);
       transYgeo.value = withSpring(-265);
       transYinfo.value = withSpring(-315);
- 
     }
   };
 
@@ -72,12 +81,12 @@ export default function FABButtons() {
   });
 
   const startAnimalButtonAnimations = () => {
-    if (animalWidth.value === 0){
+    if (animalWidth.value === 0) {
       animalWidth.value = withTiming(200);
-    } else {  
+    } else {
       animalWidth.value = withTiming(0);
-    } 
-  }
+    }
+  };
 
   const scaleGeo = useDerivedValue(() => {
     return interpolate(geocodeWidth.value, [0, 200], [0, 1]);
@@ -90,12 +99,12 @@ export default function FABButtons() {
   });
 
   const startGeoCodeButtonAnimations = () => {
-    if (geocodeWidth.value === 0){
+    if (geocodeWidth.value === 0) {
       geocodeWidth.value = withTiming(200);
-    } else {  
+    } else {
       geocodeWidth.value = withTiming(0);
-    } 
-  }
+    }
+  };
 
   const transAnchorY = useAnimatedStyle(() => {
     return {
@@ -135,32 +144,46 @@ export default function FABButtons() {
 
   return (
     <View style={styles.fab}>
-      <TouchableWithoutFeedback>
-        <Animated.View style={[styles.buttonwrapper, styles.questionWrapper, transInfoY]}>
+      <TouchableWithoutFeedback onPress={() => setGuideModal(!guideModal)}>
+        <Animated.View
+          style={[styles.buttonwrapper, styles.questionWrapper, transInfoY]}
+        >
           <FontAwesome5 name="question" color="aquamarine" size={32} />
         </Animated.View>
       </TouchableWithoutFeedback>
 
       <TouchableWithoutFeedback onPress={startGeoCodeButtonAnimations}>
-        <Animated.View style={[styles.buttonwrapper, styles.exploreWrapper, transGeoY]}>
+        <Animated.View
+          style={[styles.buttonwrapper, styles.exploreWrapper, transGeoY]}
+        >
           <MaterialIcons name="explore" color="aquamarine" size={32} />
         </Animated.View>
       </TouchableWithoutFeedback>
 
-      <TouchableWithoutFeedback>
-        <Animated.View style={[styles.buttonwrapper, styles.cameraWrapper, transPhotoY]}>
+      <TouchableWithoutFeedback
+        onPress={() => setPicAdderModal(!picAdderModal)}
+      >
+        <Animated.View
+          style={[styles.buttonwrapper, styles.cameraWrapper, transPhotoY]}
+        >
           <MaterialIcons name="photo-camera" color="aquamarine" size={32} />
         </Animated.View>
       </TouchableWithoutFeedback>
 
-      <TouchableWithoutFeedback>
-        <Animated.View style={[styles.buttonwrapper, styles.addSiteWrapper, transSiteY]}>
+      <TouchableWithoutFeedback
+        onPress={() => setDiveSiteAdderModal(!diveSiteAdderModal)}
+      >
+        <Animated.View
+          style={[styles.buttonwrapper, styles.addSiteWrapper, transSiteY]}
+        >
           <MaterialIcons name="add-location-alt" color="aquamarine" size={32} />
         </Animated.View>
       </TouchableWithoutFeedback>
 
       <TouchableWithoutFeedback onPress={startAnimalButtonAnimations}>
-        <Animated.View style={[styles.buttonwrapper, styles.searchWrapper, transSearchY]}>
+        <Animated.View
+          style={[styles.buttonwrapper, styles.searchWrapper, transSearchY]}
+        >
           <MaterialIcons name="search" color="aquamarine" size={32} />
         </Animated.View>
       </TouchableWithoutFeedback>
@@ -185,14 +208,54 @@ export default function FABButtons() {
         </Animated.View>
       </TouchableWithoutFeedback>
 
-        <Animated.View style={[styles.animal, animalReveal]}>
-          <AnimalAutoComplete />  
-        </Animated.View>
+      <Animated.View style={[styles.animal, animalReveal]}>
+        <AnimalAutoComplete />
+      </Animated.View>
 
-        <Animated.View style={[styles.geoCoder, geocodeReveal]}>
-          <GeocodeAutocomplete />  
-        </Animated.View>
-      
+      <Animated.View style={[styles.geoCoder, geocodeReveal]}>
+        <GeocodeAutocomplete />
+      </Animated.View>
+
+      <Modal visible={picAdderModal} animationType="slide" transparent={true}>
+        <View style={styles.modalStyle}>
+          <Text>Picutre Adder</Text>
+          <TouchableWithoutFeedback
+            onPress={() => setPicAdderModal(!picAdderModal)}
+          >
+            <View>
+              <MaterialIcons name="photo-camera" color="aquamarine" size={32} />
+            </View>
+          </TouchableWithoutFeedback>
+        </View>
+      </Modal>
+
+      <Modal visible={diveSiteAdderModal} animationType="slide" transparent={true}>
+        <View style={styles.modalStyle}>
+          <Text>Dive Site Adder</Text>
+          <TouchableWithoutFeedback
+            onPress={() => setDiveSiteAdderModal(!diveSiteAdderModal)}
+          >
+            <View>
+              <MaterialIcons
+                name="add-location-alt"
+                color="aquamarine"
+                size={32}
+              />
+            </View>
+          </TouchableWithoutFeedback>
+        </View>
+      </Modal>
+
+      <Modal visible={guideModal} animationType="slide" transparent={true} >
+        <View style={styles.modalStyle}>
+          <Text>Guide</Text>
+          <TouchableWithoutFeedback onPress={() => setGuideModal(!guideModal)}>
+            <View>
+              <FontAwesome5 name="question" color="aquamarine" size={32} />
+            </View>
+          </TouchableWithoutFeedback>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -217,7 +280,6 @@ const styles = StyleSheet.create({
     height: 55,
     width: 55,
     opacity: 0.7,
-    
   },
   buttonwrapper: {
     alignItems: "center",
@@ -232,7 +294,7 @@ const styles = StyleSheet.create({
   menuWrapper: {
     backgroundColor: "aquamarine",
     bottom: 0,
-    opacity: 1
+    opacity: 1,
   },
   anchorWrapper: {
     bottom: 0,
@@ -265,5 +327,15 @@ const styles = StyleSheet.create({
     right: 40,
     borderRadius: 10,
     zIndex: 2,
+  },
+  modalStyle: {
+    flex: 1,
+    backgroundColor:'#D8DBE2',
+    borderRadius: 25,
+    margin: 30,
+    borderColor: "lightblue",
+    borderWidth: 8,
+    opacity: 1
+
   }
 });
