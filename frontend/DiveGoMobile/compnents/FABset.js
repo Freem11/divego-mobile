@@ -1,4 +1,6 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
+import GuideModal from "./modals/howToGuideModal";
+import DiveSiteModal from "./modals/diveSiteAdderModal";
 import { DiveSitesContext } from "./contexts/diveSiteToggleContext";
 import { PictureAdderContext } from "./contexts/picModalContext";
 import {
@@ -8,7 +10,7 @@ import {
   Modal,
   Text,
 } from "react-native";
-import { MaterialIcons, FontAwesome5 } from "@expo/vector-icons";
+import { MaterialIcons, FontAwesome5, FontAwesome } from "@expo/vector-icons";
 import Animated, {
   useSharedValue,
   interpolate,
@@ -218,7 +220,7 @@ export default function FABButtons() {
 
       <Modal visible={picAdderModal} animationType="slide" transparent={true}>
         <View style={styles.modalStyle}>
-          <Text>Picutre Adder</Text>
+          <Text>Picture Adder</Text>
           <TouchableWithoutFeedback
             onPress={() => setPicAdderModal(!picAdderModal)}
           >
@@ -231,29 +233,29 @@ export default function FABButtons() {
 
       <Modal visible={diveSiteAdderModal} animationType="slide" transparent={true}>
         <View style={styles.modalStyle}>
-          <Text>Dive Site Adder</Text>
           <TouchableWithoutFeedback
             onPress={() => setDiveSiteAdderModal(!diveSiteAdderModal)}
           >
-            <View>
-              <MaterialIcons
-                name="add-location-alt"
-                color="aquamarine"
+            <View style={styles.closeButton}>
+              <FontAwesome
+                name="close"
+                color="grey"
                 size={32}
               />
             </View>
           </TouchableWithoutFeedback>
+          <DiveSiteModal />
         </View>
       </Modal>
 
       <Modal visible={guideModal} animationType="slide" transparent={true} >
         <View style={styles.modalStyle}>
-          <Text>Guide</Text>
           <TouchableWithoutFeedback onPress={() => setGuideModal(!guideModal)}>
             <View>
               <FontAwesome5 name="question" color="aquamarine" size={32} />
             </View>
           </TouchableWithoutFeedback>
+          <GuideModal />
         </View>
       </Modal>
     </View>
@@ -336,6 +338,15 @@ const styles = StyleSheet.create({
     borderColor: "lightblue",
     borderWidth: 8,
     opacity: 1
-
+  },
+  closeButton: {
+      borderRadius: 42/2,
+      backgroundColor: "maroon",
+      height: 42,
+      width: 42,
+      marginLeft: 247,
+      marginTop: 12,
+      justifyContent: "center",
+      alignItems: "center"
   }
 });
