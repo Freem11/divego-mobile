@@ -34,8 +34,6 @@ export default function DiveSiteModal() {
     longitude: "",
   });
 
-  useEffect(() => {}, []);
-
   const CurrentCoords = async () => {
     const requestPermissions = async () => {
       const forground = await Location.requestForegroundPermissionsAsync();

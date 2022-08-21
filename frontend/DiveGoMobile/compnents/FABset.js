@@ -1,8 +1,10 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
 import GuideModal from "./modals/howToGuideModal";
 import DiveSiteModal from "./modals/diveSiteAdderModal";
+import PicUploadModal from "./modals/picUploaderModal";
 import { DiveSitesContext } from "./contexts/diveSiteToggleContext";
 import { PictureAdderContext } from "./contexts/picModalContext";
+import { PinContext } from "./contexts/staticPinContext";
 import {
   StyleSheet,
   View,
@@ -21,9 +23,11 @@ import Animated, {
 } from "react-native-reanimated";
 import AnimalAutoComplete from "./animalAutocomplete";
 import GeocodeAutocomplete from "./geocodeAutocomplete";
+import { formatHeatVals } from "./helpers/mapHelpers";
 
 export default function FABButtons() {
   const { diveSitesTog, setDiveSitesTog } = useContext(DiveSitesContext);
+  const { pinValues, setPinValues } = useContext(PinContext);
 
   const { picAdderModal, setPicAdderModal } = useContext(PictureAdderContext);
   const [diveSiteAdderModal, setDiveSiteAdderModal] = useState(false);
@@ -144,6 +148,23 @@ export default function FABButtons() {
     };
   });
 
+  const togglePicModal = () => {
+
+    setPicAdderModal(!picAdderModal)
+
+    if (picAdderModal){
+      console.log("made it")
+      setPinValues({
+        PicFile: null,
+        Animal: "",
+        PicDate: "",
+        Latitude: "",
+        Longitude: "",
+      })
+    }
+   
+  }
+
   return (
     <View style={styles.fab}>
       <TouchableWithoutFeedback onPress={() => setGuideModal(!guideModal)}>
@@ -220,14 +241,18 @@ export default function FABButtons() {
 
       <Modal visible={picAdderModal} animationType="slide" transparent={true}>
         <View style={styles.modalStyle}>
-          <Text>Picture Adder</Text>
           <TouchableWithoutFeedback
-            onPress={() => setPicAdderModal(!picAdderModal)}
+            onPress={togglePicModal}
           >
-            <View>
-              <MaterialIcons name="photo-camera" color="aquamarine" size={32} />
+              <View style={styles.closeButton}>
+              <FontAwesome
+                name="close"
+                color="aquamarine"
+                size={32}
+              />
             </View>
           </TouchableWithoutFeedback>
+          <PicUploadModal />
         </View>
       </Modal>
 
@@ -239,7 +264,7 @@ export default function FABButtons() {
             <View style={styles.closeButton}>
               <FontAwesome
                 name="close"
-                color="grey"
+                color="aquamarine"
                 size={32}
               />
             </View>
