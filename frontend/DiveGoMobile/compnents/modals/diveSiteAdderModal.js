@@ -36,8 +36,13 @@ export default function DiveSiteModal() {
 
   const CurrentCoords = async () => {
     const requestPermissions = async () => {
-      const forground = await Location.requestForegroundPermissionsAsync();
-      if (forground.granted) await Location.requestBackgroundPermissionsAsync();
+      try {
+        const forground = await Location.requestForegroundPermissionsAsync();
+        if (forground.granted)
+          await Location.requestBackgroundPermissionsAsync();
+      } catch (e) {
+        console.log({ title: "Error", message: e.message });
+      }
     };
     requestPermissions();
 
@@ -49,45 +54,52 @@ export default function DiveSiteModal() {
     }
     foregroundSubscription?.remove();
 
-    foregroundSubscription = await Location.watchPositionAsync(
-      {
-        accuracy: Location.Accuracy.BestForNavigation,
-      },
-      (location) => {
-        setFormVals({
-          ...setFormVals,
-          latitude: location.coords.latitude.toString(),
-          longitude: location.coords.longitude.toString(),
-        });
-      }
-    );
+    try {
+      return await Location.watchPositionAsync(
+        {
+          accuracy: Location.Accuracy.BestForNavigation,
+        },
+        (location) => {
+          setFormVals({
+            ...setFormVals,
+            latitude: location.coords.latitude.toString(),
+            longitude: location.coords.longitude.toString(),
+          });
+        }
+      );
+    } catch (e) {
+      console.log({ title: "Error", message: e.message });
+    }
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Please Submit Your Dive Site</Text>
-      <Text style={styles.text}>Site Name</Text>
       <TextInput
         style={styles.input}
         value={formVals.siteName}
+        placeholder={"Site Name"}
         onChangeText={(text) => setFormVals({ ...formVals, siteName: text })}
       ></TextInput>
-      <Text style={styles.text}>Latitude</Text>
+
       <TextInput
         style={styles.input}
         value={formVals.latitude}
+        placeholder={"Latitude"}
         onChangeText={(text) => setFormVals({ ...formVals, latitude: text })}
       ></TextInput>
-      <Text style={styles.text}>Longitude</Text>
+
       <TextInput
         style={styles.input}
         value={formVals.longitude}
+        placeholder={"Longitude"}
         onChangeText={(text) => setFormVals({ ...formVals, longitude: text })}
       ></TextInput>
 
       <TouchableWithoutFeedback onPress={CurrentCoords}>
         <View style={[styles.GPSbutton]}>
-          <FontAwesome5 name="map" color="red" size={32} /><Text style={{marginLeft: 5}}>I'm At The Dive Site</Text>
+          <FontAwesome5 name="map" color="red" size={32} />
+          <Text style={{ marginLeft: 5 }}>I'm At The Dive Site</Text>
         </View>
       </TouchableWithoutFeedback>
     </View>
@@ -108,7 +120,7 @@ const styles = StyleSheet.create({
     width: 200,
     height: 30,
     alignSelf: "center",
-    marginBottom: 10,
+    marginBottom: 20,
     textAlign: "center",
   },
   header: {
@@ -123,7 +135,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   GPSbutton: {
-    flexDirection: 'row',
+    flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 50,

@@ -6,42 +6,46 @@ import {
   Image,
   TouchableWithoutFeedback,
   Platform,
+  Modal,
 } from "react-native";
-import React, { useState, useRef, useEffect, useContext, useCallback } from "react";
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useContext,
+  useCallback,
+} from "react";
 import * as ImagePicker from "expo-image-picker";
 import { PinContext } from "../contexts/staticPinContext";
 import { getToday } from "../helpers/picUploaderHelpers";
-import { FontAwesome } from "@expo/vector-icons";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
+import moment from "moment";
 
 export default function PicUploadModal() {
-
   const { pinValues, setPinValues } = useContext(PinContext);
+  const [showDatePicker, setShowDatePicker] = useState(false);
 
-  const UploadFromURI = async(photo) => {
-    if (!photo.cancelled){
-      const ext = photo.uri.substring(photo.uri.lastIndexOf(".") + 1);
-      const fileName = photo.uri.replace(/^.*[\\\/]/, "");
+  const [date, setDate] = useState(new Date());
 
-      let formData = new FormData();
-      formData.append("files", {
-        uri: photo.uri,
-        name: fileName,
-        type: photo.type ? `image/${ext}` : `video/${ext}`,
-      });
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShowDatePicker(Platform.OS === "ios");
+    setDate(currentDate);
+  };
 
-      return { ...photo, imageData: formData }
-
-      } else {
-        return photo
-      }
-    }
-  
+  useEffect(() => {
+    let whu = moment(date).format('YYYY-MM-DD')
+    console.log(whu)
+    setPinValues({...pinValues, PicDate: whu})
+  }, [date])
 
   const chooseImageHandler = async () => {
-  
     if (Platform.OS !== "web") {
-      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-      if(status !== "granted") {
+      const {
+        status,
+      } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== "granted") {
         console.log("image library permissions denied");
         return;
       }
@@ -50,18 +54,17 @@ export default function PicUploadModal() {
     let chosenImage = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      aspect: [4,3],
+      aspect: [4, 3],
       quality: 1,
-    })
+    });
 
     try {
-      return await(chosenImage)
-  
-    } catch (e) {console.log({ title: "Image Upload", message: e.message })}
-    
+      return await chosenImage;
+    } catch (e) {
+      console.log({ title: "Image Upload", message: e.message });
+    }
   };
 
-  
   const [formVals, setFormVals] = useState({
     siteName: "",
     latitude: "",
@@ -69,7 +72,6 @@ export default function PicUploadModal() {
   });
 
   useEffect(() => {
-
     if (pinValues.PicDate === "") {
       let Rnow = new Date();
 
@@ -81,35 +83,47 @@ export default function PicUploadModal() {
       });
     }
   }, []);
-console.log("pin is", pinValues)
+
+  console.log("pin is", pinValues);
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Please Submit Your Picture</Text>
 
       <View style={styles.picContainer}>
-        <Image source={{ uri: pinValues.PicFile }} style={{ width: "100%", height: 130 }} />
+        <Image
+          source={{ uri: pinValues.PicFile }}
+          style={{ width: "100%", height: 130, borderRadius: 15 }}
+        />
       </View>
 
-      <TouchableWithoutFeedback onPress={async () => {
-        const response = await chooseImageHandler()
-      if (response){
-        console.log("this", response.uri)
-        setPinValues({...pinValues, PicFile: response.uri})
-        
-      } else {
-        console.log("???",response)
-      }}}>
+      <TouchableWithoutFeedback
+        onPress={async () => {
+          const response = await chooseImageHandler();
+          if (response) {
+            setPinValues({ ...pinValues, PicFile: response.uri });
+          } else {
+            console.log("???", response);
+          }
+        }}
+      >
         <View style={[styles.ImageButton]}>
           <FontAwesome name="picture-o" color="red" size={32} />
           <Text style={{ marginLeft: 5 }}>Choose an Image</Text>
         </View>
       </TouchableWithoutFeedback>
 
-      <TextInput
-        style={styles.input}
-        value={pinValues.PicDate}
-        onChangeText={(text) => setPinValues({ ...pinValues, PicDate: text })}
-      ></TextInput>
+      <TouchableWithoutFeedback
+        onPress={() => setShowDatePicker(!showDatePicker)}
+      >
+        <View style={styles.input}>
+        <Text
+          style={{alignSelf: "center", marginTop: 5}}
+          value={date}
+        >
+          {pinValues.PicDate}
+        </Text>
+        </View>
+      </TouchableWithoutFeedback>
 
       <TextInput
         style={styles.input}
@@ -131,6 +145,37 @@ console.log("pin is", pinValues)
         placeholder={"Longitude"}
         onChangeText={(text) => setPinValues({ ...pinValues, longitude: text })}
       ></TextInput>
+
+      {showDatePicker && (
+        <Modal>
+          <View style={styles.modalStyle}>
+          <TouchableWithoutFeedback onPress={() => setShowDatePicker(!showDatePicker)}>
+          <View style={styles.closeButton}>
+            <FontAwesome
+                name="check"
+                color="white"
+                size={24}
+              />
+            </View>
+          </TouchableWithoutFeedback>
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={date}
+              mode={"date"}
+              display={"default"}
+              onChange={onChange}
+              style={{
+                width: '65%',
+                height: '60%',
+                position:'absolute',
+                fontSize: 30,
+                top: 10
+
+              }}
+            />
+          </View>
+        </Modal>
+      )}
     </View>
   );
 }
@@ -179,8 +224,30 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 1,
-    borderColor: "black",
+    borderRadius: 15,
+    borderColor: "darkgrey",
     width: "80%",
     height: 130,
   },
+  modalStyle: {
+    flex: 1,
+    backgroundColor:'#D8DBE2',
+    borderRadius: 20,
+    margin: 70,
+    marginTop: 300,
+    marginBottom: 300,
+    borderColor: "#D8DBE2",
+    borderWidth: 8,
+    opacity: 1
+  },
+  closeButton: {
+    borderRadius: 42/2,
+    backgroundColor: "maroon",
+    height: 34,
+    width: 34,
+    marginLeft: 170,
+    marginTop: 8,
+    justifyContent: "center",
+    alignItems: "center"
+}
 });
