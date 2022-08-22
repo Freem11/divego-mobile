@@ -19,7 +19,7 @@ import * as ImagePicker from "expo-image-picker";
 import { PinContext } from "../contexts/staticPinContext";
 import { getToday } from "../helpers/picUploaderHelpers";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
+import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import moment from "moment";
 
 export default function PicUploadModal() {
@@ -132,19 +132,37 @@ export default function PicUploadModal() {
         onChangeText={(text) => setPinValues({ ...pinValues, animal: text })}
       ></TextInput>
 
-      <TextInput
-        style={styles.input}
-        value={pinValues.latitude}
-        placeholder={"Latitude"}
-        onChangeText={(text) => setPinValues({ ...pinValues, latitude: text })}
-      ></TextInput>
+<View style={{flexDirection: 'row', width: "100%"}}>
 
-      <TextInput
-        style={styles.input}
-        value={pinValues.longitude}
-        placeholder={"Longitude"}
-        onChangeText={(text) => setPinValues({ ...pinValues, longitude: text })}
-      ></TextInput>
+<View style={{marginLeft: "6%"}}>
+  <TextInput
+    style={styles.input}
+    value={pinValues.latitude}
+    placeholder={"Latitude"}
+    onChangeText={(text) =>
+      setPinValues({ ...pinValues, latitude: text })
+    }
+  ></TextInput>
+
+  <TextInput
+    style={styles.input}
+    value={pinValues.longitude}
+    placeholder={"Longitude"}
+    onChangeText={(text) =>
+      setPinValues({ ...pinValues, longitude: text })
+    }
+  ></TextInput>
+</View>
+
+<View style={{marginLeft: 5, marginTop: 7}}>
+  <TouchableWithoutFeedback>
+    <View style={[styles.LocButton]}>
+      <MaterialIcons name="location-pin" color="red" size={48} />
+      <Text style={{ marginLeft: 5, color: "maroon"}}>Drop Pin</Text>
+    </View>
+  </TouchableWithoutFeedback>
+</View>
+</View>
 
       {showDatePicker && (
         <Modal>
@@ -249,5 +267,8 @@ const styles = StyleSheet.create({
     marginTop: 8,
     justifyContent: "center",
     alignItems: "center"
+},
+LocButton: {
+  alignItems: "center"
 }
 });
