@@ -23,7 +23,6 @@ import Animated, {
 } from "react-native-reanimated";
 import AnimalAutoComplete from "./animalAutocomplete";
 import GeocodeAutocomplete from "./geocodeAutocomplete";
-import { formatHeatVals } from "./helpers/mapHelpers";
 
 export default function FABButtons() {
   const { diveSitesTog, setDiveSitesTog } = useContext(DiveSitesContext);

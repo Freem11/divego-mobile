@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 import { StyleSheet, View, Dimensions } from "react-native";
 import { diveSitesFake } from "./data/testdata";
@@ -7,17 +7,21 @@ import anchorClust from "../compnents/png/anchor3.png";
 import { filterSites } from "./helpers/mapHelpers";
 import { setupClusters } from "./helpers/clusterHelpers";
 import useSupercluster from "use-supercluster";
+import { MapCenterContext } from "./contexts/mapCenterContext";
 
 const { width, height } = Dimensions.get("window");
 
-const INITIAL_POSITION = {
-  latitude: 49.246292,
-  longitude: -123.116226,
-  latitudeDelta: 5,
-  longitudeDelta: 5 * (width / height),
-};
-
 export default function PinMap() {
+
+  const { mapCenter } = useContext(MapCenterContext);
+
+  const INITIAL_POSITION = {
+    latitude: mapCenter.lat,
+    longitude: mapCenter.lng,
+    latitudeDelta: 5,
+    longitudeDelta: 5 * (width / height),
+  };
+
   const [mapRef, setMapRef] = useState(null);
   const [boundaries, setBoundaries] = useState([]);
   const [newSites, setnewSites] = useState([]);

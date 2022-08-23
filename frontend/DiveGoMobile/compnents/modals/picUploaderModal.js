@@ -10,23 +10,32 @@ import {
 } from "react-native";
 import React, {
   useState,
-  useRef,
   useEffect,
   useContext,
-  useCallback,
 } from "react";
 import * as ImagePicker from "expo-image-picker";
 import { PinContext } from "../contexts/staticPinContext";
+import { PictureAdderContext } from "../contexts/picModalContext";
 import { getToday } from "../helpers/picUploaderHelpers";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import moment from "moment";
+import { useNavigation } from "@react-navigation/native";
 
 export default function PicUploadModal() {
   const { pinValues, setPinValues } = useContext(PinContext);
+  const { picAdderModal, setPicAdderModal } = useContext(PictureAdderContext);
+
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   const [date, setDate] = useState(new Date());
+
+  const navigation = useNavigation();
+
+  const onNavigate = () => {
+    navigation.navigate("PinMapPage")
+    setPicAdderModal(!picAdderModal)
+  }
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -35,9 +44,8 @@ export default function PicUploadModal() {
   };
 
   useEffect(() => {
-    let whu = moment(date).format('YYYY-MM-DD')
-    console.log(whu)
-    setPinValues({...pinValues, PicDate: whu})
+    let formattedDate = moment(date).format('YYYY-MM-DD')
+    setPinValues({...pinValues, PicDate: formattedDate})
   }, [date])
 
   const chooseImageHandler = async () => {
@@ -155,7 +163,7 @@ export default function PicUploadModal() {
 </View>
 
 <View style={{marginLeft: 5, marginTop: 7}}>
-  <TouchableWithoutFeedback>
+  <TouchableWithoutFeedback onPress={onNavigate}>
     <View style={[styles.LocButton]}>
       <MaterialIcons name="location-pin" color="red" size={48} />
       <Text style={{ marginLeft: 5, color: "maroon"}}>Drop Pin</Text>
