@@ -8,6 +8,7 @@ import { MapCenterContext } from "./compnents/contexts/mapCenterContext";
 import { MapZoomContext } from "./compnents/contexts/mapZoomContext";
 import { MapBoundariesContext } from "./compnents/contexts/mapBoundariesContext";
 import { MapRegionContext } from "./compnents/contexts/mapRegionContext";
+import { MasterContext } from "./compnents/contexts/masterContext";
 import { NavigationContainer } from "@react-navigation/native";
 import StackNav from "./compnents/stackNav";
 
@@ -15,6 +16,8 @@ const { width, height } = Dimensions.get("window");
 
 
 export default function App() {
+
+  const [masterSwitch, setMasterSwitch] = useState(true)
   const [picAdderModal, setPicAdderModal] = useState(false);
 
   const [pinValues, setPinValues] = useState({
@@ -42,6 +45,7 @@ export default function App() {
   const [zoomlev, setZoomLev] = useState(region.latitudeDelta);
 
   return (
+    <MasterContext.Provider value={{ masterSwitch, setMasterSwitch }}>
     <MapZoomContext.Provider value={{ zoomlev, setZoomLev }}>
     <MapBoundariesContext.Provider value={{ boundaries, setBoundaries }}>
     <MapRegionContext.Provider value={{ region, setRegion }}>
@@ -57,6 +61,7 @@ export default function App() {
     </MapRegionContext.Provider>
     </MapBoundariesContext.Provider>
     </MapZoomContext.Provider>
+    </MasterContext.Provider>
   );
 }
 

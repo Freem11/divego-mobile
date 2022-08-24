@@ -4,8 +4,9 @@ import { MapCenterContext } from "./contexts/mapCenterContext";
 import { MapBoundariesContext } from "./contexts/mapBoundariesContext";
 import { MapRegionContext } from "./contexts/mapRegionContext";
 import { MapZoomContext } from "./contexts/mapZoomContext";
+import { MasterContext } from "./contexts/masterContext";
 import MapView, { PROVIDER_GOOGLE, Marker, Heatmap } from "react-native-maps";
-import { StyleSheet, View, Dimensions, Keyboard } from "react-native";
+import { StyleSheet, View, Dimensions, Keyboard, Button } from "react-native";
 import { diveSitesFake, heatVals } from "./data/testdata";
 import anchorIcon from "../compnents/png/anchor11.png";
 import anchorClust from "../compnents/png/anchor3.png";
@@ -16,7 +17,7 @@ import useSupercluster from "use-supercluster";
 const { width, height } = Dimensions.get("window");
 
 export default function Map() {
-
+  const { masterSwitch, setMasterSwitch } = useContext(MasterContext);
   const { mapCenter } = useContext(MapCenterContext);
 
   useEffect(() => {
@@ -41,7 +42,6 @@ export default function Map() {
   const { diveSitesTog, setDiveSitesTog } = useContext(DiveSitesContext);
 
   useEffect(() => {
-
     if (mapRef) {
       let bounds = mapRef.getMapBoundaries();
       Promise.all([bounds])
@@ -92,7 +92,6 @@ export default function Map() {
   }, []);
 
   const handleMapChange = async () => {
-
     if (mapRef) {
       let bounds = await mapRef.getMapBoundaries();
       setBoundaries([
@@ -168,7 +167,7 @@ export default function Map() {
         onMapReady={() => handleMapChange()}
         onRegionChangeComplete={() => handleMapChange()}
       >
-        <Heatmap points={newHeat} radius={20} />
+        {masterSwitch && <Heatmap points={newHeat} radius={20} />}
 
         {clusters.map((cluster) => {
           const [longitude, latitude] = cluster.geometry.coordinates;

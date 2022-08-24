@@ -16,6 +16,7 @@ import React, {
 import * as ImagePicker from "expo-image-picker";
 import { PinContext } from "../contexts/staticPinContext";
 import { PictureAdderContext } from "../contexts/picModalContext";
+import { MasterContext } from "../contexts/masterContext";
 import { getToday } from "../helpers/picUploaderHelpers";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
@@ -23,6 +24,9 @@ import moment from "moment";
 import { useNavigation } from "@react-navigation/native";
 
 export default function PicUploadModal() {
+
+  const { masterSwitch, setMasterSwitch } = useContext(MasterContext);
+
   const { pinValues, setPinValues } = useContext(PinContext);
   const { picAdderModal, setPicAdderModal } = useContext(PictureAdderContext);
 
@@ -33,8 +37,8 @@ export default function PicUploadModal() {
   const navigation = useNavigation();
 
   const onNavigate = () => {
-    navigation.navigate("PinMapPage")
-    setPicAdderModal(!picAdderModal)
+    setMasterSwitch(false);
+    setPicAdderModal(!picAdderModal);
   }
 
   const onChange = (event, selectedDate) => {
