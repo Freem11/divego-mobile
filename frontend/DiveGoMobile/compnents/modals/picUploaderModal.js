@@ -92,7 +92,6 @@ export default function PicUploadModal() {
     }
   }, []);
 
-  console.log("pin is", pinValues);
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Please Submit Your Picture</Text>

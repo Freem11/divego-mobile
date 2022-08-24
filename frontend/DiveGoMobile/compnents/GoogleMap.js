@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import { DiveSitesContext } from "./contexts/diveSiteToggleContext";
 import { MapCenterContext } from "./contexts/mapCenterContext";
+import { MapBoundariesContext } from "./contexts/mapBoundariesContext";
+import { MapRegionContext } from "./contexts/mapRegionContext";
+import { MapZoomContext } from "./contexts/mapZoomContext";
 import MapView, { PROVIDER_GOOGLE, Marker, Heatmap } from "react-native-maps";
 import { StyleSheet, View, Dimensions, Keyboard } from "react-native";
 import { diveSitesFake, heatVals } from "./data/testdata";
@@ -17,41 +20,38 @@ export default function Map() {
   const { mapCenter } = useContext(MapCenterContext);
 
   useEffect(() => {
-    if (mapRef){
+    if (mapRef) {
       mapRef.animateCamera({
         center: {
           latitude: mapCenter.lat,
-          longitude: mapCenter.lng
-        }
-      })
-      Keyboard.dismiss()
+          longitude: mapCenter.lng,
+        },
+      });
+      Keyboard.dismiss();
     }
+  }, [mapCenter]);
 
-  }, [mapCenter])
-
-  const INITIAL_POSITION = {
-    latitude: mapCenter.lat,
-    longitude: mapCenter.lng,
-    latitudeDelta: 5,
-    longitudeDelta: 5 * (width / height),
-  };
-
+  const { region, setRegion } = useContext(MapRegionContext);
   const [mapRef, setMapRef] = useState(null);
-  const [boundaries, setBoundaries] = useState([]);
+  const { boundaries, setBoundaries } = useContext(MapBoundariesContext);
   const [newSites, setnewSites] = useState([]);
   const [newHeat, setNewHeat] = useState([]);
-  const [zoomlev, setZoomLev] = useState(INITIAL_POSITION.latitudeDelta);
+  const { zoomlev, setZoomLev } = useContext(MapZoomContext);
 
-  const { diveSitesTog, setDiveSitesTog} = useContext(DiveSitesContext);
-
+  const { diveSitesTog, setDiveSitesTog } = useContext(DiveSitesContext);
 
   useEffect(() => {
+
     if (mapRef) {
       let bounds = mapRef.getMapBoundaries();
       Promise.all([bounds])
         .then((response) => {
-
-          setBoundaries([response[0].southWest.longitude, response[0].southWest.latitude, response[0].northEast.longitude, response[0].northEast.latitude]);
+          setBoundaries([
+            response[0].southWest.longitude,
+            response[0].southWest.latitude,
+            response[0].northEast.longitude,
+            response[0].northEast.latitude,
+          ]);
           let filtered = filterSites(response[0], diveSitesFake);
 
           if (filtered) {
@@ -64,9 +64,26 @@ export default function Map() {
           let zoom =
             Math.log2(
               (360 * (width / 256)) /
-                (bounds.northEast.longitude - bounds.southWest.longitude)
+                (response[0].northEast.longitude -
+                  response[0].southWest.longitude)
             ) + 1;
           setZoomLev(zoom);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+      let mapbullseye = mapRef.getCamera();
+      Promise.all([mapbullseye])
+        .then((response1) => {
+          setRegion({
+            latitude: response1.center.latitude,
+            longitude: response1.center.longitude,
+            latitudeDelta:
+              response[0].northEast.latitude - response[0].southWest.latitude,
+            longitudeDelta:
+              response[0].northEast.longitude - response[0].southWest.longitude,
+          });
         })
         .catch((error) => {
           console.log(error);
@@ -75,9 +92,15 @@ export default function Map() {
   }, []);
 
   const handleMapChange = async () => {
+
     if (mapRef) {
       let bounds = await mapRef.getMapBoundaries();
-      setBoundaries([bounds.southWest.longitude, bounds.southWest.latitude, bounds.northEast.longitude, bounds.northEast.latitude]);
+      setBoundaries([
+        bounds.southWest.longitude,
+        bounds.southWest.latitude,
+        bounds.northEast.longitude,
+        bounds.northEast.latitude,
+      ]);
       let filtered = filterSites(bounds, diveSitesFake);
 
       if (filtered) {
@@ -93,24 +116,35 @@ export default function Map() {
             (bounds.northEast.longitude - bounds.southWest.longitude)
         ) + 1;
       setZoomLev(zoom);
+
+      let mapbullseye = await mapRef.getCamera();
+      setRegion({
+        latitude: mapbullseye.center.latitude,
+        longitude: mapbullseye.center.longitude,
+        latitudeDelta: bounds.northEast.latitude - bounds.southWest.latitude,
+        longitudeDelta: bounds.northEast.longitude - bounds.southWest.longitude,
+      });
     }
   };
- 
+
   useEffect(() => {
     if (mapRef) {
       let bounds = mapRef.getMapBoundaries();
-      Promise.all([bounds])
-        .then((response) => {
+      Promise.all([bounds]).then((response) => {
+        setBoundaries([
+          response[0].southWest.longitude,
+          response[0].southWest.latitude,
+          response[0].northEast.longitude,
+          response[0].northEast.latitude,
+        ]);
+        let filtered = filterSites(response[0], diveSitesFake);
 
-          setBoundaries([response[0].southWest.longitude, response[0].southWest.latitude, response[0].northEast.longitude, response[0].northEast.latitude]);
-          let filtered = filterSites(response[0], diveSitesFake);
-
-          if (filtered) {
-            !diveSitesTog ? setnewSites([]) : setnewSites(filtered);
-          }
-    })
-  }
-  }, [diveSitesTog])
+        if (filtered) {
+          !diveSitesTog ? setnewSites([]) : setnewSites(filtered);
+        }
+      });
+    }
+  }, [diveSitesTog]);
 
   const points = setupClusters(newSites);
 
@@ -126,7 +160,7 @@ export default function Map() {
       <MapView
         style={styles.map}
         provider={PROVIDER_GOOGLE}
-        initialRegion={INITIAL_POSITION}
+        initialRegion={region}
         mapType="satellite"
         maxZoomLevel={12}
         minZoomLevel={3}
@@ -144,24 +178,23 @@ export default function Map() {
           } = cluster.properties;
 
           if (isCluster) {
-            return(
+            return (
               <Marker
                 key={cluster.id}
                 coordinate={{ latitude: latitude, longitude: longitude }}
                 title={pointCount.toString() + " sites"}
                 image={anchorClust}
-              >
-              </Marker>
-           )
+              ></Marker>
+            );
           }
-            return(
+          return (
             <Marker
               key={cluster.properties.siteID}
               coordinate={{ latitude: latitude, longitude: longitude }}
               image={anchorIcon}
               title={cluster.properties.siteID}
             ></Marker>
-            )
+          );
         })}
       </MapView>
     </View>

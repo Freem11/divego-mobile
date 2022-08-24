@@ -152,7 +152,6 @@ export default function FABButtons() {
     setPicAdderModal(!picAdderModal)
 
     if (picAdderModal){
-      console.log("made it")
       setPinValues({
         PicFile: null,
         Animal: "",

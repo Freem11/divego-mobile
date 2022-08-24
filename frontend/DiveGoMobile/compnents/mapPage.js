@@ -8,7 +8,6 @@ import { MapCenterContext } from "./contexts/mapCenterContext";
 
 export default function MapPage() {
 
-  
   const [diveSitesTog, setDiveSitesTog] = useState(true);
   const [mapCenter, setMapCenter] = useState({
     lat: 49.246292,
@@ -22,7 +21,7 @@ export default function MapPage() {
         <View style={styles.container}>
           <MonthSlider style={{ zIndex: 2 }} />
           <FABButtons style={{ zIndex: 2 }} />
-          <Map style={{ zIndex: 1 }} />
+          <Map style={{ zIndex: 1 }}/>
         </View>
       </DiveSitesContext.Provider>
     </MapCenterContext.Provider>
