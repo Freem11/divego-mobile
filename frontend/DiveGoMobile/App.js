@@ -9,6 +9,7 @@ import { MapZoomContext } from "./compnents/contexts/mapZoomContext";
 import { MapBoundariesContext } from "./compnents/contexts/mapBoundariesContext";
 import { MapRegionContext } from "./compnents/contexts/mapRegionContext";
 import { MasterContext } from "./compnents/contexts/masterContext";
+import { PinSpotContext } from "./compnents/contexts/pinSpotContext";
 import { NavigationContainer } from "@react-navigation/native";
 import StackNav from "./compnents/stackNav";
 
@@ -44,7 +45,10 @@ export default function App() {
 
   const [zoomlev, setZoomLev] = useState(region.latitudeDelta);
 
+  const [dragPin, setDragPin] = useState({});
+
   return (
+    <PinSpotContext.Provider value={{ dragPin, setDragPin }}>
     <MasterContext.Provider value={{ masterSwitch, setMasterSwitch }}>
     <MapZoomContext.Provider value={{ zoomlev, setZoomLev }}>
     <MapBoundariesContext.Provider value={{ boundaries, setBoundaries }}>
@@ -62,6 +66,7 @@ export default function App() {
     </MapBoundariesContext.Provider>
     </MapZoomContext.Provider>
     </MasterContext.Provider>
+    </PinSpotContext.Provider>
   );
 }
 

@@ -21,7 +21,7 @@ import { getToday } from "../helpers/picUploaderHelpers";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import moment from "moment";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useIsFocused } from "@react-navigation/native";
 
 export default function PicUploadModal() {
 
@@ -77,12 +77,6 @@ export default function PicUploadModal() {
     }
   };
 
-  const [formVals, setFormVals] = useState({
-    siteName: "",
-    latitude: "",
-    longitude: "",
-  });
-
   useEffect(() => {
     if (pinValues.PicDate === "") {
       let Rnow = new Date();
@@ -93,6 +87,8 @@ export default function PicUploadModal() {
         ...pinValues,
         PicDate: rightNow,
       });
+    } else {
+      setPinValues(pinValues)
     }
   }, []);
 
@@ -140,7 +136,8 @@ export default function PicUploadModal() {
         style={styles.input}
         value={pinValues.animal}
         placeholder={"Animal"}
-        onChangeText={(text) => setPinValues({ ...pinValues, animal: text })}
+        placeholderTextColor="grey"
+        onChangeText={(text) => setPinValues({ ...pinValues, Animal: text })}
       ></TextInput>
 
 <View style={{flexDirection: 'row', width: "100%"}}>
@@ -148,19 +145,21 @@ export default function PicUploadModal() {
 <View style={{marginLeft: "6%"}}>
   <TextInput
     style={styles.input}
-    value={pinValues.latitude}
+    value={pinValues.Latitude}
     placeholder={"Latitude"}
+    placeholderTextColor="grey"
     onChangeText={(text) =>
-      setPinValues({ ...pinValues, latitude: text })
+      setPinValues({ ...pinValues, Latitude: text })
     }
   ></TextInput>
 
   <TextInput
     style={styles.input}
-    value={pinValues.longitude}
+    value={pinValues.Longitude}
     placeholder={"Longitude"}
+    placeholderTextColor="grey"
     onChangeText={(text) =>
-      setPinValues({ ...pinValues, longitude: text })
+      setPinValues({ ...pinValues, Longitude: text })
     }
   ></TextInput>
 </View>

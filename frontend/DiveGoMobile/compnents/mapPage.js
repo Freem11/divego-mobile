@@ -7,9 +7,14 @@ import { DiveSitesContext } from "./contexts/diveSiteToggleContext";
 import { MapCenterContext } from "./contexts/mapCenterContext";
 import { PictureAdderContext } from "./contexts/picModalContext";
 import { MasterContext } from "./contexts/masterContext";
+import { PinSpotContext } from "./contexts/pinSpotContext";
+import { PinContext } from "./contexts/staticPinContext";
 
 export default function MapPage() {
   const { masterSwitch, setMasterSwitch } = useContext(MasterContext);
+  const { dragPin, setDragPin } = useContext(PinSpotContext);
+  const { pinValues, setPinValues } = useContext(PinContext);
+
   const { picAdderModal, setPicAdderModal } = useContext(PictureAdderContext);
 
   const [diveSitesTog, setDiveSitesTog] = useState(true);
@@ -19,6 +24,7 @@ export default function MapPage() {
   });
 
   const onNavigate = () => {
+    setPinValues({ ...pinValues, Latitude: dragPin.lat.toString(), Longitude: dragPin.lng.toString()})
     setMasterSwitch(true);
     setPicAdderModal(!picAdderModal);
   }

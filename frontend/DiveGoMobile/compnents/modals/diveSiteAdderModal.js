@@ -79,6 +79,7 @@ export default function DiveSiteModal() {
         style={styles.input}
         value={formVals.siteName}
         placeholder={"Site Name"}
+        placeholderTextColor="grey"
         onChangeText={(text) => setFormVals({ ...formVals, siteName: text })}
       ></TextInput>
 
@@ -86,6 +87,7 @@ export default function DiveSiteModal() {
         style={styles.input}
         value={formVals.latitude}
         placeholder={"Latitude"}
+        placeholderTextColor="grey"
         onChangeText={(text) => setFormVals({ ...formVals, latitude: text })}
       ></TextInput>
 
@@ -93,6 +95,7 @@ export default function DiveSiteModal() {
         style={styles.input}
         value={formVals.longitude}
         placeholder={"Longitude"}
+        placeholderTextColor="grey"
         onChangeText={(text) => setFormVals({ ...formVals, longitude: text })}
       ></TextInput>
 

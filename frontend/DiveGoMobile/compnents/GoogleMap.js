@@ -5,20 +5,23 @@ import { MapBoundariesContext } from "./contexts/mapBoundariesContext";
 import { MapRegionContext } from "./contexts/mapRegionContext";
 import { MapZoomContext } from "./contexts/mapZoomContext";
 import { MasterContext } from "./contexts/masterContext";
+import { PinSpotContext } from "./contexts/pinSpotContext";
 import MapView, { PROVIDER_GOOGLE, Marker, Heatmap } from "react-native-maps";
 import { StyleSheet, View, Dimensions, Keyboard, Button } from "react-native";
 import { diveSitesFake, heatVals } from "./data/testdata";
 import anchorIcon from "../compnents/png/anchor11.png";
 import anchorClust from "../compnents/png/anchor3.png";
+import whale from "../compnents/png/icons8-spouting-whale-48.png";
 import { filterSites, formatHeatVals } from "./helpers/mapHelpers";
 import { setupClusters } from "./helpers/clusterHelpers";
 import useSupercluster from "use-supercluster";
+import { useMediaLibraryPermissions } from "expo-image-picker";
 
 const { width, height } = Dimensions.get("window");
 
 export default function Map() {
   const { masterSwitch, setMasterSwitch } = useContext(MasterContext);
-  const { mapCenter } = useContext(MapCenterContext);
+  const { mapCenter, setMapCenter } = useContext(MapCenterContext);
 
   useEffect(() => {
     if (mapRef) {
@@ -38,6 +41,8 @@ export default function Map() {
   const [newSites, setnewSites] = useState([]);
   const [newHeat, setNewHeat] = useState([]);
   const { zoomlev, setZoomLev } = useContext(MapZoomContext);
+
+  const { dragPin, setDragPin } = useContext(PinSpotContext);
 
   const { diveSitesTog, setDiveSitesTog } = useContext(DiveSitesContext);
 
@@ -88,6 +93,11 @@ export default function Map() {
         .catch((error) => {
           console.log(error);
         });
+
+      setDragPin({
+        latitude: response1.center.latitude,
+        longitude: response1.center.longitude,
+      });
     }
   }, []);
 
@@ -123,6 +133,11 @@ export default function Map() {
         latitudeDelta: bounds.northEast.latitude - bounds.southWest.latitude,
         longitudeDelta: bounds.northEast.longitude - bounds.southWest.longitude,
       });
+
+      setMapCenter({
+        lat: mapbullseye.center.latitude,
+        lng: mapbullseye.center.longitude,
+      });
     }
   };
 
@@ -144,6 +159,10 @@ export default function Map() {
       });
     }
   }, [diveSitesTog]);
+
+  useEffect(() => {
+    setDragPin(mapCenter);
+  }, [masterSwitch]);
 
   const points = setupClusters(newSites);
 
@@ -168,6 +187,26 @@ export default function Map() {
         onRegionChangeComplete={() => handleMapChange()}
       >
         {masterSwitch && <Heatmap points={newHeat} radius={20} />}
+
+        {!masterSwitch && (
+          <Marker
+            draggable={true}
+            coordinate={{
+              latitude: dragPin.lat,
+              longitude: dragPin.lng,
+            }}
+            image={whale}
+            onDragStart={(e) => {
+              console.log(e.nativeEvent.coordinate);
+            }}
+            onDragEnd={(e) => {
+              setDragPin({
+                lat: e.nativeEvent.coordinate.latitude,
+                lng: e.nativeEvent.coordinate.longitude,
+              });
+            }}
+          />
+        )}
 
         {clusters.map((cluster) => {
           const [longitude, latitude] = cluster.geometry.coordinates;
