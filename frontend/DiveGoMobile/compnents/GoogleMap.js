@@ -196,9 +196,6 @@ export default function Map() {
               longitude: dragPin.lng,
             }}
             image={whale}
-            onDragStart={(e) => {
-              console.log(e.nativeEvent.coordinate);
-            }}
             onDragEnd={(e) => {
               setDragPin({
                 lat: e.nativeEvent.coordinate.latitude,

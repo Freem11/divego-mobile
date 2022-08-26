@@ -102,6 +102,8 @@ export default function PicUploadModal() {
 
       <TouchableWithoutFeedback
         onPress={async () => {
+
+          try {
           const response = await chooseImageHandler();
           if (response) {
 
@@ -124,7 +126,10 @@ export default function PicUploadModal() {
            
           } else {
             console.log("???", response);
+          } } catch {
+            console.log("error: Photo Selection Cancelled");
           }
+      
         }}
       >
         <View style={[styles.ImageButton]}>
