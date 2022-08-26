@@ -8,23 +8,19 @@ import {
   Platform,
   Modal,
 } from "react-native";
-import React, {
-  useState,
-  useEffect,
-  useContext,
-} from "react";
+import React, { useState, useEffect, useContext } from "react";
 import * as ImagePicker from "expo-image-picker";
+import Exif from "react-native-exif";
 import { PinContext } from "../contexts/staticPinContext";
 import { PictureAdderContext } from "../contexts/picModalContext";
 import { MasterContext } from "../contexts/masterContext";
-import { getToday } from "../helpers/picUploaderHelpers";
+import { getToday, getDate } from "../helpers/picUploaderHelpers";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import moment from "moment";
-import { useNavigation, useIsFocused } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 
 export default function PicUploadModal() {
-
   const { masterSwitch, setMasterSwitch } = useContext(MasterContext);
 
   const { pinValues, setPinValues } = useContext(PinContext);
@@ -39,7 +35,7 @@ export default function PicUploadModal() {
   const onNavigate = () => {
     setMasterSwitch(false);
     setPicAdderModal(!picAdderModal);
-  }
+  };
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -48,9 +44,9 @@ export default function PicUploadModal() {
   };
 
   useEffect(() => {
-    let formattedDate = moment(date).format('YYYY-MM-DD')
-    setPinValues({...pinValues, PicDate: formattedDate})
-  }, [date])
+    let formattedDate = moment(date).format("YYYY-MM-DD");
+    setPinValues({ ...pinValues, PicDate: formattedDate });
+  }, [date]);
 
   const chooseImageHandler = async () => {
     if (Platform.OS !== "web") {
@@ -68,6 +64,7 @@ export default function PicUploadModal() {
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
+      exif: true,
     });
 
     try {
@@ -88,7 +85,7 @@ export default function PicUploadModal() {
         PicDate: rightNow,
       });
     } else {
-      setPinValues(pinValues)
+      setPinValues(pinValues);
     }
   }, []);
 
@@ -107,7 +104,24 @@ export default function PicUploadModal() {
         onPress={async () => {
           const response = await chooseImageHandler();
           if (response) {
-            setPinValues({ ...pinValues, PicFile: response.uri });
+
+            if(response.exif.DateTimeOriginal){
+              let formattedDate = response.exif.DateTimeOriginal.substring(0, 10);
+              let trueDate = formattedDate.replaceAll(":", "-");
+              setPinValues({
+                ...pinValues,
+                PicFile: response.uri,
+                PicDate: trueDate,
+                Latitude: response.exif.GPSLatitude.toString(),
+                Longitude: response.exif.GPSLongitude.toString(),
+              });
+            } else {
+              setPinValues({
+                ...pinValues,
+                PicFile: response.uri,
+              });
+            }
+           
           } else {
             console.log("???", response);
           }
@@ -123,12 +137,9 @@ export default function PicUploadModal() {
         onPress={() => setShowDatePicker(!showDatePicker)}
       >
         <View style={styles.input}>
-        <Text
-          style={{alignSelf: "center", marginTop: 5}}
-          value={date}
-        >
-          {pinValues.PicDate}
-        </Text>
+          <Text style={{ alignSelf: "center", marginTop: 5 }} value={date}>
+            {pinValues.PicDate}
+          </Text>
         </View>
       </TouchableWithoutFeedback>
 
@@ -140,52 +151,49 @@ export default function PicUploadModal() {
         onChangeText={(text) => setPinValues({ ...pinValues, Animal: text })}
       ></TextInput>
 
-<View style={{flexDirection: 'row', width: "100%"}}>
+      <View style={{ flexDirection: "row", width: "100%" }}>
+        <View style={{ marginLeft: "6%" }}>
+          <TextInput
+            style={styles.input}
+            value={pinValues.Latitude}
+            placeholder={"Latitude"}
+            placeholderTextColor="grey"
+            onChangeText={(text) =>
+              setPinValues({ ...pinValues, Latitude: text })
+            }
+          ></TextInput>
 
-<View style={{marginLeft: "6%"}}>
-  <TextInput
-    style={styles.input}
-    value={pinValues.Latitude}
-    placeholder={"Latitude"}
-    placeholderTextColor="grey"
-    onChangeText={(text) =>
-      setPinValues({ ...pinValues, Latitude: text })
-    }
-  ></TextInput>
+          <TextInput
+            style={styles.input}
+            value={pinValues.Longitude}
+            placeholder={"Longitude"}
+            placeholderTextColor="grey"
+            onChangeText={(text) =>
+              setPinValues({ ...pinValues, Longitude: text })
+            }
+          ></TextInput>
+        </View>
 
-  <TextInput
-    style={styles.input}
-    value={pinValues.Longitude}
-    placeholder={"Longitude"}
-    placeholderTextColor="grey"
-    onChangeText={(text) =>
-      setPinValues({ ...pinValues, Longitude: text })
-    }
-  ></TextInput>
-</View>
-
-<View style={{marginLeft: 5, marginTop: 7}}>
-  <TouchableWithoutFeedback onPress={onNavigate}>
-    <View style={[styles.LocButton]}>
-      <MaterialIcons name="location-pin" color="red" size={48} />
-      <Text style={{ marginLeft: 5, color: "maroon"}}>Drop Pin</Text>
-    </View>
-  </TouchableWithoutFeedback>
-</View>
-</View>
+        <View style={{ marginLeft: 5, marginTop: 7 }}>
+          <TouchableWithoutFeedback onPress={onNavigate}>
+            <View style={[styles.LocButton]}>
+              <MaterialIcons name="location-pin" color="red" size={48} />
+              <Text style={{ marginLeft: 5, color: "maroon" }}>Drop Pin</Text>
+            </View>
+          </TouchableWithoutFeedback>
+        </View>
+      </View>
 
       {showDatePicker && (
         <Modal>
           <View style={styles.modalStyle}>
-          <TouchableWithoutFeedback onPress={() => setShowDatePicker(!showDatePicker)}>
-          <View style={styles.closeButton}>
-            <FontAwesome
-                name="check"
-                color="white"
-                size={24}
-              />
-            </View>
-          </TouchableWithoutFeedback>
+            <TouchableWithoutFeedback
+              onPress={() => setShowDatePicker(!showDatePicker)}
+            >
+              <View style={styles.closeButton}>
+                <FontAwesome name="check" color="white" size={24} />
+              </View>
+            </TouchableWithoutFeedback>
             <DateTimePicker
               testID="dateTimePicker"
               value={date}
@@ -193,12 +201,11 @@ export default function PicUploadModal() {
               display={"default"}
               onChange={onChange}
               style={{
-                width: '65%',
-                height: '60%',
-                position:'absolute',
+                width: "65%",
+                height: "60%",
+                position: "absolute",
                 fontSize: 30,
-                top: 10
-
+                top: 10,
               }}
             />
           </View>
@@ -259,26 +266,26 @@ const styles = StyleSheet.create({
   },
   modalStyle: {
     flex: 1,
-    backgroundColor:'#D8DBE2',
+    backgroundColor: "#D8DBE2",
     borderRadius: 20,
     margin: 70,
     marginTop: 300,
     marginBottom: 300,
     borderColor: "#D8DBE2",
     borderWidth: 8,
-    opacity: 1
+    opacity: 1,
   },
   closeButton: {
-    borderRadius: 42/2,
+    borderRadius: 42 / 2,
     backgroundColor: "maroon",
     height: 34,
     width: 34,
     marginLeft: 170,
     marginTop: 8,
     justifyContent: "center",
-    alignItems: "center"
-},
-LocButton: {
-  alignItems: "center"
-}
+    alignItems: "center",
+  },
+  LocButton: {
+    alignItems: "center",
+  },
 });
