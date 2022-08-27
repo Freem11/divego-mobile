@@ -15,7 +15,7 @@ import { PinContext } from "../contexts/staticPinContext";
 import { PictureAdderContext } from "../contexts/picModalContext";
 import { MasterContext } from "../contexts/masterContext";
 import { getToday, getDate } from "../helpers/picUploaderHelpers";
-import DateTimePicker from "@react-native-community/datetimepicker";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import moment from "moment";
 import { useNavigation } from "@react-navigation/native";
@@ -26,7 +26,7 @@ export default function PicUploadModal() {
   const { pinValues, setPinValues } = useContext(PinContext);
   const { picAdderModal, setPicAdderModal } = useContext(PictureAdderContext);
 
-  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [datePickerVisible, setDatePickerVisible] = useState(false);
 
   const [date, setDate] = useState(new Date());
 
@@ -50,9 +50,8 @@ export default function PicUploadModal() {
 
   const chooseImageHandler = async () => {
     if (Platform.OS !== "web") {
-      const {
-        status,
-      } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      const { status } =
+        await ImagePicker.requestMediaLibraryPermissionsAsync();
       if (status !== "granted") {
         console.log("image library permissions denied");
         return;
@@ -89,10 +88,23 @@ export default function PicUploadModal() {
     }
   }, []);
 
+  const showDatePicker = () => {
+    setDatePickerVisible(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisible(false);
+  };
+
+  const handleConfirm = (date) => {
+    console.log("date is " , date)
+    let formattedDate = moment(date).format("YYYY-MM-DD");
+    setPinValues({ ...pinValues, PicDate: formattedDate });
+    hideDatePicker();
+  };
+
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Please Submit Your Picture</Text>
-
       <View style={styles.picContainer}>
         <Image
           source={{ uri: pinValues.PicFile }}
@@ -102,34 +114,34 @@ export default function PicUploadModal() {
 
       <TouchableWithoutFeedback
         onPress={async () => {
-
           try {
-          const response = await chooseImageHandler();
-          if (response) {
-
-            if(response.exif.DateTimeOriginal){
-              let formattedDate = response.exif.DateTimeOriginal.substring(0, 10);
-              let trueDate = formattedDate.replaceAll(":", "-");
-              setPinValues({
-                ...pinValues,
-                PicFile: response.uri,
-                PicDate: trueDate,
-                Latitude: response.exif.GPSLatitude.toString(),
-                Longitude: response.exif.GPSLongitude.toString(),
-              });
+            const response = await chooseImageHandler();
+            if (response) {
+              if (response.exif.DateTimeOriginal) {
+                let formattedDate = response.exif.DateTimeOriginal.substring(
+                  0,
+                  10
+                );
+                let trueDate = formattedDate.replaceAll(":", "-");
+                setPinValues({
+                  ...pinValues,
+                  PicFile: response.uri,
+                  PicDate: trueDate,
+                  Latitude: response.exif.GPSLatitude.toString(),
+                  Longitude: response.exif.GPSLongitude.toString(),
+                });
+              } else {
+                setPinValues({
+                  ...pinValues,
+                  PicFile: response.uri,
+                });
+              }
             } else {
-              setPinValues({
-                ...pinValues,
-                PicFile: response.uri,
-              });
+              console.log("???", response);
             }
-           
-          } else {
-            console.log("???", response);
-          } } catch {
+          } catch {
             console.log("error: Photo Selection Cancelled");
           }
-      
         }}
       >
         <View style={[styles.ImageButton]}>
@@ -138,18 +150,31 @@ export default function PicUploadModal() {
         </View>
       </TouchableWithoutFeedback>
 
-      <TouchableWithoutFeedback
-        onPress={() => setShowDatePicker(!showDatePicker)}
-      >
-        <View style={styles.input}>
-          <Text style={{ alignSelf: "center", marginTop: 5 }} value={date}>
-            {pinValues.PicDate}
-          </Text>
+      <View style={styles.calZone}>
+      <TextInput
+        style={styles.inputCal}
+        value={pinValues.PicDate}
+        placeholder={"Date"}
+        editable={false}
+        placeholderTextColor="grey"
+        onChangeText={(text) => setPinValues({ ...pinValues, Animal: text })}
+      ></TextInput>
+      <TouchableWithoutFeedback onPress={showDatePicker}>
+        <View>
+          <FontAwesome name="calendar" color="red" size={32} />
+          <DateTimePickerModal
+            date={new Date(pinValues.PicDate)}
+            isVisible={datePickerVisible}
+            mode="date"
+            onConfirm={handleConfirm}
+            onCancel={hideDatePicker}
+          />
         </View>
       </TouchableWithoutFeedback>
+      </View>
 
       <TextInput
-        style={styles.input}
+        style={styles.inputBig}
         value={pinValues.animal}
         placeholder={"Animal"}
         placeholderTextColor="grey"
@@ -188,34 +213,7 @@ export default function PicUploadModal() {
           </TouchableWithoutFeedback>
         </View>
       </View>
-
-      {showDatePicker && (
-        <Modal>
-          <View style={styles.modalStyle}>
-            <TouchableWithoutFeedback
-              onPress={() => setShowDatePicker(!showDatePicker)}
-            >
-              <View style={styles.closeButton}>
-                <FontAwesome name="check" color="white" size={24} />
-              </View>
-            </TouchableWithoutFeedback>
-            <DateTimePicker
-              testID="dateTimePicker"
-              value={date}
-              mode={"date"}
-              display={"default"}
-              onChange={onChange}
-              style={{
-                width: "65%",
-                height: "60%",
-                position: "absolute",
-                fontSize: 30,
-                top: 10,
-              }}
-            />
-          </View>
-        </Modal>
-      )}
+     
     </View>
   );
 }
@@ -226,8 +224,18 @@ const styles = StyleSheet.create({
     backgroundColor: "#D8DBE2",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 140,
+    marginTop: 10,
     marginBottom: 15,
+  },
+  inputBig: {
+    backgroundColor: "white",
+    borderRadius: 15,
+    width: 240,
+    height: 30,
+    alignSelf: "center",
+    marginBottom: 20,
+    textAlign: "center",
+    marginLeft: -20,
   },
   input: {
     backgroundColor: "white",
@@ -237,6 +245,17 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginBottom: 20,
     textAlign: "center",
+  },
+  inputCal: {
+    backgroundColor: "white",
+    borderRadius: 15,
+    width: 200,
+    height: 30,
+    alignSelf: "center",
+    marginBottom: 20,
+    textAlign: "center",
+    borderRadius: 15,
+    marginRight: 20,
   },
   header: {
     fontSize: 20,
@@ -258,7 +277,7 @@ const styles = StyleSheet.create({
     width: 120,
     marginLeft: 0,
     marginTop: 10,
-    marginBottom: 5,
+    marginBottom: 30,
   },
   picContainer: {
     alignItems: "center",
@@ -268,6 +287,7 @@ const styles = StyleSheet.create({
     borderColor: "darkgrey",
     width: "80%",
     height: 130,
+    marginTop: -50,
   },
   modalStyle: {
     flex: 1,
@@ -293,4 +313,18 @@ const styles = StyleSheet.create({
   LocButton: {
     alignItems: "center",
   },
+  DatePick: {
+    width: 230,
+    marginTop: 0,
+    marginBottom: 30,
+    backgroundColor: "white",
+    height: 30,
+    width: 150,
+    zIndex: 2,
+    borderRadius: 15,
+  },
+  calZone: {
+    flexDirection: "row",
+    marginLeft: -10,
+  }
 });

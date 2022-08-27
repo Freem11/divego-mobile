@@ -148,20 +148,18 @@ export default function FABButtons() {
   });
 
   const togglePicModal = () => {
+    setPicAdderModal(!picAdderModal);
 
-    setPicAdderModal(!picAdderModal)
-
-    if (picAdderModal){
+    if (picAdderModal) {
       setPinValues({
         PicFile: null,
         Animal: "",
         PicDate: "",
         Latitude: "",
         Longitude: "",
-      })
+      });
     }
-   
-  }
+  };
 
   return (
     <View style={styles.fab}>
@@ -239,45 +237,54 @@ export default function FABButtons() {
 
       <Modal visible={picAdderModal} animationType="slide" transparent={true}>
         <View style={styles.modalStyle}>
-          <TouchableWithoutFeedback
-            onPress={togglePicModal}
-          >
-              <View style={styles.closeButton}>
-              <FontAwesome
-                name="close"
-                color="aquamarine"
-                size={32}
-              />
+          <View style={styles.title}>
+            <View>
+              <Text style={styles.header}>Please Submit Your Picture</Text>
             </View>
-          </TouchableWithoutFeedback>
+            <TouchableWithoutFeedback onPress={togglePicModal}>
+              <View style={styles.closeButton}>
+                <FontAwesome name="close" color="aquamarine" size={32} />
+              </View>
+            </TouchableWithoutFeedback>
+          </View>
           <PicUploadModal />
         </View>
       </Modal>
 
-      <Modal visible={diveSiteAdderModal} animationType="slide" transparent={true}>
+      <Modal
+        visible={diveSiteAdderModal}
+        animationType="slide"
+        transparent={true}
+      >
         <View style={styles.modalStyle}>
+        <View style={styles.title}>
+          <View>
+            <Text style={styles.header}>Please Submit Your Dive Site</Text>
+          </View>
           <TouchableWithoutFeedback
             onPress={() => setDiveSiteAdderModal(!diveSiteAdderModal)}
           >
             <View style={styles.closeButton}>
-              <FontAwesome
-                name="close"
-                color="aquamarine"
-                size={32}
-              />
+              <FontAwesome name="close" color="aquamarine" size={32} />
             </View>
           </TouchableWithoutFeedback>
+          </View>
           <DiveSiteModal />
         </View>
       </Modal>
 
-      <Modal visible={guideModal} animationType="slide" transparent={true} >
+      <Modal visible={guideModal} animationType="slide" transparent={true}>
         <View style={styles.modalStyle}>
+        <View style={styles.titleAlt}>
+        <View>
+            <Text style={styles.headerAlt}>How to Use DiveGo</Text>
+          </View>
           <TouchableWithoutFeedback onPress={() => setGuideModal(!guideModal)}>
-            <View>
-              <FontAwesome5 name="question" color="aquamarine" size={32} />
+            <View style={styles.closeButton}>
+              <FontAwesome name="close" color="aquamarine" size={32} />
             </View>
           </TouchableWithoutFeedback>
+          </View>
           <GuideModal />
         </View>
       </Modal>
@@ -355,21 +362,50 @@ const styles = StyleSheet.create({
   },
   modalStyle: {
     flex: 1,
-    backgroundColor:'#D8DBE2',
+    backgroundColor: "#D8DBE2",
     borderRadius: 25,
     margin: 30,
     borderColor: "lightblue",
     borderWidth: 8,
-    opacity: 1
+    opacity: 1,
   },
   closeButton: {
-      borderRadius: 42/2,
-      backgroundColor: "maroon",
-      height: 42,
-      width: 42,
-      marginLeft: 247,
-      marginTop: 12,
-      justifyContent: "center",
-      alignItems: "center"
-  }
+    borderRadius: 42 / 2,
+    backgroundColor: "maroon",
+    height: 42,
+    width: 42,
+    marginLeft: 240,
+    marginTop: -75,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  header: {
+    fontSize: 20,
+    alignSelf: "center",
+    marginBottom: 25,
+    marginTop: 0,
+    width: "70%",
+    height: 50,
+    marginLeft: -50,
+    fontWeight: "bold",
+  },
+  headerAlt: {
+    fontSize: 20,
+    alignSelf: "center",
+    marginBottom: 25,
+    marginTop: 5,
+    width: "70%",
+    height: 40,
+    marginLeft: -90,
+    fontWeight: "bold",
+  },
+  title: {
+    flexDirection: "column",
+    marginTop: 20,
+  },
+  titleAlt: {
+    flexDirection: "column",
+    marginTop: 20,
+    width: "150%",
+  },
 });

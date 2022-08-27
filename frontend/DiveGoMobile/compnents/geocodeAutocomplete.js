@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
 import { StyleSheet, View, TouchableWithoutFeedback, Text, ScrollView, Modal} from "react-native";
 import PlacesInput from "react-native-places-input";
-import config  from '../config';
+import config from '../config';
 import { MapCenterContext } from "./contexts/mapCenterContext";
 
 export default function GeocodeAutoComplete() {
@@ -10,7 +10,7 @@ export default function GeocodeAutoComplete() {
 return(
     <View style={styles.container}>
         <PlacesInput 
-        googleApiKey={config.GOOGLE_MAPS_API_KEY}
+        googleApiKey={config.GOOGLE_MAPS_API_KEY_MOBILE}
         placeholder={"Go to..."}
         language={"en-US"}
         onSelect={place => setMapCenter({

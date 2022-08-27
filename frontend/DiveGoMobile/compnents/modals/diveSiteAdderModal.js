@@ -74,30 +74,31 @@ export default function DiveSiteModal() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Please Submit Your Dive Site</Text>
-      <TextInput
-        style={styles.input}
-        value={formVals.siteName}
-        placeholder={"Site Name"}
-        placeholderTextColor="grey"
-        onChangeText={(text) => setFormVals({ ...formVals, siteName: text })}
-      ></TextInput>
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          value={formVals.siteName}
+          placeholder={"Site Name"}
+          placeholderTextColor="grey"
+          onChangeText={(text) => setFormVals({ ...formVals, siteName: text })}
+        ></TextInput>
 
-      <TextInput
-        style={styles.input}
-        value={formVals.latitude}
-        placeholder={"Latitude"}
-        placeholderTextColor="grey"
-        onChangeText={(text) => setFormVals({ ...formVals, latitude: text })}
-      ></TextInput>
+        <TextInput
+          style={styles.input}
+          value={formVals.latitude}
+          placeholder={"Latitude"}
+          placeholderTextColor="grey"
+          onChangeText={(text) => setFormVals({ ...formVals, latitude: text })}
+        ></TextInput>
 
-      <TextInput
-        style={styles.input}
-        value={formVals.longitude}
-        placeholder={"Longitude"}
-        placeholderTextColor="grey"
-        onChangeText={(text) => setFormVals({ ...formVals, longitude: text })}
-      ></TextInput>
+        <TextInput
+          style={styles.input}
+          value={formVals.longitude}
+          placeholder={"Longitude"}
+          placeholderTextColor="grey"
+          onChangeText={(text) => setFormVals({ ...formVals, longitude: text })}
+        ></TextInput>
+      </View>
 
       <TouchableWithoutFeedback onPress={CurrentCoords}>
         <View style={[styles.GPSbutton]}>
@@ -115,7 +116,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#D8DBE2",
     alignItems: "left",
     justifyContent: "center",
+    marginTop: 10,
     marginBottom: 15,
+  },
+  inputContainer: {
+    width: "100%",
+    alignItems: 'center',
+    marginTop: -240,
+    justifyContent: "center"
+    
   },
   input: {
     backgroundColor: "white",
