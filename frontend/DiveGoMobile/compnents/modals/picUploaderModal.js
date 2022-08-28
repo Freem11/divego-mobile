@@ -7,6 +7,7 @@ import {
   TouchableWithoutFeedback,
   Platform,
   Modal,
+  KeyboardAvoidingView,
 } from "react-native";
 import React, { useState, useEffect, useContext } from "react";
 import * as ImagePicker from "expo-image-picker";
@@ -18,7 +19,7 @@ import { getToday, getDate } from "../helpers/picUploaderHelpers";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import moment from "moment";
-import { useNavigation } from "@react-navigation/native";
+import AnimalAutoCompleteModal from "../animalAutocompleteModal";
 
 export default function PicUploadModal() {
   const { masterSwitch, setMasterSwitch } = useContext(MasterContext);
@@ -29,8 +30,6 @@ export default function PicUploadModal() {
   const [datePickerVisible, setDatePickerVisible] = useState(false);
 
   const [date, setDate] = useState(new Date());
-
-  const navigation = useNavigation();
 
   const onNavigate = () => {
     setMasterSwitch(false);
@@ -50,8 +49,9 @@ export default function PicUploadModal() {
 
   const chooseImageHandler = async () => {
     if (Platform.OS !== "web") {
-      const { status } =
-        await ImagePicker.requestMediaLibraryPermissionsAsync();
+      const {
+        status,
+      } = await ImagePicker.requestMediaLibraryPermissionsAsync();
       if (status !== "granted") {
         console.log("image library permissions denied");
         return;
@@ -97,11 +97,12 @@ export default function PicUploadModal() {
   };
 
   const handleConfirm = (date) => {
-    console.log("date is " , date)
     let formattedDate = moment(date).format("YYYY-MM-DD");
     setPinValues({ ...pinValues, PicDate: formattedDate });
     hideDatePicker();
   };
+
+  const AnimalKeboardOffset = Platform.OS === "ios" ? 350 : 0;
 
   return (
     <View style={styles.container}>
@@ -146,40 +147,41 @@ export default function PicUploadModal() {
       >
         <View style={[styles.ImageButton]}>
           <FontAwesome name="picture-o" color="red" size={32} />
-          <Text style={{ marginLeft: 5 }}>Choose an Image</Text>
+          <Text style={{ marginLeft: 5, color: "maroon" }}>Choose an Image</Text>
         </View>
       </TouchableWithoutFeedback>
 
       <View style={styles.calZone}>
-      <TextInput
-        style={styles.inputCal}
-        value={pinValues.PicDate}
-        placeholder={"Date"}
-        editable={false}
-        placeholderTextColor="grey"
-        onChangeText={(text) => setPinValues({ ...pinValues, Animal: text })}
-      ></TextInput>
-      <TouchableWithoutFeedback onPress={showDatePicker}>
-        <View>
-          <FontAwesome name="calendar" color="red" size={32} />
-          <DateTimePickerModal
-            date={new Date(pinValues.PicDate)}
-            isVisible={datePickerVisible}
-            mode="date"
-            onConfirm={handleConfirm}
-            onCancel={hideDatePicker}
-          />
-        </View>
-      </TouchableWithoutFeedback>
+        <TextInput
+          style={styles.inputCal}
+          value={pinValues.PicDate}
+          placeholder={"Date"}
+          editable={false}
+          placeholderTextColor="grey"
+          onChangeText={(text) => setPinValues({ ...pinValues, Animal: text })}
+        ></TextInput>
+        <TouchableWithoutFeedback onPress={showDatePicker}>
+          <View style={{marginTop: 2.5, marginLeft: 3}}>
+            <FontAwesome name="calendar" color="red" size={32} />
+            <DateTimePickerModal
+              date={new Date(pinValues.PicDate)}
+              isVisible={datePickerVisible}
+              mode="date"
+              onConfirm={handleConfirm}
+              onCancel={hideDatePicker}
+            />
+          </View>
+        </TouchableWithoutFeedback>
       </View>
 
-      <TextInput
-        style={styles.inputBig}
-        value={pinValues.animal}
-        placeholder={"Animal"}
-        placeholderTextColor="grey"
-        onChangeText={(text) => setPinValues({ ...pinValues, Animal: text })}
-      ></TextInput>
+      <KeyboardAvoidingView
+        behavior="position"
+        keyboardVerticalOffset={AnimalKeboardOffset}
+        style={styles.autocomplete}
+      >
+        <AnimalAutoCompleteModal/>
+      </KeyboardAvoidingView>
+
 
       <View style={{ flexDirection: "row", width: "100%" }}>
         <View style={{ marginLeft: "6%" }}>
@@ -187,6 +189,7 @@ export default function PicUploadModal() {
             style={styles.input}
             value={pinValues.Latitude}
             placeholder={"Latitude"}
+            editable={false}
             placeholderTextColor="grey"
             onChangeText={(text) =>
               setPinValues({ ...pinValues, Latitude: text })
@@ -197,6 +200,7 @@ export default function PicUploadModal() {
             style={styles.input}
             value={pinValues.Longitude}
             placeholder={"Longitude"}
+            editable={false}
             placeholderTextColor="grey"
             onChangeText={(text) =>
               setPinValues({ ...pinValues, Longitude: text })
@@ -204,7 +208,7 @@ export default function PicUploadModal() {
           ></TextInput>
         </View>
 
-        <View style={{ marginLeft: 5, marginTop: 7 }}>
+        <View style={{ marginLeft: 7, marginTop: 15 }}>
           <TouchableWithoutFeedback onPress={onNavigate}>
             <View style={[styles.LocButton]}>
               <MaterialIcons name="location-pin" color="red" size={48} />
@@ -213,7 +217,6 @@ export default function PicUploadModal() {
           </TouchableWithoutFeedback>
         </View>
       </View>
-     
     </View>
   );
 }
@@ -239,22 +242,22 @@ const styles = StyleSheet.create({
   },
   input: {
     backgroundColor: "white",
-    borderRadius: 15,
+    borderRadius: 25,
     width: 200,
-    height: 30,
+    height: 40,
     alignSelf: "center",
     marginBottom: 20,
     textAlign: "center",
   },
   inputCal: {
     backgroundColor: "white",
-    borderRadius: 15,
+    borderRadius: 25,
     width: 200,
-    height: 30,
+    height: 40,
     alignSelf: "center",
-    marginBottom: 20,
+    marginBottom: 15,
     textAlign: "center",
-    borderRadius: 15,
+    borderRadius: 25,
     marginRight: 20,
   },
   header: {
@@ -276,8 +279,8 @@ const styles = StyleSheet.create({
     height: 45,
     width: 120,
     marginLeft: 0,
-    marginTop: 10,
-    marginBottom: 30,
+    marginTop: 15,
+    marginBottom: 15,
   },
   picContainer: {
     alignItems: "center",
@@ -313,18 +316,14 @@ const styles = StyleSheet.create({
   LocButton: {
     alignItems: "center",
   },
-  DatePick: {
-    width: 230,
-    marginTop: 0,
-    marginBottom: 30,
-    backgroundColor: "white",
-    height: 30,
-    width: 150,
-    zIndex: 2,
-    borderRadius: 15,
-  },
   calZone: {
     flexDirection: "row",
-    marginLeft: -10,
+    marginLeft: -6,
+  },
+  autocomplete: {
+    height: 30,
+    marginBottom: 30,
+    marginLeft: -60,
+    
   }
 });

@@ -27,6 +27,7 @@ export default function App() {
     PicDate: "",
     Latitude: "",
     Longitude: "",
+    DDVal: '0'
   });
 
   const [mapCenter, setMapCenter] = useState({

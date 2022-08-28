@@ -10,7 +10,7 @@ import {
   View,
   TouchableWithoutFeedback,
   Modal,
-  Text,
+  Text, KeyboardAvoidingView,
 } from "react-native";
 import { MaterialIcons, FontAwesome5, FontAwesome } from "@expo/vector-icons";
 import Animated, {
@@ -23,6 +23,7 @@ import Animated, {
 } from "react-native-reanimated";
 import AnimalAutoComplete from "./animalAutocomplete";
 import GeocodeAutocomplete from "./geocodeAutocomplete";
+import {KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 export default function FABButtons() {
   const { diveSitesTog, setDiveSitesTog } = useContext(DiveSitesContext);
@@ -161,6 +162,9 @@ export default function FABButtons() {
     }
   };
 
+  const AnimalKeboardOffset = Platform.OS === "ios" ? 10 : 0;
+
+
   return (
     <View style={styles.fab}>
       <TouchableWithoutFeedback onPress={() => setGuideModal(!guideModal)}>
@@ -228,15 +232,16 @@ export default function FABButtons() {
       </TouchableWithoutFeedback>
 
       <Animated.View style={[styles.animal, animalReveal]}>
-        <AnimalAutoComplete />
+        <AnimalAutoComplete/>
       </Animated.View>
 
       <Animated.View style={[styles.geoCoder, geocodeReveal]}>
         <GeocodeAutocomplete />
       </Animated.View>
 
+      {/* <KeyboardAvoidingView behavior="height"> */}
       <Modal visible={picAdderModal} animationType="slide" transparent={true}>
-        <View style={styles.modalStyle}>
+          <View style={styles.modalStyle}>
           <View style={styles.title}>
             <View>
               <Text style={styles.header}>Please Submit Your Picture</Text>
@@ -248,8 +253,9 @@ export default function FABButtons() {
             </TouchableWithoutFeedback>
           </View>
           <PicUploadModal />
-        </View>
+          </View>
       </Modal>
+      {/* </KeyboardAvoidingView> */}
 
       <Modal
         visible={diveSiteAdderModal}

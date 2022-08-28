@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { StyleSheet, View, Dimensions, Button } from "react-native";
+import { StyleSheet, View, Dimensions, Button, KeyboardAvoidingView } from "react-native";
 import Map from "./GoogleMap";
 import MonthSlider from "./slider";
 import FABButtons from "./FABset";
@@ -32,7 +32,7 @@ export default function MapPage() {
   return (
     <MapCenterContext.Provider value={{ mapCenter, setMapCenter }}>
       <DiveSitesContext.Provider value={{ diveSitesTog, setDiveSitesTog }}>
-        <View style={styles.container}>
+        <KeyboardAvoidingView style={styles.container} behavior="height">
           {masterSwitch && (
             <View style={styles.slider}>
               <MonthSlider style={{ zIndex: 2 }} />
@@ -51,7 +51,7 @@ export default function MapPage() {
           )}
 
           <Map style={{ zIndex: 1 }} />
-        </View>
+        </KeyboardAvoidingView>
       </DiveSitesContext.Provider>
     </MapCenterContext.Provider>
   );

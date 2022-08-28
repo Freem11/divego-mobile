@@ -1,8 +1,16 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
-import { StyleSheet, View, TouchableWithoutFeedback, Text } from "react-native";
+import { StyleSheet, View, TouchableWithoutFeedback, Text, } from "react-native";
 import { AutocompleteDropdown } from "react-native-autocomplete-dropdown";
 import { photos } from "./data/testdata";
 import filterCreatures from "./helpers/optionHelpers"
+import Animated, {
+    useSharedValue,
+    interpolate,
+    useAnimatedStyle,
+    useDerivedValue,
+    withSpring,
+    withTiming,
+  } from "react-native-reanimated";
 
 export default function AnimalAutoComplete() {
 
@@ -12,7 +20,7 @@ const list = filterCreatures(photos);
 return(
     <View style={styles.container}>
         <AutocompleteDropdown
-        initialValue='Spicies'
+        initialValue='Species'
         textInputProps={{
             style: {
                 backgroundColor: "white",
@@ -28,6 +36,7 @@ return(
         closeOnBlur={true}
         />
     </View>
+   
 )
 }
 
