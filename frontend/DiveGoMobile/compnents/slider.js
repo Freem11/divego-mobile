@@ -48,7 +48,7 @@ export default function MonthSlider() {
 
   return (
     <View style={styles.container}>
-      <Text style={{fontWeight: 'bold'}}>{monthVal}</Text>
+      <Text style={{fontWeight: 'bold', paddingTop:3}}>{monthVal}</Text>
       <Slider
         style={{ width: 300, height: 30,transform: [{scaleX: 1}, {scaleY: 0.8}]}}
         minimumValue={1}
@@ -74,8 +74,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     zIndex: 2,
     top: 30,
-    height: 55,
-    borderRadius: 15 
-    
+    height: 45,
+    borderRadius: 15,
   },
 });

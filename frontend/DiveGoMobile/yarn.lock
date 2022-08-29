@@ -9452,6 +9452,13 @@
     "react-native-size-matters" "^0.3.0 || ^0.4.0"
     "react-native-vector-icons" ">=7.0.0"
 
+"react-native-autocomplete-input@^5.1.1":
+  "integrity" "sha512-a2w1WrkjSBeSSFjA5C+haK3dQhoGpmxEDICCvmxs/58QNBkK6f+ApDuNJmXYS41mrc7ScNPPSndFxn4YbPtr6A=="
+  "resolved" "https://registry.npmjs.org/react-native-autocomplete-input/-/react-native-autocomplete-input-5.1.1.tgz"
+  "version" "5.1.1"
+  dependencies:
+    "deprecated-react-native-prop-types" "^2.3.0"
+
 "react-native-branch@^5.5.0":
   "integrity" "sha512-f1kv/+tVyqPPKKobstcS8CO2u9PIZBgMDFsSPPrPZP6AZm1FyYDrifbdpJRRbfyky/fApEUNBgl0ZAC+ABPQyA=="
   "resolved" "https://registry.npmjs.org/react-native-branch/-/react-native-branch-5.5.0.tgz"

@@ -122,30 +122,33 @@ export default function PicUploadModal() {
           try {
             const response = await chooseImageHandler();
             if (response) {
+              let trueDate
+              let lats
+              let lngs
               if (response.exif.DateTimeOriginal) {
                 let formattedDate = response.exif.DateTimeOriginal.substring(
                   0,
                   10
                 );
-                let trueDate = formattedDate.replaceAll(":", "-");
+                 trueDate = formattedDate.replaceAll(":", "-");
+               } else {
+                 trueDate = pinValues.PicDate
+               }
+               if (response.exif.GPSLatitude) {
+                  lats = response.exif.GPSLatitude.toString()
+                  lngs = response.exif.GPSLongitude.toString()
+               }
                 setPinValues({
                   ...pinValues,
                   PicFile: response.uri,
                   PicDate: trueDate,
-                  Latitude: response.exif.GPSLatitude.toString(),
-                  Longitude: response.exif.GPSLongitude.toString(),
+                  Latitude: lats,
+                  Longitude: lngs,
                 });
-              } else {
-                setPinValues({
-                  ...pinValues,
-                  PicFile: response.uri,
-                });
-              }
-            } else {
-              console.log("???", response);
-            }
-          } catch {
-            console.log("error: Photo Selection Cancelled");
+              } 
+            
+          } catch (e){
+            console.log("error: Photo Selection Cancelled", e.message);
           }
         }}
       >

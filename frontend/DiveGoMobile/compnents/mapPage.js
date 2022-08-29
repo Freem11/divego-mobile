@@ -68,7 +68,7 @@ const [token, setToken] = useState(false)
           {masterSwitch && (
             <View style={styles.animalSelect}>
                 {token && (
-                  <Text>Selected:{animalSelection}</Text>
+                  <Text>Selected: {animalSelection}</Text>
                 )}
                 {!token && (
                   <Text>Selected: All</Text>
@@ -128,9 +128,9 @@ const styles = StyleSheet.create({
   animalSelect: {
     position: "absolute",
     alignItems: "center",
-    top: 90,
+    top: 80,
     width: 250,
-    height: 17,
+    height: 16,
     zIndex: 2,
     borderBottomRightRadius: 15,
     borderBottomLeftRadius: 15,
