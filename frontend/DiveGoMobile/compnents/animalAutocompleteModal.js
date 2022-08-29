@@ -28,9 +28,11 @@ useEffect(() => {
 
 const handleConfirm = (animal) => {
   if (animal !== null){
+
   if (typeof(animal) === "object"){
     setPinValues({ ...pinValues, Animal: animal.title.toString(), DDVal: animal.id.toString()});
   } else {
+    console.log("why", animal)
     setPinValues({ ...pinValues, Animal: animal, DDVal: '0' });
   }
 }
@@ -57,7 +59,6 @@ const handleClear = (animal) => {
  
   setPinValues({ ...pinValues, Animal: 'Animal' , DDVal: '0'})
   list = filterCreatures(photos, "Animal");
-  console.log("losto", list)
 }
 
 

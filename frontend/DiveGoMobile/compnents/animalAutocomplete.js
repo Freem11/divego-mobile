@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useContext } from "react";
 import { StyleSheet, View, TouchableWithoutFeedback, Text, } from "react-native";
 import { AutocompleteDropdown } from "react-native-autocomplete-dropdown";
 import { photos } from "./data/testdata";
-import { PinContext } from "./contexts/staticPinContext";
+import { AnimalSelectContext } from "./contexts/animalSelectContext";
 import filterCreatures from "./helpers/optionHelpers"
 import Animated, {
     useSharedValue,
@@ -17,18 +17,17 @@ export default function AnimalAutoComplete() {
 
 const [searchVal, setSearchVal] = useState('')
 const list = filterCreatures(photos);
-const { pinValues, setPinValues } = useContext(PinContext);
+const { animalSelection, setAnimalSelection } = useContext(AnimalSelectContext);
 
 const handleConfirm = (animal) => {
   if (animal !== null){
-  if (animal !== "Animal"){
-    setPinValues({ ...pinValues, Animal: animal.title});
-  }
+    setAnimalSelection(animal.title);
+
 }
 };
 
 const handleClear = (animal) => {
-  setPinValues({ ...pinValues, Animal: ""});
+  setAnimalSelection("");
 }
 return(
     <View style={styles.container}>

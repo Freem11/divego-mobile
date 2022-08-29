@@ -10,6 +10,7 @@ import { MapBoundariesContext } from "./compnents/contexts/mapBoundariesContext"
 import { MapRegionContext } from "./compnents/contexts/mapRegionContext";
 import { MasterContext } from "./compnents/contexts/masterContext";
 import { PinSpotContext } from "./compnents/contexts/pinSpotContext";
+import { AnimalSelectContext } from "./compnents/contexts/animalSelectContext";
 import { NavigationContainer, useIsFocused } from "@react-navigation/native";
 import StackNav from "./compnents/stackNav";
 
@@ -30,6 +31,8 @@ export default function App() {
     DDVal: '0'
   });
 
+  const [animalSelection, setAnimalSelection] = useState("");
+
   const [mapCenter, setMapCenter] = useState({
     lat: 49.246292,
     lng: -123.116226,
@@ -49,6 +52,7 @@ export default function App() {
   const [dragPin, setDragPin] = useState({});
 
   return (
+    <AnimalSelectContext.Provider value={{ animalSelection, setAnimalSelection }}>
     <PinSpotContext.Provider value={{ dragPin, setDragPin }}>
     <MasterContext.Provider value={{ masterSwitch, setMasterSwitch }}>
     <MapZoomContext.Provider value={{ zoomlev, setZoomLev }}>
@@ -68,6 +72,7 @@ export default function App() {
     </MapZoomContext.Provider>
     </MasterContext.Provider>
     </PinSpotContext.Provider>
+    </AnimalSelectContext.Provider>
   );
 }
 

@@ -16,11 +16,13 @@ import { PictureAdderContext } from "./contexts/picModalContext";
 import { MasterContext } from "./contexts/masterContext";
 import { PinSpotContext } from "./contexts/pinSpotContext";
 import { PinContext } from "./contexts/staticPinContext";
+import { AnimalSelectContext } from "./contexts/animalSelectContext";
 
 export default function MapPage() {
   const { masterSwitch, setMasterSwitch } = useContext(MasterContext);
   const { dragPin, setDragPin } = useContext(PinSpotContext);
   const { pinValues, setPinValues } = useContext(PinContext);
+  const { animalSelection, setAnimalSelection } = useContext(AnimalSelectContext);
 
   const { picAdderModal, setPicAdderModal } = useContext(PictureAdderContext);
 
@@ -42,14 +44,16 @@ export default function MapPage() {
 const [token, setToken] = useState(false)
 
   useEffect(() => {
-    
-    if(pinValues.Animal.length > 0){
-      setToken(true)
-  } else {
-      setToken(false)
-  }
 
-  }, [pinValues.Animal])
+      if(animalSelection.length > 0){
+        setToken(true)
+    } else {
+        setToken(false)
+    }
+    
+ 
+
+  }, [animalSelection])
 
 
   return (
@@ -64,7 +68,7 @@ const [token, setToken] = useState(false)
           {masterSwitch && (
             <View style={styles.animalSelect}>
                 {token && (
-                  <Text>Selected:{pinValues.Animal}</Text>
+                  <Text>Selected:{animalSelection}</Text>
                 )}
                 {!token && (
                   <Text>Selected: All</Text>
