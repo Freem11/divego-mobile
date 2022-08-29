@@ -215,7 +215,7 @@ export default function PicUploadModal() {
         <View style={{ marginLeft: 7, marginTop: 15 }}>
           <TouchableWithoutFeedback onPress={onNavigate}>
             <View style={[styles.LocButton]}>
-              <MaterialIcons name="location-pin" color="red" size={48} />
+              <MaterialIcons name="location-pin" color="red" size={48} style={{marginLeft: 5}} />
               <Text style={{ marginLeft: 5, color: "maroon" }}>Drop Pin</Text>
             </View>
           </TouchableWithoutFeedback>
