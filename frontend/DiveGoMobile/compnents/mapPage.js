@@ -1,8 +1,15 @@
 import React, { useState, useEffect, useContext } from "react";
-import { StyleSheet, View, Dimensions, Button, KeyboardAvoidingView } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Button,
+  KeyboardAvoidingView,
+} from "react-native";
 import Map from "./GoogleMap";
 import MonthSlider from "./slider";
 import FABButtons from "./FABset";
+import Logo from "./logoButton";
 import { DiveSitesContext } from "./contexts/diveSiteToggleContext";
 import { MapCenterContext } from "./contexts/mapCenterContext";
 import { PictureAdderContext } from "./contexts/picModalContext";
@@ -24,10 +31,26 @@ export default function MapPage() {
   });
 
   const onNavigate = () => {
-    setPinValues({ ...pinValues, Latitude: dragPin.lat.toString(), Longitude: dragPin.lng.toString()})
+    setPinValues({
+      ...pinValues,
+      Latitude: dragPin.lat.toString(),
+      Longitude: dragPin.lng.toString(),
+    });
     setMasterSwitch(true);
     setPicAdderModal(!picAdderModal);
+  };
+const [token, setToken] = useState(false)
+
+  useEffect(() => {
+    
+    if(pinValues.Animal.length > 0){
+      setToken(true)
+  } else {
+      setToken(false)
   }
+
+  }, [pinValues.Animal])
+
 
   return (
     <MapCenterContext.Provider value={{ mapCenter, setMapCenter }}>
@@ -39,6 +62,17 @@ export default function MapPage() {
             </View>
           )}
           {masterSwitch && (
+            <View style={styles.animalSelect}>
+                {token && (
+                  <Text>Selected:{pinValues.Animal}</Text>
+                )}
+                {!token && (
+                  <Text>Selected: All</Text>
+                )}
+               </View>
+          )}
+
+          {masterSwitch && (
             <View style={styles.Fbuttons}>
               <FABButtons style={{ zIndex: 2 }} />
             </View>
@@ -46,10 +80,10 @@ export default function MapPage() {
 
           {!masterSwitch && (
             <View style={styles.PinButton}>
-              <Button title="Set Pin" onPress={onNavigate}/>
+              <Button title="Set Pin" onPress={onNavigate} />
             </View>
           )}
-
+          <Logo style={styles.Logo} />
           <Map style={{ zIndex: 1 }} />
         </KeyboardAvoidingView>
       </DiveSitesContext.Provider>
@@ -67,7 +101,7 @@ const styles = StyleSheet.create({
   PinButton: {
     position: "absolute",
     alignItems: "center",
-    top: 40,
+    bottom: 30,
     backgroundColor: "palegreen",
     width: 100,
     height: 40,
@@ -87,6 +121,20 @@ const styles = StyleSheet.create({
     opacity: 0.8,
     paddingTop: -5,
   },
+  animalSelect: {
+    position: "absolute",
+    alignItems: "center",
+    top: 90,
+    width: 250,
+    height: 17,
+    zIndex: 2,
+    borderBottomRightRadius: 15,
+    borderBottomLeftRadius: 15,
+    opacity: 0.5,
+    marginTop: 5,
+    paddingTop: -7,
+    backgroundColor: "white",
+  },
   Fbuttons: {
     alignItems: "center",
     position: "absolute",
@@ -98,6 +146,17 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     opacity: 0.8,
     paddingTop: -5,
-  }
-  
+  },
+  PinButton: {
+    position: "absolute",
+    alignItems: "center",
+    bottom: 30,
+    backgroundColor: "palegreen",
+    width: 100,
+    height: 40,
+    zIndex: 2,
+    borderRadius: 15,
+    opacity: 0.8,
+    paddingTop: -5,
+  },
 });

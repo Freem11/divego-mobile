@@ -7,8 +7,6 @@ export default function DatePicker(showDatePicker) {
   const { pinValues, setPinValues } = useContext(PinContext);
   const [date, setDate] = useState(new Date())
 
-  console.log("show val", showDatePicker)
-
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;

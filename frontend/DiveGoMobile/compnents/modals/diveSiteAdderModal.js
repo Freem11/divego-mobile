@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#D8DBE2",
     alignItems: "left",
     justifyContent: "center",
-    marginTop: 10,
+    marginTop: 50,
     marginBottom: 15,
   },
   inputContainer: {
