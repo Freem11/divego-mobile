@@ -51,6 +51,17 @@ if (pinValues.Animal.length > 15){
   padVal = 40
 }
 
+const [reset, setReset] = useState(false);
+
+const handleClear = (animal) => {
+ 
+  setPinValues({ ...pinValues, Animal: 'Animal' , DDVal: '0'})
+  list = filterCreatures(photos, "Animal");
+  console.log("losto", list)
+}
+
+
+
 return(
         <AutocompleteDropdown
         initialValue={{id: pinValues.DDVal}}
@@ -79,6 +90,7 @@ return(
         showChevron={false}
         showClear={true}
         closeOnBlur={true}
+        onClear={(text) => handleClear(text)}
         />  
 )
 }

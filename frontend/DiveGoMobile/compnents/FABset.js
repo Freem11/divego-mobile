@@ -154,10 +154,11 @@ export default function FABButtons() {
     if (picAdderModal) {
       setPinValues({
         PicFile: null,
-        Animal: "",
+        Animal: "Animal",
         PicDate: "",
         Latitude: "",
         Longitude: "",
+        DDVal: "0"
       });
     }
   };
@@ -239,7 +240,6 @@ export default function FABButtons() {
         <GeocodeAutocomplete />
       </Animated.View>
 
-      {/* <KeyboardAvoidingView behavior="height"> */}
       <Modal visible={picAdderModal} animationType="slide" transparent={true}>
           <View style={styles.modalStyle}>
           <View style={styles.title}>
@@ -255,7 +255,6 @@ export default function FABButtons() {
           <PicUploadModal />
           </View>
       </Modal>
-      {/* </KeyboardAvoidingView> */}
 
       <Modal
         visible={diveSiteAdderModal}

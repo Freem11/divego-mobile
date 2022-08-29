@@ -20,8 +20,11 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import moment from "moment";
 import AnimalAutoCompleteModal from "../animalAutocompleteModal";
-
+import { useIsFocused } from "@react-navigation/native";
 export default function PicUploadModal() {
+
+  const isFocused = useIsFocused();
+  
   const { masterSwitch, setMasterSwitch } = useContext(MasterContext);
 
   const { pinValues, setPinValues } = useContext(PinContext);
@@ -86,6 +89,7 @@ export default function PicUploadModal() {
     } else {
       setPinValues(pinValues);
     }
+
   }, []);
 
   const showDatePicker = () => {

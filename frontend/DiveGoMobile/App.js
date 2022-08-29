@@ -10,7 +10,7 @@ import { MapBoundariesContext } from "./compnents/contexts/mapBoundariesContext"
 import { MapRegionContext } from "./compnents/contexts/mapRegionContext";
 import { MasterContext } from "./compnents/contexts/masterContext";
 import { PinSpotContext } from "./compnents/contexts/pinSpotContext";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useIsFocused } from "@react-navigation/native";
 import StackNav from "./compnents/stackNav";
 
 const { width, height } = Dimensions.get("window");
@@ -23,7 +23,7 @@ export default function App() {
 
   const [pinValues, setPinValues] = useState({
     PicFile: null,
-    Animal: "",
+    Animal: "Animal",
     PicDate: "",
     Latitude: "",
     Longitude: "",
