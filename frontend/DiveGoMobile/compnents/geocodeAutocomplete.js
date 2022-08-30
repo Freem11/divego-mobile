@@ -19,6 +19,7 @@ return(
             })}
         stylesList={{borderRadius: 10}}
         stylesInput={{borderRadius: 25, height: 40, width:200}}
+        clearQueryOnSelect={true}
         />
     </View>
 )

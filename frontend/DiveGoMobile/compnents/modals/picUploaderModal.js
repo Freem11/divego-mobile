@@ -6,7 +6,7 @@ import {
   Image,
   TouchableWithoutFeedback,
   Platform,
-  Modal,
+  Button,
   KeyboardAvoidingView,
 } from "react-native";
 import React, { useState, useEffect, useContext } from "react";
@@ -22,9 +22,8 @@ import moment from "moment";
 import AnimalAutoCompleteModal from "../animalAutocompleteModal";
 import { useIsFocused } from "@react-navigation/native";
 export default function PicUploadModal() {
-
   const isFocused = useIsFocused();
-  
+
   const { masterSwitch, setMasterSwitch } = useContext(MasterContext);
 
   const { pinValues, setPinValues } = useContext(PinContext);
@@ -89,7 +88,6 @@ export default function PicUploadModal() {
     } else {
       setPinValues(pinValues);
     }
-
   }, []);
 
   const showDatePicker = () => {
@@ -122,39 +120,43 @@ export default function PicUploadModal() {
           try {
             const response = await chooseImageHandler();
             if (response) {
-              let trueDate
-              let lats
-              let lngs
+              let trueDate;
+              let lats;
+              let lngs;
               if (response.exif.DateTimeOriginal) {
                 let formattedDate = response.exif.DateTimeOriginal.substring(
                   0,
                   10
                 );
-                 trueDate = formattedDate.replaceAll(":", "-");
-               } else {
-                 trueDate = pinValues.PicDate
-               }
-               if (response.exif.GPSLatitude) {
-                  lats = response.exif.GPSLatitude.toString()
-                  lngs = response.exif.GPSLongitude.toString()
-               }
-                setPinValues({
-                  ...pinValues,
-                  PicFile: response.uri,
-                  PicDate: trueDate,
-                  Latitude: lats,
-                  Longitude: lngs,
-                });
-              } 
-            
-          } catch (e){
+                trueDate = formattedDate.replaceAll(":", "-");
+              } else {
+                trueDate = pinValues.PicDate;
+              }
+              if (response.exif.GPSLatitude) {
+                lats = response.exif.GPSLatitude.toString();
+                lngs = response.exif.GPSLongitude.toString();
+              } else {
+                lats = pinValues.Latitude;
+                lngs = pinValues.Longitude;
+              }
+              setPinValues({
+                ...pinValues,
+                PicFile: response.uri,
+                PicDate: trueDate,
+                Latitude: lats,
+                Longitude: lngs,
+              });
+            }
+          } catch (e) {
             console.log("error: Photo Selection Cancelled", e.message);
           }
         }}
       >
         <View style={[styles.ImageButton]}>
           <FontAwesome name="picture-o" color="red" size={32} />
-          <Text style={{ marginLeft: 5, color: "maroon" }}>Choose an Image</Text>
+          <Text style={{ marginLeft: 5, color: "maroon" }}>
+            Choose an Image
+          </Text>
         </View>
       </TouchableWithoutFeedback>
 
@@ -168,7 +170,7 @@ export default function PicUploadModal() {
           onChangeText={(text) => setPinValues({ ...pinValues, Animal: text })}
         ></TextInput>
         <TouchableWithoutFeedback onPress={showDatePicker}>
-          <View style={{marginTop: 2.5, marginLeft: 3}}>
+          <View style={{ marginTop: 2.5, marginLeft: 3 }}>
             <FontAwesome name="calendar" color="red" size={32} />
             <DateTimePickerModal
               date={new Date(pinValues.PicDate)}
@@ -186,9 +188,8 @@ export default function PicUploadModal() {
         keyboardVerticalOffset={AnimalKeboardOffset}
         style={styles.autocomplete}
       >
-        <AnimalAutoCompleteModal/>
+        <AnimalAutoCompleteModal />
       </KeyboardAvoidingView>
-
 
       <View style={{ flexDirection: "row", width: "100%" }}>
         <View style={{ marginLeft: "6%" }}>
@@ -218,12 +219,25 @@ export default function PicUploadModal() {
         <View style={{ marginLeft: 7, marginTop: 15 }}>
           <TouchableWithoutFeedback onPress={onNavigate}>
             <View style={[styles.LocButton]}>
-              <MaterialIcons name="location-pin" color="red" size={48} style={{marginLeft: 5}} />
+              <MaterialIcons
+                name="location-pin"
+                color="red"
+                size={48}
+                style={{ marginLeft: 5 }}
+              />
               <Text style={{ marginLeft: 5, color: "maroon" }}>Drop Pin</Text>
             </View>
           </TouchableWithoutFeedback>
         </View>
       </View>
+
+      <View style={styles.SubmitButton}>
+        <Button
+          title="Submit Photo"
+          onPress={() => console.log("Submitting...", pinValues)}
+        />
+      </View>
+
     </View>
   );
 }
@@ -331,6 +345,18 @@ const styles = StyleSheet.create({
     height: 30,
     marginBottom: 30,
     marginLeft: -60,
-    
-  }
+  },
+  SubmitButton: {
+    position: "absolute",
+    alignItems: "center",
+    bottom: 10,
+    backgroundColor: "palegreen",
+    borderEndColor: "green",
+    borderWidth: 0.3,
+    width: 140,
+    height: 40,
+    zIndex: 2,
+    borderRadius: 15,
+    opacity: 0.5,
+  },
 });

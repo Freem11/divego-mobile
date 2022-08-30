@@ -4,6 +4,7 @@ import {
   View,
   TextInput,
   TouchableWithoutFeedback,
+  Button,
 } from "react-native";
 import React, { useState, useRef, useEffect, useContext } from "react";
 import * as Location from "expo-location";
@@ -61,7 +62,7 @@ export default function DiveSiteModal() {
         },
         (location) => {
           setFormVals({
-            ...setFormVals,
+            ...formVals,
             latitude: location.coords.latitude.toString(),
             longitude: location.coords.longitude.toString(),
           });
@@ -106,6 +107,15 @@ export default function DiveSiteModal() {
           <Text style={{ marginLeft: 5 }}>I'm At The Dive Site</Text>
         </View>
       </TouchableWithoutFeedback>
+
+      <View style={styles.inputContainerLower}>
+        <View style={styles.SubmitButton}>
+          <Button
+            title="Submit Dive Site"
+            onPress={() => console.log("Submitting...", formVals)}
+          />
+        </View>
+      </View>
     </View>
   );
 }
@@ -121,10 +131,9 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     width: "100%",
-    alignItems: 'center',
+    alignItems: "center",
     marginTop: -240,
-    justifyContent: "center"
-    
+    justifyContent: "center",
   },
   input: {
     backgroundColor: "white",
@@ -155,5 +164,27 @@ const styles = StyleSheet.create({
     width: 75,
     marginLeft: 195,
     marginTop: 5,
+  },
+  SubmitButton: {
+    position: "absolute",
+    alignItems: "center",
+    justifyContent: "center",
+    bottom: 15,
+    left: "50%",
+    backgroundColor: "palegreen",
+    borderEndColor: "green",
+    borderWidth: 0.3,
+    width: 160,
+    height: 40,
+    zIndex: 2,
+    borderRadius: 15,
+    opacity: 0.5,
+  },
+  inputContainerLower: {
+    position: 'absolute',
+    alignItems: "center",
+    justifyContent: "center",
+    bottom: 0,
+    width: '45%',
   },
 });

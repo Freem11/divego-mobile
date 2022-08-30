@@ -18,8 +18,6 @@ export default function AnimalAutoCompleteModal() {
   const { pinValues, setPinValues } = useContext(PinContext);
   const [list, setList] = useState(filterCreatures(photos, pinValues.Animal));
 
-  const [tweak, setTweak] = useState(false);
-
   let colorVal;
   let padVal;
 
