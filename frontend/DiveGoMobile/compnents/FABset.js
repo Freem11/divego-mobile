@@ -165,16 +165,17 @@ export default function FABButtons() {
 
   const AnimalKeboardOffset = Platform.OS === "ios" ? 10 : 0;
 
-
   return (
     <View style={styles.fab}>
-      <TouchableWithoutFeedback onPress={() => setGuideModal(!guideModal)}>
+     
         <Animated.View
           style={[styles.buttonwrapper, styles.questionWrapper, transInfoY]}
         >
+           <TouchableWithoutFeedback onPress={() => setGuideModal(!guideModal)}>
           <FontAwesome5 name="question" color="aquamarine" size={32} />
+          </TouchableWithoutFeedback>
         </Animated.View>
-      </TouchableWithoutFeedback>
+     
 
       <TouchableWithoutFeedback onPress={startGeoCodeButtonAnimations}>
         <Animated.View
@@ -319,6 +320,7 @@ const styles = StyleSheet.create({
     opacity: 0.7,
   },
   buttonwrapper: {
+    flex: 1,
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 50,

@@ -29,6 +29,11 @@ const handleConfirm = (animal) => {
 const handleClear = (animal) => {
   setAnimalSelection("");
 }
+
+if (!list) {
+  setList(photos)
+}
+
 return(
     <View style={styles.container}>
         <AutocompleteDropdown

@@ -115,6 +115,7 @@ const styles = StyleSheet.create({
     paddingTop: -5,
   },
   slider: {
+    flex: 1,
     position: "absolute",
     alignItems: "center",
     top: 10,

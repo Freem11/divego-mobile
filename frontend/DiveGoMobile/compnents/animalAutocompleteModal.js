@@ -30,7 +30,7 @@ export default function AnimalAutoCompleteModal() {
   }, []);
 
   const handleConfirm = (animal) => {
-    console.log("getting", animal);
+
     if (animal !== null) {
       if (typeof animal === "object") {
         setPinValues({
@@ -63,6 +63,11 @@ export default function AnimalAutoCompleteModal() {
     setPinValues({ ...pinValues, Animal: "Animal", DDVal: "0" });
     setList(filterCreatures(photos, "Animal"));
   };
+
+  if (!list) {
+    setList(photos)
+  }
+  
 
   return (
     <AutocompleteDropdown

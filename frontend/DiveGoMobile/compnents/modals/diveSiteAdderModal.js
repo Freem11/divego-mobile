@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#D8DBE2",
-    alignItems: "left",
+    alignItems: "flex-start",
     justifyContent: "center",
     marginTop: 50,
     marginBottom: 15,

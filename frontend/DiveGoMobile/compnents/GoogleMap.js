@@ -173,13 +173,19 @@ export default function Map() {
     options: { radius: 75, maxZoom: 12 },
   });
 
+  if (newHeat.length === 0){
+    setNewHeat(formatHeatVals(heatVals))
+  }
+
   return (
     <View style={styles.container}>
       <MapView
         style={styles.map}
         provider={PROVIDER_GOOGLE}
+        provider="google"
+        mapType='satellite'
         initialRegion={region}
-        mapType="satellite"
+        mapType={"satellite"}
         maxZoomLevel={12}
         minZoomLevel={3}
         ref={(ref) => setMapRef(ref)}
