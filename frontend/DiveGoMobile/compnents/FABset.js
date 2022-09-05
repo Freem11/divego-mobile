@@ -10,7 +10,9 @@ import {
   View,
   TouchableWithoutFeedback,
   Modal,
-  Text, KeyboardAvoidingView,
+  Text, 
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import { MaterialIcons, FontAwesome5, FontAwesome } from "@expo/vector-icons";
 import Animated, {
@@ -165,6 +167,13 @@ export default function FABButtons() {
 
   const AnimalKeboardOffset = Platform.OS === "ios" ? 10 : 0;
 
+  let buttonOpac
+  if (Platform.OS === 'ios'){
+    buttonOpac = 0.8
+  } else {
+    buttonOpac = 0.9
+  }
+
   return (
     <View style={styles.fab}>
      
@@ -317,7 +326,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     height: 55,
     width: 55,
-    opacity: 0.7,
   },
   buttonwrapper: {
     flex: 1,
@@ -333,7 +341,7 @@ const styles = StyleSheet.create({
   menuWrapper: {
     backgroundColor: "aquamarine",
     bottom: 0,
-    opacity: 1,
+    opacity: Platform.OS === 'ios' ? 0.9 : 1
   },
   anchorWrapper: {
     bottom: 0,

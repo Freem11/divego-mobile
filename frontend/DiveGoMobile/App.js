@@ -10,6 +10,7 @@ import { MapBoundariesContext } from "./compnents/contexts/mapBoundariesContext"
 import { MapRegionContext } from "./compnents/contexts/mapRegionContext";
 import { MasterContext } from "./compnents/contexts/masterContext";
 import { PinSpotContext } from "./compnents/contexts/pinSpotContext";
+import { SliderContext } from "./compnents/contexts/sliderContext";
 import { AnimalSelectContext } from "./compnents/contexts/animalSelectContext";
 import { NavigationContainer, useIsFocused } from "@react-navigation/native";
 import StackNav from "./compnents/stackNav";
@@ -18,7 +19,8 @@ const { width, height } = Dimensions.get("window");
 
 
 export default function App() {
-
+  let craxy = new Date().getMonth()+1
+  const [sliderVal, setSliderVal] = useState(craxy);
   const [masterSwitch, setMasterSwitch] = useState(true)
   const [picAdderModal, setPicAdderModal] = useState(false);
 
@@ -52,6 +54,7 @@ export default function App() {
   const [dragPin, setDragPin] = useState({});
 
   return (
+    <SliderContext.Provider value={{ sliderVal, setSliderVal }}>
     <AnimalSelectContext.Provider value={{ animalSelection, setAnimalSelection }}>
     <PinSpotContext.Provider value={{ dragPin, setDragPin }}>
     <MasterContext.Provider value={{ masterSwitch, setMasterSwitch }}>
@@ -73,6 +76,7 @@ export default function App() {
     </MasterContext.Provider>
     </PinSpotContext.Provider>
     </AnimalSelectContext.Provider>
+    </SliderContext.Provider>
   );
 }
 

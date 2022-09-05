@@ -1,66 +1,77 @@
-import React, { useState } from "react";
-import { StyleSheet, View, Text } from "react-native";
-import Slider from '@react-native-community/slider';
+import React, { useState, useContext } from "react";
+import { StyleSheet, View, Text, Platform } from "react-native";
+import Slider from "@react-native-community/slider";
+import { SliderContext } from "./contexts/sliderContext";
+import { MonthSelectContext } from "./contexts/monthSelectContext";
 
 export default function MonthSlider() {
-  const [month, setMonth] = useState(8);
+  const { sliderVal, setSliderVal } = useContext(SliderContext);
+  const { monthVal, setMonthVal } = useContext(MonthSelectContext);
 
-  let monthVal;
-
-  switch (month) {
+  switch (sliderVal) {
     case 1:
-      monthVal = "Jan";
+      setMonthVal("Jan")
       break;
     case 2:
-      monthVal = "Feb";
+      setMonthVal("Feb")
       break;
     case 3:
-      monthVal = "Mar";
+      setMonthVal("Mar")
       break;
     case 4:
-      monthVal = "Apr";
+      setMonthVal("Apr")
       break;
     case 5:
-      monthVal = "May";
+      setMonthVal("May")
       break;
     case 6:
-      monthVal = "Jun";
+      setMonthVal("Jun")
       break;
     case 7:
-      monthVal = "Jul";
+      setMonthVal("Jul")
       break;
     case 8:
-      monthVal = "Aug";
+      setMonthVal("Aug")
       break;
     case 9:
-      monthVal = "Sep";
+      setMonthVal("Sep")
       break;
     case 10:
-      monthVal = "Oct";
+      setMonthVal("Oct")
       break;
     case 11:
-      monthVal = "Nov";
+      setMonthVal("Nov")
       break;
     case 12:
-      monthVal = "Dec";
+      setMonthVal("Dec")
       break;
   }
 
+  let sliderColor
+  if (Platform.OS === 'ios'){
+    sliderColor = "black"
+  } else {
+    sliderColor = "grey"
+  }
+
   return (
-    <View style={styles.container}>
-      <Text style={{fontWeight: 'bold', paddingTop:3}}>{monthVal}</Text>
       <Slider
-        style={{ width: 300, height: 30,transform: [{scaleX: 1}, {scaleY: 0.8}]}}
+        style={{
+          width: '95%',
+          height: 30,
+          transform: [{ scaleX: 1.05 }, { scaleY: 0.7 }],
+        }}
         minimumValue={1}
         maximumValue={12}
-        value={month}
-        onValueChange={(value) => setMonth(Math.round(value))}
-        minimumTrackTintColor="black"
+        value={sliderVal}
+        onValueChange={(value) => setSliderVal(Math.round(value))}
+        minimumTrackTintColor={sliderColor}
         maximumTrackTintColor="black"
         thumbTintColor="black"
-        step={12}
+        step={1}
+        tapToSeek={true}
+        disabled={false}
       />
-    </View>
   );
 }
 
@@ -72,7 +83,6 @@ const styles = StyleSheet.create({
     opacity: 0.6,
     alignItems: "center",
     justifyContent: "center",
-    zIndex: 2,
     top: 30,
     height: 45,
     borderRadius: 15,

@@ -7,6 +7,7 @@ import {
   TouchableWithoutFeedback,
   KeyboardAvoidingView,
 } from "react-native";
+import Constants from "expo-constants";
 import Map from "./GoogleMap";
 import MonthSlider from "./slider";
 import FABButtons from "./FABset";
@@ -18,6 +19,7 @@ import { MasterContext } from "./contexts/masterContext";
 import { PinSpotContext } from "./contexts/pinSpotContext";
 import { PinContext } from "./contexts/staticPinContext";
 import { AnimalSelectContext } from "./contexts/animalSelectContext";
+import { MonthSelectContext } from "./contexts/monthSelectContext";
 
 export default function MapPage() {
   const { masterSwitch, setMasterSwitch } = useContext(MasterContext);
@@ -26,7 +28,7 @@ export default function MapPage() {
   const { animalSelection, setAnimalSelection } = useContext(
     AnimalSelectContext
   );
-
+  const [monthVal, setMonthVal] = useState("");
   const { picAdderModal, setPicAdderModal } = useContext(PictureAdderContext);
 
   const [diveSitesTog, setDiveSitesTog] = useState(true);
@@ -55,41 +57,50 @@ export default function MapPage() {
   }, [animalSelection]);
 
   return (
-    <MapCenterContext.Provider value={{ mapCenter, setMapCenter }}>
-      <DiveSitesContext.Provider value={{ diveSitesTog, setDiveSitesTog }}>
-        <KeyboardAvoidingView style={styles.container} behavior="height">
-          {masterSwitch && (
-            <View style={styles.slider}>
-              <MonthSlider style={{ zIndex: 2 }} />
-            </View>
-          )}
-          {masterSwitch && (
-            <View style={styles.animalSelect}>
-              {token && <Text>Selected: {animalSelection}</Text>}
-              {!token && <Text>Selected: All</Text>}
-            </View>
-          )}
+    <MonthSelectContext.Provider value={{ monthVal, setMonthVal }}>
+      <MapCenterContext.Provider value={{ mapCenter, setMapCenter }}>
+        <DiveSitesContext.Provider value={{ diveSitesTog, setDiveSitesTog }}>
+          <KeyboardAvoidingView style={styles.container} behavior="height">
+            {masterSwitch && (
+              <View style={styles.monthText}>
+                <Text>{monthVal}</Text>
+              </View>
+            )}
 
-          {masterSwitch && (
-            <View style={styles.Fbuttons}>
-              <FABButtons style={{ zIndex: 2 }} />
-            </View>
-          )}
+            {masterSwitch && (
+              <View style={styles.slider}>
+                <MonthSlider style={{ zIndex: 3 }} />
+              </View>
+            )}
 
-          {!masterSwitch && (
-            <View style={styles.PinButton}>
-              <TouchableWithoutFeedback onPress={onNavigate}>
-                <Text style={{ color: "blue", fontSize: 17, marginTop: 8 }}>
-                  Set Pin
-                </Text>
-              </TouchableWithoutFeedback>
-            </View>
-          )}
-          <Logo style={styles.Logo} />
-          <Map style={{ zIndex: 1 }} />
-        </KeyboardAvoidingView>
-      </DiveSitesContext.Provider>
-    </MapCenterContext.Provider>
+            {masterSwitch && (
+              <View style={styles.animalSelect}>
+                {token && <Text>Selected: {animalSelection}</Text>}
+                {!token && <Text>Selected: All</Text>}
+              </View>
+            )}
+
+            {masterSwitch && (
+              <View style={styles.Fbuttons}>
+                <FABButtons style={{ zIndex: 2 }} />
+              </View>
+            )}
+
+            {!masterSwitch && (
+              <View style={styles.PinButton}>
+                <TouchableWithoutFeedback onPress={onNavigate}>
+                  <Text style={{ color: "blue", fontSize: 17, marginTop: 8 }}>
+                    Set Pin
+                  </Text>
+                </TouchableWithoutFeedback>
+              </View>
+            )}
+            <Logo style={styles.Logo} />
+            <Map style={{ zIndex: 1 }} />
+          </KeyboardAvoidingView>
+        </DiveSitesContext.Provider>
+      </MapCenterContext.Provider>
+    </MonthSelectContext.Provider>
   );
 }
 
@@ -116,24 +127,42 @@ const styles = StyleSheet.create({
     flex: 1,
     position: "absolute",
     alignItems: "center",
-    top: 10,
-    width: 100,
+    top: Constants.statusBarHeight + 10,
+    width: "80%",
     height: 40,
     zIndex: 2,
     borderRadius: 15,
     opacity: 0.8,
-    paddingTop: -5,
+    paddingBottom: 0,
+    paddingTop: 10,
+    backgroundColor: "white",
+    paddingRight: '2%',
+    paddingLeft: '2%'
+  },
+  monthText: {
+    flex: 1,
+    position: "absolute",
+    alignItems: "center",
+    top: Constants.statusBarHeight + 10,
+    width: "10%",
+    height: 20,
+    zIndex: 3,
+    borderRadius: 15,
+    paddingBottom: 0,
+    paddingTop: 0,
+    backgroundColor: "transparent",
+    opacity: 0.8,
   },
   animalSelect: {
     position: "absolute",
     alignItems: "center",
-    top: 80,
+    top: Constants.statusBarHeight + 45,
     width: 250,
     height: 16,
     zIndex: 2,
     borderBottomRightRadius: 15,
     borderBottomLeftRadius: 15,
-    opacity: 0.5,
+    opacity: 0.8,
     marginTop: 5,
     paddingTop: -7,
     backgroundColor: "white",
