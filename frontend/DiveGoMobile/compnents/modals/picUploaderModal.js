@@ -170,7 +170,7 @@ export default function PicUploadModal() {
           onChangeText={(text) => setPinValues({ ...pinValues, Animal: text })}
         ></TextInput>
         <TouchableWithoutFeedback onPress={showDatePicker}>
-          <View style={{ marginTop: 2.5, marginLeft: 3 }}>
+          <View style={{ marginTop: 2.5, marginLeft: 5 }}>
             <FontAwesome name="calendar" color="red" size={32} />
             <DateTimePickerModal
               date={new Date(pinValues.PicDate)}
@@ -191,8 +191,8 @@ export default function PicUploadModal() {
         <AnimalAutoCompleteModal />
       </KeyboardAvoidingView>
 
-      <View style={{ flexDirection: "row", width: "100%" }}>
-        <View style={{ marginLeft: "6%" }}>
+      <View style={{ flexDirection: "row", width: "100%", zIndex: -1 }}>
+        <View>
           <TextInput
             style={styles.input}
             value={pinValues.Latitude}
@@ -223,7 +223,7 @@ export default function PicUploadModal() {
                 name="location-pin"
                 color="red"
                 size={48}
-                style={{ marginLeft: 5 }}
+                style={{ marginLeft: 5, zIndex: -1 }}
               />
               <Text style={{ marginLeft: 5, color: "maroon" }}>Drop Pin</Text>
             </View>
@@ -251,16 +251,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 15,
   },
-  inputBig: {
-    backgroundColor: "white",
-    borderRadius: 15,
-    width: 240,
-    height: 30,
-    alignSelf: "center",
-    marginBottom: 20,
-    textAlign: "center",
-    marginLeft: -20,
-  },
   input: {
     backgroundColor: "white",
     borderRadius: 25,
@@ -268,7 +258,9 @@ const styles = StyleSheet.create({
     height: 40,
     alignSelf: "center",
     marginBottom: 20,
+    marginLeft: 20,
     textAlign: "center",
+    zIndex: -1,
   },
   inputCal: {
     backgroundColor: "white",
@@ -336,15 +328,18 @@ const styles = StyleSheet.create({
   },
   LocButton: {
     alignItems: "center",
+    zIndex: -1,
   },
   calZone: {
+    width: '100%',
     flexDirection: "row",
-    marginLeft: -6,
+    marginLeft: 40,
   },
   autocomplete: {
+    width: '100%',
     height: 30,
     marginBottom: 30,
-    marginLeft: -60,
+    marginLeft: 40,
   },
   SubmitButton: {
     position: "absolute",
@@ -355,8 +350,8 @@ const styles = StyleSheet.create({
     borderWidth: 0.3,
     width: 140,
     height: 40,
-    zIndex: 2,
     borderRadius: 15,
     opacity: 0.5,
+    zIndex: -1
   },
 });

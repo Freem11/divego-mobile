@@ -89,6 +89,7 @@ export default function AnimalAutoCompleteModal() {
         borderRadius: 30,
         backgroundColor: "white",
         width: 200,
+        zIndex: 2,
       }}
       dataSet={list}
       onSelectItem={(text) => handleConfirm(text)}

@@ -50,6 +50,7 @@ return(
           borderRadius: 30,
           backgroundColor: "white",
           width: 200,
+          zIndex: 2,
         }}
         direction={"down"}
         dataSet={list}

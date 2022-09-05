@@ -391,7 +391,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginBottom: 25,
     marginTop: 0,
-    width: "70%",
+    width: "65%",
     height: 50,
     marginLeft: -50,
     fontWeight: "bold",
