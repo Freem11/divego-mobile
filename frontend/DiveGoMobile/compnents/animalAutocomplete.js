@@ -43,6 +43,8 @@ return(
                 backgroundColor: "white",
                 borderRadius: 25,
                 width: 200,
+                opacity: 0.1,
+                height: 40
             }
         }}
         inputContainerStyle={{
