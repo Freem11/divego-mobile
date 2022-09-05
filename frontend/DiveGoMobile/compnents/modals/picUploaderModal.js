@@ -232,10 +232,9 @@ export default function PicUploadModal() {
       </View>
 
       <View style={styles.SubmitButton}>
-        <Button
-          title="Submit Photo"
-          onPress={() => console.log("Submitting...", pinValues)}
-        />
+      <TouchableWithoutFeedback onPress={() => console.log("Submitting...", pinValues)}>
+         <Text style={{ color: "blue", fontSize: 17, marginTop: 8 }}>Submit Photo</Text>
+         </TouchableWithoutFeedback>
       </View>
 
     </View>

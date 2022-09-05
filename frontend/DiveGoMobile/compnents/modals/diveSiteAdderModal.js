@@ -81,13 +81,14 @@ export default function DiveSiteModal() {
           value={formVals.siteName}
           placeholder={"Site Name"}
           placeholderTextColor="grey"
-          onChangeText={(text) => setFormVals({ ...formVals, siteName: text })}
+          onChangeText={(siteText) => setFormVals({...formVals, siteName: siteText })}
         ></TextInput>
 
         <TextInput
           style={styles.input}
           value={formVals.latitude}
           placeholder={"Latitude"}
+          editable={false}
           placeholderTextColor="grey"
           onChangeText={(text) => setFormVals({ ...formVals, latitude: text })}
         ></TextInput>
@@ -96,6 +97,7 @@ export default function DiveSiteModal() {
           style={styles.input}
           value={formVals.longitude}
           placeholder={"Longitude"}
+          editable={false}
           placeholderTextColor="grey"
           onChangeText={(text) => setFormVals({ ...formVals, longitude: text })}
         ></TextInput>
@@ -108,14 +110,12 @@ export default function DiveSiteModal() {
         </View>
       </TouchableWithoutFeedback>
 
-      <View style={styles.inputContainerLower}>
-        <View style={styles.SubmitButton}>
-          <Button
-            title="Submit Dive Site"
-            onPress={() => console.log("Submitting...", formVals)}
-          />
-        </View>
+      <View style={styles.SubmitButton}>
+      <TouchableWithoutFeedback onPress={() => console.log("Submitting...", formVals)}>
+         <Text style={{ color: "blue", fontSize: 17, marginTop: 1 }}>Submit Dive Site</Text>
+         </TouchableWithoutFeedback>
       </View>
+
     </View>
   );
 }
@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     bottom: 15,
-    left: "50%",
+    marginLeft: 70,
     backgroundColor: "palegreen",
     borderEndColor: "green",
     borderWidth: 0.3,

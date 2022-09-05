@@ -4,6 +4,7 @@ import {
   View,
   Text,
   Button,
+  TouchableWithoutFeedback,
   KeyboardAvoidingView,
 } from "react-native";
 import Map from "./GoogleMap";
@@ -22,7 +23,9 @@ export default function MapPage() {
   const { masterSwitch, setMasterSwitch } = useContext(MasterContext);
   const { dragPin, setDragPin } = useContext(PinSpotContext);
   const { pinValues, setPinValues } = useContext(PinContext);
-  const { animalSelection, setAnimalSelection } = useContext(AnimalSelectContext);
+  const { animalSelection, setAnimalSelection } = useContext(
+    AnimalSelectContext
+  );
 
   const { picAdderModal, setPicAdderModal } = useContext(PictureAdderContext);
 
@@ -41,20 +44,15 @@ export default function MapPage() {
     setMasterSwitch(true);
     setPicAdderModal(!picAdderModal);
   };
-const [token, setToken] = useState(false)
+  const [token, setToken] = useState(false);
 
   useEffect(() => {
-
-      if(animalSelection.length > 0){
-        setToken(true)
+    if (animalSelection.length > 0) {
+      setToken(true);
     } else {
-        setToken(false)
+      setToken(false);
     }
-    
- 
-
-  }, [animalSelection])
-
+  }, [animalSelection]);
 
   return (
     <MapCenterContext.Provider value={{ mapCenter, setMapCenter }}>
@@ -67,13 +65,9 @@ const [token, setToken] = useState(false)
           )}
           {masterSwitch && (
             <View style={styles.animalSelect}>
-                {token && (
-                  <Text>Selected: {animalSelection}</Text>
-                )}
-                {!token && (
-                  <Text>Selected: All</Text>
-                )}
-               </View>
+              {token && <Text>Selected: {animalSelection}</Text>}
+              {!token && <Text>Selected: All</Text>}
+            </View>
           )}
 
           {masterSwitch && (
@@ -84,7 +78,11 @@ const [token, setToken] = useState(false)
 
           {!masterSwitch && (
             <View style={styles.PinButton}>
-              <Button title="Set Pin" onPress={onNavigate} />
+              <TouchableWithoutFeedback onPress={onNavigate}>
+                <Text style={{ color: "blue", fontSize: 17, marginTop: 8 }}>
+                  Set Pin
+                </Text>
+              </TouchableWithoutFeedback>
             </View>
           )}
           <Logo style={styles.Logo} />
