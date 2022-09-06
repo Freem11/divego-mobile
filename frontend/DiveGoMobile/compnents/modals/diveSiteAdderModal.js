@@ -73,6 +73,13 @@ export default function DiveSiteModal() {
     }
   };
 
+  // let colorDate;
+  // if (pinValues.PicDate === "Date") {
+  //   colorDate = "rgb(128,128,128)";
+  // } else {
+  //   colorDate = "rgb(0,0,0)";
+  // }
+
   return (
     <View style={styles.container}>
       <View style={styles.inputContainer}>
@@ -90,6 +97,7 @@ export default function DiveSiteModal() {
           placeholder={"Latitude"}
           editable={false}
           placeholderTextColor="grey"
+          color="black"
           onChangeText={(text) => setFormVals({ ...formVals, latitude: text })}
         ></TextInput>
 
@@ -99,6 +107,7 @@ export default function DiveSiteModal() {
           placeholder={"Longitude"}
           editable={false}
           placeholderTextColor="grey"
+          color="black"
           onChangeText={(text) => setFormVals({ ...formVals, longitude: text })}
         ></TextInput>
       </View>

@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     top: Constants.statusBarHeight + 45,
     width: 250,
-    height: 16,
+    height: 18,
     zIndex: 2,
     borderBottomRightRadius: 15,
     borderBottomLeftRadius: 15,

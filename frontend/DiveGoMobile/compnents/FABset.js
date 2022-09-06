@@ -13,6 +13,7 @@ import {
   Text, 
   KeyboardAvoidingView,
   Platform,
+  Keyboard,
 } from "react-native";
 import { MaterialIcons, FontAwesome5, FontAwesome } from "@expo/vector-icons";
 import Animated, {
@@ -218,7 +219,7 @@ export default function FABButtons() {
         <Animated.View
           style={[styles.buttonwrapper, styles.searchWrapper, transSearchY]}
         >
-          <MaterialIcons name="search" color="aquamarine" size={32} />
+          <MaterialIcons name="search" color="aquamarine" size={32}/>
         </Animated.View>
       </TouchableWithoutFeedback>
 

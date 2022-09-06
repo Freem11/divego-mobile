@@ -106,6 +106,14 @@ export default function PicUploadModal() {
 
   const AnimalKeboardOffset = Platform.OS === "ios" ? 350 : 0;
 
+  let colorDate;
+  if (pinValues.PicDate === "") {
+    colorDate = "rgb(128,128,128)";
+  } else {
+    colorDate = "black";
+  }
+
+  console.log(colorDate, pinValues.PicDate)
   return (
     <View style={styles.container}>
       <View style={styles.picContainer}>
@@ -166,7 +174,8 @@ export default function PicUploadModal() {
           value={pinValues.PicDate}
           placeholder={"Date"}
           editable={false}
-          placeholderTextColor="grey"
+          color={colorDate}
+          placeholderTextColor={colorDate}
           onChangeText={(text) => setPinValues({ ...pinValues, Animal: text })}
         ></TextInput>
         <TouchableWithoutFeedback onPress={showDatePicker}>
@@ -199,6 +208,7 @@ export default function PicUploadModal() {
             placeholder={"Latitude"}
             editable={false}
             placeholderTextColor="grey"
+            color="black"
             onChangeText={(text) =>
               setPinValues({ ...pinValues, Latitude: text })
             }
@@ -210,6 +220,7 @@ export default function PicUploadModal() {
             placeholder={"Longitude"}
             editable={false}
             placeholderTextColor="grey"
+            color="black"
             onChangeText={(text) =>
               setPinValues({ ...pinValues, Longitude: text })
             }

@@ -4,18 +4,8 @@ import { AutocompleteDropdown } from "react-native-autocomplete-dropdown";
 import { photos } from "./data/testdata";
 import { AnimalSelectContext } from "./contexts/animalSelectContext";
 import filterCreatures from "./helpers/optionHelpers"
-import Animated, {
-    useSharedValue,
-    interpolate,
-    useAnimatedStyle,
-    useDerivedValue,
-    withSpring,
-    withTiming,
-  } from "react-native-reanimated";
-
 export default function AnimalAutoComplete() {
 
-const [searchVal, setSearchVal] = useState('')
 const list = filterCreatures(photos);
 const { animalSelection, setAnimalSelection } = useContext(AnimalSelectContext);
 
