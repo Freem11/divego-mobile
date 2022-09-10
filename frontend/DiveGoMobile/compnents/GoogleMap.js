@@ -6,6 +6,8 @@ import { MapRegionContext } from "./contexts/mapRegionContext";
 import { MapZoomContext } from "./contexts/mapZoomContext";
 import { MasterContext } from "./contexts/masterContext";
 import { PinSpotContext } from "./contexts/pinSpotContext";
+import { AnimalSelectContext } from "./contexts/animalSelectContext";
+import { SliderContext } from "./contexts/sliderContext";
 import MapView, { PROVIDER_GOOGLE, Marker, Heatmap } from "react-native-maps";
 import { StyleSheet, View, Dimensions, Keyboard, Button } from "react-native";
 import { diveSitesFake, heatVals } from "./data/testdata";
@@ -15,7 +17,8 @@ import whale from "../compnents/png/icons8-spouting-whale-48.png";
 import { filterSites, formatHeatVals } from "./helpers/mapHelpers";
 import { setupClusters } from "./helpers/clusterHelpers";
 import useSupercluster from "use-supercluster";
-import { useMediaLibraryPermissions } from "expo-image-picker";
+import { diveSites } from "../axiosCalls/diveSiteAxiosCalls";
+import { heatPoints } from "../axiosCalls/heatPointAxiosCalls";
 
 const { width, height } = Dimensions.get("window");
 
@@ -42,6 +45,9 @@ export default function Map() {
   const [newHeat, setNewHeat] = useState([]);
   const { zoomlev, setZoomLev } = useContext(MapZoomContext);
 
+  const { sliderVal } = useContext(SliderContext);
+  const { animalSelection } = useContext(AnimalSelectContext);
+
   const { dragPin, setDragPin } = useContext(PinSpotContext);
 
   const { diveSitesTog, setDiveSitesTog } = useContext(DiveSitesContext);
@@ -63,8 +69,18 @@ export default function Map() {
             !diveSitesTog ? setnewSites([]) : setnewSites(filtered);
           }
 
-          let filteredHeat = formatHeatVals(filterSites(response[0], heatVals));
-          setNewHeat(filteredHeat);
+          let filteredHeat = heatPoints(
+            response[0],
+            sliderVal,
+            animalSelection
+          );
+          Promise.all([filteredHeat])
+            .then((response2) => {
+              setNewHeat(formatHeatVals(response2[0]));
+            })
+            .catch((error) => {
+              console.log(error);
+            });
 
           let zoom =
             Math.log2(
@@ -116,8 +132,8 @@ export default function Map() {
         !diveSitesTog ? setnewSites([]) : setnewSites(filtered);
       }
 
-      let filteredHeat = formatHeatVals(filterSites(bounds, heatVals));
-      setNewHeat(filteredHeat);
+      let filteredHeat = await heatPoints(bounds, sliderVal, animalSelection);
+      setNewHeat(formatHeatVals(filteredHeat));
 
       let zoom =
         Math.log2(
@@ -156,9 +172,18 @@ export default function Map() {
         if (filtered) {
           !diveSitesTog ? setnewSites([]) : setnewSites(filtered);
         }
+
+        let filteredHeat = heatPoints(response[0], sliderVal, animalSelection);
+        Promise.all([filteredHeat])
+          .then((response2) => {
+            setNewHeat(formatHeatVals(response2[0]));
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       });
     }
-  }, [diveSitesTog]);
+  }, [diveSitesTog, sliderVal, animalSelection]);
 
   useEffect(() => {
     setDragPin(mapCenter);
@@ -173,17 +198,13 @@ export default function Map() {
     options: { radius: 75, maxZoom: 12 },
   });
 
-  if (newHeat.length === 0){
-    setNewHeat(formatHeatVals(heatVals))
-  }
-
   return (
     <View style={styles.container}>
       <MapView
         style={styles.map}
         provider={PROVIDER_GOOGLE}
         provider="google"
-        mapType='satellite'
+        mapType="satellite"
         initialRegion={region}
         mapType={"satellite"}
         maxZoomLevel={12}
@@ -192,7 +213,7 @@ export default function Map() {
         onMapReady={() => handleMapChange()}
         onRegionChangeComplete={() => handleMapChange()}
       >
-        {masterSwitch && <Heatmap points={newHeat} radius={20} />}
+        {masterSwitch && newHeat.length > 0 && <Heatmap points={newHeat} radius={20} />}
 
         {!masterSwitch && (
           <Marker

@@ -6,7 +6,6 @@ import {
   Image,
   TouchableWithoutFeedback,
   Platform,
-  Button,
   KeyboardAvoidingView,
 } from "react-native";
 import React, { useState, useEffect, useContext } from "react";
@@ -113,7 +112,6 @@ export default function PicUploadModal() {
     colorDate = "black";
   }
 
-  console.log(colorDate, pinValues.PicDate)
   return (
     <View style={styles.container}>
       <View style={styles.picContainer}>

@@ -1,3 +1,4 @@
+
 function filterSites(newParams, array) {
 
     let newArr = [];
@@ -15,6 +16,7 @@ function filterSites(newParams, array) {
   }
 
   function formatHeatVals(heatValues) {
+
     let newArr = [];
     heatValues.forEach((heatPoint) => {
       let newpt = {

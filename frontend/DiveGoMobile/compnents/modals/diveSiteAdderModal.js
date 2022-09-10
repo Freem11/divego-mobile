@@ -73,13 +73,6 @@ export default function DiveSiteModal() {
     }
   };
 
-  // let colorDate;
-  // if (pinValues.PicDate === "Date") {
-  //   colorDate = "rgb(128,128,128)";
-  // } else {
-  //   colorDate = "rgb(0,0,0)";
-  // }
-
   return (
     <View style={styles.container}>
       <View style={styles.inputContainer}>

@@ -1518,7 +1518,7 @@
   "resolved" "https://registry.npmjs.org/@expo/vector-icons/-/vector-icons-13.0.0.tgz"
   "version" "13.0.0"
 
-"@expo/webpack-config@0.17.2":
+"@expo/webpack-config@^0.17.2", "@expo/webpack-config@0.17.2":
   "integrity" "sha512-cgcWyVXUEH5wj4InAPCIDHAGgpkQhpzWseCj4xVjdL3paBKRMWVjPUqmdHh/exap3U0kHGr/XS+e7ZWLcgHkUw=="
   "resolved" "https://registry.npmjs.org/@expo/webpack-config/-/webpack-config-0.17.2.tgz"
   "version" "0.17.2"

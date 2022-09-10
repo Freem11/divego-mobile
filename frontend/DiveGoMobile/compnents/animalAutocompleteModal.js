@@ -5,14 +5,6 @@ import { Autocomplete } from "react-native-autocomplete-input";
 import { PinContext } from "./contexts/staticPinContext";
 import { photos } from "./data/testdata";
 import filterCreatures from "./helpers/optionHelpers";
-import Animated, {
-  useSharedValue,
-  interpolate,
-  useAnimatedStyle,
-  useDerivedValue,
-  withSpring,
-  withTiming,
-} from "react-native-reanimated";
 
 export default function AnimalAutoCompleteModal() {
   const { pinValues, setPinValues } = useContext(PinContext);

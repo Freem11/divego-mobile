@@ -2,12 +2,28 @@ import React, { useState, useRef, useEffect, useContext } from "react";
 import { StyleSheet, View, TouchableWithoutFeedback, Text, } from "react-native";
 import { AutocompleteDropdown } from "react-native-autocomplete-dropdown";
 import { photos } from "./data/testdata";
+import { getAnimalNames } from "../axiosCalls/photoAxiosCalls"
 import { AnimalSelectContext } from "./contexts/animalSelectContext";
 import filterCreatures from "./helpers/optionHelpers"
 export default function AnimalAutoComplete() {
 
-const list = filterCreatures(photos);
+// const list = filterCreatures(photos);
 const { animalSelection, setAnimalSelection } = useContext(AnimalSelectContext);
+const [list, setList] = useState([])
+let animalData
+
+useEffect(() => {
+
+  animalData = getAnimalNames()
+  Promise.all([animalData])
+  .then((response) => {
+    setList(filterCreatures(response[0]))
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+  
+  }, [])
 
 const handleConfirm = (animal) => {
   if (animal !== null){
@@ -20,9 +36,9 @@ const handleClear = (animal) => {
   setAnimalSelection("");
 }
 
-if (!list) {
-  setList(photos)
-}
+// if (!list) {
+//   setList(photos)
+// }
 
 return(
     <View style={styles.container}>
