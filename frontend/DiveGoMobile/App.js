@@ -3,6 +3,7 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Dimensions } from "react-native";
 import MapPage from "./compnents/mapPage";
 import { PictureAdderContext } from "./compnents/contexts/picModalContext";
+import { DSAdderContext } from "./compnents/contexts/DSModalContext";
 import { PinContext } from "./compnents/contexts/staticPinContext";
 import { MapCenterContext } from "./compnents/contexts/mapCenterContext";
 import { MapZoomContext } from "./compnents/contexts/mapZoomContext";
@@ -17,12 +18,12 @@ import StackNav from "./compnents/stackNav";
 
 const { width, height } = Dimensions.get("window");
 
-
 export default function App() {
-  let craxy = new Date().getMonth()+1
+  let craxy = new Date().getMonth() + 1;
   const [sliderVal, setSliderVal] = useState(craxy);
-  const [masterSwitch, setMasterSwitch] = useState(true)
+  const [masterSwitch, setMasterSwitch] = useState(true);
   const [picAdderModal, setPicAdderModal] = useState(false);
+  const [diveSiteAdderModal, setDiveSiteAdderModal] = useState(false);
 
   const [pinValues, setPinValues] = useState({
     PicFile: null,
@@ -30,7 +31,7 @@ export default function App() {
     PicDate: "",
     Latitude: "",
     Longitude: "",
-    DDVal: '0'
+    DDVal: "0",
   });
 
   const [animalSelection, setAnimalSelection] = useState("");
@@ -55,27 +56,39 @@ export default function App() {
 
   return (
     <SliderContext.Provider value={{ sliderVal, setSliderVal }}>
-    <AnimalSelectContext.Provider value={{ animalSelection, setAnimalSelection }}>
-    <PinSpotContext.Provider value={{ dragPin, setDragPin }}>
-    <MasterContext.Provider value={{ masterSwitch, setMasterSwitch }}>
-    <MapZoomContext.Provider value={{ zoomlev, setZoomLev }}>
-    <MapBoundariesContext.Provider value={{ boundaries, setBoundaries }}>
-    <MapRegionContext.Provider value={{ region, setRegion }}>
-      <PinContext.Provider value={{ pinValues, setPinValues }}>
-        <PictureAdderContext.Provider value={{ picAdderModal, setPicAdderModal }}>
-          <MapCenterContext.Provider value={{ mapCenter, setMapCenter }}>
-            <NavigationContainer>
-              <StackNav />
-            </NavigationContainer>
-          </MapCenterContext.Provider>
-        </PictureAdderContext.Provider>
-      </PinContext.Provider>
-    </MapRegionContext.Provider>
-    </MapBoundariesContext.Provider>
-    </MapZoomContext.Provider>
-    </MasterContext.Provider>
-    </PinSpotContext.Provider>
-    </AnimalSelectContext.Provider>
+      <AnimalSelectContext.Provider
+        value={{ animalSelection, setAnimalSelection }}
+      >
+        <PinSpotContext.Provider value={{ dragPin, setDragPin }}>
+          <MasterContext.Provider value={{ masterSwitch, setMasterSwitch }}>
+            <MapZoomContext.Provider value={{ zoomlev, setZoomLev }}>
+              <MapBoundariesContext.Provider
+                value={{ boundaries, setBoundaries }}
+              >
+                <MapRegionContext.Provider value={{ region, setRegion }}>
+                  <PinContext.Provider value={{ pinValues, setPinValues }}>
+                    <PictureAdderContext.Provider
+                      value={{ picAdderModal, setPicAdderModal }}
+                    >
+                      <DSAdderContext.Provider
+                        value={{ diveSiteAdderModal, setDiveSiteAdderModal }}
+                      >
+                        <MapCenterContext.Provider
+                          value={{ mapCenter, setMapCenter }}
+                        >
+                          <NavigationContainer>
+                            <StackNav />
+                          </NavigationContainer>
+                        </MapCenterContext.Provider>
+                      </DSAdderContext.Provider>
+                    </PictureAdderContext.Provider>
+                  </PinContext.Provider>
+                </MapRegionContext.Provider>
+              </MapBoundariesContext.Provider>
+            </MapZoomContext.Provider>
+          </MasterContext.Provider>
+        </PinSpotContext.Provider>
+      </AnimalSelectContext.Provider>
     </SliderContext.Provider>
   );
 }

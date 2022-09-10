@@ -10,6 +10,8 @@ import React, { useState, useRef, useEffect, useContext } from "react";
 import * as Location from "expo-location";
 import * as TaskManager from "expo-task-manager";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { DSAdderContext } from "../contexts/DSModalContext";
+import { insertDiveSiteWaits } from "../../axiosCalls/diveSiteWaitAxiosCalls";
 
 const LOCATION_TASK_NAME = "LOCATION_TASK_NAME";
 let foregroundSubscription = null;
@@ -29,13 +31,17 @@ TaskManager.defineTask(LOCATION_TASK_NAME, async ({ data, error }) => {
 });
 
 export default function DiveSiteModal() {
+
+  const { diveSiteAdderModal, setDiveSiteAdderModal } = useContext(DSAdderContext);
+
   const [formVals, setFormVals] = useState({
-    siteName: "",
-    latitude: "",
-    longitude: "",
+    Site: "",
+    Latitude: "",
+    Longitude: "",
   });
 
   const CurrentCoords = async () => {
+
     const requestPermissions = async () => {
       try {
         const forground = await Location.requestForegroundPermissionsAsync();
@@ -63,8 +69,8 @@ export default function DiveSiteModal() {
         (location) => {
           setFormVals({
             ...formVals,
-            latitude: location.coords.latitude.toString(),
-            longitude: location.coords.longitude.toString(),
+            Latitude: location.coords.latitude.toString(),
+            Longitude: location.coords.longitude.toString(),
           });
         }
       );
@@ -73,35 +79,48 @@ export default function DiveSiteModal() {
     }
   };
 
+  const handleSubmit = () => {
+
+    console.log("hmmm", formVals)
+
+    if (formVals.Site === "" || formVals.Latitude == "" || formVals.Longitude == "") {
+      return;
+    } else {
+      insertDiveSiteWaits(formVals);
+      setFormVals({});
+      setDiveSiteAdderModal(!diveSiteAdderModal)
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
-          value={formVals.siteName}
+          value={formVals.Site}
           placeholder={"Site Name"}
           placeholderTextColor="grey"
-          onChangeText={(siteText) => setFormVals({...formVals, siteName: siteText })}
+          onChangeText={(siteText) => setFormVals({...formVals, Site: siteText })}
         ></TextInput>
 
         <TextInput
           style={styles.input}
-          value={formVals.latitude}
+          value={formVals.Latitude}
           placeholder={"Latitude"}
           editable={false}
           placeholderTextColor="grey"
           color="black"
-          onChangeText={(text) => setFormVals({ ...formVals, latitude: text })}
+          onChangeText={(text) => setFormVals({ ...formVals, Latitude: text })}
         ></TextInput>
 
         <TextInput
           style={styles.input}
-          value={formVals.longitude}
+          value={formVals.Longitude}
           placeholder={"Longitude"}
           editable={false}
           placeholderTextColor="grey"
           color="black"
-          onChangeText={(text) => setFormVals({ ...formVals, longitude: text })}
+          onChangeText={(text) => setFormVals({ ...formVals, Longitude: text })}
         ></TextInput>
       </View>
 
@@ -113,7 +132,7 @@ export default function DiveSiteModal() {
       </TouchableWithoutFeedback>
 
       <View style={styles.SubmitButton}>
-      <TouchableWithoutFeedback onPress={() => console.log("Submitting...", formVals)}>
+      <TouchableWithoutFeedback onPress={handleSubmit}>
          <Text style={{ color: "blue", fontSize: 17, marginTop: 1 }}>Submit Dive Site</Text>
          </TouchableWithoutFeedback>
       </View>

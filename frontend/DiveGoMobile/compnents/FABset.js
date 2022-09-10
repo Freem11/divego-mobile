@@ -4,6 +4,7 @@ import DiveSiteModal from "./modals/diveSiteAdderModal";
 import PicUploadModal from "./modals/picUploaderModal";
 import { DiveSitesContext } from "./contexts/diveSiteToggleContext";
 import { PictureAdderContext } from "./contexts/picModalContext";
+import { DSAdderContext } from "./contexts/DSModalContext";
 import { PinContext } from "./contexts/staticPinContext";
 import {
   StyleSheet,
@@ -33,7 +34,7 @@ export default function FABButtons() {
   const { pinValues, setPinValues } = useContext(PinContext);
 
   const { picAdderModal, setPicAdderModal } = useContext(PictureAdderContext);
-  const [diveSiteAdderModal, setDiveSiteAdderModal] = useState(false);
+  const { diveSiteAdderModal, setDiveSiteAdderModal } = useContext(DSAdderContext);
   const [guideModal, setGuideModal] = useState(false);
 
   const rotationVal = useSharedValue(0);
