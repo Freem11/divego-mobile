@@ -63,11 +63,19 @@ export default function Map() {
             response[0].northEast.longitude,
             response[0].northEast.latitude,
           ]);
-          let filtered = filterSites(response[0], diveSitesFake);
 
-          if (filtered) {
-            !diveSitesTog ? setnewSites([]) : setnewSites(filtered);
-          }
+          let filtered = diveSites(response[0]);
+          Promise.all([filtered])
+          .then((response1) => {
+            if (response1) {
+              !diveSitesTog ? setnewSites([]) : setnewSites(filterSites(response[0],response1[0]));
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+
+          
 
           let filteredHeat = heatPoints(
             response[0],
@@ -126,7 +134,8 @@ export default function Map() {
         bounds.northEast.longitude,
         bounds.northEast.latitude,
       ]);
-      let filtered = filterSites(bounds, diveSitesFake);
+
+      let filtered = await diveSites(bounds, diveSitesFake);
 
       if (filtered) {
         !diveSitesTog ? setnewSites([]) : setnewSites(filtered);
@@ -156,7 +165,7 @@ export default function Map() {
       });
     }
   };
-
+  
   useEffect(() => {
     if (mapRef) {
       let bounds = mapRef.getMapBoundaries();
@@ -167,11 +176,15 @@ export default function Map() {
           response[0].northEast.longitude,
           response[0].northEast.latitude,
         ]);
-        let filtered = filterSites(response[0], diveSitesFake);
 
-        if (filtered) {
-          !diveSitesTog ? setnewSites([]) : setnewSites(filtered);
-        }
+        let filtered = diveSites(response[0]);
+        Promise.all([filtered])
+        .then((response1) => { 
+            !diveSitesTog ? setnewSites([]) : setnewSites(filterSites(response[0],response1[0]));
+        })
+        .catch((error) => {
+          console.log(error);
+        });
 
         let filteredHeat = heatPoints(response[0], sliderVal, animalSelection);
         Promise.all([filteredHeat])
@@ -188,6 +201,7 @@ export default function Map() {
   useEffect(() => {
     setDragPin(mapCenter);
   }, [masterSwitch]);
+
 
   const points = setupClusters(newSites);
 
