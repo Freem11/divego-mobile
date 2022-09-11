@@ -27,6 +27,7 @@ import Animated, {
 } from "react-native-reanimated";
 import AnimalAutoComplete from "./animalAutocomplete";
 import GeocodeAutocomplete from "./geocodeAutocomplete";
+import { removePhoto } from "../axiosCalls/uploadAxiosCalls";
 import {KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 export default function FABButtons() {
@@ -155,6 +156,10 @@ export default function FABButtons() {
   const togglePicModal = () => {
     setPicAdderModal(!picAdderModal);
 
+    if (pinValues.PicFile !== null){
+      removePhoto({filePath: "./wetmap/src/components/uploads/", fileName: pinValues.PicFile})
+    }
+    
     if (picAdderModal) {
       setPinValues({
         PicFile: null,
