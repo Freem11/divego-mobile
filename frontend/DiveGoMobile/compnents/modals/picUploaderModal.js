@@ -21,7 +21,7 @@ import moment from "moment";
 import AnimalAutoCompleteModal from "../animalAutocompleteModal";
 import { useIsFocused } from "@react-navigation/native";
 import { removePhoto } from "../../axiosCalls/uploadAxiosCalls";
-
+import { insertPhotoWaits } from "../../axiosCalls/photoWaitAxiosCalls";
 
 export default function PicUploadModal() {
   const isFocused = useIsFocused();
@@ -117,6 +117,29 @@ export default function PicUploadModal() {
     colorDate = "black";
   }
 
+  const handleSubmit = () => {
+    if (
+      pinValues.PicFile === "" ||
+      pinValues.PicDate == "" ||
+      pinValues.Longitude == "" ||
+      pinValues.Latitude == "" ||
+      pinValues.Animal == ""
+    ) {
+      return;
+    } else {
+      insertPhotoWaits(pinValues);
+      setPinValues({ 
+        PicFile: null,
+        Animal: "Animal",
+        PicDate: "",
+        Latitude: "",
+        Longitude: "",
+        DDVal: "0",
+      });
+      setPicAdderModal(!picAdderModal);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.picContainer}>
@@ -151,21 +174,27 @@ export default function PicUploadModal() {
                 lngs = pinValues.Longitude;
               }
 
-              if (pinValues.PicFile !== null){
-                removePhoto({filePath: "./wetmap/src/components/uploads/", fileName: pinValues.PicFile})
+              if (pinValues.PicFile !== null) {
+                removePhoto({
+                  filePath: "./wetmap/src/components/uploads/",
+                  fileName: pinValues.PicFile,
+                });
               }
 
-              let fileName = response.uri.substring(response.uri.lastIndexOf('/')+ 1, response.uri.length)
-             
-              const upFile ={
+              let fileName = response.uri.substring(
+                response.uri.lastIndexOf("/") + 1,
+                response.uri.length
+              );
+
+              const upFile = {
                 uri: response.uri,
                 name: fileName,
-                type: 'image/jpg'
-              }
-        
+                type: "image/jpg",
+              };
+
               const data = new FormData();
               data.append("image", upFile);
-        
+
               fetch("http://10.0.0.68:5000/api/upload", {
                 method: "POST",
                 body: data,
@@ -176,14 +205,14 @@ export default function PicUploadModal() {
                     ...pinValues,
                     PicFile: data.fileName,
                   });
-                  console.log("stored:", data.fileName)
+                  console.log("stored:", data.fileName);
                 })
                 .catch((err) => {
                   return err;
                 });
 
-              setUploadedFile(response.uri)
-              
+              setUploadedFile(response.uri);
+
               setPinValues({
                 ...pinValues,
                 PicDate: trueDate,
@@ -279,11 +308,14 @@ export default function PicUploadModal() {
       </View>
 
       <View style={styles.SubmitButton}>
-      <TouchableWithoutFeedback onPress={() => console.log("Submitting...", pinValues)}>
-         <Text style={{ color: "blue", fontSize: 17, marginTop: 8 }}>Submit Photo</Text>
-         </TouchableWithoutFeedback>
+        <TouchableWithoutFeedback
+          onPress={handleSubmit}
+        >
+          <Text style={{ color: "blue", fontSize: 17, marginTop: 8 }}>
+            Submit Photo
+          </Text>
+        </TouchableWithoutFeedback>
       </View>
-
     </View>
   );
 }
@@ -377,12 +409,12 @@ const styles = StyleSheet.create({
     zIndex: -1,
   },
   calZone: {
-    width: '100%',
+    width: "100%",
     flexDirection: "row",
     marginLeft: 40,
   },
   autocomplete: {
-    width: '100%',
+    width: "100%",
     height: 30,
     marginBottom: 30,
     marginLeft: 40,
@@ -398,6 +430,6 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 15,
     opacity: 0.5,
-    zIndex: -1
+    zIndex: -1,
   },
 });
