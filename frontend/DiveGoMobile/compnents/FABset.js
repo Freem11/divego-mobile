@@ -6,6 +6,7 @@ import { DiveSitesContext } from "./contexts/diveSiteToggleContext";
 import { PictureAdderContext } from "./contexts/picModalContext";
 import { DSAdderContext } from "./contexts/DSModalContext";
 import { PinContext } from "./contexts/staticPinContext";
+import { PictureContext } from "./contexts/pictureContext";
 import {
   StyleSheet,
   View,
@@ -33,6 +34,7 @@ import {KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 export default function FABButtons() {
   const { diveSitesTog, setDiveSitesTog } = useContext(DiveSitesContext);
   const { pinValues, setPinValues } = useContext(PinContext);
+  const { uploadedFile, setUploadedFile } = useContext(PictureContext);
 
   const { picAdderModal, setPicAdderModal } = useContext(PictureAdderContext);
   const { diveSiteAdderModal, setDiveSiteAdderModal } = useContext(DSAdderContext);
@@ -159,6 +161,8 @@ export default function FABButtons() {
     if (pinValues.PicFile !== null){
       removePhoto({filePath: "./wetmap/src/components/uploads/", fileName: pinValues.PicFile})
     }
+
+    setUploadedFile(null)
     
     if (picAdderModal) {
       setPinValues({

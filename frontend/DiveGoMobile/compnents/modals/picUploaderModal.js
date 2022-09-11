@@ -14,6 +14,7 @@ import Exif from "react-native-exif";
 import { PinContext } from "../contexts/staticPinContext";
 import { PictureAdderContext } from "../contexts/picModalContext";
 import { MasterContext } from "../contexts/masterContext";
+import { PictureContext } from "../contexts/pictureContext";
 import { getToday, getDate } from "../helpers/picUploaderHelpers";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
@@ -35,7 +36,7 @@ export default function PicUploadModal() {
 
   const [date, setDate] = useState(new Date());
 
-  const [uploadedFile, setUploadedFile] = useState(null);
+  const { uploadedFile, setUploadedFile } = useContext(PictureContext);
 
   const onNavigate = () => {
     setMasterSwitch(false);
@@ -136,6 +137,7 @@ export default function PicUploadModal() {
         Longitude: "",
         DDVal: "0",
       });
+      setUploadedFile(null)
       setPicAdderModal(!picAdderModal);
     }
   };

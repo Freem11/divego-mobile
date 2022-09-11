@@ -13,6 +13,7 @@ import { MasterContext } from "./compnents/contexts/masterContext";
 import { PinSpotContext } from "./compnents/contexts/pinSpotContext";
 import { SliderContext } from "./compnents/contexts/sliderContext";
 import { AnimalSelectContext } from "./compnents/contexts/animalSelectContext";
+import { PictureContext } from "./compnents/contexts/pictureContext";
 import { NavigationContainer, useIsFocused } from "@react-navigation/native";
 import StackNav from "./compnents/stackNav";
 
@@ -24,6 +25,7 @@ export default function App() {
   const [masterSwitch, setMasterSwitch] = useState(true);
   const [picAdderModal, setPicAdderModal] = useState(false);
   const [diveSiteAdderModal, setDiveSiteAdderModal] = useState(false);
+  const [uploadedFile, setUploadedFile] = useState(null);
 
   const [pinValues, setPinValues] = useState({
     PicFile: null,
@@ -55,6 +57,7 @@ export default function App() {
   const [dragPin, setDragPin] = useState({});
 
   return (
+    <PictureContext.Provider value={{ uploadedFile, setUploadedFile }}>
     <SliderContext.Provider value={{ sliderVal, setSliderVal }}>
       <AnimalSelectContext.Provider
         value={{ animalSelection, setAnimalSelection }}
@@ -90,6 +93,7 @@ export default function App() {
         </PinSpotContext.Provider>
       </AnimalSelectContext.Provider>
     </SliderContext.Provider>
+    </PictureContext.Provider>
   );
 }
 
