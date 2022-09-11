@@ -20,6 +20,9 @@ import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import moment from "moment";
 import AnimalAutoCompleteModal from "../animalAutocompleteModal";
 import { useIsFocused } from "@react-navigation/native";
+import { removePhoto } from "../../axiosCalls/uploadAxiosCalls";
+
+
 export default function PicUploadModal() {
   const isFocused = useIsFocused();
 
@@ -31,6 +34,8 @@ export default function PicUploadModal() {
   const [datePickerVisible, setDatePickerVisible] = useState(false);
 
   const [date, setDate] = useState(new Date());
+
+  const [uploadedFile, setUploadedFile] = useState(null);
 
   const onNavigate = () => {
     setMasterSwitch(false);
@@ -116,7 +121,7 @@ export default function PicUploadModal() {
     <View style={styles.container}>
       <View style={styles.picContainer}>
         <Image
-          source={{ uri: pinValues.PicFile }}
+          source={{ uri: uploadedFile }}
           style={{ width: "100%", height: 130, borderRadius: 15 }}
         />
       </View>
@@ -145,9 +150,42 @@ export default function PicUploadModal() {
                 lats = pinValues.Latitude;
                 lngs = pinValues.Longitude;
               }
+
+              if (pinValues.PicFile !== null){
+                removePhoto({filePath: "./wetmap/src/components/uploads/", fileName: pinValues.PicFile})
+              }
+
+              let fileName = response.uri.substring(response.uri.lastIndexOf('/')+ 1, response.uri.length)
+             
+              const upFile ={
+                uri: response.uri,
+                name: fileName,
+                type: 'image/jpg'
+              }
+        
+              const data = new FormData();
+              data.append("image", upFile);
+        
+              fetch("http://10.0.0.68:5000/api/upload", {
+                method: "POST",
+                body: data,
+              })
+                .then((response) => response.json())
+                .then((data) => {
+                  setPinValues({
+                    ...pinValues,
+                    PicFile: data.fileName,
+                  });
+                  console.log("stored:", data.fileName)
+                })
+                .catch((err) => {
+                  return err;
+                });
+
+              setUploadedFile(response.uri)
+              
               setPinValues({
                 ...pinValues,
-                PicFile: response.uri,
                 PicDate: trueDate,
                 Latitude: lats,
                 Longitude: lngs,

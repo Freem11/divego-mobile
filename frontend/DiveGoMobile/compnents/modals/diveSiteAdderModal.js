@@ -81,8 +81,6 @@ export default function DiveSiteModal() {
 
   const handleSubmit = () => {
 
-    console.log("hmmm", formVals)
-
     if (formVals.Site === "" || formVals.Latitude == "" || formVals.Longitude == "") {
       return;
     } else {
