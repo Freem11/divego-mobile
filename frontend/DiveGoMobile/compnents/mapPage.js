@@ -62,7 +62,7 @@ export default function MapPage() {
           <KeyboardAvoidingView style={styles.container} behavior="height">
             {masterSwitch && (
               <View style={styles.monthText}>
-                <Text>{monthVal}</Text>
+                <Text style={{ fontFamily: 'PermanentMarker'}}>{monthVal}</Text>
               </View>
             )}
 
@@ -74,8 +74,8 @@ export default function MapPage() {
 
             {masterSwitch && (
               <View style={styles.animalSelect}>
-                {token && <Text>Selected: {animalSelection}</Text>}
-                {!token && <Text>Selected: All</Text>}
+                {token && <Text style={{ fontFamily: 'Caveat'}}> Selected: {animalSelection} </Text>}
+                {!token && <Text style={{ fontFamily: 'Caveat',}}> Selected: All </Text>}
               </View>
             )}
 
@@ -88,7 +88,7 @@ export default function MapPage() {
             {!masterSwitch && (
               <View style={styles.PinButton}>
                 <TouchableWithoutFeedback onPress={onNavigate}>
-                  <Text style={{ color: "blue", fontSize: 17, marginTop: 8 }}>
+                  <Text style={{ color: "blue", fontFamily: 'PermanentMarker', marginTop: 8 }}>
                     Set Pin
                   </Text>
                 </TouchableWithoutFeedback>

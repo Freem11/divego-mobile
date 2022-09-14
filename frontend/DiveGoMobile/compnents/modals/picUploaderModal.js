@@ -231,7 +231,7 @@ export default function PicUploadModal() {
       >
         <View style={[styles.ImageButton]}>
           <FontAwesome name="picture-o" color="red" size={32} />
-          <Text style={{ marginLeft: 5, color: "maroon" }}>
+          <Text style={{ marginLeft: 5, color: "maroon", fontFamily: 'PermanentMarker' }}>
             Choose an Image
           </Text>
         </View>
@@ -305,7 +305,7 @@ export default function PicUploadModal() {
                 size={48}
                 style={{ marginLeft: 5, zIndex: -1 }}
               />
-              <Text style={{ marginLeft: 5, color: "maroon" }}>Drop Pin</Text>
+              <Text style={{ marginLeft: 5, color: "maroon", fontFamily: 'Shadows' }}>Drop Pin</Text>
             </View>
           </TouchableWithoutFeedback>
         </View>
@@ -313,7 +313,7 @@ export default function PicUploadModal() {
 
       <View style={styles.SubmitButton}>
         <TouchableWithoutFeedback onPress={handleSubmit}>
-          <Text style={{ color: "blue", fontSize: 17, marginTop: 8 }}>
+          <Text style={{ color: "blue", fontSize: 17, marginTop: 8, fontFamily: 'PermanentMarker' }}>
             Submit Photo
           </Text>
         </TouchableWithoutFeedback>
@@ -332,6 +332,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   input: {
+    fontFamily: 'IndieFlower',
     backgroundColor: "white",
     borderRadius: 25,
     width: 200,
@@ -343,6 +344,7 @@ const styles = StyleSheet.create({
     zIndex: -1,
   },
   inputCal: {
+    fontFamily: 'IndieFlower',
     backgroundColor: "white",
     borderRadius: 25,
     width: 200,
@@ -370,7 +372,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 50,
     height: 45,
-    width: 120,
+    width: 140,
     marginLeft: 0,
     marginTop: 15,
     marginBottom: 15,

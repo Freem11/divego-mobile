@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Dimensions } from "react-native";
 import MapPage from "./compnents/mapPage";
+import AppLoading from "expo-app-loading";
+import { useFonts } from "expo-font";
 import { PictureAdderContext } from "./compnents/contexts/picModalContext";
 import { DSAdderContext } from "./compnents/contexts/DSModalContext";
 import { PinContext } from "./compnents/contexts/staticPinContext";
@@ -20,12 +22,22 @@ import StackNav from "./compnents/stackNav";
 const { width, height } = Dimensions.get("window");
 
 export default function App() {
-  let craxy = new Date().getMonth() + 1;
-  const [sliderVal, setSliderVal] = useState(craxy);
+let [ fontsLoaded ] = useFonts({
+  'GreatVibes': require('./assets/fonts/GreatVibes-Regular.ttf'),
+  'PermanentMarker': require('./assets/fonts/PermanentMarker-Regular.ttf'),
+  'Caveat': require('./assets/fonts/Caveat-VariableFont_wght.ttf'),
+  'Shadows': require('./assets/fonts/ShadowsIntoLight-Regular.ttf'),
+  'IndieFlower': require('./assets/fonts/IndieFlower-Regular.ttf'),
+
+})
+
   const [masterSwitch, setMasterSwitch] = useState(true);
   const [picAdderModal, setPicAdderModal] = useState(false);
   const [diveSiteAdderModal, setDiveSiteAdderModal] = useState(false);
   const [uploadedFile, setUploadedFile] = useState(null);
+
+  let craxy = new Date().getMonth() + 1;
+  const [sliderVal, setSliderVal] = useState(craxy);
 
   const [pinValues, setPinValues] = useState({
     PicFile: null,
@@ -56,6 +68,10 @@ export default function App() {
 
   const [dragPin, setDragPin] = useState({});
 
+  if (!fontsLoaded){
+    return <AppLoading/>
+  }
+  
   return (
     <PictureContext.Provider value={{ uploadedFile, setUploadedFile }}>
     <SliderContext.Provider value={{ sliderVal, setSliderVal }}>

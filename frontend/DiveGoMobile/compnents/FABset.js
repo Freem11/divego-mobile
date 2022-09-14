@@ -267,7 +267,7 @@ export default function FABButtons() {
           <View style={styles.modalStyle}>
           <View style={styles.title}>
             <View>
-              <Text style={styles.header}>Please Submit Your Picture</Text>
+              <Text style={styles.header}>Submit Your Picture</Text>
             </View>
             <TouchableWithoutFeedback onPress={togglePicModal}>
               <View style={styles.closeButton}>
@@ -287,7 +287,7 @@ export default function FABButtons() {
         <View style={styles.modalStyle}>
         <View style={styles.title}>
           <View>
-            <Text style={styles.header}>Please Submit Your Dive Site</Text>
+            <Text style={styles.header}>Submit Your Dive Site</Text>
           </View>
           <TouchableWithoutFeedback
             onPress={() => setDiveSiteAdderModal(!diveSiteAdderModal)}
@@ -403,29 +403,29 @@ const styles = StyleSheet.create({
     height: 42,
     width: 42,
     marginLeft: 240,
-    marginTop: -75,
+    marginTop: -85,
     justifyContent: "center",
     alignItems: "center",
   },
   header: {
+    fontFamily: "PermanentMarker",
     fontSize: 20,
     alignSelf: "center",
-    marginBottom: 25,
-    marginTop: 0,
-    width: "65%",
-    height: 50,
-    marginLeft: -50,
-    fontWeight: "bold",
-  },
-  headerAlt: {
-    fontSize: 20,
-    alignSelf: "center",
-    marginBottom: 25,
+    marginBottom: 32,
     marginTop: 5,
     width: "70%",
-    height: 40,
+    height: 45,
+    marginLeft: -50,
+  },
+  headerAlt: {
+    fontFamily: "PermanentMarker",
+    fontSize: 20,
+    alignSelf: "center",
+    marginBottom: 27,
+    marginTop: 5,
+    width: "70%",
+    height: 50,
     marginLeft: -90,
-    fontWeight: "bold",
   },
   title: {
     flexDirection: "column",
@@ -435,5 +435,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     marginTop: 20,
     width: "150%",
+    height: 50
   },
 });

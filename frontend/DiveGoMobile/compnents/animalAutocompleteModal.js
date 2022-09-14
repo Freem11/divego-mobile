@@ -66,6 +66,7 @@ export default function AnimalAutoCompleteModal() {
       initialValue={{ id: pinValues.DDVal }}
       textInputProps={{
         style: {
+          fontFamily: 'IndieFlower',
           backgroundColor: "transparent",
           borderRadius: 30,
           width: 100,
@@ -77,6 +78,7 @@ export default function AnimalAutoCompleteModal() {
         },
       }}
       inputContainerStyle={{
+        fontFamily: 'IndieFlower',
         height: 40,
         borderRadius: 30,
         backgroundColor: "white",
