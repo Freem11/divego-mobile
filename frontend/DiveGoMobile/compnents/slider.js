@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { StyleSheet, View, Text, Platform } from "react-native";
 import Slider from "@react-native-community/slider";
 import { SliderContext } from "./contexts/sliderContext";
@@ -8,6 +8,7 @@ export default function MonthSlider() {
   const { sliderVal, setSliderVal } = useContext(SliderContext);
   const { monthVal, setMonthVal } = useContext(MonthSelectContext);
 
+  useEffect(() =>{
   switch (sliderVal) {
     case 1:
       setMonthVal("Jan")
@@ -46,6 +47,7 @@ export default function MonthSlider() {
       setMonthVal("Dec")
       break;
   }
+},[sliderVal])
 
   let sliderColor
   if (Platform.OS === 'ios'){

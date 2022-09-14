@@ -23,10 +23,12 @@ import AnimalAutoCompleteModal from "../animalAutocompleteModal";
 import { useIsFocused } from "@react-navigation/native";
 import { removePhoto } from "../../axiosCalls/uploadAxiosCalls";
 import { insertPhotoWaits } from "../../axiosCalls/photoWaitAxiosCalls";
+import { getAnimalNamesThatFit } from "../../axiosCalls/photoAxiosCalls";
+import filterCreatures from "../helpers/optionHelpers";
 
 export default function PicUploadModal() {
   const isFocused = useIsFocused();
-
+  const [list, setList] = useState([]);
   const { masterSwitch, setMasterSwitch } = useContext(MasterContext);
 
   const { pinValues, setPinValues } = useContext(PinContext);
@@ -129,7 +131,7 @@ export default function PicUploadModal() {
       return;
     } else {
       insertPhotoWaits(pinValues);
-      setPinValues({ 
+      setPinValues({
         PicFile: null,
         Animal: "Animal",
         PicDate: "",
@@ -137,7 +139,7 @@ export default function PicUploadModal() {
         Longitude: "",
         DDVal: "0",
       });
-      setUploadedFile(null)
+      setUploadedFile(null);
       setPicAdderModal(!picAdderModal);
     }
   };
@@ -310,9 +312,7 @@ export default function PicUploadModal() {
       </View>
 
       <View style={styles.SubmitButton}>
-        <TouchableWithoutFeedback
-          onPress={handleSubmit}
-        >
+        <TouchableWithoutFeedback onPress={handleSubmit}>
           <Text style={{ color: "blue", fontSize: 17, marginTop: 8 }}>
             Submit Photo
           </Text>

@@ -16,6 +16,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   Keyboard,
+  ScrollView,
 } from "react-native";
 import { MaterialIcons, FontAwesome5, FontAwesome } from "@expo/vector-icons";
 import Animated, {
@@ -176,8 +177,6 @@ export default function FABButtons() {
     }
   };
 
-  const AnimalKeboardOffset = Platform.OS === "ios" ? 10 : 0;
-
   let buttonOpac
   if (Platform.OS === 'ios'){
     buttonOpac = 0.8
@@ -185,6 +184,7 @@ export default function FABButtons() {
     buttonOpac = 0.9
   }
 
+ 
   return (
     <View style={styles.fab}>
      
@@ -225,6 +225,7 @@ export default function FABButtons() {
         </Animated.View>
       </TouchableWithoutFeedback>
 
+      
       <TouchableWithoutFeedback onPress={startAnimalButtonAnimations}>
         <Animated.View
           style={[styles.buttonwrapper, styles.searchWrapper, transSearchY]}
@@ -232,6 +233,7 @@ export default function FABButtons() {
           <MaterialIcons name="search" color="aquamarine" size={32}/>
         </Animated.View>
       </TouchableWithoutFeedback>
+    
 
       <TouchableWithoutFeedback onPress={() => setDiveSitesTog(!diveSitesTog)}>
         <Animated.View
@@ -253,11 +255,11 @@ export default function FABButtons() {
         </Animated.View>
       </TouchableWithoutFeedback>
 
-      <Animated.View style={[styles.animal, animalReveal]}>
-        <AnimalAutoComplete/>
+      <Animated.View style={[styles.animal, animalReveal]} >
+        <AnimalAutoComplete />
       </Animated.View>
 
-      <Animated.View style={[styles.geoCoder, geocodeReveal]}>
+      <Animated.View style={[styles.geoCoder, geocodeReveal]} >
         <GeocodeAutocomplete />
       </Animated.View>
 
