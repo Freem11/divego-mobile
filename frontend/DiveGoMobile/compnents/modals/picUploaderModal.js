@@ -20,6 +20,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import moment from "moment";
 import AnimalAutoCompleteModal from "../animalAutocompleteModal";
+import AnimalAutoSuggest from "../AutoSuggest";
 import { useIsFocused } from "@react-navigation/native";
 import { removePhoto } from "../../axiosCalls/uploadAxiosCalls";
 import { insertPhotoWaits } from "../../axiosCalls/photoWaitAxiosCalls";
@@ -248,7 +249,7 @@ export default function PicUploadModal() {
           onChangeText={(text) => setPinValues({ ...pinValues, Animal: text })}
         ></TextInput>
         <TouchableWithoutFeedback onPress={showDatePicker}>
-          <View style={{ marginTop: 2.5, marginLeft: 5 }}>
+          <View style={{ marginTop: 2.5, marginLeft: 2 }}>
             <FontAwesome name="calendar" color="red" size={32} />
             <DateTimePickerModal
               date={new Date(pinValues.PicDate)}
@@ -266,7 +267,7 @@ export default function PicUploadModal() {
         keyboardVerticalOffset={AnimalKeboardOffset}
         style={styles.autocomplete}
       >
-        <AnimalAutoCompleteModal />
+        <AnimalAutoSuggest pin={pinValues} setPin={setPinValues} />
       </KeyboardAvoidingView>
 
       <View style={{ flexDirection: "row", width: "100%", zIndex: -1 }}>
