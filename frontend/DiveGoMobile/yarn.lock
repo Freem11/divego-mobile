@@ -1109,6 +1109,26 @@
   "resolved" "https://registry.npmjs.org/@colors/colors/-/colors-1.5.0.tgz"
   "version" "1.5.0"
 
+"@expo-google-fonts/caveat@^0.2.2":
+  "integrity" "sha512-z7kc/7BIwPFTL6el51V2OaLtvxrhtofwqiCk4b0nLCh2kzsso+5IA1fI4NXziou5jEkh9Lt+FE3OUSFQdVVSAQ=="
+  "resolved" "https://registry.npmjs.org/@expo-google-fonts/caveat/-/caveat-0.2.2.tgz"
+  "version" "0.2.2"
+
+"@expo-google-fonts/indie-flower@^0.2.2":
+  "integrity" "sha512-bPhd+mXHxX1zfV8r6Z3DLkRA5hfuMeNOTZanf9NAZNWGh4PaF4bnJ8wbwFe2IXxxdbZ43vUF4b1uqG25vO7nMw=="
+  "resolved" "https://registry.npmjs.org/@expo-google-fonts/indie-flower/-/indie-flower-0.2.2.tgz"
+  "version" "0.2.2"
+
+"@expo-google-fonts/permanent-marker@^0.2.2":
+  "integrity" "sha512-efXLcRS5VEpHzyYVFgjVWJU+4bTGvByuIv0mK3zEJPWe34O9wYZIy5C9ZfX0NBPIaBk6Ud4L2/MiljrQUepIpw=="
+  "resolved" "https://registry.npmjs.org/@expo-google-fonts/permanent-marker/-/permanent-marker-0.2.2.tgz"
+  "version" "0.2.2"
+
+"@expo-google-fonts/shadows-into-light@^0.2.2":
+  "integrity" "sha512-LcIT/6pMXDl7bTU6dNu7tyl1Q+1f0d/WVMJ1TxUX/ZtB3ytAyFJ2cDN/odRpE3hmFT1aJoNMdiI7jNa6j6gl6Q=="
+  "resolved" "https://registry.npmjs.org/@expo-google-fonts/shadows-into-light/-/shadows-into-light-0.2.2.tgz"
+  "version" "0.2.2"
+
 "@expo/apple-utils@0.0.0-alpha.31":
   "integrity" "sha512-lGJOS8eAPcZhaRl5GZFIg4ZNSRY1k10wYeYXjHUbHxbZGE9lkzrATY8OvrVpcu8qQh3lvPguel63V4mrnoAuOA=="
   "resolved" "https://registry.npmjs.org/@expo/apple-utils/-/apple-utils-0.0.0-alpha.31.tgz"
@@ -5077,13 +5097,6 @@
     "@expo/config-plugins" "^4.0.14"
     "uuid" "^3.4.0"
 
-"expo-font@^10.2.0":
-  "integrity" "sha512-2V4EcpmhNoppaLn+lPprZVS+3bmV9hxLPKttKh2u8ghjH/oX9bv3u4JVo77SYh0EfrWO4toqVyXn8pXH8GpbIg=="
-  "resolved" "https://registry.npmjs.org/expo-font/-/expo-font-10.2.0.tgz"
-  "version" "10.2.0"
-  dependencies:
-    "fontfaceobserver" "^2.1.0"
-
 "expo-font@~10.1.0":
   "integrity" "sha512-vmhzpE95Ym4iOj8IELof+C/3Weert2B3LyxV5rBjGosjzBdov+o+S6b5mN7Yc9kyEGykwB6k7npL45X3hFYDQA=="
   "resolved" "https://registry.npmjs.org/expo-font/-/expo-font-10.1.0.tgz"
@@ -5157,7 +5170,7 @@
     "commander" "2.20.0"
     "update-check" "1.5.3"
 
-"expo-splash-screen@~0.16.0":
+"expo-splash-screen@^0.16.2", "expo-splash-screen@~0.16.0":
   "integrity" "sha512-AHSRyGwu58WNt8shW5g/4cQ9e9IzUwNTC/WGWxshHCwgbWIJmHLvK3+D45MTmzGWteOoTI8oV7KSQKBNJSTiyw=="
   "resolved" "https://registry.npmjs.org/expo-splash-screen/-/expo-splash-screen-0.16.2.tgz"
   "version" "0.16.2"

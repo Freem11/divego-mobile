@@ -408,7 +408,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   header: {
-    fontFamily: "PermanentMarker",
+    fontFamily: "PermanentMarker_400Regular",
     fontSize: 20,
     alignSelf: "center",
     marginBottom: 32,
@@ -418,7 +418,7 @@ const styles = StyleSheet.create({
     marginLeft: -50,
   },
   headerAlt: {
-    fontFamily: "PermanentMarker",
+    fontFamily: "PermanentMarker_400Regular",
     fontSize: 20,
     alignSelf: "center",
     marginBottom: 27,

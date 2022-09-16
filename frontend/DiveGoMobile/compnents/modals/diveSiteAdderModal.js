@@ -125,13 +125,13 @@ export default function DiveSiteModal() {
       <TouchableWithoutFeedback onPress={CurrentCoords}>
         <View style={[styles.GPSbutton]}>
           <FontAwesome5 name="map" color="red" size={32} />
-          <Text style={{ marginLeft: 5, fontFamily: 'Caveat', color: 'maroon' }}>I'm At The Dive Site</Text>
+          <Text style={{ marginLeft: 5, fontFamily: 'Caveat_700Bold', color: 'maroon' }}>I'm At The Dive Site</Text>
         </View>
       </TouchableWithoutFeedback>
 
       <View style={styles.SubmitButton}>
       <TouchableWithoutFeedback onPress={handleSubmit}>
-         <Text style={{ color: "blue", fontSize: 17, marginTop: 1, fontFamily: 'PermanentMarker' }}>Submit Dive Site</Text>
+         <Text style={{ color: "blue", fontSize: 17, marginTop: 1, fontFamily: 'PermanentMarker_400Regular' }}>Submit Dive Site</Text>
          </TouchableWithoutFeedback>
       </View>
 
@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   input: {
-    fontFamily: 'IndieFlower',
+    fontFamily: 'IndieFlower_400Regular',
     backgroundColor: "white",
     borderRadius: 15,
     width: 200,

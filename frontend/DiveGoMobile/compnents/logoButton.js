@@ -6,7 +6,7 @@ export default function Logo() {
 
   return (
     <View style={styles.container}>
-      <Text style={{ fontFamily: 'Caveat'}}>DiveGo</Text>
+      <Text style={{ fontFamily: 'Caveat_400Regular'}}>DiveGo</Text>
     </View>
   );
 }

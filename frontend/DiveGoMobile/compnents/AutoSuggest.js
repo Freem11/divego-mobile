@@ -64,6 +64,6 @@ const styles = StyleSheet.create({
     height: 40,
     backgroundColor: 'white',
     textAlign: 'center',
-    fontFamily: 'IndieFlower',
+    fontFamily: 'IndieFlower_400Regular',
   }
 });
