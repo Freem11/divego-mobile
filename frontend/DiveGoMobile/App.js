@@ -29,10 +29,27 @@ import { AnimalSelectContext } from "./compnents/contexts/animalSelectContext";
 import { PictureContext } from "./compnents/contexts/pictureContext";
 import { NavigationContainer, useIsFocused } from "@react-navigation/native";
 import StackNav from "./compnents/stackNav";
+import * as Location from "expo-location";
+import * as TaskManager from "expo-task-manager";
 
 const { width, height } = Dimensions.get("window");
 
-// SplashScreen.preventAutoHideAsync();
+const LOCATION_TASK_NAME = "LOCATION_TASK_NAME";
+let foregroundSubscription = null;
+
+TaskManager.defineTask(LOCATION_TASK_NAME, async ({ data, error }) => {
+  if (error) {
+    console.log("error", error);
+    return;
+  }
+  if (data) {
+    const { locations } = data;
+    const location = locations[0];
+    if (location) {
+      console.log("background location", location.coords);
+    }
+  }
+});
 
 export default function App() {
   const [masterSwitch, setMasterSwitch] = useState(true);
@@ -71,6 +88,50 @@ export default function App() {
   const [zoomlev, setZoomLev] = useState(region.latitudeDelta);
 
   const [dragPin, setDragPin] = useState({});
+
+  // useEffect (() => {
+
+  //   CurrentCoords()
+
+  //   async function CurrentCoords () {
+  //   const requestPermissions = async () => {
+  //     try {
+  //       const forground = await Location.requestForegroundPermissionsAsync();
+  //       if (forground.granted)
+  //         await Location.requestBackgroundPermissionsAsync();
+  //     } catch (e) {
+  //       console.log({ title: "Error", message: e.message });
+  //     }
+  //   };
+  //   requestPermissions();
+
+  //   const { granted } = await Location.getForegroundPermissionsAsync();
+
+  //   if (!granted) {
+  //     console.log("location tracking denied");
+  //     setRegion({ ...region,})
+  //   }
+  //   foregroundSubscription?.remove();
+
+  //   try {
+  //      await Location.watchPositionAsync(
+  //       {
+  //         accuracy: Location.Accuracy.BestForNavigation,
+  //       },
+  //       (location) => {
+  //         setRegion({
+  //           ...region,
+  //           latitude: location.coords.latitude,
+  //           longitude: location.coords.longitude,
+  //         });
+  //       }
+  //     );
+  //   } catch (e) {
+  //     console.log({ title: "Error", message: e.message });
+  //   }
+  // }
+  // }, [])
+
 
   let [fontsLoaded] = useFonts({
     PermanentMarker_400Regular,
