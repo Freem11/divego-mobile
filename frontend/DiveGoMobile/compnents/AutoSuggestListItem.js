@@ -3,7 +3,7 @@ import { StyleSheet, View, TouchableWithoutFeedback, Text, Keyboard } from "reac
 
 const AutoSuggestListItem = (props) => {
 
-    const { setList, setPin, pin, name, key } = props
+    const { setList, setPin, pin, name } = props
 
     const handleSelect = (text) => {
         setPin({...pin, Animal: text})
