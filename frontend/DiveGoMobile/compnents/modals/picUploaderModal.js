@@ -136,7 +136,7 @@ export default function PicUploadModal() {
       insertPhotoWaits(pinValues);
       setPinValues({
         PicFile: null,
-        Animal: "Animal",
+        Animal: "",
         PicDate: "",
         Latitude: "",
         Longitude: "",

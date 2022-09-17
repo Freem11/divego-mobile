@@ -62,7 +62,7 @@ export default function App() {
 
   const [pinValues, setPinValues] = useState({
     PicFile: null,
-    Animal: "Animal",
+    Animal: "",
     PicDate: "",
     Latitude: "",
     Longitude: "",
