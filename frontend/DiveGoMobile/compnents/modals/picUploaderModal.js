@@ -147,13 +147,13 @@ export default function PicUploadModal() {
     }
   };
 
-let [fontsLoaded] = useFonts({
-  PermanentMarker_400Regular,
-})
+  let [fontsLoaded] = useFonts({
+    PermanentMarker_400Regular,
+  });
 
-if (!fontsLoaded){
-  return null
-}
+  if (!fontsLoaded) {
+    return null;
+  }
 
   return (
     <View style={styles.container}>
@@ -219,6 +219,9 @@ if (!fontsLoaded){
                   setPinValues({
                     ...pinValues,
                     PicFile: data.fileName,
+                    PicDate: trueDate,
+                    Latitude: lats,
+                    Longitude: lngs,
                   });
                   console.log("stored:", data.fileName);
                 })
@@ -228,12 +231,6 @@ if (!fontsLoaded){
 
               setUploadedFile(response.uri);
 
-              setPinValues({
-                ...pinValues,
-                PicDate: trueDate,
-                Latitude: lats,
-                Longitude: lngs,
-              });
             }
           } catch (e) {
             console.log("error: Photo Selection Cancelled", e.message);
@@ -242,7 +239,13 @@ if (!fontsLoaded){
       >
         <View style={[styles.ImageButton]}>
           <FontAwesome name="picture-o" color="red" size={32} />
-          <Text style={{ marginLeft: 5, color: "maroon", fontFamily: 'PermanentMarker_400Regular' }}>
+          <Text
+            style={{
+              marginLeft: 5,
+              color: "maroon",
+              fontFamily: "PermanentMarker_400Regular",
+            }}
+          >
             Choose an Image
           </Text>
         </View>
@@ -316,7 +319,15 @@ if (!fontsLoaded){
                 size={48}
                 style={{ marginLeft: 5, zIndex: -1 }}
               />
-              <Text style={{ marginLeft: 5, color: "maroon", fontFamily: 'ShadowsIntoLight_400Regular' }}>Drop Pin</Text>
+              <Text
+                style={{
+                  marginLeft: 5,
+                  color: "maroon",
+                  fontFamily: "ShadowsIntoLight_400Regular",
+                }}
+              >
+                Drop Pin
+              </Text>
             </View>
           </TouchableWithoutFeedback>
         </View>
@@ -324,7 +335,14 @@ if (!fontsLoaded){
 
       <View style={styles.SubmitButton}>
         <TouchableWithoutFeedback onPress={handleSubmit}>
-          <Text style={{ color: "blue", fontSize: 17, marginTop: 8, fontFamily: 'PermanentMarker_400Regular' }}>
+          <Text
+            style={{
+              color: "blue",
+              fontSize: 17,
+              marginTop: 8,
+              fontFamily: "PermanentMarker_400Regular",
+            }}
+          >
             Submit Photo
           </Text>
         </TouchableWithoutFeedback>
@@ -343,7 +361,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   input: {
-    fontFamily: 'IndieFlower_400Regular',
+    fontFamily: "IndieFlower_400Regular",
     backgroundColor: "white",
     borderRadius: 25,
     width: 200,
@@ -353,9 +371,10 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     textAlign: "center",
     zIndex: -1,
+    overflow: "hidden",
   },
   inputCal: {
-    fontFamily: 'IndieFlower_400Regular',
+    fontFamily: "IndieFlower_400Regular",
     backgroundColor: "white",
     borderRadius: 25,
     width: 200,

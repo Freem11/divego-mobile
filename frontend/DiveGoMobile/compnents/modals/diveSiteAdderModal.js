@@ -163,6 +163,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginBottom: 20,
     textAlign: "center",
+    overflow: "hidden",
   },
   header: {
     fontSize: 20,

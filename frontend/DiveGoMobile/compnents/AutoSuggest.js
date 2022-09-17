@@ -4,13 +4,12 @@ import {
   StyleSheet,
   View,
   TouchableWithoutFeedback,
-  Text,
   TextInput,
   Keyboard,
 } from "react-native";
 import { getAnimalNamesThatFit } from "../axiosCalls/photoAxiosCalls";
 import AutoSuggestListItem from "./AutoSuggestListItem";
-import { MaterialIcons, FontAwesome5, FontAwesome } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 
 export default function AnimalAutoSuggest(props) {
   const { setPin, pin } = props;
@@ -84,6 +83,7 @@ export default function AnimalAutoSuggest(props) {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
+    overflow: "hidden",
   },
   xButton: {
     marginTop: 11,
@@ -96,5 +96,6 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     textAlign: "center",
     fontFamily: "IndieFlower_400Regular",
+    overflow: "hidden",
   },
 });

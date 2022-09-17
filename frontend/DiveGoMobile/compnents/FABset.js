@@ -168,7 +168,7 @@ export default function FABButtons() {
     if (picAdderModal) {
       setPinValues({
         PicFile: null,
-        Animal: "Animal",
+        Animal: "",
         PicDate: "",
         Latitude: "",
         Longitude: "",
