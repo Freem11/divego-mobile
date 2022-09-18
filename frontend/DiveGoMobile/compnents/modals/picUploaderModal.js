@@ -10,29 +10,20 @@ import {
 } from "react-native";
 import React, { useState, useEffect, useContext } from "react";
 import * as ImagePicker from "expo-image-picker";
-import Exif from "react-native-exif";
 import { PinContext } from "../contexts/staticPinContext";
 import { PictureAdderContext } from "../contexts/picModalContext";
 import { MasterContext } from "../contexts/masterContext";
 import { PictureContext } from "../contexts/pictureContext";
-import { getToday, getDate } from "../helpers/picUploaderHelpers";
+import { getToday } from "../helpers/picUploaderHelpers";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import moment from "moment";
-import AnimalAutoCompleteModal from "../animalAutocompleteModal";
 import AnimalAutoSuggest from "../AutoSuggest";
-import { useIsFocused } from "@react-navigation/native";
 import { removePhoto } from "../../axiosCalls/uploadAxiosCalls";
 import { insertPhotoWaits } from "../../axiosCalls/photoWaitAxiosCalls";
-import { getAnimalNamesThatFit } from "../../axiosCalls/photoAxiosCalls";
-import filterCreatures from "../helpers/optionHelpers";
-import { PermanentMarker_400Regular } from "@expo-google-fonts/permanent-marker";
-import { useFonts } from "expo-font";
 
 export default function PicUploadModal() {
-  const isFocused = useIsFocused();
-  const [list, setList] = useState([]);
-  const { masterSwitch, setMasterSwitch } = useContext(MasterContext);
+  const { setMasterSwitch } = useContext(MasterContext);
 
   const { pinValues, setPinValues } = useContext(PinContext);
   const { picAdderModal, setPicAdderModal } = useContext(PictureAdderContext);
@@ -46,12 +37,6 @@ export default function PicUploadModal() {
   const onNavigate = () => {
     setMasterSwitch(false);
     setPicAdderModal(!picAdderModal);
-  };
-
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setShowDatePicker(Platform.OS === "ios");
-    setDate(currentDate);
   };
 
   useEffect(() => {
@@ -147,14 +132,6 @@ export default function PicUploadModal() {
     }
   };
 
-  let [fontsLoaded] = useFonts({
-    PermanentMarker_400Regular,
-  });
-
-  if (!fontsLoaded) {
-    return null;
-  }
-
   return (
     <View style={styles.container}>
       <View style={styles.picContainer}>
@@ -230,7 +207,6 @@ export default function PicUploadModal() {
                 });
 
               setUploadedFile(response.uri);
-
             }
           } catch (e) {
             console.log("error: Photo Selection Cancelled", e.message);

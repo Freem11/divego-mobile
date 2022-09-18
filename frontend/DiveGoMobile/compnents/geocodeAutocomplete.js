@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect, useContext } from "react";
-import { StyleSheet, View, TouchableWithoutFeedback, Text, ScrollView, Modal} from "react-native";
+import React, { useContext } from "react";
+import { StyleSheet, View} from "react-native";
 import PlacesInput from "react-native-places-input";
 import config from '../config';
 import { MapCenterContext } from "./contexts/mapCenterContext";

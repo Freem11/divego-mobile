@@ -9,7 +9,7 @@ import { PinSpotContext } from "./contexts/pinSpotContext";
 import { AnimalSelectContext } from "./contexts/animalSelectContext";
 import { SliderContext } from "./contexts/sliderContext";
 import MapView, { PROVIDER_GOOGLE, Marker, Heatmap } from "react-native-maps";
-import { StyleSheet, View, Dimensions, Keyboard, Button } from "react-native";
+import { StyleSheet, View, Dimensions, Keyboard } from "react-native";
 import { diveSitesFake, heatVals } from "./data/testdata";
 import anchorIcon from "../compnents/png/anchor11.png";
 import anchorClust from "../compnents/png/anchor3.png";
@@ -23,7 +23,7 @@ import { heatPoints } from "../axiosCalls/heatPointAxiosCalls";
 const { width, height } = Dimensions.get("window");
 
 export default function Map() {
-  const { masterSwitch, setMasterSwitch } = useContext(MasterContext);
+  const { masterSwitch } = useContext(MasterContext);
   const { mapCenter, setMapCenter } = useContext(MapCenterContext);
 
   useEffect(() => {
@@ -50,7 +50,7 @@ export default function Map() {
 
   const { dragPin, setDragPin } = useContext(PinSpotContext);
 
-  const { diveSitesTog, setDiveSitesTog } = useContext(DiveSitesContext);
+  const { diveSitesTog } = useContext(DiveSitesContext);
 
   useEffect(() => {
     if (mapRef) {
@@ -66,16 +66,16 @@ export default function Map() {
 
           let filtered = diveSites(response[0]);
           Promise.all([filtered])
-          .then((response1) => {
-            if (response1) {
-              !diveSitesTog ? setnewSites([]) : setnewSites(filterSites(response[0],response1[0]));
-            }
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-
-          
+            .then((response1) => {
+              if (response1) {
+                !diveSitesTog
+                  ? setnewSites([])
+                  : setnewSites(filterSites(response[0], response1[0]));
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+            });
 
           let filteredHeat = heatPoints(
             response[0],
@@ -135,7 +135,7 @@ export default function Map() {
         bounds.northEast.latitude,
       ]);
 
-      let filtered = await diveSites(bounds, diveSitesFake);
+      let filtered = await diveSites(bounds);
 
       if (filtered) {
         !diveSitesTog ? setnewSites([]) : setnewSites(filtered);
@@ -165,7 +165,7 @@ export default function Map() {
       });
     }
   };
-  
+
   useEffect(() => {
     if (mapRef) {
       let bounds = mapRef.getMapBoundaries();
@@ -179,12 +179,14 @@ export default function Map() {
 
         let filtered = diveSites(response[0]);
         Promise.all([filtered])
-        .then((response1) => { 
-            !diveSitesTog ? setnewSites([]) : setnewSites(filterSites(response[0],response1[0]));
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+          .then((response1) => {
+            !diveSitesTog
+              ? setnewSites([])
+              : setnewSites(filterSites(response[0], response1[0]));
+          })
+          .catch((error) => {
+            console.log(error);
+          });
 
         let filteredHeat = heatPoints(response[0], sliderVal, animalSelection);
         Promise.all([filteredHeat])
@@ -202,10 +204,9 @@ export default function Map() {
     setDragPin(mapCenter);
   }, [masterSwitch]);
 
-
   const points = setupClusters(newSites);
 
-  const { clusters, supercluster } = useSupercluster({
+  const { clusters } = useSupercluster({
     points,
     bounds: boundaries,
     zoom: zoomlev,
@@ -227,7 +228,9 @@ export default function Map() {
         onMapReady={() => handleMapChange()}
         onRegionChangeComplete={() => handleMapChange()}
       >
-        {masterSwitch && newHeat.length > 0 && <Heatmap points={newHeat} radius={20} />}
+        {masterSwitch && newHeat.length > 0 && (
+          <Heatmap points={newHeat} radius={20} />
+        )}
 
         {!masterSwitch && (
           <Marker

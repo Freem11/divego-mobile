@@ -1,12 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { StyleSheet, View, Text } from "react-native";
 
 export default function Logo() {
-  
-
   return (
     <View style={styles.container}>
-      <Text style={{ fontFamily: 'Caveat_400Regular'}}>DiveGo</Text>
+      <Text style={{ fontFamily: "Caveat_400Regular" }}>DiveGo</Text>
     </View>
   );
 }
@@ -26,7 +24,6 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 15,
     width: 80,
     paddingRight: 10,
-    paddingTop: -10
-    
+    paddingTop: -10,
   },
 });

@@ -1,8 +1,7 @@
-import React, { useState } from "react";
-import { View, Text } from "react-native";
+import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import MapPage from "./mapPage";
-import PinMapPage from "./pinMapPage";
+
 
 export default function StackNav() {
   
@@ -12,7 +11,6 @@ export default function StackNav() {
     <Stack.Navigator screenOptions={{ headerShown: false} }>
       <Stack.Group>
         <Stack.Screen name="MapPage" component={MapPage} />
-        <Stack.Screen name="PinMapPage" component={PinMapPage} />
       </Stack.Group>
     </Stack.Navigator>
   );

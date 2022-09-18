@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import GuideModal from "./modals/howToGuideModal";
 import DiveSiteModal from "./modals/diveSiteAdderModal";
 import PicUploadModal from "./modals/picUploaderModal";
@@ -12,11 +12,8 @@ import {
   View,
   TouchableWithoutFeedback,
   Modal,
-  Text, 
-  KeyboardAvoidingView,
+  Text,
   Platform,
-  Keyboard,
-  ScrollView,
 } from "react-native";
 import { MaterialIcons, FontAwesome5, FontAwesome } from "@expo/vector-icons";
 import Animated, {
@@ -30,15 +27,16 @@ import Animated, {
 import AnimalAutoComplete from "./animalAutocomplete";
 import GeocodeAutocomplete from "./geocodeAutocomplete";
 import { removePhoto } from "../axiosCalls/uploadAxiosCalls";
-import {KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 export default function FABButtons() {
   const { diveSitesTog, setDiveSitesTog } = useContext(DiveSitesContext);
   const { pinValues, setPinValues } = useContext(PinContext);
-  const { uploadedFile, setUploadedFile } = useContext(PictureContext);
+  const { setUploadedFile } = useContext(PictureContext);
 
   const { picAdderModal, setPicAdderModal } = useContext(PictureAdderContext);
-  const { diveSiteAdderModal, setDiveSiteAdderModal } = useContext(DSAdderContext);
+  const { diveSiteAdderModal, setDiveSiteAdderModal } = useContext(
+    DSAdderContext
+  );
   const [guideModal, setGuideModal] = useState(false);
 
   const rotationVal = useSharedValue(0);
@@ -159,12 +157,15 @@ export default function FABButtons() {
   const togglePicModal = () => {
     setPicAdderModal(!picAdderModal);
 
-    if (pinValues.PicFile !== null){
-      removePhoto({filePath: "./wetmap/src/components/uploads/", fileName: pinValues.PicFile})
+    if (pinValues.PicFile !== null) {
+      removePhoto({
+        filePath: "./wetmap/src/components/uploads/",
+        fileName: pinValues.PicFile,
+      });
     }
 
-    setUploadedFile(null)
-    
+    setUploadedFile(null);
+
     if (picAdderModal) {
       setPinValues({
         PicFile: null,
@@ -172,34 +173,31 @@ export default function FABButtons() {
         PicDate: "",
         Latitude: "",
         Longitude: "",
-        DDVal: "0"
+        DDVal: "0",
       });
     }
   };
 
-  let buttonOpac
-  if (Platform.OS === 'ios'){
-    buttonOpac = 0.8
+  let buttonOpac;
+  if (Platform.OS === "ios") {
+    buttonOpac = 0.8;
   } else {
-    buttonOpac = 0.9
+    buttonOpac = 0.9;
   }
 
- 
   return (
     <View style={styles.fab}>
-     
-        <Animated.View
-          style={[styles.buttonwrapper, styles.questionWrapper, transInfoY]}
-        >
-           <TouchableWithoutFeedback onPress={() => setGuideModal(!guideModal)}>
+      <Animated.View
+        style={[styles.buttonwrapper, styles.optionWrapper, transInfoY]}
+      >
+        <TouchableWithoutFeedback onPress={() => setGuideModal(!guideModal)}>
           <FontAwesome5 name="question" color="aquamarine" size={32} />
-          </TouchableWithoutFeedback>
-        </Animated.View>
-     
+        </TouchableWithoutFeedback>
+      </Animated.View>
 
       <TouchableWithoutFeedback onPress={startGeoCodeButtonAnimations}>
         <Animated.View
-          style={[styles.buttonwrapper, styles.exploreWrapper, transGeoY]}
+          style={[styles.buttonwrapper, styles.optionWrapper, transGeoY]}
         >
           <MaterialIcons name="explore" color="aquamarine" size={32} />
         </Animated.View>
@@ -209,7 +207,7 @@ export default function FABButtons() {
         onPress={() => setPicAdderModal(!picAdderModal)}
       >
         <Animated.View
-          style={[styles.buttonwrapper, styles.cameraWrapper, transPhotoY]}
+          style={[styles.buttonwrapper, styles.optionWrapper, transPhotoY]}
         >
           <MaterialIcons name="photo-camera" color="aquamarine" size={32} />
         </Animated.View>
@@ -219,25 +217,23 @@ export default function FABButtons() {
         onPress={() => setDiveSiteAdderModal(!diveSiteAdderModal)}
       >
         <Animated.View
-          style={[styles.buttonwrapper, styles.addSiteWrapper, transSiteY]}
+          style={[styles.buttonwrapper, styles.optionWrapper, transSiteY]}
         >
           <MaterialIcons name="add-location-alt" color="aquamarine" size={32} />
         </Animated.View>
       </TouchableWithoutFeedback>
 
-      
       <TouchableWithoutFeedback onPress={startAnimalButtonAnimations}>
         <Animated.View
-          style={[styles.buttonwrapper, styles.searchWrapper, transSearchY]}
+          style={[styles.buttonwrapper, styles.optionWrapper, transSearchY]}
         >
-          <MaterialIcons name="search" color="aquamarine" size={32}/>
+          <MaterialIcons name="search" color="aquamarine" size={32} />
         </Animated.View>
       </TouchableWithoutFeedback>
-    
 
       <TouchableWithoutFeedback onPress={() => setDiveSitesTog(!diveSitesTog)}>
         <Animated.View
-          style={[styles.buttonwrapper, styles.anchorWrapper, transAnchorY]}
+          style={[styles.buttonwrapper, styles.optionWrapper, transAnchorY]}
         >
           <MaterialIcons name="anchor" color="aquamarine" size={32} />
         </Animated.View>
@@ -255,16 +251,16 @@ export default function FABButtons() {
         </Animated.View>
       </TouchableWithoutFeedback>
 
-      <Animated.View style={[styles.animal, animalReveal]} >
+      <Animated.View style={[styles.animal, animalReveal]}>
         <AnimalAutoComplete />
       </Animated.View>
 
-      <Animated.View style={[styles.geoCoder, geocodeReveal]} >
+      <Animated.View style={[styles.geoCoder, geocodeReveal]}>
         <GeocodeAutocomplete />
       </Animated.View>
 
       <Modal visible={picAdderModal} animationType="slide" transparent={true}>
-          <View style={styles.modalStyle}>
+        <View style={styles.modalStyle}>
           <View style={styles.title}>
             <View>
               <Text style={styles.header}>Submit Your Picture</Text>
@@ -276,7 +272,7 @@ export default function FABButtons() {
             </TouchableWithoutFeedback>
           </View>
           <PicUploadModal />
-          </View>
+        </View>
       </Modal>
 
       <Modal
@@ -285,17 +281,17 @@ export default function FABButtons() {
         transparent={true}
       >
         <View style={styles.modalStyle}>
-        <View style={styles.title}>
-          <View>
-            <Text style={styles.header}>Submit Your Dive Site</Text>
-          </View>
-          <TouchableWithoutFeedback
-            onPress={() => setDiveSiteAdderModal(!diveSiteAdderModal)}
-          >
-            <View style={styles.closeButton}>
-              <FontAwesome name="close" color="aquamarine" size={32} />
+          <View style={styles.title}>
+            <View>
+              <Text style={styles.header}>Submit Your Dive Site</Text>
             </View>
-          </TouchableWithoutFeedback>
+            <TouchableWithoutFeedback
+              onPress={() => setDiveSiteAdderModal(!diveSiteAdderModal)}
+            >
+              <View style={styles.closeButton}>
+                <FontAwesome name="close" color="aquamarine" size={32} />
+              </View>
+            </TouchableWithoutFeedback>
           </View>
           <DiveSiteModal />
         </View>
@@ -303,15 +299,17 @@ export default function FABButtons() {
 
       <Modal visible={guideModal} animationType="slide" transparent={true}>
         <View style={styles.modalStyle}>
-        <View style={styles.titleAlt}>
-        <View>
-            <Text style={styles.headerAlt}>How to Use DiveGo</Text>
-          </View>
-          <TouchableWithoutFeedback onPress={() => setGuideModal(!guideModal)}>
-            <View style={styles.closeButton}>
-              <FontAwesome name="close" color="aquamarine" size={32} />
+          <View style={styles.titleAlt}>
+            <View>
+              <Text style={styles.headerAlt}>How to Use DiveGo</Text>
             </View>
-          </TouchableWithoutFeedback>
+            <TouchableWithoutFeedback
+              onPress={() => setGuideModal(!guideModal)}
+            >
+              <View style={styles.closeButton}>
+                <FontAwesome name="close" color="aquamarine" size={32} />
+              </View>
+            </TouchableWithoutFeedback>
           </View>
           <GuideModal />
         </View>
@@ -354,24 +352,9 @@ const styles = StyleSheet.create({
   menuWrapper: {
     backgroundColor: "aquamarine",
     bottom: 0,
-    opacity: Platform.OS === 'ios' ? 0.9 : 1
+    opacity: Platform.OS === "ios" ? 0.9 : 1,
   },
-  anchorWrapper: {
-    bottom: 0,
-  },
-  searchWrapper: {
-    bottom: 0,
-  },
-  addSiteWrapper: {
-    bottom: 0,
-  },
-  cameraWrapper: {
-    bottom: 0,
-  },
-  exploreWrapper: {
-    bottom: 0,
-  },
-  questionWrapper: {
+  optionWrapper: {
     bottom: 0,
   },
   animal: {
@@ -435,6 +418,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     marginTop: 20,
     width: "150%",
-    height: 50
+    height: 50,
   },
 });

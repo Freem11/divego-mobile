@@ -4,9 +4,8 @@ import {
   View,
   TextInput,
   TouchableWithoutFeedback,
-  Button,
 } from "react-native";
-import React, { useState, useRef, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import * as Location from "expo-location";
 import * as TaskManager from "expo-task-manager";
 import { FontAwesome5 } from "@expo/vector-icons";
@@ -31,8 +30,9 @@ TaskManager.defineTask(LOCATION_TASK_NAME, async ({ data, error }) => {
 });
 
 export default function DiveSiteModal() {
-
-  const { diveSiteAdderModal, setDiveSiteAdderModal } = useContext(DSAdderContext);
+  const { diveSiteAdderModal, setDiveSiteAdderModal } = useContext(
+    DSAdderContext
+  );
 
   const [formVals, setFormVals] = useState({
     Site: "",
@@ -41,7 +41,6 @@ export default function DiveSiteModal() {
   });
 
   const CurrentCoords = async () => {
-
     const requestPermissions = async () => {
       try {
         const forground = await Location.requestForegroundPermissionsAsync();
@@ -80,13 +79,16 @@ export default function DiveSiteModal() {
   };
 
   const handleSubmit = () => {
-
-    if (formVals.Site === "" || formVals.Latitude == "" || formVals.Longitude == "") {
+    if (
+      formVals.Site === "" ||
+      formVals.Latitude == "" ||
+      formVals.Longitude == ""
+    ) {
       return;
     } else {
       insertDiveSiteWaits(formVals);
       setFormVals({});
-      setDiveSiteAdderModal(!diveSiteAdderModal)
+      setDiveSiteAdderModal(!diveSiteAdderModal);
     }
   };
 
@@ -98,7 +100,9 @@ export default function DiveSiteModal() {
           value={formVals.Site}
           placeholder={"Site Name"}
           placeholderTextColor="grey"
-          onChangeText={(siteText) => setFormVals({...formVals, Site: siteText })}
+          onChangeText={(siteText) =>
+            setFormVals({ ...formVals, Site: siteText })
+          }
         ></TextInput>
 
         <TextInput
@@ -125,16 +129,32 @@ export default function DiveSiteModal() {
       <TouchableWithoutFeedback onPress={CurrentCoords}>
         <View style={[styles.GPSbutton]}>
           <FontAwesome5 name="map" color="red" size={32} />
-          <Text style={{ marginLeft: 5, fontFamily: 'Caveat_700Bold', color: 'maroon' }}>I'm At The Dive Site</Text>
+          <Text
+            style={{
+              marginLeft: 5,
+              fontFamily: "Caveat_700Bold",
+              color: "maroon",
+            }}
+          >
+            I'm At The Dive Site
+          </Text>
         </View>
       </TouchableWithoutFeedback>
 
       <View style={styles.SubmitButton}>
-      <TouchableWithoutFeedback onPress={handleSubmit}>
-         <Text style={{ color: "blue", fontSize: 17, marginTop: 1, fontFamily: 'PermanentMarker_400Regular' }}>Submit Dive Site</Text>
-         </TouchableWithoutFeedback>
+        <TouchableWithoutFeedback onPress={handleSubmit}>
+          <Text
+            style={{
+              color: "blue",
+              fontSize: 17,
+              marginTop: 1,
+              fontFamily: "PermanentMarker_400Regular",
+            }}
+          >
+            Submit Dive Site
+          </Text>
+        </TouchableWithoutFeedback>
       </View>
-
     </View>
   );
 }
@@ -155,7 +175,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   input: {
-    fontFamily: 'IndieFlower_400Regular',
+    fontFamily: "IndieFlower_400Regular",
     backgroundColor: "white",
     borderRadius: 15,
     width: 200,
@@ -202,10 +222,10 @@ const styles = StyleSheet.create({
     opacity: 0.5,
   },
   inputContainerLower: {
-    position: 'absolute',
+    position: "absolute",
     alignItems: "center",
     justifyContent: "center",
     bottom: 0,
-    width: '45%',
+    width: "45%",
   },
 });

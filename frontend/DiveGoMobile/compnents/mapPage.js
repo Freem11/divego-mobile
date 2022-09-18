@@ -19,15 +19,12 @@ import { PinSpotContext } from "./contexts/pinSpotContext";
 import { PinContext } from "./contexts/staticPinContext";
 import { AnimalSelectContext } from "./contexts/animalSelectContext";
 import { MonthSelectContext } from "./contexts/monthSelectContext";
-import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 
 export default function MapPage() {
   const { masterSwitch, setMasterSwitch } = useContext(MasterContext);
-  const { dragPin, setDragPin } = useContext(PinSpotContext);
+  const { dragPin } = useContext(PinSpotContext);
   const { pinValues, setPinValues } = useContext(PinContext);
-  const { animalSelection, setAnimalSelection } = useContext(
-    AnimalSelectContext
-  );
+  const { animalSelection } = useContext(AnimalSelectContext);
   const [monthVal, setMonthVal] = useState("");
   const { picAdderModal, setPicAdderModal } = useContext(PictureAdderContext);
 
@@ -63,7 +60,9 @@ export default function MapPage() {
           <KeyboardAvoidingView style={styles.container} behavior="height">
             {masterSwitch && (
               <View style={styles.monthText}>
-                <Text style={{ fontFamily: 'PermanentMarker_400Regular'}}>{monthVal}</Text>
+                <Text style={{ fontFamily: "PermanentMarker_400Regular" }}>
+                  {monthVal}
+                </Text>
               </View>
             )}
 
@@ -75,8 +74,18 @@ export default function MapPage() {
 
             {masterSwitch && (
               <View style={styles.animalSelect}>
-                {token && <Text style={{ fontFamily: 'Caveat_700Bold'}}> Selected: {animalSelection} </Text>}
-                {!token && <Text style={{ fontFamily: 'Caveat_700Bold',}}> Selected: All </Text>}
+                {token && (
+                  <Text style={{ fontFamily: "Caveat_700Bold" }}>
+                    {" "}
+                    Selected: {animalSelection}{" "}
+                  </Text>
+                )}
+                {!token && (
+                  <Text style={{ fontFamily: "Caveat_700Bold" }}>
+                    {" "}
+                    Selected: All{" "}
+                  </Text>
+                )}
               </View>
             )}
 
@@ -89,7 +98,13 @@ export default function MapPage() {
             {!masterSwitch && (
               <View style={styles.PinButton}>
                 <TouchableWithoutFeedback onPress={onNavigate}>
-                  <Text style={{ color: "blue", fontFamily: 'PermanentMarker_400Regular', marginTop: 8 }}>
+                  <Text
+                    style={{
+                      color: "blue",
+                      fontFamily: "PermanentMarker_400Regular",
+                      marginTop: 8,
+                    }}
+                  >
                     Set Pin
                   </Text>
                 </TouchableWithoutFeedback>
@@ -136,8 +151,8 @@ const styles = StyleSheet.create({
     paddingBottom: 0,
     paddingTop: 10,
     backgroundColor: "white",
-    paddingRight: '2%',
-    paddingLeft: '2%'
+    paddingRight: "2%",
+    paddingLeft: "2%",
   },
   monthText: {
     flex: 1,

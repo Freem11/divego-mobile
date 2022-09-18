@@ -1,57 +1,49 @@
-import React, { useState, useRef, useEffect, useContext } from "react";
-import { StyleSheet, View, TouchableWithoutFeedback, Text, } from "react-native";
+import React, { useState, useEffect, useContext } from "react";
+import { StyleSheet, View } from "react-native";
 import { AutocompleteDropdown } from "react-native-autocomplete-dropdown";
 import { photos } from "./data/testdata";
-import { getAnimalNames } from "../axiosCalls/photoAxiosCalls"
+import { getAnimalNames } from "../axiosCalls/photoAxiosCalls";
 import { AnimalSelectContext } from "./contexts/animalSelectContext";
-import filterCreatures from "./helpers/optionHelpers"
+import filterCreatures from "./helpers/optionHelpers";
+
 export default function AnimalAutoComplete() {
+  const { setAnimalSelection } = useContext(AnimalSelectContext);
+  const [list, setList] = useState([]);
+  let animalData;
 
-// const list = filterCreatures(photos);
-const { animalSelection, setAnimalSelection } = useContext(AnimalSelectContext);
-const [list, setList] = useState([])
-let animalData
+  useEffect(() => {
+    animalData = getAnimalNames();
+    Promise.all([animalData])
+      .then((response) => {
+        setList(filterCreatures(response[0]));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
-useEffect(() => {
+  const handleConfirm = (animal) => {
+    if (animal !== null) {
+      setAnimalSelection(animal.title);
+    }
+  };
 
-  animalData = getAnimalNames()
-  Promise.all([animalData])
-  .then((response) => {
-    setList(filterCreatures(response[0]))
-  })
-  .catch((error) => {
-    console.log(error);
-  });
-  
-  }, [])
+  const handleClear = () => {
+    setAnimalSelection("");
+  };
 
-const handleConfirm = (animal) => {
-  if (animal !== null){
-    setAnimalSelection(animal.title);
-
-}
-};
-
-const handleClear = (animal) => {
-  setAnimalSelection("");
-}
-
-// if (!list) {
-//   setList(photos)
-// }
-
-return(
+  return (
     <View style={styles.container}>
-        <AutocompleteDropdown
-        initialValue='Species'
+      <AutocompleteDropdown
+        initialValue="Species"
         textInputProps={{
-            style: {
-                backgroundColor: "white",
-                borderRadius: 25,
-                width: 200,
-                opacity: 0.1,
-                height: 40
-            }
+          style: {
+            backgroundColor: "white",
+            borderRadius: 25,
+            width: 200,
+            opacity: 0.1,
+            height: 40,
+          },
         }}
         inputContainerStyle={{
           height: 40,
@@ -67,22 +59,20 @@ return(
         showClear={true}
         closeOnBlur={true}
         onClear={(text) => handleClear(text)}
-        />
+      />
     </View>
-   
-)
+  );
 }
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      alignItems: "center",
-      justifyContent: "center",
-      width: 200,
-      backgroundColor: "white",
-      borderRadius: 10,
-      zIndex: 1,
-      transform: [{ scaleX: -1}]
-    },
-   
-  });
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    width: 200,
+    backgroundColor: "white",
+    borderRadius: 10,
+    zIndex: 1,
+    transform: [{ scaleX: -1 }],
+  },
+});

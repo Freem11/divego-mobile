@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   StyleSheet,
   View,
@@ -16,13 +16,6 @@ export default function AnimalAutoSuggest(props) {
 
   const [list, setList] = useState([]);
 
-  // useEffect(async() => {
-
-  //   let filteredList = await getAnimalNamesThatFit('')
-  //   console.log("meee", filteredList)
-
-  // }, [])
-
   const handleChange = async (text) => {
     setPin({ ...pin, Animal: text });
 
@@ -37,7 +30,7 @@ export default function AnimalAutoSuggest(props) {
   const handleClear = () => {
     setPin({ ...pin, Animal: "" });
     setList([]);
-    Keyboard.dismiss()
+    Keyboard.dismiss();
   };
 
   return (

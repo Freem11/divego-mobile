@@ -1,12 +1,12 @@
-import React, { useState, useContext, useEffect } from "react";
-import { StyleSheet, View, Text, Platform } from "react-native";
+import React, { useContext, useEffect } from "react";
+import { Platform } from "react-native";
 import Slider from "@react-native-community/slider";
 import { SliderContext } from "./contexts/sliderContext";
 import { MonthSelectContext } from "./contexts/monthSelectContext";
 
 export default function MonthSlider() {
   const { sliderVal, setSliderVal } = useContext(SliderContext);
-  const { monthVal, setMonthVal } = useContext(MonthSelectContext);
+  const { setMonthVal } = useContext(MonthSelectContext);
 
   useEffect(() =>{
   switch (sliderVal) {
@@ -77,16 +77,3 @@ export default function MonthSlider() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    position: "absolute",
-    backgroundColor: "white",
-    opacity: 0.6,
-    alignItems: "center",
-    justifyContent: "center",
-    top: 30,
-    height: 45,
-    borderRadius: 15,
-  },
-});
