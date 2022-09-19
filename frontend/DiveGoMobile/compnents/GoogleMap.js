@@ -14,7 +14,7 @@ import { diveSitesFake, heatVals } from "./data/testdata";
 import anchorIcon from "../compnents/png/anchor11.png";
 import anchorClust from "../compnents/png/anchor3.png";
 import whale from "../compnents/png/icons8-spouting-whale-48.png";
-import { filterSites, formatHeatVals } from "./helpers/mapHelpers";
+import { calculateZoom, formatHeatVals } from "./helpers/mapHelpers";
 import { setupClusters } from "./helpers/clusterHelpers";
 import useSupercluster from "use-supercluster";
 import { diveSites } from "../axiosCalls/diveSiteAxiosCalls";
@@ -25,19 +25,6 @@ const { width, height } = Dimensions.get("window");
 export default function Map() {
   const { masterSwitch } = useContext(MasterContext);
   const { mapCenter, setMapCenter } = useContext(MapCenterContext);
-
-  useEffect(() => {
-    if (mapRef) {
-      mapRef.animateCamera({
-        center: {
-          latitude: mapCenter.lat,
-          longitude: mapCenter.lng,
-        },
-      });
-      Keyboard.dismiss();
-    }
-  }, [mapCenter]);
-
   const { region, setRegion } = useContext(MapRegionContext);
   const [mapRef, setMapRef] = useState(null);
   const { boundaries, setBoundaries } = useContext(MapBoundariesContext);
@@ -52,79 +39,6 @@ export default function Map() {
 
   const { diveSitesTog } = useContext(DiveSitesContext);
 
-  useEffect(() => {
-    if (mapRef) {
-      let bounds = mapRef.getMapBoundaries();
-      Promise.all([bounds])
-        .then((response) => {
-          setBoundaries([
-            response[0].southWest.longitude,
-            response[0].southWest.latitude,
-            response[0].northEast.longitude,
-            response[0].northEast.latitude,
-          ]);
-
-          let filtered = diveSites(response[0]);
-          Promise.all([filtered])
-            .then((response1) => {
-              if (response1) {
-                !diveSitesTog
-                  ? setnewSites([])
-                  : setnewSites(filterSites(response[0], response1[0]));
-              }
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-
-          let filteredHeat = heatPoints(
-            response[0],
-            sliderVal,
-            animalSelection
-          );
-          Promise.all([filteredHeat])
-            .then((response2) => {
-              setNewHeat(formatHeatVals(response2[0]));
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-
-          let zoom =
-            Math.log2(
-              (360 * (width / 256)) /
-                (response[0].northEast.longitude -
-                  response[0].southWest.longitude)
-            ) + 1;
-          setZoomLev(zoom);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-
-      let mapbullseye = mapRef.getCamera();
-      Promise.all([mapbullseye])
-        .then((response1) => {
-          setRegion({
-            latitude: response1.center.latitude,
-            longitude: response1.center.longitude,
-            latitudeDelta:
-              response[0].northEast.latitude - response[0].southWest.latitude,
-            longitudeDelta:
-              response[0].northEast.longitude - response[0].southWest.longitude,
-          });
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-
-      setDragPin({
-        latitude: response1.center.latitude,
-        longitude: response1.center.longitude,
-      });
-    }
-  }, []);
-
   const handleMapChange = async () => {
     if (mapRef) {
       let bounds = await mapRef.getMapBoundaries();
@@ -136,19 +50,16 @@ export default function Map() {
       ]);
 
       let filtered = await diveSites(bounds);
-
-      if (filtered) {
-        !diveSitesTog ? setnewSites([]) : setnewSites(filtered);
-      }
+      !diveSitesTog ? setnewSites([]) : setnewSites(filtered);
 
       let filteredHeat = await heatPoints(bounds, sliderVal, animalSelection);
       setNewHeat(formatHeatVals(filteredHeat));
 
-      let zoom =
-        Math.log2(
-          (360 * (width / 256)) /
-            (bounds.northEast.longitude - bounds.southWest.longitude)
-        ) + 1;
+      let zoom = calculateZoom(
+        width,
+        bounds.northEast.longitude,
+        bounds.southWest.longitude
+      );
       setZoomLev(zoom);
 
       let mapbullseye = await mapRef.getCamera();
@@ -167,42 +78,28 @@ export default function Map() {
   };
 
   useEffect(() => {
-    if (mapRef) {
-      let bounds = mapRef.getMapBoundaries();
-      Promise.all([bounds]).then((response) => {
-        setBoundaries([
-          response[0].southWest.longitude,
-          response[0].southWest.latitude,
-          response[0].northEast.longitude,
-          response[0].northEast.latitude,
-        ]);
+    handleMapChange();
+  }, []);
 
-        let filtered = diveSites(response[0]);
-        Promise.all([filtered])
-          .then((response1) => {
-            !diveSitesTog
-              ? setnewSites([])
-              : setnewSites(filterSites(response[0], response1[0]));
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-
-        let filteredHeat = heatPoints(response[0], sliderVal, animalSelection);
-        Promise.all([filteredHeat])
-          .then((response2) => {
-            setNewHeat(formatHeatVals(response2[0]));
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      });
-    }
+  useEffect(() => {
+    handleMapChange();
   }, [diveSitesTog, sliderVal, animalSelection]);
 
   useEffect(() => {
     setDragPin(mapCenter);
   }, [masterSwitch]);
+
+  useEffect(() => {
+    if (mapRef) {
+      mapRef.animateCamera({
+        center: {
+          latitude: mapCenter.lat,
+          longitude: mapCenter.lng,
+        },
+      });
+      Keyboard.dismiss();
+    }
+  }, [mapCenter]);
 
   const points = setupClusters(newSites);
 

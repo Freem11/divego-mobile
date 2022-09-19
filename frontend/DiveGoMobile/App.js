@@ -31,6 +31,7 @@ import { NavigationContainer, useIsFocused } from "@react-navigation/native";
 import StackNav from "./compnents/stackNav";
 import * as Location from "expo-location";
 import * as TaskManager from "expo-task-manager";
+import {CurrentCoords} from "./compnents/helpers/whatever"
 
 const { width, height } = Dimensions.get("window");
 
@@ -89,10 +90,14 @@ export default function App() {
 
   const [dragPin, setDragPin] = useState({});
 
-  // useEffect (() => {
+  useEffect (() => {
 
-  //   CurrentCoords()
-
+    let test = CurrentCoords()
+    console.log("shthsthgt", test)
+    Promise.all([test]).then((response) => {
+      console.log("shth", response)
+    })
+      
   //   async function CurrentCoords () {
   //   const requestPermissions = async () => {
   //     try {
@@ -130,7 +135,7 @@ export default function App() {
   //     console.log({ title: "Error", message: e.message });
   //   }
   // }
-  // }, [])
+  }, [])
 
 
   let [fontsLoaded] = useFonts({

@@ -355,7 +355,7 @@ const styles = StyleSheet.create({
     opacity: Platform.OS === "ios" ? 0.9 : 1,
   },
   optionWrapper: {
-    bottom: 0,
+    bottom: 5,
   },
   animal: {
     bottom: 148,

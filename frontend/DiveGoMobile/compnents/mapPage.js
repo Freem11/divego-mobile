@@ -27,7 +27,7 @@ export default function MapPage() {
   const { animalSelection } = useContext(AnimalSelectContext);
   const [monthVal, setMonthVal] = useState("");
   const { picAdderModal, setPicAdderModal } = useContext(PictureAdderContext);
-
+  const [token, setToken] = useState(false);
   const [diveSitesTog, setDiveSitesTog] = useState(true);
   const [mapCenter, setMapCenter] = useState({
     lat: 49.246292,
@@ -43,8 +43,7 @@ export default function MapPage() {
     setMasterSwitch(true);
     setPicAdderModal(!picAdderModal);
   };
-  const [token, setToken] = useState(false);
-
+  
   useEffect(() => {
     if (animalSelection.length > 0) {
       setToken(true);
