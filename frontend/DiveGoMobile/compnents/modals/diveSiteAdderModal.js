@@ -22,22 +22,19 @@ export default function DiveSiteModal() {
     Longitude: "",
   });
 
-  const getCurrentGPSCoordinates = async () => {
-    const getCurrentLocation = async () => {
-      try {
-        const location = await getCurrentCoordinates();
-        if (location) {
-          setFormVals({
-            ...formVals,
-            Latitude: location.coords.latitude.toString(),
-            Longitude: location.coords.longitude.toString(),
-          });
-        }
-      } catch (e) {
-        console.log({ title: "Error", message: e.message });
+  const getCurrentLocation = async () => {
+    try {
+      const location = await getCurrentCoordinates();
+      if (location) {
+        setFormVals({
+          ...formVals,
+          Latitude: location.coords.latitude.toString(),
+          Longitude: location.coords.longitude.toString(),
+        });
       }
-    };
-    getCurrentLocation();
+    } catch (e) {
+      console.log({ title: "Error", message: e.message });
+    }
   };
 
   const handleSubmit = () => {
@@ -88,7 +85,7 @@ export default function DiveSiteModal() {
         ></TextInput>
       </View>
 
-      <TouchableWithoutFeedback onPress={getCurrentGPSCoordinates}>
+      <TouchableWithoutFeedback onPress={getCurrentLocation}>
         <View style={[styles.GPSbutton]}>
           <FontAwesome5 name="map" color="red" size={32} />
           <Text

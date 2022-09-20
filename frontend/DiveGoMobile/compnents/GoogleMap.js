@@ -26,19 +26,17 @@ export default function Map() {
   const { masterSwitch } = useContext(MasterContext);
   const { mapCenter, setMapCenter } = useContext(MapCenterContext);
   const { region, setRegion } = useContext(MapRegionContext);
-  const [mapRef, setMapRef] = useState(null);
   const { boundaries, setBoundaries } = useContext(MapBoundariesContext);
-  const [newSites, setnewSites] = useState([]);
-  const [newHeat, setNewHeat] = useState([]);
   const { zoomlev, setZoomLev } = useContext(MapZoomContext);
-
+  const { diveSitesTog } = useContext(DiveSitesContext);
   const { sliderVal } = useContext(SliderContext);
   const { animalSelection } = useContext(AnimalSelectContext);
-
   const { dragPin, setDragPin } = useContext(PinSpotContext);
-
-  const { diveSitesTog } = useContext(DiveSitesContext);
-
+  
+  const [mapRef, setMapRef] = useState(null);
+  const [newSites, setnewSites] = useState([]);
+  const [newHeat, setNewHeat] = useState([]);
+  
   const handleMapChange = async () => {
     if (mapRef) {
       let boundaries = await mapRef.getMapBoundaries();

@@ -132,6 +132,78 @@ export default function PicUploadModal() {
     }
   };
 
+
+  const handleImageUpload = async() => {
+    try {
+      const image = await chooseImageHandler();
+      if (image) {
+        let formattedDate;
+        let newLatitude;
+        let newLongitude;
+        if (image.exif.DateTimeOriginal) {
+          let slicedDate = image.exif.DateTimeOriginal.substring(
+            0,
+            10
+          );
+          formattedDate = slicedDate.replaceAll(":", "-");
+        } else {
+          formattedDate = pinValues.PicDate;
+        }
+        if (image.exif.GPSLatitude) {
+          newLatitude = image.exif.GPSLatitude.toString();
+          newLongitude = image.exif.GPSLongitude.toString();
+        } else {
+          newLatitude = pinValues.Latitude;
+          newLongitude = pinValues.Longitude;
+        }
+
+        if (pinValues.PicFile !== null) {
+          removePhoto({
+            filePath: "./wetmap/src/components/uploads/",
+            fileName: pinValues.PicFile,
+          });
+        }
+
+        let fileName = image.uri.substring(
+          image.uri.lastIndexOf("/") + 1,
+          image.uri.length
+        );
+
+        const fileToUpload = {
+          uri: image.uri,
+          name: fileName,
+          type: "image/jpg",
+        };
+
+        const data = new FormData();
+        data.append("image", fileToUpload);
+
+        fetch("http://10.0.0.68:5000/api/upload", {
+          method: "POST",
+          body: data,
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            setPinValues({
+              ...pinValues,
+              PicFile: data.fileName,
+              PicDate: formattedDate,
+              Latitude: newLatitude,
+              Longitude: newLongitude,
+            });
+            console.log("stored:", data.fileName);
+          })
+          .catch((err) => {
+            return err;
+          });
+
+        setUploadedFile(image.uri);
+      }
+    } catch (e) {
+      console.log("error: Photo Selection Cancelled", e.message);
+    }
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.picContainer}>
@@ -142,76 +214,7 @@ export default function PicUploadModal() {
       </View>
 
       <TouchableWithoutFeedback
-        onPress={async () => {
-          try {
-            const response = await chooseImageHandler();
-            if (response) {
-              let trueDate;
-              let lats;
-              let lngs;
-              if (response.exif.DateTimeOriginal) {
-                let formattedDate = response.exif.DateTimeOriginal.substring(
-                  0,
-                  10
-                );
-                trueDate = formattedDate.replaceAll(":", "-");
-              } else {
-                trueDate = pinValues.PicDate;
-              }
-              if (response.exif.GPSLatitude) {
-                lats = response.exif.GPSLatitude.toString();
-                lngs = response.exif.GPSLongitude.toString();
-              } else {
-                lats = pinValues.Latitude;
-                lngs = pinValues.Longitude;
-              }
-
-              if (pinValues.PicFile !== null) {
-                removePhoto({
-                  filePath: "./wetmap/src/components/uploads/",
-                  fileName: pinValues.PicFile,
-                });
-              }
-
-              let fileName = response.uri.substring(
-                response.uri.lastIndexOf("/") + 1,
-                response.uri.length
-              );
-
-              const upFile = {
-                uri: response.uri,
-                name: fileName,
-                type: "image/jpg",
-              };
-
-              const data = new FormData();
-              data.append("image", upFile);
-
-              fetch("http://10.0.0.68:5000/api/upload", {
-                method: "POST",
-                body: data,
-              })
-                .then((response) => response.json())
-                .then((data) => {
-                  setPinValues({
-                    ...pinValues,
-                    PicFile: data.fileName,
-                    PicDate: trueDate,
-                    Latitude: lats,
-                    Longitude: lngs,
-                  });
-                  console.log("stored:", data.fileName);
-                })
-                .catch((err) => {
-                  return err;
-                });
-
-              setUploadedFile(response.uri);
-            }
-          } catch (e) {
-            console.log("error: Photo Selection Cancelled", e.message);
-          }
-        }}
+        onPress={handleImageUpload}
       >
         <View style={[styles.ImageButton]}>
           <FontAwesome name="picture-o" color="red" size={32} />

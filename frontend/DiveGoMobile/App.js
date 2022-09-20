@@ -67,21 +67,22 @@ export default function App() {
 
   const [dragPin, setDragPin] = useState({});
 
-  useEffect(() => {
-    const getCurrentLocation = async () => {
-      try {
-        const location = await getCurrentCoordinates();
-        if (location) {
-          setRegion({
-            ...region,
-            latitude: location.coords.latitude,
-            longitude: location.coords.longitude,
-          });
-        }
-      } catch (e) {
-        console.log({ title: "Error", message: e.message });
+  const getCurrentLocation = async () => {
+    try {
+      const location = await getCurrentCoordinates();
+      if (location) {
+        setRegion({
+          ...region,
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude,
+        });
       }
-    };
+    } catch (e) {
+      console.log({ title: "Error", message: e.message });
+    }
+  };
+
+  useEffect(() => {
     getCurrentLocation();
   }, []);
 
