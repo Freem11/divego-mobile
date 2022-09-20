@@ -1,8 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Dimensions } from "react-native";
-import MapPage from "./compnents/mapPage";
-import AppLoading from "expo-app-loading";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { IndieFlower_400Regular } from "@expo-google-fonts/indie-flower";
@@ -13,8 +10,7 @@ import {
   Caveat_600SemiBold,
   Caveat_700Bold,
 } from "@expo-google-fonts/caveat";
-import { ShadowsIntoLight_400Regular } from '@expo-google-fonts/shadows-into-light';
-
+import { ShadowsIntoLight_400Regular } from "@expo-google-fonts/shadows-into-light";
 import { PictureAdderContext } from "./compnents/contexts/picModalContext";
 import { DSAdderContext } from "./compnents/contexts/DSModalContext";
 import { PinContext } from "./compnents/contexts/staticPinContext";
@@ -27,30 +23,11 @@ import { PinSpotContext } from "./compnents/contexts/pinSpotContext";
 import { SliderContext } from "./compnents/contexts/sliderContext";
 import { AnimalSelectContext } from "./compnents/contexts/animalSelectContext";
 import { PictureContext } from "./compnents/contexts/pictureContext";
-import { NavigationContainer, useIsFocused } from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native";
 import StackNav from "./compnents/stackNav";
-import * as Location from "expo-location";
-import * as TaskManager from "expo-task-manager";
-import {CurrentCoords} from "./compnents/helpers/whatever"
+import { getCurrentCoordinates } from "./compnents/helpers/permissionsHelpers";
 
 const { width, height } = Dimensions.get("window");
-
-const LOCATION_TASK_NAME = "LOCATION_TASK_NAME";
-let foregroundSubscription = null;
-
-TaskManager.defineTask(LOCATION_TASK_NAME, async ({ data, error }) => {
-  if (error) {
-    console.log("error", error);
-    return;
-  }
-  if (data) {
-    const { locations } = data;
-    const location = locations[0];
-    if (location) {
-      console.log("background location", location.coords);
-    }
-  }
-});
 
 export default function App() {
   const [masterSwitch, setMasterSwitch] = useState(true);
@@ -90,53 +67,23 @@ export default function App() {
 
   const [dragPin, setDragPin] = useState({});
 
-  useEffect (() => {
-
-    let test = CurrentCoords()
-    console.log("shthsthgt", test)
-    Promise.all([test]).then((response) => {
-      console.log("shth", response)
-    })
-      
-  //   async function CurrentCoords () {
-  //   const requestPermissions = async () => {
-  //     try {
-  //       const forground = await Location.requestForegroundPermissionsAsync();
-  //       if (forground.granted)
-  //         await Location.requestBackgroundPermissionsAsync();
-  //     } catch (e) {
-  //       console.log({ title: "Error", message: e.message });
-  //     }
-  //   };
-  //   requestPermissions();
-
-  //   const { granted } = await Location.getForegroundPermissionsAsync();
-
-  //   if (!granted) {
-  //     console.log("location tracking denied");
-  //     setRegion({ ...region,})
-  //   }
-  //   foregroundSubscription?.remove();
-
-  //   try {
-  //      await Location.watchPositionAsync(
-  //       {
-  //         accuracy: Location.Accuracy.BestForNavigation,
-  //       },
-  //       (location) => {
-  //         setRegion({
-  //           ...region,
-  //           latitude: location.coords.latitude,
-  //           longitude: location.coords.longitude,
-  //         });
-  //       }
-  //     );
-  //   } catch (e) {
-  //     console.log({ title: "Error", message: e.message });
-  //   }
-  // }
-  }, [])
-
+  useEffect(() => {
+    const getCurrentLocation = async () => {
+      try {
+        const location = await getCurrentCoordinates();
+        if (location) {
+          setRegion({
+            ...region,
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+          });
+        }
+      } catch (e) {
+        console.log({ title: "Error", message: e.message });
+      }
+    };
+    getCurrentLocation();
+  }, []);
 
   let [fontsLoaded] = useFonts({
     PermanentMarker_400Regular,
@@ -146,7 +93,7 @@ export default function App() {
     Caveat_700Bold,
     IndieFlower_400Regular,
     ShadowsIntoLight_400Regular,
-  })
+  });
 
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded) {

@@ -111,10 +111,10 @@ export default function PicUploadModal() {
   const handleSubmit = () => {
     if (
       pinValues.PicFile === "" ||
-      pinValues.PicDate == "" ||
-      pinValues.Longitude == "" ||
-      pinValues.Latitude == "" ||
-      pinValues.Animal == ""
+      pinValues.PicDate === "" ||
+      pinValues.Longitude === "" ||
+      pinValues.Latitude === "" ||
+      pinValues.Animal === ""
     ) {
       return;
     } else {

@@ -6,28 +6,10 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import React, { useState, useContext } from "react";
-import * as Location from "expo-location";
-import * as TaskManager from "expo-task-manager";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { DSAdderContext } from "../contexts/DSModalContext";
 import { insertDiveSiteWaits } from "../../axiosCalls/diveSiteWaitAxiosCalls";
-
-const LOCATION_TASK_NAME = "LOCATION_TASK_NAME";
-let foregroundSubscription = null;
-
-TaskManager.defineTask(LOCATION_TASK_NAME, async ({ data, error }) => {
-  if (error) {
-    console.log("error", error);
-    return;
-  }
-  if (data) {
-    const { locations } = data;
-    const location = locations[0];
-    if (location) {
-      console.log("background location", location.coords);
-    }
-  }
-});
+import { getCurrentCoordinates } from "../helpers/permissionsHelpers";
 
 export default function DiveSiteModal() {
   const { diveSiteAdderModal, setDiveSiteAdderModal } = useContext(
@@ -40,42 +22,22 @@ export default function DiveSiteModal() {
     Longitude: "",
   });
 
-  const CurrentCoords = async () => {
-    const requestPermissions = async () => {
+  const getCurrentGPSCoordinates = async () => {
+    const getCurrentLocation = async () => {
       try {
-        const forground = await Location.requestForegroundPermissionsAsync();
-        if (forground.granted)
-          await Location.requestBackgroundPermissionsAsync();
-      } catch (e) {
-        console.log({ title: "Error", message: e.message });
-      }
-    };
-    requestPermissions();
-
-    const { granted } = await Location.getForegroundPermissionsAsync();
-
-    if (!granted) {
-      console.log("location tracking denied");
-      return;
-    }
-    foregroundSubscription?.remove();
-
-    try {
-      return await Location.watchPositionAsync(
-        {
-          accuracy: Location.Accuracy.BestForNavigation,
-        },
-        (location) => {
+        const location = await getCurrentCoordinates();
+        if (location) {
           setFormVals({
             ...formVals,
             Latitude: location.coords.latitude.toString(),
             Longitude: location.coords.longitude.toString(),
           });
         }
-      );
-    } catch (e) {
-      console.log({ title: "Error", message: e.message });
-    }
+      } catch (e) {
+        console.log({ title: "Error", message: e.message });
+      }
+    };
+    getCurrentLocation();
   };
 
   const handleSubmit = () => {
@@ -126,7 +88,7 @@ export default function DiveSiteModal() {
         ></TextInput>
       </View>
 
-      <TouchableWithoutFeedback onPress={CurrentCoords}>
+      <TouchableWithoutFeedback onPress={getCurrentGPSCoordinates}>
         <View style={[styles.GPSbutton]}>
           <FontAwesome5 name="map" color="red" size={32} />
           <Text

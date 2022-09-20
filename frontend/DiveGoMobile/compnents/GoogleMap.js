@@ -41,38 +41,38 @@ export default function Map() {
 
   const handleMapChange = async () => {
     if (mapRef) {
-      let bounds = await mapRef.getMapBoundaries();
+      let boundaries = await mapRef.getMapBoundaries();
       setBoundaries([
-        bounds.southWest.longitude,
-        bounds.southWest.latitude,
-        bounds.northEast.longitude,
-        bounds.northEast.latitude,
+        boundaries.southWest.longitude,
+        boundaries.southWest.latitude,
+        boundaries.northEast.longitude,
+        boundaries.northEast.latitude,
       ]);
 
-      let filtered = await diveSites(bounds);
-      !diveSitesTog ? setnewSites([]) : setnewSites(filtered);
+      let filteredDiveSites = await diveSites(boundaries);
+      !diveSitesTog ? setnewSites([]) : setnewSites(filteredDiveSites);
 
-      let filteredHeat = await heatPoints(bounds, sliderVal, animalSelection);
-      setNewHeat(formatHeatVals(filteredHeat));
+      let filteredHeatPoints = await heatPoints(boundaries, sliderVal, animalSelection);
+      setNewHeat(formatHeatVals(filteredHeatPoints));
 
       let zoom = calculateZoom(
         width,
-        bounds.northEast.longitude,
-        bounds.southWest.longitude
+        boundaries.northEast.longitude,
+        boundaries.southWest.longitude
       );
       setZoomLev(zoom);
 
-      let mapbullseye = await mapRef.getCamera();
+      let currentMapPosition = await mapRef.getCamera();
       setRegion({
-        latitude: mapbullseye.center.latitude,
-        longitude: mapbullseye.center.longitude,
-        latitudeDelta: bounds.northEast.latitude - bounds.southWest.latitude,
-        longitudeDelta: bounds.northEast.longitude - bounds.southWest.longitude,
+        latitude: currentMapPosition.center.latitude,
+        longitude: currentMapPosition.center.longitude,
+        latitudeDelta: boundaries.northEast.latitude - boundaries.southWest.latitude,
+        longitudeDelta: boundaries.northEast.longitude - boundaries.southWest.longitude,
       });
 
       setMapCenter({
-        lat: mapbullseye.center.latitude,
-        lng: mapbullseye.center.longitude,
+        lat: currentMapPosition.center.latitude,
+        lng: currentMapPosition.center.longitude,
       });
     }
   };
