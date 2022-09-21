@@ -15,6 +15,7 @@ import { PictureAdderContext } from "../contexts/picModalContext";
 import { MasterContext } from "../contexts/masterContext";
 import { PictureContext } from "../contexts/pictureContext";
 import { getToday } from "../helpers/picUploaderHelpers";
+import { formatDate, createFile } from "../helpers/imageUploadHelpers";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import moment from "moment";
@@ -141,14 +142,11 @@ export default function PicUploadModal() {
         let newLatitude;
         let newLongitude;
         if (image.exif.DateTimeOriginal) {
-          let slicedDate = image.exif.DateTimeOriginal.substring(
-            0,
-            10
-          );
-          formattedDate = slicedDate.replaceAll(":", "-");
+          formattedDate = formatDate(image.exif.DateTimeOriginal)
         } else {
           formattedDate = pinValues.PicDate;
         }
+
         if (image.exif.GPSLatitude) {
           newLatitude = image.exif.GPSLatitude.toString();
           newLongitude = image.exif.GPSLongitude.toString();
@@ -164,17 +162,7 @@ export default function PicUploadModal() {
           });
         }
 
-        let fileName = image.uri.substring(
-          image.uri.lastIndexOf("/") + 1,
-          image.uri.length
-        );
-
-        const fileToUpload = {
-          uri: image.uri,
-          name: fileName,
-          type: "image/jpg",
-        };
-
+        let fileToUpload = createFile(image.uri);
         const data = new FormData();
         data.append("image", fileToUpload);
 

@@ -19,6 +19,8 @@ import { setupClusters } from "./helpers/clusterHelpers";
 import useSupercluster from "use-supercluster";
 import { diveSites } from "../axiosCalls/diveSiteAxiosCalls";
 import { heatPoints } from "../axiosCalls/heatPointAxiosCalls";
+import { getCurrentCoordinates } from "../compnents/helpers/permissionsHelpers";
+import { ISO_8601 } from "moment";
 
 const { width, height } = Dimensions.get("window");
 
@@ -75,8 +77,30 @@ export default function Map() {
     }
   };
 
+  const getCurrentLocation = async () => {
+    try {
+      const location = await getCurrentCoordinates();
+      if (location) {
+        console.log("yoo work IOS", location )
+        setRegion({
+          ...region,
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude,
+        });
+        setMapCenter({
+          lat: location.coords.latitude, 
+          lng: location.coords.longitude
+      });
+    }
+    } catch (e) {
+      console.log({ title: "Error", message: e.message });
+    }
+  };
+
+ 
   useEffect(() => {
     handleMapChange();
+    getCurrentLocation();
   }, []);
 
   useEffect(() => {

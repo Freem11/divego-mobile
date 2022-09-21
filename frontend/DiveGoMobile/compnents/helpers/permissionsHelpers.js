@@ -21,7 +21,10 @@ TaskManager.defineTask(LOCATION_TASK_NAME, async ({ data, error }) => {
 const requestPermissions = async () => {
   try {
     const forground = await Location.requestForegroundPermissionsAsync();
-    if (forground.granted) await Location.requestBackgroundPermissionsAsync();
+    if (forground.granted) {
+      let stuff = await Location.requestBackgroundPermissionsAsync();
+      return stuff
+    }
   } catch (e) {
     console.log({ title: "Error", message: e.message });
   }
@@ -37,8 +40,11 @@ const getCurrentCoordinates = async () => {
   }
   foregroundSubscription?.remove();
 
-  let myLocation = await Location.getCurrentPositionAsync({});
-  return myLocation;
+  try {
+    return await Location.getCurrentPositionAsync({});
+  } catch (e) {
+    console.log("Location tracking error");
+  }
 };
 
 export { getCurrentCoordinates };

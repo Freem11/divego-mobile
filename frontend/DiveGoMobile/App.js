@@ -30,13 +30,14 @@ import { getCurrentCoordinates } from "./compnents/helpers/permissionsHelpers";
 const { width, height } = Dimensions.get("window");
 
 export default function App() {
+  const [appIsReady, setAppIsReady] = useState(false);
   const [masterSwitch, setMasterSwitch] = useState(true);
   const [picAdderModal, setPicAdderModal] = useState(false);
   const [diveSiteAdderModal, setDiveSiteAdderModal] = useState(false);
   const [uploadedFile, setUploadedFile] = useState(null);
 
-  let craxy = new Date().getMonth() + 1;
-  const [sliderVal, setSliderVal] = useState(craxy);
+  let currentMonth = new Date().getMonth() + 1;
+  const [sliderVal, setSliderVal] = useState(currentMonth);
 
   const [pinValues, setPinValues] = useState({
     PicFile: null,
@@ -82,10 +83,6 @@ export default function App() {
     }
   };
 
-  useEffect(() => {
-    getCurrentLocation();
-  }, []);
-
   let [fontsLoaded] = useFonts({
     PermanentMarker_400Regular,
     Caveat_400Regular,
@@ -96,12 +93,25 @@ export default function App() {
     ShadowsIntoLight_400Regular,
   });
 
-  const onLayoutRootView = useCallback(async () => {
-    if (fontsLoaded) {
-      // await SplashScreen.hideAsync();
+  useEffect(() => {
+    async function prepare(){
+      await SplashScreen.preventAutoHideAsync();
+      await getCurrentLocation();
+      setAppIsReady(true);
     }
-  }, [fontsLoaded]);
+    prepare()
+  }, []);
 
+  const onLayoutRootView = useCallback(async () => {
+    if (appIsReady){
+      await SplashScreen.hideAsync();
+    }
+  }, [appIsReady])
+
+  if (!appIsReady){
+    return null;
+  }
+  
   if (!fontsLoaded) {
     return null;
   }
