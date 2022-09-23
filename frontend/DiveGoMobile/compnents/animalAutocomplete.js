@@ -4,22 +4,19 @@ import { AutocompleteDropdown } from "react-native-autocomplete-dropdown";
 import { photos } from "./data/testdata";
 import { getAnimalNames } from "../axiosCalls/photoAxiosCalls";
 import { AnimalSelectContext } from "./contexts/animalSelectContext";
-import filterCreatures from "./helpers/optionHelpers";
+import addIndexNumber from "./helpers/optionHelpers";
 
 export default function AnimalAutoComplete() {
   const { setAnimalSelection } = useContext(AnimalSelectContext);
   const [list, setList] = useState([]);
-  let animalData;
+
+  const handleAnimalList = async () => {
+    let animalData = await getAnimalNames();
+    setList(addIndexNumber(animalData));
+  }
 
   useEffect(() => {
-    animalData = getAnimalNames();
-    Promise.all([animalData])
-      .then((response) => {
-        setList(filterCreatures(response[0]));
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    handleAnimalList()
   }, []);
 
   const handleConfirm = (animal) => {
@@ -39,10 +36,13 @@ export default function AnimalAutoComplete() {
         textInputProps={{
           style: {
             backgroundColor: "white",
+            justifyContent: "center",
+            alignItems: "center",
             borderRadius: 25,
             width: 200,
-            opacity: 0.1,
+            opacity: 1,
             height: 40,
+            marginBottom: 5
           },
         }}
         inputContainerStyle={{
@@ -69,6 +69,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    alignContent: "center",
     width: 200,
     backgroundColor: "white",
     borderRadius: 10,

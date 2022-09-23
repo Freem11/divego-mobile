@@ -19,6 +19,7 @@ import { PinSpotContext } from "./contexts/pinSpotContext";
 import { PinContext } from "./contexts/staticPinContext";
 import { AnimalSelectContext } from "./contexts/animalSelectContext";
 import { MonthSelectContext } from "./contexts/monthSelectContext";
+import { scale } from 'react-native-size-matters';
 
 export default function MapPage() {
   const { masterSwitch, setMasterSwitch } = useContext(MasterContext);
@@ -59,7 +60,7 @@ export default function MapPage() {
           <KeyboardAvoidingView style={styles.container} behavior="height">
             {masterSwitch && (
               <View style={styles.monthText}>
-                <Text style={{ fontFamily: "PermanentMarker_400Regular" }}>
+                <Text style={{ fontFamily: "PermanentMarker_400Regular", fontSize: scale(15) }}>
                   {monthVal}
                 </Text>
               </View>
@@ -74,13 +75,13 @@ export default function MapPage() {
             {masterSwitch && (
               <View style={styles.animalSelect}>
                 {token && (
-                  <Text style={{ fontFamily: "Caveat_700Bold" }}>
+                  <Text style={{ fontFamily: "Caveat_700Bold", fontSize: scale(14) }}>
                     {" "}
                     Selected: {animalSelection}{" "}
                   </Text>
                 )}
                 {!token && (
-                  <Text style={{ fontFamily: "Caveat_700Bold" }}>
+                  <Text style={{ fontFamily: "Caveat_700Bold", fontSize: scale(14) }}>
                     {" "}
                     Selected: All{" "}
                   </Text>
@@ -101,7 +102,8 @@ export default function MapPage() {
                     style={{
                       color: "blue",
                       fontFamily: "PermanentMarker_400Regular",
-                      marginTop: 8,
+                      fontSize: scale(15),
+                      marginTop: scale(4),
                     }}
                   >
                     Set Pin
@@ -128,27 +130,27 @@ const styles = StyleSheet.create({
   PinButton: {
     position: "absolute",
     alignItems: "center",
-    bottom: 30,
+    bottom: scale(30),
     backgroundColor: "palegreen",
-    width: 100,
-    height: 40,
+    width: scale(100),
+    height: scale(40),
     zIndex: 2,
-    borderRadius: 15,
+    borderRadius: scale(15),
     opacity: 0.8,
-    paddingTop: -5,
+    paddingTop: scale(-5),
   },
   slider: {
     flex: 1,
     position: "absolute",
     alignItems: "center",
-    top: Constants.statusBarHeight + 10,
+    top: Constants.statusBarHeight + scale(10),
     width: "80%",
-    height: 40,
+    height: scale(38),
     zIndex: 2,
-    borderRadius: 15,
+    borderRadius: scale(15),
     opacity: 0.8,
     paddingBottom: 0,
-    paddingTop: 10,
+    paddingTop: scale(10),
     backgroundColor: "white",
     paddingRight: "2%",
     paddingLeft: "2%",
@@ -157,11 +159,11 @@ const styles = StyleSheet.create({
     flex: 1,
     position: "absolute",
     alignItems: "center",
-    top: Constants.statusBarHeight + 10,
+    top: Constants.statusBarHeight + scale(10),
     width: "10%",
-    height: 20,
+    height: scale(20),
     zIndex: 3,
-    borderRadius: 15,
+    borderRadius: scale(15),
     paddingBottom: 0,
     paddingTop: 0,
     backgroundColor: "transparent",
@@ -170,15 +172,15 @@ const styles = StyleSheet.create({
   animalSelect: {
     position: "absolute",
     alignItems: "center",
-    top: Constants.statusBarHeight + 45,
-    width: 250,
-    height: 18,
+    top: Constants.statusBarHeight + scale(43),
+    width: scale(250),
+    height: scale(18),
     zIndex: 2,
-    borderBottomRightRadius: 15,
-    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: scale(15),
+    borderBottomLeftRadius: scale(15),
     opacity: 0.8,
-    marginTop: 5,
-    paddingTop: -7,
+    marginTop: scale(5),
+    paddingTop: scale(-7),
     backgroundColor: "white",
   },
   Fbuttons: {
@@ -196,13 +198,13 @@ const styles = StyleSheet.create({
   PinButton: {
     position: "absolute",
     alignItems: "center",
-    bottom: 30,
+    bottom: scale(30),
     backgroundColor: "palegreen",
-    width: 100,
-    height: 40,
+    width: scale(100),
+    height: scale(30),
     zIndex: 2,
-    borderRadius: 15,
+    borderRadius: scale(15),
     opacity: 0.8,
-    paddingTop: -5,
+    paddingTop: scale(-5),
   },
 });

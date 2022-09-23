@@ -31,11 +31,12 @@ const requestPermissions = async () => {
 };
 
 const getCurrentCoordinates = async () => {
-  requestPermissions();
+  
 
   const { granted } = await Location.getForegroundPermissionsAsync();
 
   if (!granted) {
+    requestPermissions();
     console.log("location tracking denied");
   }
   foregroundSubscription?.remove();

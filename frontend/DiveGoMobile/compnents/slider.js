@@ -3,6 +3,7 @@ import { Platform } from "react-native";
 import Slider from "@react-native-community/slider";
 import { SliderContext } from "./contexts/sliderContext";
 import { MonthSelectContext } from "./contexts/monthSelectContext";
+import { scale } from 'react-native-size-matters';
 
 export default function MonthSlider() {
   const { sliderVal, setSliderVal } = useContext(SliderContext);
@@ -60,7 +61,7 @@ export default function MonthSlider() {
       <Slider
         style={{
           width: '95%',
-          height: 30,
+          height: scale(35),
           transform: [{ scaleX: 1.05 }, { scaleY: 0.7 }],
         }}
         minimumValue={1}

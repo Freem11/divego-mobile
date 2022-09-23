@@ -1,17 +1,18 @@
-export default function filterCreatures(array, value) {
+export default function filterCreatures(array) {
   let newArr = [];
-
+  let count = 1
   array &&
     array.forEach((animal) => {
       if (animal.id !== 0) {
-        newArr.push({ id: animal.id.toString(), title: animal.label });
+        newArr.push({ id: count, title: animal.label });
       }
+      count++
     });
 
-  if (value === "" || value === undefined || value === "Animal") {
-    newArr.push({ id: "0", title: "Animal" });
-  } else {
-    newArr.push({ id: "0", title: value });
-  }
+  // if (value === "" || value === undefined || value === "Animal") {
+  //   newArr.push({ id: "0", title: "Animal" });
+  // } else {
+  //   newArr.push({ id: "0", title: value });
+  // }
   return newArr;
 }

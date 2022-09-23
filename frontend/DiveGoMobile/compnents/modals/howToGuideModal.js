@@ -36,6 +36,7 @@ export default function GuideModal() {
                 flex: 1,
                 alignItems: "center",
                 justifyContent: "center",
+                paddingTop: "0%",
                 height: "100%",
                 marginRight: 5,
               }}
@@ -146,8 +147,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#D8DBE2",
     alignItems: "flex-start",
     justifyContent: "center",
-    marginBottom: 15,
-    marginTop: 0,
+    marginBottom: "30%",
+    marginTop: "5%",
     marginRight: 10,
     marginLeft: 10,
   },
@@ -165,6 +166,7 @@ const styles = StyleSheet.create({
   bottomSec: {
     flex: 1,
     flexDirection: "column",
+    marginTop: 30,
     marginRight: 40,
     marginLeft: 0,
   },
@@ -178,7 +180,7 @@ const styles = StyleSheet.create({
     width: "80%",
   },
   explore: {
-    marginTop: 10,
+    marginTop: "0%",
     width: "100%",
     flexDirection: "row",
     maxHeight: 150,

@@ -10,6 +10,7 @@ import {
 import { getAnimalNamesThatFit } from "../axiosCalls/photoAxiosCalls";
 import AutoSuggestListItem from "./AutoSuggestListItem";
 import { MaterialIcons } from "@expo/vector-icons";
+import { scale } from 'react-native-size-matters';
 
 export default function AnimalAutoSuggest(props) {
   const { setPin, pin } = props;
@@ -75,17 +76,22 @@ export default function AnimalAutoSuggest(props) {
 
 const styles = StyleSheet.create({
   container: {
+    width: "100%",
     flexDirection: "row",
     overflow: "hidden",
+    alignContent: 'center',
+    alignItems: 'center',
+
   },
   xButton: {
-    marginTop: 11,
+    marginTop: -20,
     marginLeft: -28,
   },
   suggestInput: {
     borderRadius: 25,
     width: 200,
     height: 40,
+    marginBottom: 20,
     backgroundColor: "white",
     textAlign: "center",
     fontFamily: "IndieFlower_400Regular",

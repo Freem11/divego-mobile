@@ -1,10 +1,11 @@
 import React from "react";
 import { StyleSheet, View, Text } from "react-native";
+import { scale } from 'react-native-size-matters';
 
 export default function Logo() {
   return (
     <View style={styles.container}>
-      <Text style={{ fontFamily: "Caveat_400Regular" }}>DiveGo</Text>
+      <Text style={{ fontFamily: "Caveat_400Regular", fontSize: scale(20) }}>DiveGo</Text>
     </View>
   );
 }
@@ -20,10 +21,11 @@ const styles = StyleSheet.create({
     zIndex: 2,
     bottom: 0,
     left: 0,
-    height: 33,
-    borderTopRightRadius: 15,
-    width: 80,
+    height: scale(50),
+    borderTopRightRadius: scale(15),
+    width: "20%",
     paddingRight: 10,
     paddingTop: -10,
+    fontSize: "2rem"
   },
 });

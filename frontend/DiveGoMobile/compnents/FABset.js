@@ -27,6 +27,7 @@ import Animated, {
 import AnimalAutoComplete from "./animalAutocomplete";
 import GeocodeAutocomplete from "./geocodeAutocomplete";
 import { removePhoto } from "../axiosCalls/uploadAxiosCalls";
+import { scale } from 'react-native-size-matters';
 
 export default function FABButtons() {
   const { diveSitesTog, setDiveSitesTog } = useContext(DiveSitesContext);
@@ -306,7 +307,7 @@ export default function FABButtons() {
             <TouchableWithoutFeedback
               onPress={() => setGuideModal(!guideModal)}
             >
-              <View style={styles.closeButton}>
+              <View style={styles.closeButtonAlt}>
                 <FontAwesome name="close" color="aquamarine" size={32} />
               </View>
             </TouchableWithoutFeedback>
@@ -358,14 +359,14 @@ const styles = StyleSheet.create({
     bottom: 5,
   },
   animal: {
-    bottom: 148,
+    bottom: 152,
     width: 0,
     right: 30,
     borderRadius: 10,
     zIndex: 2,
   },
   geoCoder: {
-    bottom: 308,
+    bottom: 313,
     width: 0,
     right: 40,
     borderRadius: 10,
@@ -373,51 +374,69 @@ const styles = StyleSheet.create({
   },
   modalStyle: {
     flex: 1,
+    alignContent: 'center',
+    alignItems: 'center',
     backgroundColor: "#D8DBE2",
     borderRadius: 25,
-    margin: 30,
+    margin: scale(29),
     borderColor: "lightblue",
     borderWidth: 8,
     opacity: 1,
   },
   closeButton: {
-    borderRadius: 42 / 2,
+    position: 'absolute',
+    borderRadius: scale(42 / 2),
     backgroundColor: "maroon",
     height: 42,
     width: 42,
-    marginLeft: 240,
-    marginTop: -85,
+    top: 0,
+    right: "5%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  closeButtonAlt: {
+    position: 'absolute',
+    borderRadius: scale(42 / 2),
+    backgroundColor: "maroon",
+    height: 42,
+    width: 42,
+    top: scale(-5),
+    right: "5%",
     justifyContent: "center",
     alignItems: "center",
   },
   header: {
     fontFamily: "PermanentMarker_400Regular",
-    fontSize: 20,
+    fontSize: scale(17),
     alignSelf: "center",
-    marginBottom: 32,
     marginTop: 5,
-    width: "70%",
-    height: 45,
-    marginLeft: -50,
+    marginBottom: 0,
+    marginLeft: "-15%",
+    height: 50
   },
   headerAlt: {
+    alignItems: 'center',
+    alignContent: 'center',
     fontFamily: "PermanentMarker_400Regular",
-    fontSize: 20,
-    alignSelf: "center",
-    marginBottom: 27,
-    marginTop: 5,
-    width: "70%",
-    height: 50,
-    marginLeft: -90,
+    fontSize: scale(17),
+    marginTop: scale(-15),
+    marginLeft: "-20%",
   },
   title: {
     flexDirection: "column",
-    marginTop: 20,
+    marginTop: scale(25),
+    width: '100%',
+    height: 80
+ 
   },
   titleAlt: {
+    display: "flex",
     flexDirection: "column",
-    marginTop: 20,
-    width: "150%",
+    alignItems: "center",
+    alignContent: "center",
+    justifyContent: "center",
+    marginTop: scale(20),
+    width: "100%",
     height: 50,
   },
 });

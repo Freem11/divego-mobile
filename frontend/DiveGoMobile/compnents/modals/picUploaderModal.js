@@ -7,6 +7,7 @@ import {
   TouchableWithoutFeedback,
   Platform,
   KeyboardAvoidingView,
+  Dimensions,
 } from "react-native";
 import React, { useState, useEffect, useContext } from "react";
 import * as ImagePicker from "expo-image-picker";
@@ -22,8 +23,12 @@ import moment from "moment";
 import AnimalAutoSuggest from "../AutoSuggest";
 import { removePhoto } from "../../axiosCalls/uploadAxiosCalls";
 import { insertPhotoWaits } from "../../axiosCalls/photoWaitAxiosCalls";
+import { scale } from 'react-native-size-matters';
 
+const { width, height } = Dimensions.get("window");
+console.log(width, height)
 export default function PicUploadModal() {
+
   const { setMasterSwitch } = useContext(MasterContext);
 
   const { pinValues, setPinValues } = useContext(PinContext);
@@ -197,7 +202,7 @@ export default function PicUploadModal() {
       <View style={styles.picContainer}>
         <Image
           source={{ uri: uploadedFile }}
-          style={{ width: "100%", height: 130, borderRadius: 15 }}
+          style={{ width: "100%", height: "100%", borderRadius: 15 }}
         />
       </View>
 
@@ -208,9 +213,10 @@ export default function PicUploadModal() {
           <FontAwesome name="picture-o" color="red" size={32} />
           <Text
             style={{
-              marginLeft: 5,
+              marginLeft: scale(5),
               color: "maroon",
               fontFamily: "PermanentMarker_400Regular",
+              fontSize: scale(12)
             }}
           >
             Choose an Image
@@ -229,7 +235,7 @@ export default function PicUploadModal() {
           onChangeText={(text) => setPinValues({ ...pinValues, Animal: text })}
         ></TextInput>
         <TouchableWithoutFeedback onPress={showDatePicker}>
-          <View style={{ marginTop: 2.5, marginLeft: 2 }}>
+          <View style={{ alignSelf:"center", height: 50, marginLeft: 0 }}>
             <FontAwesome name="calendar" color="red" size={32} />
             <DateTimePickerModal
               date={new Date(pinValues.PicDate)}
@@ -250,7 +256,7 @@ export default function PicUploadModal() {
         <AnimalAutoSuggest pin={pinValues} setPin={setPinValues} />
       </KeyboardAvoidingView>
 
-      <View style={{ flexDirection: "row", width: "100%", zIndex: -1 }}>
+      <View style={{ flexDirection: "row", width: "100%", justifyContent: "center", marginBottom: "5%" }}>
         <View>
           <TextInput
             style={styles.input}
@@ -323,9 +329,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#D8DBE2",
     alignItems: "center",
-    justifyContent: "center",
-    marginTop: 10,
+    marginTop: scale(55),
     marginBottom: 15,
+    width: '100%',
   },
   input: {
     fontFamily: "IndieFlower_400Regular",
@@ -334,10 +340,9 @@ const styles = StyleSheet.create({
     width: 200,
     height: 40,
     alignSelf: "center",
-    marginBottom: 20,
-    marginLeft: 20,
+    marginBottom: 15,
+    marginLeft: 3,
     textAlign: "center",
-    zIndex: -1,
     overflow: "hidden",
   },
   inputCal: {
@@ -349,7 +354,6 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginBottom: 15,
     textAlign: "center",
-    borderRadius: 25,
     marginRight: 20,
   },
   header: {
@@ -368,8 +372,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 50,
-    height: 45,
-    width: 140,
+    height: scale(45),
+    width: scale(140),
     marginLeft: 0,
     marginTop: 15,
     marginBottom: 15,
@@ -378,11 +382,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 1,
-    borderRadius: 15,
+    borderRadius: scale(15),
     borderColor: "darkgrey",
-    width: "80%",
-    height: 130,
-    marginTop: -50,
+    width: scale(220),
+    height: scale(110),
+    marginTop: -85,
   },
   modalStyle: {
     flex: 1,
@@ -410,20 +414,25 @@ const styles = StyleSheet.create({
     zIndex: -1,
   },
   calZone: {
-    width: "100%",
+    width: "902%",
     flexDirection: "row",
-    marginLeft: 40,
+    justifyContent: "center",
+    marginLeft: -5
   },
   autocomplete: {
-    width: "100%",
+    width: 275,
     height: 30,
-    marginBottom: 30,
-    marginLeft: 40,
+    marginTop: 20,
+    marginBottom: 10,
+    alignSelf: "center",
+    justifyContent: "center",
+    marginLeft: 23,
+    zIndex: 20
   },
   SubmitButton: {
     position: "absolute",
     alignItems: "center",
-    bottom: 10,
+    alignSelf: "center",
     backgroundColor: "palegreen",
     borderEndColor: "green",
     borderWidth: 0.3,
@@ -431,6 +440,6 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 15,
     opacity: 0.5,
-    zIndex: -1,
+    bottom: "4%",
   },
 });
