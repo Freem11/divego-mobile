@@ -26,7 +26,21 @@ import { insertPhotoWaits } from "../../axiosCalls/photoWaitAxiosCalls";
 import { scale } from 'react-native-size-matters';
 
 const { width, height } = Dimensions.get("window");
-console.log(width, height)
+
+let IPSetter = 3
+let IP
+//Desktop = 10.0.0.253
+//Laptop = 10.0.0.68
+//Library = 10.44.22.110
+
+if (IPSetter === 1) {
+  IP = '10.0.0.253'
+} else if (IPSetter === 2){
+  IP = '10.0.0.68'
+} else if (IPSetter === 3){
+  IP = '10.44.22.110'
+}
+
 export default function PicUploadModal() {
 
   const { setMasterSwitch } = useContext(MasterContext);
@@ -124,6 +138,7 @@ export default function PicUploadModal() {
     ) {
       return;
     } else {
+      console.log("what are these", pinValues)
       insertPhotoWaits(pinValues);
       setPinValues({
         PicFile: null,
@@ -171,12 +186,13 @@ export default function PicUploadModal() {
         const data = new FormData();
         data.append("image", fileToUpload);
 
-        fetch("http://10.0.0.68:5000/api/upload", {
+        fetch(`http://${IP}:5000/api/upload`, {
           method: "POST",
           body: data,
         })
           .then((response) => response.json())
           .then((data) => {
+            console.log("data is", data)
             setPinValues({
               ...pinValues,
               PicFile: data.fileName,

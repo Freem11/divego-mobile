@@ -1,5 +1,6 @@
 import * as Location from "expo-location";
 import * as TaskManager from "expo-task-manager";
+import React, { useMemo } from "react";
 
 const LOCATION_TASK_NAME = "LOCATION_TASK_NAME";
 let foregroundSubscription = null;
@@ -30,9 +31,8 @@ const requestPermissions = async () => {
   }
 };
 
-const getCurrentCoordinates = async () => {
+const getCurrentCoordinates = async() => {
   
-
   const { granted } = await Location.getForegroundPermissionsAsync();
 
   if (!granted) {

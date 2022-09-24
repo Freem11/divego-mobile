@@ -1,9 +1,23 @@
 import axios from "axios";
 
+let IPSetter = 3
+let IP
+//Desktop = 10.0.0.253
+//Laptop = 10.0.0.68
+//Library = 10.44.22.110
+
+if (IPSetter === 1) {
+  IP = '10.0.0.253'
+} else if (IPSetter === 2){
+  IP = '10.0.0.68'
+} else if (IPSetter === 3){
+  IP = '10.44.22.110'
+}
+
 export const heatPoints = (GPSBubble, slider, animal) => {
 
     return axios
-      .post("http://10.0.0.68:5000/api/heatPoints", { GPSBubble: GPSBubble, SliderValue: slider, AnimalValue: animal })
+      .post(`http://${IP}:5000/api/heatPoints`, { GPSBubble: GPSBubble, SliderValue: slider, AnimalValue: animal })
       .then((response) => {
           return response.data;
       })
@@ -15,7 +29,7 @@ export const heatPoints = (GPSBubble, slider, animal) => {
 export const getLoneHeatPoint = (values) => {
 
   return axios
-    .post("http://10.0.0.68:5000/api/heatPoint", {
+    .post(`http://${IP}:5000/api/heatPoint`, {
       Lat: values.lat,
       Lng: values.lng,
       Animal: values.animal,
@@ -32,7 +46,7 @@ export const getLoneHeatPoint = (values) => {
 export const grabHeatPointById = (id) => {
 
   return axios
-    .get(`http://10.0.0.68:5000/api/heatPoint/${id}`)
+    .get(`http://${IP}:5000/api/heatPoint/${id}`)
     .then((response) => {
       return response.data;
     })
@@ -44,7 +58,7 @@ export const grabHeatPointById = (id) => {
 export const insertHeatPoint = (values) => {
 
   return axios
-    .post("http://10.0.0.68:5000/api/HeatPointAdd", {
+    .post(`http://${IP}:5000/api/HeatPointAdd`, {
       Lat: values.lat,
       Lng: values.lng,
       Animal: values.animal,
@@ -61,7 +75,7 @@ export const insertHeatPoint = (values) => {
 export const updateHeatPoint = (values) => {
 
   return axios
-    .post("http://10.0.0.68:5000/api/HeatPointUpdate", {
+    .post(`http://${IP}:5000/api/HeatPointUpdate`, {
       Id: values.id,
       Weight: values.weight,
     })

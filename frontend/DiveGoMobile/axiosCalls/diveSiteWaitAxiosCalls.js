@@ -1,9 +1,23 @@
 import axios from "axios";
 
+let IPSetter = 3
+let IP
+//Desktop = 10.0.0.253
+//Laptop = 10.0.0.68
+//Library = 10.44.22.110
+
+if (IPSetter === 1) {
+  IP = '10.0.0.253'
+} else if (IPSetter === 2){
+  IP = '10.0.0.68'
+} else if (IPSetter === 3){
+  IP = '10.44.22.110'
+}
+
 export const diveSiteWaits = () => {
 
   return axios
-    .post("http://10.0.0.68:5000/api/diveSiteWait")
+    .post(`http://${IP}:5000/api/diveSiteWait`)
     .then((response) => {
       return response.data;
     })
@@ -15,7 +29,7 @@ export const diveSiteWaits = () => {
 export const insertDiveSiteWaits = (values) => {
 
   return axios
-    .post("http://10.0.0.68:5000/api/diveSiteWaitAdd", {
+    .post(`http://${IP}:5000/api/diveSiteWaitAdd`, {
       Name: values.Site,
       Lat: values.Latitude,
       Lng: values.Longitude,
@@ -31,7 +45,7 @@ export const insertDiveSiteWaits = (values) => {
 export const grabDiveSiteWaitById = (id) => {
 
   return axios
-    .get(`http://10.0.0.68:5000/api/diveSiteWait/${id}`)
+    .get(`http://${IP}:5000/api/diveSiteWait/${id}`)
     .then((response) => {
       return response.data;
     })
@@ -43,7 +57,7 @@ export const grabDiveSiteWaitById = (id) => {
 export const deleteDiveSiteWait = (id) => {
 
   return axios
-    .delete(`http://10.0.0.68:5000/api/diveSiteWait/delete/${id}`, {id})
+    .delete(`http://${IP}:5000/api/diveSiteWait/delete/${id}`, {id})
     .then((response) => {
     })
     .catch((err) => {

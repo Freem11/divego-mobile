@@ -1,9 +1,20 @@
 import axios from "axios";
 
+let IPSetter = 1
+let IP
+//Desktop = 10.0.0.253
+//Laptop = 10.0.0.68
+
+if (IPSetter === 1) {
+  IP = '10.0.0.253'
+} else if (IPSetter === 2){
+  IP = '10.0.0.68'
+}
+
 export const adminCheck = (pass) => {
 
       return axios
-        .post("http://10.0.0.68:5000/api/session", { pass: pass })
+        .post(`http://${IP}:5000/api/session`, { pass: pass })
         .then((response) => {
             return response.data;
         })

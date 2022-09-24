@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { StyleSheet, Text, View, Dimensions } from "react-native";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
@@ -92,6 +92,7 @@ export default function App() {
     IndieFlower_400Regular,
     ShadowsIntoLight_400Regular,
   });
+
 
   useEffect(() => {
     async function prepare(){

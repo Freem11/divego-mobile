@@ -27,6 +27,12 @@ export default function AnimalAutoComplete() {
 
   const handleClear = () => {
     setAnimalSelection("");
+    handleAnimalList()
+  };
+
+  const handleChangeText = () => {
+    handleAnimalList()
+    console.log(list)
   };
 
   return (
@@ -55,6 +61,9 @@ export default function AnimalAutoComplete() {
         direction={"down"}
         dataSet={list}
         onSelectItem={(text) => handleConfirm(text)}
+        onChangeText={() => handleChangeText}
+        onFocus={() => handleChangeText}
+        onBlur={() => handleChangeText}
         showChevron={false}
         showClear={true}
         closeOnBlur={true}
