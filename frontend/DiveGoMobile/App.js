@@ -23,6 +23,7 @@ import { PinSpotContext } from "./compnents/contexts/pinSpotContext";
 import { SliderContext } from "./compnents/contexts/sliderContext";
 import { AnimalSelectContext } from "./compnents/contexts/animalSelectContext";
 import { PictureContext } from "./compnents/contexts/pictureContext";
+import { SelectedDiveSiteContext } from "./compnents/contexts/selectedDiveSiteContext";
 import { NavigationContainer } from "@react-navigation/native";
 import StackNav from "./compnents/stackNav";
 import { getCurrentCoordinates } from "./compnents/helpers/permissionsHelpers";
@@ -46,6 +47,12 @@ export default function App() {
     Latitude: "",
     Longitude: "",
     DDVal: "0",
+  });
+
+   const [selectedDiveSite, setSelectedDiveSite] = useState({
+    SiteName: "",
+    Latitude: "",
+    Longitude: "",
   });
 
   const [animalSelection, setAnimalSelection] = useState("");
@@ -93,72 +100,77 @@ export default function App() {
     ShadowsIntoLight_400Regular,
   });
 
-
   useEffect(() => {
-    async function prepare(){
+    async function prepare() {
       await SplashScreen.preventAutoHideAsync();
       await getCurrentLocation();
       setAppIsReady(true);
     }
-    prepare()
+    prepare();
   }, []);
 
   const onLayoutRootView = useCallback(async () => {
-    if (appIsReady){
+    if (appIsReady) {
       await SplashScreen.hideAsync();
     }
-  }, [appIsReady])
+  }, [appIsReady]);
 
-  if (!appIsReady){
+  if (!appIsReady) {
     return null;
   }
-  
+
   if (!fontsLoaded) {
     return null;
   }
 
   return (
     <View onLayout={onLayoutRootView} style={styles.container}>
-      <PictureContext.Provider value={{ uploadedFile, setUploadedFile }}>
-        <SliderContext.Provider value={{ sliderVal, setSliderVal }}>
-          <AnimalSelectContext.Provider
-            value={{ animalSelection, setAnimalSelection }}
-          >
-            <PinSpotContext.Provider value={{ dragPin, setDragPin }}>
-              <MasterContext.Provider value={{ masterSwitch, setMasterSwitch }}>
-                <MapZoomContext.Provider value={{ zoomlev, setZoomLev }}>
-                  <MapBoundariesContext.Provider
-                    value={{ boundaries, setBoundaries }}
-                  >
-                    <MapRegionContext.Provider value={{ region, setRegion }}>
-                      <PinContext.Provider value={{ pinValues, setPinValues }}>
-                        <PictureAdderContext.Provider
-                          value={{ picAdderModal, setPicAdderModal }}
+      <SelectedDiveSiteContext.Provider value={{ selectedDiveSite, setSelectedDiveSite }}>
+        <PictureContext.Provider value={{ uploadedFile, setUploadedFile }}>
+          <SliderContext.Provider value={{ sliderVal, setSliderVal }}>
+            <AnimalSelectContext.Provider
+              value={{ animalSelection, setAnimalSelection }}
+            >
+              <PinSpotContext.Provider value={{ dragPin, setDragPin }}>
+                <MasterContext.Provider
+                  value={{ masterSwitch, setMasterSwitch }}
+                >
+                  <MapZoomContext.Provider value={{ zoomlev, setZoomLev }}>
+                    <MapBoundariesContext.Provider
+                      value={{ boundaries, setBoundaries }}
+                    >
+                      <MapRegionContext.Provider value={{ region, setRegion }}>
+                        <PinContext.Provider
+                          value={{ pinValues, setPinValues }}
                         >
-                          <DSAdderContext.Provider
-                            value={{
-                              diveSiteAdderModal,
-                              setDiveSiteAdderModal,
-                            }}
+                          <PictureAdderContext.Provider
+                            value={{ picAdderModal, setPicAdderModal }}
                           >
-                            <MapCenterContext.Provider
-                              value={{ mapCenter, setMapCenter }}
+                            <DSAdderContext.Provider
+                              value={{
+                                diveSiteAdderModal,
+                                setDiveSiteAdderModal,
+                              }}
                             >
-                              <NavigationContainer>
-                                <StackNav />
-                              </NavigationContainer>
-                            </MapCenterContext.Provider>
-                          </DSAdderContext.Provider>
-                        </PictureAdderContext.Provider>
-                      </PinContext.Provider>
-                    </MapRegionContext.Provider>
-                  </MapBoundariesContext.Provider>
-                </MapZoomContext.Provider>
-              </MasterContext.Provider>
-            </PinSpotContext.Provider>
-          </AnimalSelectContext.Provider>
-        </SliderContext.Provider>
-      </PictureContext.Provider>
+                              <MapCenterContext.Provider
+                                value={{ mapCenter, setMapCenter }}
+                              >
+                                <NavigationContainer>
+                                  <StackNav />
+                                </NavigationContainer>
+                              </MapCenterContext.Provider>
+                            </DSAdderContext.Provider>
+                          </PictureAdderContext.Provider>
+                        </PinContext.Provider>
+                      </MapRegionContext.Provider>
+                    </MapBoundariesContext.Provider>
+                  </MapZoomContext.Provider>
+                </MasterContext.Provider>
+              </PinSpotContext.Provider>
+            </AnimalSelectContext.Provider>
+          </SliderContext.Provider>
+        </PictureContext.Provider>
+      </SelectedDiveSiteContext.Provider>
     </View>
   );
 }

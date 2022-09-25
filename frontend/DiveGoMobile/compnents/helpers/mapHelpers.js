@@ -32,4 +32,14 @@ function calculateZoom(width, topLongitude, bottomLongitude) {
   return newZoom;
 }
 
-export { filterSites, formatHeatVals, calculateZoom };
+function newGPSBoundaries(Lat, Lng) {
+
+      let minLat = Lat - 1;
+      let maxLat = Lat + 1;
+      let minLng = Lng - 1;
+      let maxLng = Lng + 1;
+
+
+  return { minLat, maxLat, minLng, maxLng };
+}
+export { filterSites, formatHeatVals, calculateZoom, newGPSBoundaries };

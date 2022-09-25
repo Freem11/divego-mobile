@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { StyleSheet, View } from "react-native";
+import { Keyboard, StyleSheet, View } from "react-native";
 import { AutocompleteDropdown } from "react-native-autocomplete-dropdown";
 import { photos } from "./data/testdata";
 import { getAnimalNames } from "../axiosCalls/photoAxiosCalls";

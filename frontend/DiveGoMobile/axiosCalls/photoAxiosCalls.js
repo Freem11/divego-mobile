@@ -1,6 +1,6 @@
 import axios from "axios";
 
-let IPSetter = 3
+let IPSetter = 1
 let IP
 //Desktop = 10.0.0.253
 //Laptop = 10.0.0.68
@@ -56,4 +56,15 @@ export const getAnimalNames = () => {
       });
   };
  
-    
+   
+  export const getPhotosforAnchor = (value) => {
+
+    return axios
+      .post(`http://${IP}:5000/api/anchorPhotos`, {content: value})
+      .then((response) => {
+        return response.data;
+      })
+      .catch((err) => {
+        return err;
+      });
+  }; 

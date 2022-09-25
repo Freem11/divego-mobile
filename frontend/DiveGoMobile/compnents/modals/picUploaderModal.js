@@ -27,7 +27,7 @@ import { scale } from 'react-native-size-matters';
 
 const { width, height } = Dimensions.get("window");
 
-let IPSetter = 3
+let IPSetter = 1
 let IP
 //Desktop = 10.0.0.253
 //Laptop = 10.0.0.68

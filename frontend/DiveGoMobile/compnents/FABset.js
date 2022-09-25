@@ -14,6 +14,8 @@ import {
   Modal,
   Text,
   Platform,
+  Keyboard,
+  KeyboardAvoidingView,
 } from "react-native";
 import { MaterialIcons, FontAwesome5, FontAwesome } from "@expo/vector-icons";
 import Animated, {
@@ -27,7 +29,7 @@ import Animated, {
 import AnimalAutoComplete from "./animalAutocomplete";
 import GeocodeAutocomplete from "./geocodeAutocomplete";
 import { removePhoto } from "../axiosCalls/uploadAxiosCalls";
-import { scale } from 'react-native-size-matters';
+import { scale } from "react-native-size-matters";
 
 export default function FABButtons() {
   const { diveSitesTog, setDiveSitesTog } = useContext(DiveSitesContext);
@@ -35,9 +37,8 @@ export default function FABButtons() {
   const { setUploadedFile } = useContext(PictureContext);
 
   const { picAdderModal, setPicAdderModal } = useContext(PictureAdderContext);
-  const { diveSiteAdderModal, setDiveSiteAdderModal } = useContext(
-    DSAdderContext
-  );
+  const { diveSiteAdderModal, setDiveSiteAdderModal } =
+    useContext(DSAdderContext);
   const [guideModal, setGuideModal] = useState(false);
 
   const rotationVal = useSharedValue(0);
@@ -186,6 +187,8 @@ export default function FABButtons() {
     buttonOpac = 0.9;
   }
 
+  const AnimalKeboardOffset = 100;
+
   return (
     <View style={styles.fab}>
       <Animated.View
@@ -252,14 +255,24 @@ export default function FABButtons() {
         </Animated.View>
       </TouchableWithoutFeedback>
 
-      <Animated.View style={[styles.animal, animalReveal]}>
-        <AnimalAutoComplete />
-      </Animated.View>
+      <KeyboardAvoidingView
+        behavior="position"
+        keyboardVerticalOffset={Platform.OS === "android" ? 200 : 0}
+      >
+        <Animated.View style={[styles.animal, animalReveal]}>
+          <AnimalAutoComplete />
+        </Animated.View>
+      </KeyboardAvoidingView>
 
+      <KeyboardAvoidingView
+        behavior="position"
+        keyboardVerticalOffset={Platform.OS === "android" ? 200 : 0}
+      >
       <Animated.View style={[styles.geoCoder, geocodeReveal]}>
         <GeocodeAutocomplete />
       </Animated.View>
-
+      </KeyboardAvoidingView>
+      
       <Modal visible={picAdderModal} animationType="slide" transparent={true}>
         <View style={styles.modalStyle}>
           <View style={styles.title}>
@@ -374,8 +387,8 @@ const styles = StyleSheet.create({
   },
   modalStyle: {
     flex: 1,
-    alignContent: 'center',
-    alignItems: 'center',
+    alignContent: "center",
+    alignItems: "center",
     backgroundColor: "#D8DBE2",
     borderRadius: 25,
     margin: scale(29),
@@ -384,7 +397,7 @@ const styles = StyleSheet.create({
     opacity: 1,
   },
   closeButton: {
-    position: 'absolute',
+    position: "absolute",
     borderRadius: scale(42 / 2),
     backgroundColor: "maroon",
     height: 42,
@@ -395,7 +408,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   closeButtonAlt: {
-    position: 'absolute',
+    position: "absolute",
     borderRadius: scale(42 / 2),
     backgroundColor: "maroon",
     height: 42,
@@ -412,11 +425,11 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginBottom: 0,
     marginLeft: "-15%",
-    height: 50
+    height: 50,
   },
   headerAlt: {
-    alignItems: 'center',
-    alignContent: 'center',
+    alignItems: "center",
+    alignContent: "center",
     fontFamily: "PermanentMarker_400Regular",
     fontSize: scale(17),
     marginTop: scale(-15),
@@ -425,9 +438,8 @@ const styles = StyleSheet.create({
   title: {
     flexDirection: "column",
     marginTop: scale(25),
-    width: '100%',
-    height: 80
- 
+    width: "100%",
+    height: 80,
   },
   titleAlt: {
     display: "flex",

@@ -8,19 +8,41 @@ import { MasterContext } from "./contexts/masterContext";
 import { PinSpotContext } from "./contexts/pinSpotContext";
 import { AnimalSelectContext } from "./contexts/animalSelectContext";
 import { SliderContext } from "./contexts/sliderContext";
-import MapView, { PROVIDER_GOOGLE, Marker, Heatmap } from "react-native-maps";
-import { StyleSheet, View, Dimensions, Keyboard } from "react-native";
+import { SelectedDiveSiteContext } from "./contexts/selectedDiveSiteContext";
+import MapView, { PROVIDER_GOOGLE, Marker, Heatmap, Callout } from "react-native-maps";
+import { StyleSheet, View, Dimensions, Keyboard, Modal, Text, TouchableWithoutFeedback} from "react-native";
 import { diveSitesFake, heatVals } from "./data/testdata";
 import anchorIcon from "../compnents/png/anchor11.png";
 import anchorClust from "../compnents/png/anchor3.png";
 import whale from "../compnents/png/icons8-spouting-whale-48.png";
-import { calculateZoom, formatHeatVals } from "./helpers/mapHelpers";
+import { calculateZoom, formatHeatVals, newGPSBoundaries } from "./helpers/mapHelpers";
 import { setupClusters } from "./helpers/clusterHelpers";
 import useSupercluster from "use-supercluster";
 import { diveSites } from "../axiosCalls/diveSiteAxiosCalls";
 import { heatPoints } from "../axiosCalls/heatPointAxiosCalls";
+import { getPhotosforAnchor } from "./../axiosCalls/photoAxiosCalls";
+import AnchorModal from "./modals/anchorModal";
+import { scale } from "react-native-size-matters";
+import { FontAwesome } from "@expo/vector-icons";
 
 const { width, height } = Dimensions.get("window");
+
+let IPSetter = 1
+let IP
+//Desktop = 10.0.0.253
+//Laptop = 10.0.0.68
+//Library = 10.44.22.110
+
+if (IPSetter === 1) {
+  IP = '10.0.0.253'
+} else if (IPSetter === 2){
+  IP = '10.0.0.68'
+} else if (IPSetter === 3){
+  IP = '10.44.22.110'
+}
+
+let filePath = `http://${IP}:5000/wetmap/src/uploads/`
+
 
 export default function Map() {
   const { masterSwitch } = useContext(MasterContext);
@@ -32,11 +54,14 @@ export default function Map() {
   const { sliderVal } = useContext(SliderContext);
   const { animalSelection } = useContext(AnimalSelectContext);
   const { dragPin, setDragPin } = useContext(PinSpotContext);
+  const { selectedDiveSite, setSelectedDiveSite } = useContext(SelectedDiveSiteContext)
   
   const [mapRef, setMapRef] = useState(null);
   const [newSites, setnewSites] = useState([]);
   const [newHeat, setNewHeat] = useState([]);
-  
+  const [anchorPics, setAnchorPics] = useState([]);
+  const [siteModal, setSiteModal] = useState(false);
+
   const handleMapChange = async () => {
     if (mapRef) {
       let boundaries = await mapRef.getMapBoundaries();
@@ -108,6 +133,15 @@ export default function Map() {
     options: { radius: 75, maxZoom: 12 },
   });
 
+  const setupAnchorModal = (diveSiteName, lat, lng) => {
+    setSelectedDiveSite({
+      SiteName: diveSiteName,
+      Latitude: lat,
+      Longitude: lng,
+    })
+    setSiteModal(!siteModal)
+  }
+
   return (
     <View style={styles.container}>
       <MapView
@@ -167,10 +201,30 @@ export default function Map() {
               coordinate={{ latitude: latitude, longitude: longitude }}
               image={anchorIcon}
               title={cluster.properties.siteID}
-            ></Marker>
+              onPress={() => setupAnchorModal(cluster.properties.siteID, latitude, longitude)}
+            >
+            </Marker>
           );
         })}
       </MapView>
+
+      <Modal visible={siteModal} animationType="slide" transparent={true}>
+        <View style={styles.modalStyle}>
+          <View style={styles.titleAlt}>
+            <View>
+              <Text style={styles.headerAlt}>{selectedDiveSite.SiteName}</Text>
+            </View>
+            <TouchableWithoutFeedback
+              onPress={() => setSiteModal(!siteModal)}
+            >
+              <View style={styles.closeButtonAlt}>
+                <FontAwesome name="close" color="aquamarine" size={32} />
+              </View>
+            </TouchableWithoutFeedback>
+          </View>
+          <AnchorModal />
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -185,5 +239,45 @@ const styles = StyleSheet.create({
   map: {
     width: Dimensions.get("window").width,
     height: Dimensions.get("window").height,
+  },
+  modalStyle: {
+    flex: 1,
+    alignContent: "center",
+    alignItems: "center",
+    backgroundColor: "#D8DBE2",
+    borderRadius: 25,
+    margin: scale(29),
+    borderColor: "lightblue",
+    borderWidth: 8,
+    opacity: 1,
+  },
+  closeButtonAlt: {
+    position: "absolute",
+    borderRadius: scale(42 / 2),
+    backgroundColor: "maroon",
+    height: 42,
+    width: 42,
+    top: scale(-5),
+    right: "5%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  headerAlt: {
+    alignItems: "center",
+    alignContent: "center",
+    fontFamily: "PermanentMarker_400Regular",
+    fontSize: scale(17),
+    marginTop: scale(-15),
+    marginLeft: "-35%",
+  },
+  titleAlt: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    alignContent: "center",
+    justifyContent: "center",
+    marginTop: scale(20),
+    width: "100%",
+    height: 50,
   },
 });
