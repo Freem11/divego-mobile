@@ -14,7 +14,7 @@ import { SliderContext } from "../contexts/sliderContext";
 import { MonthSelectContext } from "../contexts/monthSelectContext";
 import { SelectedDiveSiteContext } from "../contexts/selectedDiveSiteContext";
 import { newGPSBoundaries } from "../helpers/mapHelpers";
-import { scale } from 'react-native-size-matters';
+import { s, scale } from 'react-native-size-matters';
 
 let IPSetter = 2
 let IP
@@ -61,10 +61,10 @@ export default function AnchorModal(lat, lng) {
 
   return (
     <View>
-      <Text style={{ fontFamily: "Caveat_400Regular", fontSize: scale(20) }}>{monthVal} Sightings</Text>
+      <Text style={{ fontFamily: "Caveat_400Regular", fontSize: scale(20), marginLeft: scale(20) }}>{monthVal} Sightings</Text>
     <ScrollView>
        <View style={styles.container}>
-      {anchorPics.map((pic) => {
+      {anchorPics && anchorPics.map((pic) => {
           return(<View key={pic.id} style={styles.picContainer}>
             <Text style={styles.titleText}>{pic.label}</Text>
           <Image
@@ -72,6 +72,7 @@ export default function AnchorModal(lat, lng) {
             style={{  height: "100%", width: "100%", borderRadius: 15, borderColor: "grey" }}
           /></View>)
         })}
+        {anchorPics.length === 0 && <Text style={styles.noSightings}>No Sightings At This Site Yet For This Time Of Year!</Text>}
         </View>
     </ScrollView>
     </View>
@@ -88,7 +89,7 @@ const styles = StyleSheet.create({
     marginRight: scale(10),
     marginLeft: scale(10),
   },
-  picContainer:{
+  picContainer: {
     width: scale(200),
     height: scale(100),
   },
@@ -97,4 +98,12 @@ const styles = StyleSheet.create({
     fontFamily: "IndieFlower_400Regular",
     fontSize: scale(15)
   },
+  noSightings: {
+    width: scale(200),
+    alignItems: "center",
+    textAlign: "center",
+    marginTop: scale(15),
+    fontFamily: "IndieFlower_400Regular",
+    fontSize: scale(15)
+  }
 })
