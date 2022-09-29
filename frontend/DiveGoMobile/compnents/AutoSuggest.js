@@ -7,7 +7,8 @@ import {
   TextInput,
   Keyboard,
 } from "react-native";
-import { getAnimalNamesThatFit } from "../axiosCalls/photoAxiosCalls";
+// import { getAnimalNamesThatFit } from "../axiosCalls/photoAxiosCalls";
+import { getAnimalNamesThatFit } from "../supabaseCalls/photoSupabaseCalls";
 import AutoSuggestListItem from "./AutoSuggestListItem";
 import { MaterialIcons } from "@expo/vector-icons";
 import { scale } from 'react-native-size-matters';
@@ -22,7 +23,13 @@ export default function AnimalAutoSuggest(props) {
 
     if (text.length > 0) {
       let newfilteredList = await getAnimalNamesThatFit(text);
-      setList(newfilteredList);
+      let animalArray = []
+      newfilteredList.forEach((animal) => {
+        if (!animalArray.includes(animal.label)){
+          animalArray.push(animal.label)
+        }
+        })
+      setList(animalArray);
     } else {
       setList([]);
     }
@@ -62,8 +69,8 @@ export default function AnimalAutoSuggest(props) {
         list.map((animal) => {
           return (
             <AutoSuggestListItem
-              key={animal.label}
-              name={animal.label}
+              key={animal}
+              name={animal}
               pin={pin}
               setPin={setPin}
               setList={setList}
