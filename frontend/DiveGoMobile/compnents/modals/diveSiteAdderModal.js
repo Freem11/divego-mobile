@@ -8,7 +8,8 @@ import {
 import React, { useState, useContext } from "react";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { DSAdderContext } from "../contexts/DSModalContext";
-import { insertDiveSiteWaits } from "../../axiosCalls/diveSiteWaitAxiosCalls";
+import { insertDiveSiteWaits } from "../../supabaseCalls/diveSiteWaitSupabaseCalls";
+// import { insertDiveSiteWaits } from "../../axiosCalls/diveSiteWaitAxiosCalls";
 import { getCurrentCoordinates } from "../helpers/permissionsHelpers";
 
 export default function DiveSiteModal() {

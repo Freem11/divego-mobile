@@ -8,14 +8,15 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import React, { useState, useContext, useEffect } from "react";
-import { getPhotosforAnchor } from "../../axiosCalls/photoAxiosCalls";
+import { getPhotosforAnchor } from "../../supabaseCalls/photoSupabaseCalls";
+// import { getPhotosforAnchor } from "../../axiosCalls/photoAxiosCalls";
 import { SliderContext } from "../contexts/sliderContext";
 import { MonthSelectContext } from "../contexts/monthSelectContext";
 import { SelectedDiveSiteContext } from "../contexts/selectedDiveSiteContext";
 import { newGPSBoundaries } from "../helpers/mapHelpers";
 import { scale } from 'react-native-size-matters';
 
-let IPSetter = 1
+let IPSetter = 2
 let IP
 //Desktop = 10.0.0.253
 //Laptop = 10.0.0.68
@@ -67,7 +68,7 @@ export default function AnchorModal(lat, lng) {
           return(<View key={pic.id} style={styles.picContainer}>
             <Text style={styles.titleText}>{pic.label}</Text>
           <Image
-            source={{ uri: filePath + pic.photofile}}
+            source={{ uri: `https://lsakqvscxozherlpunqx.supabase.co/storage/v1/object/public/${pic.photoFile}`}}
             style={{  height: "100%", width: "100%", borderRadius: 15, borderColor: "grey" }}
           /></View>)
         })}

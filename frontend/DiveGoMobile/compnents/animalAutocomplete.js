@@ -2,7 +2,8 @@ import React, { useState, useEffect, useContext } from "react";
 import { Keyboard, StyleSheet, View } from "react-native";
 import { AutocompleteDropdown } from "react-native-autocomplete-dropdown";
 import { photos } from "./data/testdata";
-import { getAnimalNames } from "../axiosCalls/photoAxiosCalls";
+import { getAnimalNames } from "../supabaseCalls/photoSupabaseCalls";
+// import { getAnimalNames } from "../axiosCalls/photoAxiosCalls";
 import { AnimalSelectContext } from "./contexts/animalSelectContext";
 import addIndexNumber from "./helpers/optionHelpers";
 
@@ -11,8 +12,14 @@ export default function AnimalAutoComplete() {
   const [list, setList] = useState([]);
 
   const handleAnimalList = async () => {
+    let animalArray = []
     let animalData = await getAnimalNames();
-    setList(addIndexNumber(animalData));
+    animalData.forEach((animal) => {
+      if (!animalArray.includes(animal.label)){
+        animalArray.push(animal.label)
+      }
+    })
+    setList(addIndexNumber(animalArray));
   }
 
   useEffect(() => {

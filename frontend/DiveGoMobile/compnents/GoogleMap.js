@@ -9,7 +9,7 @@ import { PinSpotContext } from "./contexts/pinSpotContext";
 import { AnimalSelectContext } from "./contexts/animalSelectContext";
 import { SliderContext } from "./contexts/sliderContext";
 import { SelectedDiveSiteContext } from "./contexts/selectedDiveSiteContext";
-import MapView, { PROVIDER_GOOGLE, Marker, Heatmap, Callout } from "react-native-maps";
+import MapView, { PROVIDER_GOOGLE, Marker, Heatmap } from "react-native-maps";
 import { StyleSheet, View, Dimensions, Keyboard, Modal, Text, TouchableWithoutFeedback} from "react-native";
 import { diveSitesFake, heatVals } from "./data/testdata";
 import anchorIcon from "../compnents/png/anchor11.png";
@@ -18,8 +18,10 @@ import whale from "../compnents/png/icons8-spouting-whale-48.png";
 import { calculateZoom, formatHeatVals, newGPSBoundaries } from "./helpers/mapHelpers";
 import { setupClusters } from "./helpers/clusterHelpers";
 import useSupercluster from "use-supercluster";
-import { diveSites } from "../axiosCalls/diveSiteAxiosCalls";
-import { heatPoints } from "../axiosCalls/heatPointAxiosCalls";
+// import { diveSites } from "../axiosCalls/diveSiteAxiosCalls";
+import { diveSites } from "../supabaseCalls/diveSiteSupabaseCalls";
+// import { heatPoints } from "../axiosCalls/heatPointAxiosCalls";
+import { heatPoints } from "../supabaseCalls/heatPointSupabaseCalls";
 import { getPhotosforAnchor } from "./../axiosCalls/photoAxiosCalls";
 import AnchorModal from "./modals/anchorModal";
 import { scale } from "react-native-size-matters";
@@ -27,7 +29,7 @@ import { FontAwesome } from "@expo/vector-icons";
 
 const { width, height } = Dimensions.get("window");
 
-let IPSetter = 1
+let IPSetter = 2
 let IP
 //Desktop = 10.0.0.253
 //Laptop = 10.0.0.68

@@ -21,13 +21,16 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import moment from "moment";
 import AnimalAutoSuggest from "../AutoSuggest";
-import { removePhoto } from "../../axiosCalls/uploadAxiosCalls";
-import { insertPhotoWaits } from "../../axiosCalls/photoWaitAxiosCalls";
+import { uploadphoto } from "../../supabaseCalls/uploadSupabaseCalls";
+import { removePhoto } from "../../supabaseCalls/uploadSupabaseCalls";
+// import { removePhoto } from "../../axiosCalls/uploadAxiosCalls";
+import { insertPhotoWaits } from "../../supabaseCalls/photoWaitSupabaseCalls";
+// import { insertPhotoWaits } from "../../axiosCalls/photoWaitAxiosCalls";
 import { scale } from 'react-native-size-matters';
 
 const { width, height } = Dimensions.get("window");
 
-let IPSetter = 1
+let IPSetter = 2
 let IP
 //Desktop = 10.0.0.253
 //Laptop = 10.0.0.68
@@ -178,7 +181,7 @@ export default function PicUploadModal() {
         if (pinValues.PicFile !== null) {
           removePhoto({
             filePath: "./wetmap/src/components/uploads/",
-            fileName: pinValues.PicFile,
+            fileName: uploadedFile,
           });
         }
 
@@ -186,27 +189,38 @@ export default function PicUploadModal() {
         const data = new FormData();
         data.append("image", fileToUpload);
 
-        fetch(`http://${IP}:5000/api/upload`, {
-          method: "POST",
-          body: data,
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            console.log("data is", data)
-            setPinValues({
-              ...pinValues,
-              PicFile: data.fileName,
-              PicDate: formattedDate,
-              Latitude: newLatitude,
-              Longitude: newLongitude,
-            });
-            console.log("stored:", data.fileName);
-          })
-          .catch((err) => {
-            return err;
-          });
+        const newFilePath = await uploadphoto(data, image.uri)
+        setUploadedFile(newFilePath)
+       
+        setPinValues({
+          ...pinValues,
+          PicFile: newFilePath,
+          PicDate: formattedDate,
+          Latitude: newLatitude,
+          Longitude: newLongitude,
+        });
 
-        setUploadedFile(image.uri);
+        // fetch(`http://${IP}:5000/api/upload`, {
+        //   method: "POST",
+        //   body: data,
+        // })
+        //   .then((response) => response.json())
+        //   .then((data) => {
+        //     console.log("data is", data)
+        //     setPinValues({
+        //       ...pinValues,
+        //       PicFile: data.fileName,
+        //       PicDate: formattedDate,
+        //       Latitude: newLatitude,
+        //       Longitude: newLongitude,
+        //     });
+        //     console.log("stored:", data.fileName);
+        //   })
+        //   .catch((err) => {
+        //     return err;
+        //   });
+
+        // setUploadedFile(image.uri);
       }
     } catch (e) {
       console.log("error: Photo Selection Cancelled", e.message);
@@ -217,7 +231,7 @@ export default function PicUploadModal() {
     <View style={styles.container}>
       <View style={styles.picContainer}>
         <Image
-          source={{ uri: uploadedFile }}
+          source={{ uri: `https://lsakqvscxozherlpunqx.supabase.co/storage/v1/object/public/${uploadedFile}` }}
           style={{ width: "100%", height: "100%", borderRadius: 15 }}
         />
       </View>

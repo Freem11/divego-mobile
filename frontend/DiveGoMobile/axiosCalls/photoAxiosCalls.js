@@ -1,6 +1,6 @@
 import axios from "axios";
 
-let IPSetter = 1
+let IPSetter = 2
 let IP
 //Desktop = 10.0.0.253
 //Laptop = 10.0.0.68

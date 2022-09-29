@@ -28,13 +28,14 @@ import Animated, {
 } from "react-native-reanimated";
 import AnimalAutoComplete from "./animalAutocomplete";
 import GeocodeAutocomplete from "./geocodeAutocomplete";
-import { removePhoto } from "../axiosCalls/uploadAxiosCalls";
+import { removePhoto } from "../supabaseCalls/uploadSupabaseCalls";
+// import { removePhoto } from "../axiosCalls/uploadAxiosCalls";
 import { scale } from "react-native-size-matters";
 
 export default function FABButtons() {
   const { diveSitesTog, setDiveSitesTog } = useContext(DiveSitesContext);
   const { pinValues, setPinValues } = useContext(PinContext);
-  const { setUploadedFile } = useContext(PictureContext);
+  const { uploadedFile, setUploadedFile } = useContext(PictureContext);
 
   const { picAdderModal, setPicAdderModal } = useContext(PictureAdderContext);
   const { diveSiteAdderModal, setDiveSiteAdderModal } =
@@ -162,7 +163,7 @@ export default function FABButtons() {
     if (pinValues.PicFile !== null) {
       removePhoto({
         filePath: "./wetmap/src/components/uploads/",
-        fileName: pinValues.PicFile,
+        fileName: uploadedFile,
       });
     }
 

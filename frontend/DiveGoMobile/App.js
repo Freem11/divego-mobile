@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
+import "react-native-url-polyfill/auto";
 import { StyleSheet, Text, View, Dimensions } from "react-native";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
@@ -103,7 +104,7 @@ export default function App() {
   useEffect(() => {
     async function prepare() {
       await SplashScreen.preventAutoHideAsync();
-      await getCurrentLocation();
+      // await getCurrentLocation();
       setAppIsReady(true);
     }
     prepare();

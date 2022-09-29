@@ -1,4 +1,7 @@
+import { heatVals } from "../data/testdata";
+
 function filterSites(newParams, array) {
+
   let newArr = [];
   array.forEach((diveSite) => {
     if (
@@ -14,6 +17,7 @@ function filterSites(newParams, array) {
 }
 
 function formatHeatVals(heatValues) {
+
   let newArr = [];
   heatValues.forEach((heatPoint) => {
     let newpt = {
