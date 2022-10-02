@@ -50,8 +50,8 @@ export default function FABButtons() {
   const transYgeo = useSharedValue(0);
   const transYinfo = useSharedValue(0);
 
-  const animalWidth = useSharedValue(0);
-  const geocodeWidth = useSharedValue(0);
+  const animalWidth = useSharedValue(1000);
+  const geocodeWidth = useSharedValue(1000);
 
   const rotation = useDerivedValue(() => {
     return interpolate(rotationVal.value, [0, 45], [0, 45]);
@@ -72,8 +72,8 @@ export default function FABButtons() {
       transYphoto.value = withTiming(0);
       transYgeo.value = withTiming(0);
       transYinfo.value = withTiming(0);
-      animalWidth.value = withTiming(0);
-      geocodeWidth.value = withTiming(0);
+      animalWidth.value = withTiming(1000);
+      geocodeWidth.value = withTiming(1000);
     } else {
       rotationVal.value = withSpring(45);
       transYanchor.value = withSpring(-65);
@@ -85,39 +85,41 @@ export default function FABButtons() {
     }
   };
 
-  const scale = useDerivedValue(() => {
-    return interpolate(animalWidth.value, [0, 200], [0, 1]);
-  });
+  // const scale = useDerivedValue(() => {
+  //   return interpolate(animalWidth.value, [0, 200], [0, 1]);
+  // });
 
   const animalReveal = useAnimatedStyle(() => {
     return {
-      transform: [{ scaleX: -scale.value }],
+      // transform: [{ scaleX: -scale.value }],
+      transform: [{ translateX: animalWidth.value }],
     };
   });
 
   const startAnimalButtonAnimations = () => {
-    if (animalWidth.value === 0) {
-      animalWidth.value = withTiming(200);
+    if (animalWidth.value === 1000) {
+      animalWidth.value = withTiming(-200);
     } else {
-      animalWidth.value = withTiming(0);
+      animalWidth.value = withTiming(1000);
     }
   };
 
-  const scaleGeo = useDerivedValue(() => {
-    return interpolate(geocodeWidth.value, [0, 200], [0, 1]);
-  });
+  // const scaleGeo = useDerivedValue(() => {
+  //   return interpolate(geocodeWidth.value, [0, 200], [0, 1]);
+  // });
 
   const geocodeReveal = useAnimatedStyle(() => {
     return {
-      transform: [{ scaleX: -scaleGeo.value }],
+      // transform: [{ scaleX: -scaleGeo.value }],
+      transform: [{ translateX: geocodeWidth.value }],
     };
   });
 
   const startGeoCodeButtonAnimations = () => {
-    if (geocodeWidth.value === 0) {
-      geocodeWidth.value = withTiming(200);
+    if (geocodeWidth.value === 1000) {
+      geocodeWidth.value = withTiming(-200);
     } else {
-      geocodeWidth.value = withTiming(0);
+      geocodeWidth.value = withTiming(1000);
     }
   };
 
@@ -385,6 +387,7 @@ const styles = StyleSheet.create({
     right: 40,
     borderRadius: 10,
     zIndex: 2,
+    // transform: [{ scaleX: -1}]
   },
   modalStyle: {
     flex: 1,

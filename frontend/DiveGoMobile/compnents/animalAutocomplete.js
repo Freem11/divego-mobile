@@ -48,7 +48,7 @@ export default function AnimalAutoComplete() {
         initialValue="Species"
         textInputProps={{
           style: {
-            backgroundColor: "white",
+            // backgroundColor: "white",
             justifyContent: "center",
             alignItems: "center",
             borderRadius: 25,
@@ -87,9 +87,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignContent: "center",
     width: 200,
-    backgroundColor: "white",
+    // backgroundColor: "white",
     borderRadius: 10,
     zIndex: 1,
-    transform: [{ scaleX: -1 }],
+    // transform: [{ scaleX: -1 }],
   },
 });

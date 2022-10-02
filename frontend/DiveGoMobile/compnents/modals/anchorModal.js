@@ -92,6 +92,7 @@ const styles = StyleSheet.create({
   picContainer: {
     width: scale(200),
     height: scale(100),
+    marginBottom: 30,
   },
   titleText: {
     textAlign: "center",
