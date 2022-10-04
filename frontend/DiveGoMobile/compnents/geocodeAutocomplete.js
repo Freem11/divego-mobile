@@ -35,7 +35,5 @@ const styles = StyleSheet.create({
       backgroundColor: "white",
       borderRadius: 20,
       zIndex: 1,
-      // transform: [{ scaleX: -1}]
-    },
-   
+    },  
   });

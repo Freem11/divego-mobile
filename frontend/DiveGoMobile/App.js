@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+import React, { useState, useEffect, useCallback, useLayoutEffect } from "react";
 import "react-native-url-polyfill/auto";
 import { StyleSheet, Text, View, Dimensions } from "react-native";
 import { useFonts } from "expo-font";
@@ -25,8 +25,7 @@ import { SliderContext } from "./compnents/contexts/sliderContext";
 import { AnimalSelectContext } from "./compnents/contexts/animalSelectContext";
 import { PictureContext } from "./compnents/contexts/pictureContext";
 import { SelectedDiveSiteContext } from "./compnents/contexts/selectedDiveSiteContext";
-import { NavigationContainer } from "@react-navigation/native";
-import StackNav from "./compnents/stackNav";
+import MapPage from "./compnents/mapPage";
 import { getCurrentCoordinates } from "./compnents/helpers/permissionsHelpers";
 
 const { width, height } = Dimensions.get("window");
@@ -101,10 +100,10 @@ export default function App() {
     ShadowsIntoLight_400Regular,
   });
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     async function prepare() {
       await SplashScreen.preventAutoHideAsync();
-      // await getCurrentLocation();
+      await getCurrentLocation();
       setAppIsReady(true);
     }
     prepare();
@@ -156,9 +155,7 @@ export default function App() {
                               <MapCenterContext.Provider
                                 value={{ mapCenter, setMapCenter }}
                               >
-                                <NavigationContainer>
-                                  <StackNav />
-                                </NavigationContainer>
+                                <MapPage/>
                               </MapCenterContext.Provider>
                             </DSAdderContext.Provider>
                           </PictureAdderContext.Provider>

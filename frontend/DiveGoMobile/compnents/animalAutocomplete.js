@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Keyboard, StyleSheet, View } from "react-native";
+import React, { useState, useEffect, useContext, useRef } from "react";
+import { StyleSheet, View } from "react-native";
 import { AutocompleteDropdown } from "react-native-autocomplete-dropdown";
 import { photos } from "./data/testdata";
 import { getAnimalNames } from "../supabaseCalls/photoSupabaseCalls";
@@ -48,7 +48,6 @@ export default function AnimalAutoComplete() {
         initialValue="Species"
         textInputProps={{
           style: {
-            // backgroundColor: "white",
             justifyContent: "center",
             alignItems: "center",
             borderRadius: 25,
@@ -64,6 +63,7 @@ export default function AnimalAutoComplete() {
           backgroundColor: "white",
           width: 200,
           zIndex: 2,
+         
         }}
         direction={"down"}
         dataSet={list}
@@ -87,9 +87,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignContent: "center",
     width: 200,
-    // backgroundColor: "white",
     borderRadius: 10,
     zIndex: 1,
-    // transform: [{ scaleX: -1 }],
   },
 });

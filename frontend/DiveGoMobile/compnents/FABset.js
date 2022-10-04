@@ -14,7 +14,6 @@ import {
   Modal,
   Text,
   Platform,
-  Keyboard,
   KeyboardAvoidingView,
 } from "react-native";
 import { MaterialIcons, FontAwesome5, FontAwesome } from "@expo/vector-icons";
@@ -85,13 +84,8 @@ export default function FABButtons() {
     }
   };
 
-  // const scale = useDerivedValue(() => {
-  //   return interpolate(animalWidth.value, [0, 200], [0, 1]);
-  // });
-
   const animalReveal = useAnimatedStyle(() => {
     return {
-      // transform: [{ scaleX: -scale.value }],
       transform: [{ translateX: animalWidth.value }],
     };
   });
@@ -104,13 +98,8 @@ export default function FABButtons() {
     }
   };
 
-  // const scaleGeo = useDerivedValue(() => {
-  //   return interpolate(geocodeWidth.value, [0, 200], [0, 1]);
-  // });
-
   const geocodeReveal = useAnimatedStyle(() => {
     return {
-      // transform: [{ scaleX: -scaleGeo.value }],
       transform: [{ translateX: geocodeWidth.value }],
     };
   });
@@ -263,7 +252,7 @@ export default function FABButtons() {
         keyboardVerticalOffset={Platform.OS === "android" ? 200 : 0}
       >
         <Animated.View style={[styles.animal, animalReveal]}>
-          <AnimalAutoComplete />
+          <AnimalAutoComplete/>
         </Animated.View>
       </KeyboardAvoidingView>
 
@@ -387,7 +376,6 @@ const styles = StyleSheet.create({
     right: 40,
     borderRadius: 10,
     zIndex: 2,
-    // transform: [{ scaleX: -1}]
   },
   modalStyle: {
     flex: 1,

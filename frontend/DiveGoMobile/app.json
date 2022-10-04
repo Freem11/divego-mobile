@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "DiveGoMobile",
+    "name": "DiveGo",
     "slug": "DiveGoMobile",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -21,7 +21,8 @@
       "supportsTablet": true,
       "infoPlist": {
         "UIBackgroundModes": [
-          "location", "fetch"
+          "location",
+          "fetch"
         ],
         "NSLocationUsageDescription": "text",
         "NSLocationAlwaysAndWhenInUseUsageDescription": "text",
@@ -30,10 +31,12 @@
       },
       "config": {
         "googleMapsApiKey": "AIzaSyBo057BaDmQ2uGgKuunviNZoM9ry_U2SA0"
-        }
-       
+      },
+      "bundleIdentifier": "com.DiveGo"
     },
     "android": {
+      "package": "com.DiveGo",
+      "versionCode": 1,
       "config": {
         "googleMaps": {
           "apiKey": "AIzaSyBo057BaDmQ2uGgKuunviNZoM9ry_U2SA0"
@@ -43,10 +46,19 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#00FFFFFF"
       },
-      "permissions":["ACCESS_COARSE_LOCATION","ACCESS_FINE_LOCATION","ACCESS_BACKGROUND_LOCATION"]
+      "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_BACKGROUND_LOCATION"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "01597466-ed8e-4963-a76b-d4f3a8ad4569"
+      }
     }
   }
 }

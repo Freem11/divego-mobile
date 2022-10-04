@@ -38,10 +38,10 @@ function calculateZoom(width, topLongitude, bottomLongitude) {
 
 function newGPSBoundaries(Lat, Lng) {
 
-      let minLat = Lat - 0.1;
-      let maxLat = Lat + 0.1;
-      let minLng = Lng - 0.1;
-      let maxLng = Lng + 0.1;
+      let minLat = Lat - 0.01;
+      let maxLat = Lat + 0.01;
+      let minLng = Lng - 0.01;
+      let maxLng = Lng + 0.01;
 
 
   return { minLat, maxLat, minLng, maxLng };

@@ -3,9 +3,7 @@ import {
   Text,
   View,
   Image,
-  TextInput,
   ScrollView,
-  TouchableWithoutFeedback,
 } from "react-native";
 import React, { useState, useContext, useEffect } from "react";
 import { getPhotosforAnchor } from "../../supabaseCalls/photoSupabaseCalls";
