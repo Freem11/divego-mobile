@@ -417,7 +417,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginBottom: 0,
     marginLeft: "-15%",
-    height: 50,
+    height: scale(50),
   },
   headerAlt: {
     alignItems: "center",

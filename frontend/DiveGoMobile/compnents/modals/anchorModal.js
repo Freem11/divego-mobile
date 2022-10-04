@@ -58,7 +58,7 @@ export default function AnchorModal(lat, lng) {
 
 
   return (
-    <View>
+    <View style={{maxHeight: '83%'}}>
       <Text style={{ fontFamily: "Caveat_400Regular", fontSize: scale(20), marginLeft: scale(20) }}>{monthVal} Sightings</Text>
     <ScrollView>
        <View style={styles.container}>
@@ -86,11 +86,12 @@ const styles = StyleSheet.create({
     marginTop: "5%",
     marginRight: scale(10),
     marginLeft: scale(10),
+ 
   },
   picContainer: {
     width: scale(200),
     height: scale(100),
-    marginBottom: 30,
+    marginBottom: scale(30),
   },
   titleText: {
     textAlign: "center",
