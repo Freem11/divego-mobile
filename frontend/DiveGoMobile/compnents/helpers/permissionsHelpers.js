@@ -22,10 +22,11 @@ TaskManager.defineTask(LOCATION_TASK_NAME, async ({ data, error }) => {
 const requestPermissions = async () => {
   try {
     const forground = await Location.requestForegroundPermissionsAsync();
-    if (forground.granted) {
-      let stuff = await Location.requestBackgroundPermissionsAsync();
-      return stuff
-    }
+    return forground.granted
+    // if (forground.granted) {
+    //   let stuff = await Location.requestBackgroundPermissionsAsync();
+    //   return stuff
+    // }
   } catch (e) {
     console.log({ title: "Error", message: e.message });
   }

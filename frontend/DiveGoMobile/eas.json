@@ -10,9 +10,25 @@
     "preview": {
       "distribution": "internal"
     },
-    "production": {}
+    "production": {
+      "env": {
+        "GOOGLE_MAPS_API_KEY_MOBILE": "AIzaSyBo057BaDmQ2uGgKuunviNZoM9ry_U2SA0",
+        "SUPABASE_URL": "https://lsakqvscxozherlpunqx.supabase.co",
+        "SUPABASE_API_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxzYWtxdnNjeG96aGVybHB1bnF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjQyOTIxMjYsImV4cCI6MTk3OTg2ODEyNn0.TROef3TdFCdqfVReFpesiMgowJEbRUXfYe3X3KmU0Qk"
+      }
+    }
   },
   "submit": {
-    "production": {}
+    "production": {
+      "ios": {
+        "appleId": "freem1985@gmail.com",
+        "ascAppId": "6443680026",
+        "appleTeamId": "49629863XB"
+      },
+      "android": {
+        "serviceAccountKeyPath": "../../../GoogleServiceAccount/pc-api-5892042463849694566-989-513525c2a557.json"
+      }
+    }
   }
-}
+  }
+
