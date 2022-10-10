@@ -2,7 +2,7 @@
   "expo": {
     "name": "DiveGo",
     "slug": "DiveGoMobile",
-    "version": "1.0.3",
+    "version": "1.0.5",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
@@ -32,11 +32,12 @@
       "config": {
         "googleMapsApiKey": "AIzaSyBo057BaDmQ2uGgKuunviNZoM9ry_U2SA0"
       },
-      "bundleIdentifier": "com.DiveGo"
+      "bundleIdentifier": "com.DiveGo",
+      "buildNumber": "5"
     },
     "android": {
       "package": "com.DiveGo",
-      "versionCode": 3,
+      "versionCode": 5,
       "config": {
         "googleMaps": {
           "apiKey": "AIzaSyBo057BaDmQ2uGgKuunviNZoM9ry_U2SA0"
@@ -48,8 +49,7 @@
       },
       "permissions": [
         "ACCESS_COARSE_LOCATION",
-        "ACCESS_FINE_LOCATION",
-        "ACCESS_BACKGROUND_LOCATION"
+        "ACCESS_FINE_LOCATION"
       ]
     },
     "web": {

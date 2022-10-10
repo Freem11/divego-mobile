@@ -1,6 +1,5 @@
 import * as Location from "expo-location";
 import * as TaskManager from "expo-task-manager";
-import React, { useMemo } from "react";
 
 const LOCATION_TASK_NAME = "LOCATION_TASK_NAME";
 let foregroundSubscription = null;
@@ -14,7 +13,7 @@ TaskManager.defineTask(LOCATION_TASK_NAME, async ({ data, error }) => {
     const { locations } = data;
     const location = locations[0];
     if (location) {
-      console.log("background location", location.coords);
+      console.log("location", location.coords);
     }
   }
 });
@@ -22,11 +21,7 @@ TaskManager.defineTask(LOCATION_TASK_NAME, async ({ data, error }) => {
 const requestPermissions = async () => {
   try {
     const forground = await Location.requestForegroundPermissionsAsync();
-    return forground.granted
-    // if (forground.granted) {
-    //   let stuff = await Location.requestBackgroundPermissionsAsync();
-    //   return stuff
-    // }
+    return forground.status
   } catch (e) {
     console.log({ title: "Error", message: e.message });
   }
