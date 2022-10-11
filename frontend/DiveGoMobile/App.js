@@ -11,6 +11,9 @@ import {
   Caveat_600SemiBold,
   Caveat_700Bold,
 } from "@expo-google-fonts/caveat";
+import { SwankyandMooMoo_400Regular } from '@expo-google-fonts/swanky-and-moo-moo';
+import { Lemonada_300Light } from "@expo-google-fonts/lemonada";
+import { PoiretOne_400Regular } from '@expo-google-fonts/poiret-one';
 import { ShadowsIntoLight_400Regular } from "@expo-google-fonts/shadows-into-light";
 import { PictureAdderContext } from "./compnents/contexts/picModalContext";
 import { DSAdderContext } from "./compnents/contexts/DSModalContext";
@@ -98,6 +101,9 @@ export default function App() {
     Caveat_700Bold,
     IndieFlower_400Regular,
     ShadowsIntoLight_400Regular,
+    PoiretOne_400Regular,
+    Lemonada_300Light,
+    SwankyandMooMoo_400Regular
   });
 
   useLayoutEffect(() => {

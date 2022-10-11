@@ -100,10 +100,14 @@ export default function MapPage() {
                 <TouchableWithoutFeedback onPress={onNavigate}>
                   <Text
                     style={{
-                      color: "blue",
+                      color: "#9B884E",
                       fontFamily: "PermanentMarker_400Regular",
                       fontSize: scale(15),
-                      marginTop: scale(4),
+                      width: '90%',
+                      height: "100%",
+                      textAlign: "center",
+                      backgroundColor: "#355D71",
+
                     }}
                   >
                     Set Pin
@@ -198,13 +202,15 @@ const styles = StyleSheet.create({
   PinButton: {
     position: "absolute",
     alignItems: "center",
-    bottom: scale(30),
-    backgroundColor: "palegreen",
-    width: scale(100),
-    height: scale(30),
+    textAlign: 'center',
+    bottom: scale(28),
+    backgroundColor: "#355D71",
+    borderWidth: 1,
+    borderTopColor: "darkgrey",
+    borderColor: "transparent",
+    marginBottom: 5,
+    borderRadius: scale(5),
+    width: '50%',
     zIndex: 2,
-    borderRadius: scale(15),
-    opacity: 0.8,
-    paddingTop: scale(-5),
   },
 });

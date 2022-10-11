@@ -26,26 +26,25 @@ import { removePhoto } from "../../supabaseCalls/uploadSupabaseCalls";
 // import { removePhoto } from "../../axiosCalls/uploadAxiosCalls";
 import { insertPhotoWaits } from "../../supabaseCalls/photoWaitSupabaseCalls";
 // import { insertPhotoWaits } from "../../axiosCalls/photoWaitAxiosCalls";
-import { scale } from 'react-native-size-matters';
+import { scale } from "react-native-size-matters";
 
 const { width, height } = Dimensions.get("window");
 
-let IPSetter = 2
-let IP
+let IPSetter = 2;
+let IP;
 //Desktop = 10.0.0.253
 //Laptop = 10.0.0.68
 //Library = 10.44.22.110
 
 if (IPSetter === 1) {
-  IP = '10.0.0.253'
-} else if (IPSetter === 2){
-  IP = '10.0.0.68'
-} else if (IPSetter === 3){
-  IP = '10.44.22.110'
+  IP = "10.0.0.253";
+} else if (IPSetter === 2) {
+  IP = "10.0.0.68";
+} else if (IPSetter === 3) {
+  IP = "10.44.22.110";
 }
 
 export default function PicUploadModal() {
-
   const { setMasterSwitch } = useContext(MasterContext);
 
   const { pinValues, setPinValues } = useContext(PinContext);
@@ -128,7 +127,7 @@ export default function PicUploadModal() {
   if (pinValues.PicDate === "") {
     colorDate = "rgb(128,128,128)";
   } else {
-    colorDate = "black";
+    colorDate = "#F0EEEB";
   }
 
   const handleSubmit = () => {
@@ -141,7 +140,7 @@ export default function PicUploadModal() {
     ) {
       return;
     } else {
-      console.log("what are these", pinValues)
+      console.log("what are these", pinValues);
       insertPhotoWaits(pinValues);
       setPinValues({
         PicFile: null,
@@ -156,8 +155,7 @@ export default function PicUploadModal() {
     }
   };
 
-
-  const handleImageUpload = async() => {
+  const handleImageUpload = async () => {
     try {
       const image = await chooseImageHandler();
       if (image) {
@@ -165,7 +163,7 @@ export default function PicUploadModal() {
         let newLatitude;
         let newLongitude;
         if (image.exif.DateTimeOriginal) {
-          formattedDate = formatDate(image.exif.DateTimeOriginal)
+          formattedDate = formatDate(image.exif.DateTimeOriginal);
         } else {
           formattedDate = pinValues.PicDate;
         }
@@ -189,9 +187,9 @@ export default function PicUploadModal() {
         const data = new FormData();
         data.append("image", fileToUpload);
 
-        const newFilePath = await uploadphoto(data, image.uri)
-        setUploadedFile(newFilePath)
-       
+        const newFilePath = await uploadphoto(data, image.uri);
+        setUploadedFile(newFilePath);
+
         setPinValues({
           ...pinValues,
           PicFile: newFilePath,
@@ -225,28 +223,28 @@ export default function PicUploadModal() {
     } catch (e) {
       console.log("error: Photo Selection Cancelled", e.message);
     }
-  }
+  };
 
   return (
     <View style={styles.container}>
       <View style={styles.picContainer}>
         <Image
-          source={{ uri: `https://lsakqvscxozherlpunqx.supabase.co/storage/v1/object/public/${uploadedFile}` }}
-          style={{ width: "100%", height: "100%", borderRadius: 15 }}
+          source={{
+            uri: `https://lsakqvscxozherlpunqx.supabase.co/storage/v1/object/public/${uploadedFile}`,
+          }}
+          style={{ width: "101%", height: "101%", borderRadius: 15, backgroundColor: "#355D71" }}
         />
       </View>
 
-      <TouchableWithoutFeedback
-        onPress={handleImageUpload}
-      >
+      <TouchableWithoutFeedback onPress={handleImageUpload}>
         <View style={[styles.ImageButton]}>
-          <FontAwesome name="picture-o" color="red" size={32} />
+          <FontAwesome name="picture-o" color="#9B884E" size={28} />
           <Text
             style={{
               marginLeft: scale(5),
-              color: "maroon",
+              color: "#9B884E",
               fontFamily: "PermanentMarker_400Regular",
-              fontSize: scale(12)
+              fontSize: scale(12),
             }}
           >
             Choose an Image
@@ -261,12 +259,13 @@ export default function PicUploadModal() {
           placeholder={"Date"}
           editable={false}
           color={colorDate}
+          fontSize={21}
           placeholderTextColor={colorDate}
           onChangeText={(text) => setPinValues({ ...pinValues, Animal: text })}
         ></TextInput>
         <TouchableWithoutFeedback onPress={showDatePicker}>
-          <View style={{ alignSelf:"center", height: 50, marginLeft: 0 }}>
-            <FontAwesome name="calendar" color="red" size={32} />
+          <View style={styles.dateIcon}>
+            <FontAwesome name="calendar" color="#9B884E" size={28} />
             <DateTimePickerModal
               date={new Date(pinValues.PicDate)}
               isVisible={datePickerVisible}
@@ -286,7 +285,14 @@ export default function PicUploadModal() {
         <AnimalAutoSuggest pin={pinValues} setPin={setPinValues} />
       </KeyboardAvoidingView>
 
-      <View style={{ flexDirection: "row", width: "100%", justifyContent: "center", marginBottom: "5%" }}>
+      <View
+        style={{
+          flexDirection: "row",
+          width: "100%",
+          justifyContent: "center",
+          marginBottom: "5%",
+        }}
+      >
         <View>
           <TextInput
             style={styles.input}
@@ -294,7 +300,8 @@ export default function PicUploadModal() {
             placeholder={"Latitude"}
             editable={false}
             placeholderTextColor="grey"
-            color="black"
+            fontSize={18}
+            color="#F0EEEB"
             onChangeText={(text) =>
               setPinValues({ ...pinValues, Latitude: text })
             }
@@ -306,7 +313,8 @@ export default function PicUploadModal() {
             placeholder={"Longitude"}
             editable={false}
             placeholderTextColor="grey"
-            color="black"
+            fontSize={18}
+            color="#F0EEEB"
             onChangeText={(text) =>
               setPinValues({ ...pinValues, Longitude: text })
             }
@@ -318,19 +326,10 @@ export default function PicUploadModal() {
             <View style={[styles.LocButton]}>
               <MaterialIcons
                 name="location-pin"
-                color="red"
-                size={48}
-                style={{ marginLeft: 5, zIndex: -1 }}
+                color="#9B884E"
+                size={38}
+                style={{ zIndex: -1 }}
               />
-              <Text
-                style={{
-                  marginLeft: 5,
-                  color: "maroon",
-                  fontFamily: "ShadowsIntoLight_400Regular",
-                }}
-              >
-                Drop Pin
-              </Text>
             </View>
           </TouchableWithoutFeedback>
         </View>
@@ -340,10 +339,16 @@ export default function PicUploadModal() {
         <TouchableWithoutFeedback onPress={handleSubmit}>
           <Text
             style={{
-              color: "blue",
+              color: "#9B884E",
               fontSize: 17,
               marginTop: 8,
               fontFamily: "PermanentMarker_400Regular",
+              borderColor: "transparent",
+              width: "100%",
+              alignSelf: "center",
+              justifyContent: "center",
+              alignContent: "center",
+              textAlign: "center"
             }}
           >
             Submit Photo
@@ -357,28 +362,31 @@ export default function PicUploadModal() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#D8DBE2",
+    backgroundColor: "#355D71",
     alignItems: "center",
     marginTop: scale(55),
     marginBottom: 15,
-    width: '100%',
+    width: "100%",
+    borderBottomRightRadius: 15,
+    borderBottomLeftRadius: 15,
   },
   input: {
     fontFamily: "IndieFlower_400Regular",
-    backgroundColor: "white",
-    borderRadius: 25,
+    backgroundColor: "#33586A",
+    borderRadius: 10,
     width: 200,
     height: 40,
     alignSelf: "center",
     marginBottom: 15,
-    marginLeft: 3,
+    marginLeft: -5,
     textAlign: "center",
     overflow: "hidden",
   },
   inputCal: {
     fontFamily: "IndieFlower_400Regular",
-    backgroundColor: "white",
-    borderRadius: 25,
+    backgroundColor: "#33586A",
+    borderRadius: 10,
+    // color: "#F0EEEB",
     width: 200,
     height: 40,
     alignSelf: "center",
@@ -398,25 +406,44 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   ImageButton: {
+    backgroundColor: "#33586A",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 50,
-    height: scale(45),
-    width: scale(140),
+    borderRadius: scale(15),
+    height: scale(35),
+    width: scale(160),
     marginLeft: 0,
     marginTop: 15,
-    marginBottom: 15,
+    marginBottom: 20,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.34,
+    shadowRadius: 6.27,
+
+    elevation: 10,
   },
   picContainer: {
     alignItems: "center",
     justifyContent: "center",
-    borderWidth: 1,
+    borderWidth: 0.3,
     borderRadius: scale(15),
     borderColor: "darkgrey",
     width: scale(220),
     height: scale(110),
-    marginTop: -85,
+    marginTop: -90,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.34,
+    shadowRadius: 6.27,
+
+    elevation: 20,
   },
   modalStyle: {
     flex: 1,
@@ -441,13 +468,27 @@ const styles = StyleSheet.create({
   },
   LocButton: {
     alignItems: "center",
+    justifyContent: "center",
     zIndex: -1,
+    backgroundColor: "#33586A",
+    borderRadius: 10,
+    marginLeft: 10,
+    marginTop: 10,
+    width: 38,
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.34,
+    shadowRadius: 6.27,
+
+    elevation: 10,
   },
   calZone: {
-    width: "902%",
     flexDirection: "row",
     justifyContent: "center",
-    marginLeft: -5
+    marginLeft: -5,
+    marginBottom: -5
   },
   autocomplete: {
     width: 275,
@@ -456,20 +497,37 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     alignSelf: "center",
     justifyContent: "center",
-    marginLeft: 23,
-    zIndex: 20
+    marginLeft: 15,
+    zIndex: 20,
   },
   SubmitButton: {
     position: "absolute",
     alignItems: "center",
     alignSelf: "center",
-    backgroundColor: "palegreen",
-    borderEndColor: "green",
-    borderWidth: 0.3,
-    width: 140,
-    height: 40,
-    borderRadius: 15,
-    opacity: 0.5,
-    bottom: "4%",
+    justifyContent: "center",
+    borderWidth: 1,
+    width: '85%',
+    borderTopColor: "darkgrey",
+    borderColor: "transparent",
+    borderBottomColor: "transparent",
+    bottom: "1%",
+  },
+  dateIcon: {
+    backgroundColor: "#33586A",
+    alignItems: "center",
+    alignSelf: "center",
+    borderRadius: 10,
+    height: 35,
+    width: 38,
+    marginTop: -15,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.34,
+    shadowRadius: 6.27,
+
+    elevation: 10,
   },
 });

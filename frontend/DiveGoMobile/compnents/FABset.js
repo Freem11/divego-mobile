@@ -273,7 +273,7 @@ export default function FABButtons() {
             </View>
             <TouchableWithoutFeedback onPress={togglePicModal}>
               <View style={styles.closeButton}>
-                <FontAwesome name="close" color="aquamarine" size={32} />
+                <FontAwesome name="close" color="#BD9F9F" size={28} />
               </View>
             </TouchableWithoutFeedback>
           </View>
@@ -295,7 +295,7 @@ export default function FABButtons() {
               onPress={() => setDiveSiteAdderModal(!diveSiteAdderModal)}
             >
               <View style={styles.closeButton}>
-                <FontAwesome name="close" color="aquamarine" size={32} />
+                <FontAwesome name="close" color="#BD9F9F" size={28} />
               </View>
             </TouchableWithoutFeedback>
           </View>
@@ -313,7 +313,7 @@ export default function FABButtons() {
               onPress={() => setGuideModal(!guideModal)}
             >
               <View style={styles.closeButtonAlt}>
-                <FontAwesome name="close" color="aquamarine" size={32} />
+                <FontAwesome name="close" color="#BD9F9F" size={28} />
               </View>
             </TouchableWithoutFeedback>
           </View>
@@ -381,28 +381,30 @@ const styles = StyleSheet.create({
     flex: 1,
     alignContent: "center",
     alignItems: "center",
-    backgroundColor: "#D8DBE2",
+    backgroundColor: "#355D71",
     borderRadius: 25,
     margin: scale(29),
-    borderColor: "lightblue",
-    borderWidth: 8,
-    opacity: 1,
+    marginLeft: '10%',
+    marginRight: '10%',
+    marginTop: '15%',
+    marginBottom: '15%',
+    shadowOpacity: 0.2,
+    shadowRadius: 50,
   },
   closeButton: {
     position: "absolute",
     borderRadius: scale(42 / 2),
-    backgroundColor: "maroon",
     height: 42,
     width: 42,
     top: 0,
     right: "5%",
     justifyContent: "center",
     alignItems: "center",
+    marginTop: -3
   },
   closeButtonAlt: {
     position: "absolute",
     borderRadius: scale(42 / 2),
-    backgroundColor: "maroon",
     height: 42,
     width: 42,
     top: scale(-5),
@@ -418,6 +420,7 @@ const styles = StyleSheet.create({
     marginBottom: 0,
     marginLeft: "-15%",
     height: scale(50),
+    color: "#F0EEEB",
   },
   headerAlt: {
     alignItems: "center",
@@ -426,12 +429,14 @@ const styles = StyleSheet.create({
     fontSize: scale(17),
     marginTop: scale(-15),
     marginLeft: "-20%",
+    color: "#F0EEEB",
   },
   title: {
     flexDirection: "column",
     marginTop: scale(25),
     width: "100%",
     height: 80,
+    color: "#F0EEEB",
   },
   titleAlt: {
     display: "flex",
@@ -442,5 +447,6 @@ const styles = StyleSheet.create({
     marginTop: scale(20),
     width: "100%",
     height: 50,
+    color: "#F0EEEB",
   },
 });

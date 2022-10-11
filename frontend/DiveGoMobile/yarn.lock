@@ -1119,14 +1119,29 @@
   "resolved" "https://registry.npmjs.org/@expo-google-fonts/indie-flower/-/indie-flower-0.2.2.tgz"
   "version" "0.2.2"
 
+"@expo-google-fonts/lemonada@^0.2.2":
+  "integrity" "sha512-dj5XnqvjdyXkQN64zpabHD/E2wKkQGHgrXtDq7b4fgAIEML0s8DBGJUXOx++JQj/w27J0BhrMBltTa6tVzeaLw=="
+  "resolved" "https://registry.npmjs.org/@expo-google-fonts/lemonada/-/lemonada-0.2.2.tgz"
+  "version" "0.2.2"
+
 "@expo-google-fonts/permanent-marker@^0.2.2":
   "integrity" "sha512-efXLcRS5VEpHzyYVFgjVWJU+4bTGvByuIv0mK3zEJPWe34O9wYZIy5C9ZfX0NBPIaBk6Ud4L2/MiljrQUepIpw=="
   "resolved" "https://registry.npmjs.org/@expo-google-fonts/permanent-marker/-/permanent-marker-0.2.2.tgz"
   "version" "0.2.2"
 
+"@expo-google-fonts/poiret-one@^0.2.2":
+  "integrity" "sha512-Jp4EwQ4mYG/n5rBZDa63NLoj5KPRhwGwWZgh8j6EK2ZFd0qd8afGVcF5vKuehErwBATajxEFp7fpgH/SoI744w=="
+  "resolved" "https://registry.npmjs.org/@expo-google-fonts/poiret-one/-/poiret-one-0.2.2.tgz"
+  "version" "0.2.2"
+
 "@expo-google-fonts/shadows-into-light@^0.2.2":
   "integrity" "sha512-LcIT/6pMXDl7bTU6dNu7tyl1Q+1f0d/WVMJ1TxUX/ZtB3ytAyFJ2cDN/odRpE3hmFT1aJoNMdiI7jNa6j6gl6Q=="
   "resolved" "https://registry.npmjs.org/@expo-google-fonts/shadows-into-light/-/shadows-into-light-0.2.2.tgz"
+  "version" "0.2.2"
+
+"@expo-google-fonts/swanky-and-moo-moo@^0.2.2":
+  "integrity" "sha512-E6gwb0Xmt8ZanaK/dWwetthN1F4SMjcNRlpEXOxHiLohbn8ToNPO5+YYT4R8Du9+D9YpmJMEcLkYvwPkDTZPrA=="
+  "resolved" "https://registry.npmjs.org/@expo-google-fonts/swanky-and-moo-moo/-/swanky-and-moo-moo-0.2.2.tgz"
   "version" "0.2.2"
 
 "@expo/apple-utils@0.0.0-alpha.31":

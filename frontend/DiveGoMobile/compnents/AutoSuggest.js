@@ -49,7 +49,7 @@ export default function AnimalAutoSuggest(props) {
           placeholder={"Animal"}
           value={pin.Animal}
           placeholderTextColor="grey"
-          color="black"
+          color="#F0EEEB"
           onChangeText={handleChange}
         ></TextInput>
         {pin.Animal.length > 1 && (
@@ -95,11 +95,13 @@ const styles = StyleSheet.create({
     marginLeft: -28,
   },
   suggestInput: {
-    borderRadius: 25,
     width: 200,
     height: 40,
     marginBottom: 20,
-    backgroundColor: "white",
+    backgroundColor: "#33586A",
+    borderRadius: 10,
+    // color: "#F0EEEB",
+    fontSize: 15,
     textAlign: "center",
     fontFamily: "IndieFlower_400Regular",
     overflow: "hidden",

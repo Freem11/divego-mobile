@@ -30,7 +30,6 @@ const requestPermissions = async () => {
 const getCurrentCoordinates = async() => {
   
   const { granted } = await Location.getForegroundPermissionsAsync();
-
   if (!granted) {
     requestPermissions();
     console.log("location tracking denied");
@@ -38,7 +37,7 @@ const getCurrentCoordinates = async() => {
   foregroundSubscription?.remove();
 
   try {
-    return await Location.getCurrentPositionAsync({});
+    return await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Low, maximumAge: 10000 });
   } catch (e) {
     console.log("Location tracking error");
   }

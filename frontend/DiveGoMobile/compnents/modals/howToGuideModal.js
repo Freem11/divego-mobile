@@ -41,7 +41,7 @@ export default function GuideModal() {
                 marginRight: 5,
               }}
             >
-              <MaterialIcons name="explore" color="black" size={24} />
+              <MaterialIcons name="explore" color="#9B884E" size={24} />
             </View>
 
             <Text style={styles.blurb}>
@@ -61,14 +61,14 @@ export default function GuideModal() {
                 marginRight: 5,
               }}
             >
-              <MaterialIcons name="photo-camera" color="black" size={24} />
+              <MaterialIcons name="photo-camera" color="#9B884E" size={24} />
             </View>
 
             <Text style={styles.blurb}>
               Click this icon to toggle the photo uploader window, in this
               window you can upload photos of the animals you have seen, the
               system will take the date the photo was taken as well as the GPS
-              coordinates, if they are part of the photo, if not click the red
+              coordinates, if they are part of the photo, if not click the
               pin icon to the right of the fields to open another map page to
               drop a pin. Doing so will generate a set of GPS cooridnates for
               your photo.
@@ -85,7 +85,7 @@ export default function GuideModal() {
                 marginRight: 5,
               }}
             >
-              <MaterialIcons name="add-location-alt" color="black" size={24} />
+              <MaterialIcons name="add-location-alt" color="#9B884E" size={24} />
             </View>
 
             <Text style={styles.blurb}>
@@ -107,7 +107,7 @@ export default function GuideModal() {
                 marginRight: 5,
               }}
             >
-              <MaterialIcons name="search" color="black" size={24} />
+              <MaterialIcons name="search" color="#9B884E" size={24} />
             </View>
 
             <Text style={styles.blurb}>
@@ -127,7 +127,7 @@ export default function GuideModal() {
                 marginRight: 5,
               }}
             >
-              <MaterialIcons name="anchor" color="black" size={24} />
+              <MaterialIcons name="anchor" color="#9B884E" size={24} />
             </View>
 
             <Text style={styles.blurb}>
@@ -144,7 +144,7 @@ export default function GuideModal() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#D8DBE2",
+    backgroundColor: "#355D71",
     alignItems: "flex-start",
     justifyContent: "center",
     marginBottom: "30%",
@@ -155,6 +155,7 @@ const styles = StyleSheet.create({
   textSt: {
     fontFamily: "IndieFlower_400Regular",
     marginBottom: 10,
+    color:"#F0EEEB"
   },
   topSec: {
     flex: 1,
@@ -178,6 +179,7 @@ const styles = StyleSheet.create({
     fontFamily: "IndieFlower_400Regular",
     height: "100%",
     width: "80%",
+    color:"#F0EEEB"
   },
   explore: {
     marginTop: "0%",

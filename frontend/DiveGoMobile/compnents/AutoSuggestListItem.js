@@ -13,7 +13,7 @@ const AutoSuggestListItem = (props) => {
     <View id={name} style={styles.suggestion}>
       <View>
         <Text
-          style={{ fontFamily: "IndieFlower_400Regular", textAlign: "center" }}
+          style={{ fontFamily: "IndieFlower_400Regular", textAlign: "center", color:"#F0EEEB" }}
           onPress={() => handleSelect(name)}
         >
           {name}
@@ -29,10 +29,8 @@ const styles = StyleSheet.create({
     height: 25,
     marginTop: 1,
     paddingTop: 3,
-    backgroundColor: "white",
+    backgroundColor: "#33586A",
     borderRadius: 5,
-    borderColor: "black",
-    borderWidth: 1,
     textAlign: "center",
     alignContent: "center",
     listStyle: "none",

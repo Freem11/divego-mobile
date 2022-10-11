@@ -24,8 +24,10 @@ export default function DiveSiteModal() {
   });
 
   const getCurrentLocation = async () => {
+    console.log("clicked")
     try {
       const location = await getCurrentCoordinates();
+      console.log("pos/neg", location)
       if (location) {
         setFormVals({
           ...formVals,
@@ -60,6 +62,8 @@ export default function DiveSiteModal() {
           value={formVals.Site}
           placeholder={"Site Name"}
           placeholderTextColor="grey"
+          color="#F0EEEB"
+          fontSize={18}
           onChangeText={(siteText) =>
             setFormVals({ ...formVals, Site: siteText })
           }
@@ -70,8 +74,9 @@ export default function DiveSiteModal() {
           value={formVals.Latitude}
           placeholder={"Latitude"}
           editable={false}
+          fontSize={18}
           placeholderTextColor="grey"
-          color="black"
+          color="#F0EEEB"
           onChangeText={(text) => setFormVals({ ...formVals, Latitude: text })}
         ></TextInput>
 
@@ -80,20 +85,21 @@ export default function DiveSiteModal() {
           value={formVals.Longitude}
           placeholder={"Longitude"}
           editable={false}
+          fontSize={18}
           placeholderTextColor="grey"
-          color="black"
+          color="#F0EEEB"
           onChangeText={(text) => setFormVals({ ...formVals, Longitude: text })}
         ></TextInput>
       </View>
 
       <TouchableWithoutFeedback onPress={getCurrentLocation}>
         <View style={[styles.GPSbutton]}>
-          <FontAwesome5 name="map" color="red" size={32} />
+          <FontAwesome5 name="map" color="#9B884E" size={28} />
           <Text
             style={{
               marginLeft: 5,
               fontFamily: "Caveat_700Bold",
-              color: "maroon",
+              color: "#9B884E",
             }}
           >
             I'm At The Dive Site
@@ -105,10 +111,15 @@ export default function DiveSiteModal() {
         <TouchableWithoutFeedback onPress={handleSubmit}>
           <Text
             style={{
-              color: "blue",
+              color: "#9B884E",
               fontSize: 17,
-              marginTop: 1,
+              marginTop: 8,
               fontFamily: "PermanentMarker_400Regular",
+              width: "100%",
+              alignSelf: "center",
+              justifyContent: "center",
+              alignContent: "center",
+              textAlign: "center"
             }}
           >
             Submit Dive Site
@@ -122,9 +133,9 @@ export default function DiveSiteModal() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#D8DBE2",
+    backgroundColor: "#355D71",
     alignItems: "center",
-    marginTop: "15%",
+    marginTop: "5%",
     marginBottom: 15,
     width: '100%',
   },
@@ -135,8 +146,8 @@ const styles = StyleSheet.create({
   },
   input: {
     fontFamily: "IndieFlower_400Regular",
-    backgroundColor: "white",
-    borderRadius: 15,
+    backgroundColor: "#33586A",
+    borderRadius: 10,
     width: 200,
     height: 40,
     alignSelf: "center",
@@ -156,14 +167,24 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   GPSbutton: {
+    backgroundColor: "#33586A",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 50,
-    height: 45,
-    width: 75,
-    marginLeft: "55%",
+    borderRadius: 10,
+    height: 35,
+    width: 150,
+    marginLeft: "30%",
     marginTop: 5,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.34,
+    shadowRadius: 6.27,
+
+    elevation: 10,
   },
   SubmitButton: {
     position: "absolute",
@@ -171,14 +192,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     bottom: "4%",
     marginLeft: 70,
-    backgroundColor: "palegreen",
-    borderEndColor: "green",
     borderWidth: 0.3,
-    width: 160,
-    height: 40,
     zIndex: 2,
-    borderRadius: 15,
-    opacity: 0.5,
+    width: '85%',
+    borderTopColor: "darkgrey",
+    borderColor: "transparent",
+    borderBottomColor: "transparent",
+    bottom: "1%",
   },
   inputContainerLower: {
     position: "absolute",

@@ -15,6 +15,12 @@ import { diveSitesFake, heatVals } from "./data/testdata";
 import anchorIcon from "../compnents/png/anchor11.png";
 import anchorClust from "../compnents/png/anchor3.png";
 import whale from "../compnents/png/icons8-spouting-whale-48.png";
+import manta from "../compnents/png/Matt_Manta_White.png";
+
+import mantaIOS from "../compnents/png/Manta32.png";
+import anchorClustIOS from "../compnents/png/ClusterAnchor24.png";
+import anchorIconIOS from "../compnents/png/SiteAnchor20.png";
+
 import { calculateZoom, formatHeatVals, newGPSBoundaries } from "./helpers/mapHelpers";
 import { setupClusters } from "./helpers/clusterHelpers";
 import useSupercluster from "use-supercluster";
@@ -170,7 +176,7 @@ export default function Map() {
               latitude: dragPin.lat,
               longitude: dragPin.lng,
             }}
-            image={whale}
+            image={mantaIOS}
             onDragEnd={(e) => {
               setDragPin({
                 lat: e.nativeEvent.coordinate.latitude,
@@ -193,7 +199,7 @@ export default function Map() {
                 key={cluster.id}
                 coordinate={{ latitude: latitude, longitude: longitude }}
                 title={pointCount.toString() + " sites"}
-                image={anchorClust}
+                image={anchorClustIOS}
               ></Marker>
             );
           }
@@ -201,7 +207,7 @@ export default function Map() {
             <Marker
               key={cluster.properties.siteID}
               coordinate={{ latitude: latitude, longitude: longitude }}
-              image={anchorIcon}
+              image={anchorIconIOS}
               title={cluster.properties.siteID}
               onPress={() => setupAnchorModal(cluster.properties.siteID, latitude, longitude)}
             >
@@ -220,7 +226,7 @@ export default function Map() {
               onPress={() => setSiteModal(!siteModal)}
             >
               <View style={styles.closeButtonAlt}>
-                <FontAwesome name="close" color="aquamarine" size={32} />
+                <FontAwesome name="close" color="#BD9F9F" size={28} />
               </View>
             </TouchableWithoutFeedback>
           </View>
@@ -246,17 +252,18 @@ const styles = StyleSheet.create({
     flex: 1,
     alignContent: "center",
     alignItems: "center",
-    backgroundColor: "#D8DBE2",
-    borderRadius: 25,
-    margin: scale(29),
-    borderColor: "lightblue",
-    borderWidth: 8,
-    opacity: 1,
+    backgroundColor: "#355D71",
+    borderRadius: 20,
+    marginLeft: '10%',
+    marginRight: '10%',
+    marginTop: '15%',
+    marginBottom: '15%',
+    shadowOpacity: 0.2,
+    shadowRadius: 50,
   },
   closeButtonAlt: {
     position: "absolute",
     borderRadius: scale(42 / 2),
-    backgroundColor: "maroon",
     height: 42,
     width: 42,
     top: scale(-5),
@@ -268,6 +275,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     alignContent: "center",
     fontFamily: "PermanentMarker_400Regular",
+    color: "#F0EEEB",
     fontSize: scale(17),
     marginTop: scale(-15),
     marginLeft: "-35%",
