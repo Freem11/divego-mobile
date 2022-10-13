@@ -24,10 +24,8 @@ export default function DiveSiteModal() {
   });
 
   const getCurrentLocation = async () => {
-    console.log("clicked")
     try {
       const location = await getCurrentCoordinates();
-      console.log("pos/neg", location)
       if (location) {
         setFormVals({
           ...formVals,

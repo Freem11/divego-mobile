@@ -134,7 +134,7 @@ export default function Map() {
 
   const points = setupClusters(newSites);
 
-  const { clusters } = useSupercluster({
+  const { clusters, supercluster } = useSupercluster({
     points,
     bounds: boundaries,
     zoom: zoomlev,
@@ -200,6 +200,10 @@ export default function Map() {
                 coordinate={{ latitude: latitude, longitude: longitude }}
                 title={pointCount.toString() + " sites"}
                 image={anchorClustIOS}
+                onPress={() => {
+                  const expansionZoom = Math.min(supercluster.getClusterExpansionZoom(cluster.id),12);
+                  mapRef.animateCamera({center: {latitude, longitude}, zoom: expansionZoom})
+                }}
               ></Marker>
             );
           }
