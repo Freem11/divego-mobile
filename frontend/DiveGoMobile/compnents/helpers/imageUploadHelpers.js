@@ -1,6 +1,7 @@
 function formatDate(dateTaken) {
+
   let slicedDate = dateTaken.substring(0, 10);
-  let formattedDate = slicedDate.replaceAll(":", "-");
+  let formattedDate = slicedDate.replace(":", "-");
   return formattedDate;
 }
 

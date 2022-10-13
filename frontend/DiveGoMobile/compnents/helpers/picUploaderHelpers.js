@@ -17,6 +17,8 @@ function getToday(DateVal) {
 }
 
 function getDate(DateVal) {
+
+  console.log("arrghh", DateVal)
   let yr0 = DateVal.substing(0, 4);
   let mth0 = DateVal.substing(5, 8);
   let dy0 = DateVal.substing(8, 11);

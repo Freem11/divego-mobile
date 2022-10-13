@@ -185,7 +185,6 @@ export default function PicUploadModal() {
 
         let fileToUpload = createFile(image.uri);
         const data = new FormData();
-        data.append("image", fileToUpload);
 
         const newFilePath = await uploadphoto(data, image.uri);
         setUploadedFile(newFilePath);
