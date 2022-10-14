@@ -28,7 +28,7 @@ import { supabase } from "../supabase";
     .remove(`public/${shortPath}`)
 
     if (error) {
-      console.log("couldn't upload,", error);
+      console.log("couldn't delete,", error);
     }
   
     if (data) {

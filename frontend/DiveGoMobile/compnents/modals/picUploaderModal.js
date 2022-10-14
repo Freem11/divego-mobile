@@ -140,7 +140,6 @@ export default function PicUploadModal() {
     ) {
       return;
     } else {
-      console.log("what are these", pinValues);
       insertPhotoWaits(pinValues);
       setPinValues({
         PicFile: null,
@@ -175,6 +174,7 @@ export default function PicUploadModal() {
           newLatitude = pinValues.Latitude;
           newLongitude = pinValues.Longitude;
         }
+        console.log("YOYOYY", pinValues.PicFile)
 
         if (pinValues.PicFile !== null) {
           removePhoto({
@@ -185,6 +185,7 @@ export default function PicUploadModal() {
 
         let fileToUpload = createFile(image.uri);
         const data = new FormData();
+        data.append("image", fileToUpload);
 
         const newFilePath = await uploadphoto(data, image.uri);
         setUploadedFile(newFilePath);

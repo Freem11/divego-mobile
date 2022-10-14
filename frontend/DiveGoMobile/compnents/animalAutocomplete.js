@@ -39,7 +39,6 @@ export default function AnimalAutoComplete() {
 
   const handleChangeText = () => {
     handleAnimalList()
-    console.log(list)
   };
 
   return (
