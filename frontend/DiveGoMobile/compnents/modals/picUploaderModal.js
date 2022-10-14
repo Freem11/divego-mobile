@@ -44,6 +44,13 @@ if (IPSetter === 1) {
   IP = "10.44.22.110";
 }
 
+let PicVar = false;
+let DateVar = false;
+let AnimalVar = false;
+let LatVar = false;
+let LngVar = false;
+
+
 export default function PicUploadModal() {
   const { setMasterSwitch } = useContext(MasterContext);
 
@@ -55,6 +62,14 @@ export default function PicUploadModal() {
   const [date, setDate] = useState(new Date());
 
   const { uploadedFile, setUploadedFile } = useContext(PictureContext);
+
+  const [formValidation, SetFormValidation] = useState({
+    PictureVal: false,
+    DateVal: false,
+    AnimalVal: false,
+    LatVal: false,
+    LngVal: false,
+  });
 
   const onNavigate = () => {
     setMasterSwitch(false);
@@ -131,8 +146,49 @@ export default function PicUploadModal() {
   }
 
   const handleSubmit = () => {
+   
+    if (pinValues.PicFile === "" || pinValues.PicFile === null) {
+      PicVar = true;
+    } else {
+      PicVar = false;
+    }
+
+    if (pinValues.PicDate === "" || pinValues.PicDate === null) {
+      DateVar = true;
+    } else {
+      DateVar = false;
+    }
+
+    if (pinValues.Animal === "" || pinValues.Animal === null) {
+      AnimalVar = true;
+    } else {
+      AnimalVar = false;
+    }
+
+    if (pinValues.Latitude === "" || pinValues.Latitude === null) {
+      LatVar = true;
+    } else {
+      LatVar = false;
+    }
+
+    if (pinValues.Longitude === "" || pinValues.Longitude === null) {
+      LngVar = true;
+    } else {
+      LngVar = false;
+    }
+
+    SetFormValidation({
+      ...formValidation,
+      PictureVal: PicVar,
+      DateVal: DateVar,
+      AnimalVal: AnimalVar,
+      LatVal: LatVar,
+      LngVal: LngVar,
+    });
+
     if (
       pinValues.PicFile === "" ||
+      pinValues.PicFile === null ||
       pinValues.PicDate === "" ||
       pinValues.Longitude === "" ||
       pinValues.Latitude === "" ||
@@ -153,7 +209,7 @@ export default function PicUploadModal() {
       setPicAdderModal(!picAdderModal);
     }
   };
-
+  
   const handleImageUpload = async () => {
     try {
       const image = await chooseImageHandler();
@@ -163,6 +219,7 @@ export default function PicUploadModal() {
         let newLongitude;
         if (image.exif.DateTimeOriginal) {
           formattedDate = formatDate(image.exif.DateTimeOriginal);
+          DateVar = false
         } else {
           formattedDate = pinValues.PicDate;
         }
@@ -182,6 +239,10 @@ export default function PicUploadModal() {
           });
         }
 
+        AnimalVar = false
+        LngVar = false
+        LatVar = false
+
         let fileToUpload = createFile(image.uri);
         const data = new FormData();
         data.append("image", fileToUpload);
@@ -196,6 +257,16 @@ export default function PicUploadModal() {
           Latitude: newLatitude,
           Longitude: newLongitude,
         });
+
+        SetFormValidation({
+          ...formValidation,
+          PictureVal: PicVar,
+          DateVal: DateVar,
+          AnimalVal: AnimalVar,
+          LatVal: LatVar,
+          LngVal: LngVar,
+        });
+
 
         // fetch(`http://${IP}:5000/api/upload`, {
         //   method: "POST",
@@ -231,7 +302,7 @@ export default function PicUploadModal() {
           source={{
             uri: `https://lsakqvscxozherlpunqx.supabase.co/storage/v1/object/public/${uploadedFile}`,
           }}
-          style={{ width: "101%", height: "101%", borderRadius: 15, backgroundColor: "#355D71" }}
+          style={formValidation.PictureVal ? styles.imgStyleRed : styles.imgStyle}
         />
       </View>
 
@@ -253,7 +324,7 @@ export default function PicUploadModal() {
 
       <View style={styles.calZone}>
         <TextInput
-          style={styles.inputCal}
+          style={formValidation.DateVal ? styles.inputCalRed : styles.inputCal}
           value={pinValues.PicDate}
           placeholder={"Date"}
           editable={false}
@@ -281,7 +352,7 @@ export default function PicUploadModal() {
         keyboardVerticalOffset={AnimalKeboardOffset}
         style={styles.autocomplete}
       >
-        <AnimalAutoSuggest pin={pinValues} setPin={setPinValues} />
+        <AnimalAutoSuggest pin={pinValues} setPin={setPinValues} formValidation={formValidation} SetFormValidation={SetFormValidation}/>
       </KeyboardAvoidingView>
 
       <View
@@ -294,7 +365,7 @@ export default function PicUploadModal() {
       >
         <View>
           <TextInput
-            style={styles.input}
+            style={formValidation.LatVal ? styles.inputRed : styles.input}
             value={pinValues.Latitude}
             placeholder={"Latitude"}
             editable={false}
@@ -307,7 +378,7 @@ export default function PicUploadModal() {
           ></TextInput>
 
           <TextInput
-            style={styles.input}
+            style={formValidation.LngVal ? styles.inputRed : styles.input}
             value={pinValues.Longitude}
             placeholder={"Longitude"}
             editable={false}
@@ -347,7 +418,7 @@ export default function PicUploadModal() {
               alignSelf: "center",
               justifyContent: "center",
               alignContent: "center",
-              textAlign: "center"
+              textAlign: "center",
             }}
           >
             Submit Photo
@@ -381,11 +452,33 @@ const styles = StyleSheet.create({
     textAlign: "center",
     overflow: "hidden",
   },
+  inputRed: {
+    fontFamily: "IndieFlower_400Regular",
+    backgroundColor: "pink",
+    borderRadius: 10,
+    width: 200,
+    height: 40,
+    alignSelf: "center",
+    marginBottom: 15,
+    marginLeft: -5,
+    textAlign: "center",
+    overflow: "hidden",
+  },
   inputCal: {
     fontFamily: "IndieFlower_400Regular",
     backgroundColor: "#33586A",
     borderRadius: 10,
-    // color: "#F0EEEB",
+    width: 200,
+    height: 40,
+    alignSelf: "center",
+    marginBottom: 15,
+    textAlign: "center",
+    marginRight: 20,
+  },
+  inputCalRed: {
+    fontFamily: "IndieFlower_400Regular",
+    backgroundColor: "pink",
+    borderRadius: 10,
     width: 200,
     height: 40,
     alignSelf: "center",
@@ -487,7 +580,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     marginLeft: -5,
-    marginBottom: -5
+    marginBottom: -5,
   },
   autocomplete: {
     width: 275,
@@ -505,7 +598,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     justifyContent: "center",
     borderWidth: 1,
-    width: '85%',
+    width: "85%",
     borderTopColor: "darkgrey",
     borderColor: "transparent",
     borderBottomColor: "transparent",
@@ -528,5 +621,17 @@ const styles = StyleSheet.create({
     shadowRadius: 6.27,
 
     elevation: 10,
+  },
+  imgStyle: {
+    width: "101%",
+    height: "101%",
+    borderRadius: 15,
+    backgroundColor: "#355D71",
+  },
+  imgStyleRed: {
+    width: "101%",
+    height: "101%",
+    borderRadius: 15,
+    backgroundColor: "pink",
   },
 });

@@ -12,6 +12,10 @@ import { insertDiveSiteWaits } from "../../supabaseCalls/diveSiteWaitSupabaseCal
 // import { insertDiveSiteWaits } from "../../axiosCalls/diveSiteWaitAxiosCalls";
 import { getCurrentCoordinates } from "../helpers/permissionsHelpers";
 
+let SiteNameVar = false;
+let LatVar = false;
+let LngVar = false;
+
 export default function DiveSiteModal() {
   const { diveSiteAdderModal, setDiveSiteAdderModal } = useContext(
     DSAdderContext
@@ -23,6 +27,13 @@ export default function DiveSiteModal() {
     Longitude: "",
   });
 
+  const [formValidation, SetFormValidation] = useState({
+    SiteNameVal: false,
+    LatVal: false,
+    LngVal: false,
+  });
+
+
   const getCurrentLocation = async () => {
     try {
       const location = await getCurrentCoordinates();
@@ -32,6 +43,12 @@ export default function DiveSiteModal() {
           Latitude: location.coords.latitude.toString(),
           Longitude: location.coords.longitude.toString(),
         });
+        SetFormValidation({
+          ...formValidation,
+          SiteNameVal: false,
+          LatVal: false,
+          LngVal: false,
+        });
       }
     } catch (e) {
       console.log({ title: "Error", message: e.message });
@@ -39,6 +56,32 @@ export default function DiveSiteModal() {
   };
 
   const handleSubmit = () => {
+
+    if (formVals.Site === "" || formVals.Site === null) {
+      SiteNameVar = true;
+    } else {
+      SiteNameVar = false;
+    }
+
+    if (formVals.Latitude === "" || formVals.Latitude === null) {
+      LatVar = true;
+    } else {
+      LatVar = false;
+    }
+
+    if (formVals.Longitude === "" || formVals.Longitude === null) {
+      LngVar = true;
+    } else {
+      LngVar = false;
+    }
+
+    SetFormValidation({
+      ...formValidation,
+      SiteNameVal: SiteNameVar,
+      LatVal: LatVar,
+      LngVal: LngVar,
+    });
+
     if (
       formVals.Site === "" ||
       formVals.Latitude == "" ||
@@ -56,7 +99,7 @@ export default function DiveSiteModal() {
     <View style={styles.container}>
       <View style={styles.inputContainer}>
         <TextInput
-          style={styles.input}
+          style={formValidation.SiteNameVal ? styles.inputRed : styles.input}
           value={formVals.Site}
           placeholder={"Site Name"}
           placeholderTextColor="grey"
@@ -68,7 +111,7 @@ export default function DiveSiteModal() {
         ></TextInput>
 
         <TextInput
-          style={styles.input}
+          style={formValidation.LatVal ? styles.inputRed : styles.input}
           value={formVals.Latitude}
           placeholder={"Latitude"}
           editable={false}
@@ -79,7 +122,7 @@ export default function DiveSiteModal() {
         ></TextInput>
 
         <TextInput
-          style={styles.input}
+          style={formValidation.LngVal ? styles.inputRed : styles.input}
           value={formVals.Longitude}
           placeholder={"Longitude"}
           editable={false}
@@ -145,6 +188,17 @@ const styles = StyleSheet.create({
   input: {
     fontFamily: "IndieFlower_400Regular",
     backgroundColor: "#33586A",
+    borderRadius: 10,
+    width: 200,
+    height: 40,
+    alignSelf: "center",
+    marginBottom: 20,
+    textAlign: "center",
+    overflow: "hidden",
+  },
+  inputRed: {
+    fontFamily: "IndieFlower_400Regular",
+    backgroundColor: "pink",
     borderRadius: 10,
     width: 200,
     height: 40,

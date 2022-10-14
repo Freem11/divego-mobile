@@ -14,12 +14,13 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { scale } from 'react-native-size-matters';
 
 export default function AnimalAutoSuggest(props) {
-  const { setPin, pin } = props;
+  const { setPin, pin, formValidation, SetFormValidation } = props;
 
   const [list, setList] = useState([]);
 
   const handleChange = async (text) => {
     setPin({ ...pin, Animal: text });
+    SetFormValidation({...formValidation, AnimalVal: false})
 
     if (text.length > 0) {
       let newfilteredList = await getAnimalNamesThatFit(text);
@@ -45,7 +46,7 @@ export default function AnimalAutoSuggest(props) {
     <View>
       <View style={styles.container}>
         <TextInput
-          style={styles.suggestInput}
+          style={formValidation.AnimalVal ? styles.suggestInputRed : styles.suggestInput}
           placeholder={"Animal"}
           value={pin.Animal}
           placeholderTextColor="grey"
@@ -99,6 +100,18 @@ const styles = StyleSheet.create({
     height: 40,
     marginBottom: 20,
     backgroundColor: "#33586A",
+    borderRadius: 10,
+    // color: "#F0EEEB",
+    fontSize: 15,
+    textAlign: "center",
+    fontFamily: "IndieFlower_400Regular",
+    overflow: "hidden",
+  },
+  suggestInputRed: {
+    width: 200,
+    height: 40,
+    marginBottom: 20,
+    backgroundColor: "pink",
     borderRadius: 10,
     // color: "#F0EEEB",
     fontSize: 15,
