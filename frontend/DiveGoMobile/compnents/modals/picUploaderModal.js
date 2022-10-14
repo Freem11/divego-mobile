@@ -174,7 +174,6 @@ export default function PicUploadModal() {
           newLatitude = pinValues.Latitude;
           newLongitude = pinValues.Longitude;
         }
-        console.log("YOYOYY", pinValues.PicFile)
 
         if (pinValues.PicFile !== null) {
           removePhoto({

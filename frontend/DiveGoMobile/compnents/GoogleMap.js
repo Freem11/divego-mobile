@@ -164,6 +164,7 @@ export default function Map() {
         ref={(ref) => setMapRef(ref)}
         onMapReady={() => handleMapChange()}
         onRegionChangeComplete={() => handleMapChange()}
+        toolbarEnabled={false}
       >
         {masterSwitch && newHeat.length > 0 && (
           <Heatmap points={newHeat} radius={20} />
