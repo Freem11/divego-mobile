@@ -105,6 +105,10 @@ export default function Map() {
         lat: currentMapPosition.center.latitude,
         lng: currentMapPosition.center.longitude,
       });
+
+      if (zoom < 4){
+        mapRef.animateCamera({center: {latitude: currentMapPosition.center.latitude, longitude: currentMapPosition.center.longitude}, zoom: 3})
+      }        
     }
   };
 
