@@ -6,7 +6,8 @@ import { SliderContext } from "../contexts/sliderContext";
 import { MonthSelectContext } from "../contexts/monthSelectContext";
 import { SelectedDiveSiteContext } from "../contexts/selectedDiveSiteContext";
 import { newGPSBoundaries } from "../helpers/mapHelpers";
-import { s, scale } from "react-native-size-matters";
+import { scale } from "react-native-size-matters";
+import Lightbox from "react-native-lightbox-v2";
 
 let IPSetter = 2;
 let IP;
@@ -75,19 +76,22 @@ export default function AnchorModal(lat, lng) {
               return (
                 <View key={pic.id} style={styles.picContainer}>
                   <Text style={styles.titleText}>{pic.label}</Text>
-                  <View style={styles.shadowbox}>
-                    <Image
-                      source={{
-                        uri: `https://lsakqvscxozherlpunqx.supabase.co/storage/v1/object/public/${pic.photoFile}`,
-                      }}
-                      style={{
-                        height: "100%",
-                        width: "100%",
-                        borderRadius: 15,
-                        borderColor: "grey",
-                      }}
-                    />
-                  </View>
+
+                  <Lightbox activeProps={{height: '30%'}}>
+                    <View style={styles.shadowbox}>
+                      <Image
+                        source={{
+                          uri: `https://lsakqvscxozherlpunqx.supabase.co/storage/v1/object/public/${pic.photoFile}`,
+                        }}
+                        style={{
+                          height: "100%",
+                          width: "100%",
+                          borderRadius: 15,
+                          borderColor: "grey",
+                        }}
+                      />
+                    </View>
+                  </Lightbox>
                 </View>
               );
             })}

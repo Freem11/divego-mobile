@@ -31,8 +31,13 @@ function formatHeatVals(heatValues) {
 }
 
 function calculateZoom(width, topLongitude, bottomLongitude) {
+
   let newZoom =
     Math.log2((360 * (width / 256)) / (topLongitude - bottomLongitude)) + 1;
+  
+    if (isNaN(newZoom)) (
+     newZoom = 3
+    )
   return newZoom;
 }
 

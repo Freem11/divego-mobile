@@ -12,23 +12,18 @@ import { SelectedDiveSiteContext } from "./contexts/selectedDiveSiteContext";
 import MapView, { PROVIDER_GOOGLE, Marker, Heatmap } from "react-native-maps";
 import { StyleSheet, View, Dimensions, Keyboard, Modal, Text, TouchableWithoutFeedback} from "react-native";
 import { diveSitesFake, heatVals } from "./data/testdata";
-import anchorIcon from "../compnents/png/anchor11.png";
-import anchorClust from "../compnents/png/anchor3.png";
-import whale from "../compnents/png/icons8-spouting-whale-48.png";
-import manta from "../compnents/png/Matt_Manta_White.png";
 
 import mantaIOS from "../compnents/png/Manta32.png";
 import anchorClustIOS from "../compnents/png/ClusterAnchor24.png";
 import anchorIconIOS from "../compnents/png/SiteAnchor20.png";
 
-import { calculateZoom, formatHeatVals, newGPSBoundaries } from "./helpers/mapHelpers";
+import { calculateZoom, formatHeatVals} from "./helpers/mapHelpers";
 import { setupClusters } from "./helpers/clusterHelpers";
 import useSupercluster from "use-supercluster";
 // import { diveSites } from "../axiosCalls/diveSiteAxiosCalls";
 import { diveSites } from "../supabaseCalls/diveSiteSupabaseCalls";
 // import { heatPoints } from "../axiosCalls/heatPointAxiosCalls";
 import { heatPoints } from "../supabaseCalls/heatPointSupabaseCalls";
-import { getPhotosforAnchor } from "./../axiosCalls/photoAxiosCalls";
 import AnchorModal from "./modals/anchorModal";
 import { scale } from "react-native-size-matters";
 import { FontAwesome } from "@expo/vector-icons";
@@ -105,10 +100,7 @@ export default function Map() {
         lat: currentMapPosition.center.latitude,
         lng: currentMapPosition.center.longitude,
       });
-
-      if (zoom < 4){
-        mapRef.animateCamera({center: {latitude: currentMapPosition.center.latitude, longitude: currentMapPosition.center.longitude}, zoom: 3})
-      }        
+     
     }
   };
 
@@ -117,7 +109,7 @@ export default function Map() {
   }, []);
 
   useEffect(() => {
-    handleMapChange();
+    handleMapChange(); 
   }, [diveSitesTog, sliderVal, animalSelection]);
 
   useEffect(() => {
@@ -134,15 +126,26 @@ export default function Map() {
       });
       Keyboard.dismiss();
     }
+
   }, [mapCenter]);
 
+  let zoomier = calculateZoom(
+    width,
+    boundaries[2],
+    boundaries[0]
+  );
+
+  if (mapRef && zoomier < 4){
+    mapRef.animateCamera({center: {latitude: mapCenter.lat, longitude: mapCenter.lng}, zoom: 4})
+  } 
+  
   const points = setupClusters(newSites);
 
   const { clusters, supercluster } = useSupercluster({
     points,
     bounds: boundaries,
     zoom: zoomlev,
-    options: { radius: 75, maxZoom: 12 },
+    options: { radius: 75, maxZoom: 12, minZoom: 3 },
   });
 
   const setupAnchorModal = (diveSiteName, lat, lng) => {
