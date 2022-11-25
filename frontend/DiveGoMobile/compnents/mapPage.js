@@ -19,6 +19,7 @@ import { PinSpotContext } from "./contexts/pinSpotContext";
 import { PinContext } from "./contexts/staticPinContext";
 import { AnimalSelectContext } from "./contexts/animalSelectContext";
 import { MonthSelectContext } from "./contexts/monthSelectContext";
+
 import { scale } from 'react-native-size-matters';
 
 export default function MapPage() {

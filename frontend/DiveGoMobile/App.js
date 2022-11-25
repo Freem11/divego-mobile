@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useLayoutEffect } from "react";
 import "react-native-url-polyfill/auto";
 import { StyleSheet, Text, View, Dimensions } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage"
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { IndieFlower_400Regular } from "@expo-google-fonts/indie-flower";
@@ -28,8 +29,12 @@ import { SliderContext } from "./compnents/contexts/sliderContext";
 import { AnimalSelectContext } from "./compnents/contexts/animalSelectContext";
 import { PictureContext } from "./compnents/contexts/pictureContext";
 import { SelectedDiveSiteContext } from "./compnents/contexts/selectedDiveSiteContext";
+import { SessionContext } from "./compnents/contexts/sessionContext";
+
 import MapPage from "./compnents/mapPage";
+import AuthenticationPage from "./compnents/authenticationPage";
 import { getCurrentCoordinates } from "./compnents/helpers/permissionsHelpers";
+import { sessionCheck, userCheck, sessionRefresh } from "./supabaseCalls/authenticateSupabaseCalls";
 
 const { width, height } = Dimensions.get("window");
 
@@ -39,6 +44,8 @@ export default function App() {
   const [picAdderModal, setPicAdderModal] = useState(false);
   const [diveSiteAdderModal, setDiveSiteAdderModal] = useState(false);
   const [uploadedFile, setUploadedFile] = useState(null);
+
+  const [activeSession, setActiveSession] = useState(null);
 
   let currentMonth = new Date().getMonth() + 1;
   const [sliderVal, setSliderVal] = useState(currentMonth);
@@ -110,6 +117,24 @@ export default function App() {
     async function prepare() {
       await SplashScreen.preventAutoHideAsync();
       // await getCurrentLocation();
+
+      try {
+        const valuless = await AsyncStorage.getItem('token')
+        const value = JSON.parse(valuless)
+        if (value !== null){
+          if(value.session.refresh_token){
+            let newSession = await sessionRefresh(value.session.refresh_token)
+          }
+          
+          setActiveSession(value)
+        }
+        let sessionID = await sessionCheck()
+        console.log("what are theses", sessionID)
+        await AsyncStorage.removeItem('token')
+      } catch(error) {
+        console.log("huh", error)
+      };
+  
       setAppIsReady(true);
     }
     prepare();
@@ -161,7 +186,13 @@ export default function App() {
                               <MapCenterContext.Provider
                                 value={{ mapCenter, setMapCenter }}
                               >
-                                <MapPage/>
+                                <SessionContext.Provider
+                                value={{ activeSession, setActiveSession }}
+                                >
+
+                                {activeSession ? <MapPage/> : <AuthenticationPage/>}
+
+                                </SessionContext.Provider>
                               </MapCenterContext.Provider>
                             </DSAdderContext.Provider>
                           </PictureAdderContext.Provider>
