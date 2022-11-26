@@ -8,7 +8,15 @@ export const sessionCheck = async() => {
 
 export const sessionRefresh = async(refresh_token) => {
   const { data, error } = await supabase.auth.refreshSession({refresh_token})
-  return data
+
+  if (error) {
+    console.log("couldn't refresh session,", error);
+  }
+
+  if (data) {
+    console.log(data);
+    return data;
+  }
 };
 
 export const userCheck = async() => {
@@ -58,7 +66,7 @@ export const signInStandard = async (loginDetails) => {
 
 export const signInFaceBook = async () => {
   const { user, session, error } = await supabase.auth.signIn({
-    provider: "facebook",
+    provider: 'facebook'
   });
 
   if (error) {
@@ -72,10 +80,12 @@ export const signInFaceBook = async () => {
 };
 
 export const signInGoogle = async () => {
+  console.log("made it")
   const { user, session, error } = await supabase.auth.signIn({
-    provider: "google",
+    provider: 'google'
   });
 
+  console.log(user, session, error)
   if (error) {
     console.log("couldn't login,", error);
   }

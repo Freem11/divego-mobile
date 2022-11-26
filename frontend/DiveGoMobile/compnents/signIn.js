@@ -1,0 +1,254 @@
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  TouchableWithoutFeedback,
+  Image,
+} from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, { useState, useContext } from "react";
+import { SessionContext } from "./contexts/sessionContext";
+import {
+  sessionCheck,
+  signInStandard,
+  signInFaceBook,
+  signInGoogle,
+} from "../supabaseCalls/authenticateSupabaseCalls";
+import { scale } from "react-native-size-matters";
+import facebookLogo from "../compnents/png/facebook.png";
+import googleLogo from "../compnents/png/google.png";
+
+let emailVar = false;
+let passwordVar = false;
+
+export default function SignInRoute() {
+  const { activeSession, setActiveSession } = useContext(SessionContext);
+
+  const [formVals, setFormVals] = useState({
+    email: "",
+    password: ""
+  });
+
+  const [formValidation, SetFormValidation] = useState({
+    emailVal: false,
+    passwordVal: false,
+  });
+
+  const handleSignInSubmit = async () => {
+    if (formVals.email === "" || formVals.email === null) {
+      emailVar = true;
+    } else {
+      emailVar = false;
+    }
+
+    if (formVals.password === "" || formVals.password === null) {
+      passwordVar = true;
+    } else {
+      passwordVar = false;
+    }
+
+    SetFormValidation({
+      ...formValidation,
+      emailVal: emailVar,
+      passwordVal: passwordVar,
+    });
+
+    if (formVals.email === "" || formVals.password == "") {
+      return;
+    } else {
+      let accessToken = await signInStandard(formVals);
+      if (accessToken) {
+        await AsyncStorage.setItem("token", JSON.stringify(accessToken));
+        setActiveSession(accessToken);
+      }
+      let checker = await sessionCheck();
+      //  console.log("checkerbox", checker)
+    }
+  };
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={formValidation.emailVal ? styles.inputRed : styles.input}
+          value={formVals.email}
+          placeholder={"Email"}
+          placeholderTextColor="grey"
+          color="#F0EEEB"
+          fontSize={18}
+          onChangeText={(emailsText) =>
+            setFormVals({ ...formVals, email: emailsText })
+          }
+        ></TextInput>
+
+        <TextInput
+          style={formValidation.passwordVal ? styles.inputRed : styles.input}
+          value={formVals.password}
+          placeholder={"Password"}
+          fontSize={18}
+          secureTextEntry={true}
+          placeholderTextColor="grey"
+          color="#F0EEEB"
+          onChangeText={(passwordsText) =>
+            setFormVals({ ...formVals, password: passwordsText })
+          }
+        ></TextInput>
+      </View>
+
+      <View style={styles.SubmitButton2}>
+        <TouchableWithoutFeedback onPress={handleSignInSubmit}>
+          <Text
+            style={{
+              color: "#9B884E",
+              fontSize: 17,
+              marginTop: 8,
+              fontFamily: "PermanentMarker_400Regular",
+              width: "100%",
+              alignSelf: "center",
+              justifyContent: "center",
+              alignContent: "center",
+              textAlign: "center",
+            }}
+          >
+            Sign In
+          </Text>
+        </TouchableWithoutFeedback>
+      </View>
+    </View>
+    // {/* <TouchableWithoutFeedback onPress={signInGoogle}>
+    //   <View style={[styles.SignUpWithButtons]}>
+    //   <Image source={googleLogo} style={[styles.gLogo]}/>
+    //     <Text
+    //       style={{
+    //         color: "#FFFFFF",
+    //         fontFamily: "PermanentMarker_400Regular",
+    //         fontSize: scale(12),
+    //         opacity: 0.7
+    //       }}
+    //     >
+    //       Sign In With Google
+    //     </Text>
+    //   </View>
+    // </TouchableWithoutFeedback>
+
+    // <TouchableWithoutFeedback onPress={signInFaceBook}>
+    //   <View style={[styles.SignUpWithButtons]}>
+    //     <Image source={facebookLogo} style={[styles.fbLogo]}/>
+    //     <Text
+    //       style={{
+    //         marginLeft: scale(5),
+    //         color: "#FFFFFF",
+    //         fontFamily: "PermanentMarker_400Regular",
+    //         fontSize: scale(12),
+    //         opacity: 0.7
+    //       }}
+    //     >
+    //       Sign In With Facebook
+    //     </Text>
+    //   </View>
+    // </TouchableWithoutFeedback> */}
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#355D71",
+    alignItems: "center",
+  },
+  inputContainer: {
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: "30%",
+  },
+  input: {
+    fontFamily: "IndieFlower_400Regular",
+    backgroundColor: "#33586A",
+    borderRadius: 10,
+    width: scale(200),
+    height: 40,
+    alignSelf: "center",
+    marginBottom: 20,
+    textAlign: "center",
+    overflow: "hidden",
+  },
+  inputRed: {
+    fontFamily: "IndieFlower_400Regular",
+    backgroundColor: "pink",
+    borderRadius: 10,
+    width: scale(200),
+    height: 40,
+    alignSelf: "center",
+    marginBottom: 20,
+    textAlign: "center",
+    overflow: "hidden",
+  },
+  text: {
+    fontSize: 18,
+    alignSelf: "center",
+    marginBottom: 5,
+  },
+  SubmitButton: {
+    position: "absolute",
+    alignItems: "center",
+    justifyContent: "center",
+    bottom: "3%",
+    marginLeft: 70,
+    borderWidth: 0.3,
+    zIndex: 2,
+    width: "85%",
+    borderTopColor: "darkgrey",
+    borderColor: "transparent",
+    borderBottomColor: "transparent",
+  },
+  SubmitButton2: {
+    position: "absolute",
+    alignItems: "center",
+    justifyContent: "center",
+    bottom: "3%",
+    marginLeft: 70,
+    borderWidth: 0.3,
+    zIndex: 2,
+    width: "85%",
+    borderTopColor: "darkgrey",
+    borderColor: "transparent",
+    borderBottomColor: "transparent",
+  },
+  singups: {
+    marginTop: "25%",
+    marginBottom: "-23%",
+  },
+  SignUpWithButtons: {
+    backgroundColor: "#33586A",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: scale(5),
+    height: scale(35),
+    width: scale(200),
+    margin: 10,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.34,
+    shadowRadius: 6.27,
+
+    elevation: 10,
+  },
+  fbLogo: {
+    height: 25,
+    width: 25,
+    opacity: 0.5,
+    marginRight: 0,
+  },
+  gLogo: {
+    height: 18,
+    width: 18,
+    opacity: 0.5,
+    marginRight: 10,
+  },
+});

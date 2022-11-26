@@ -124,15 +124,14 @@ export default function App() {
         if (value !== null){
           if(value.session.refresh_token){
             let newSession = await sessionRefresh(value.session.refresh_token)
+            setActiveSession(newSession)
           }
-          
-          setActiveSession(value)
         }
         let sessionID = await sessionCheck()
-        console.log("what are theses", sessionID)
+        // console.log("what are theses", sessionID)
         await AsyncStorage.removeItem('token')
       } catch(error) {
-        console.log("huh", error)
+        console.log("no dice:", error)
       };
   
       setAppIsReady(true);
