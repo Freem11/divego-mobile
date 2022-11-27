@@ -25,6 +25,8 @@ let passwordVar = false;
 export default function SignInRoute() {
   const { activeSession, setActiveSession } = useContext(SessionContext);
 
+  const [loginFail, setLoginFail] = useState(null)
+
   const [formVals, setFormVals] = useState({
     email: "",
     password: ""
@@ -55,12 +57,16 @@ export default function SignInRoute() {
     });
 
     if (formVals.email === "" || formVals.password == "") {
+      setLoginFail("Please fill out both email and password")
       return;
     } else {
       let accessToken = await signInStandard(formVals);
       if (accessToken) {
         await AsyncStorage.setItem("token", JSON.stringify(accessToken));
         setActiveSession(accessToken);
+      } else {
+        setLoginFail("The credentials you supplied are not valid")
+        return;
       }
       let checker = await sessionCheck();
       //  console.log("checkerbox", checker)
@@ -80,6 +86,7 @@ export default function SignInRoute() {
           onChangeText={(emailsText) =>
             setFormVals({ ...formVals, email: emailsText })
           }
+          onFocus={() => setLoginFail(null)}
         ></TextInput>
 
         <TextInput
@@ -93,7 +100,9 @@ export default function SignInRoute() {
           onChangeText={(passwordsText) =>
             setFormVals({ ...formVals, password: passwordsText })
           }
+          onFocus={() => setLoginFail(null)}
         ></TextInput>
+         {loginFail && <Text style={styles.erroMsg}>{loginFail}</Text>}
       </View>
 
       <View style={styles.SubmitButton2}>
@@ -251,4 +260,14 @@ const styles = StyleSheet.create({
     opacity: 0.5,
     marginRight: 10,
   },
+  erroMsg:{
+    margin: 5,
+    padding: 7,
+    color: "pink",
+    fontFamily: "IndieFlower_400Regular",
+    borderStyle: "dashed",
+    borderRadius: 10,
+    borderColor: "darkblue",
+    borderWidth: 1,
+  }
 });

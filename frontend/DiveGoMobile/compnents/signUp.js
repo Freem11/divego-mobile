@@ -22,6 +22,8 @@ let lastVar = false;
 export default function SignUpRoute() {
   const { activeSession, setActiveSession } = useContext(SessionContext);
 
+  const [regFail, setRegFail] = useState(null)
+
   const [formVals, setFormVals] = useState({
     email: "",
     password: "",
@@ -73,12 +75,15 @@ export default function SignUpRoute() {
       formVals.firstName == "" ||
       formVals.lastName == ""
     ) {
+      setRegFail("Please fill out all fields")
       return;
     } else {
       let registrationToken = await register(formVals);
       if (registrationToken) {
         await AsyncStorage.setItem("token", JSON.stringify(registrationToken));
         setActiveSession(registrationToken);
+      } else {
+        setRegFail("The credentials you supplied are not valid")
       }
       let checker = await sessionCheck();
       //  console.log("checkerbox", checker)
@@ -98,6 +103,7 @@ export default function SignUpRoute() {
         onChangeText={(emailText) =>
           setFormVals({ ...formVals, email: emailText })
         }
+        onFocus={() => setRegFail(null)}
       ></TextInput>
 
       <TextInput
@@ -111,6 +117,7 @@ export default function SignUpRoute() {
         onChangeText={(passwordText) =>
           setFormVals({ ...formVals, password: passwordText })
         }
+        onFocus={() => setRegFail(null)}
       ></TextInput>
 
       <TextInput
@@ -123,6 +130,7 @@ export default function SignUpRoute() {
         onChangeText={(firstText) =>
           setFormVals({ ...formVals, firstName: firstText })
         }
+        onFocus={() => setRegFail(null)}
       ></TextInput>
 
       <TextInput
@@ -135,9 +143,10 @@ export default function SignUpRoute() {
         onChangeText={(lastText) =>
           setFormVals({ ...formVals, lastName: lastText })
         }
+        onFocus={() => setRegFail(null)}
       ></TextInput>
     </View>
-
+    {regFail && <Text style={styles.erroMsg}>{regFail}</Text>}
     <View style={styles.SubmitButton}>
       <TouchableWithoutFeedback onPress={handleSignUpSubmit}>
         <Text
@@ -261,4 +270,14 @@ const styles = StyleSheet.create({
     opacity: 0.5,
     marginRight: 10,
   },
+  erroMsg:{
+    margin: 5,
+    padding: 7,
+    color: "pink",
+    fontFamily: "IndieFlower_400Regular",
+    borderStyle: "dashed",
+    borderRadius: 10,
+    borderColor: "darkblue",
+    borderWidth: 1,
+  }
 });
