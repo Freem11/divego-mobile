@@ -1,7 +1,12 @@
-import React, { useState, useEffect, useCallback, useLayoutEffect } from "react";
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  useLayoutEffect,
+} from "react";
 import "react-native-url-polyfill/auto";
 import { StyleSheet, Text, View, Dimensions } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage"
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { IndieFlower_400Regular } from "@expo-google-fonts/indie-flower";
@@ -12,12 +17,13 @@ import {
   Caveat_600SemiBold,
   Caveat_700Bold,
 } from "@expo-google-fonts/caveat";
-import { SwankyandMooMoo_400Regular } from '@expo-google-fonts/swanky-and-moo-moo';
+import { SwankyandMooMoo_400Regular } from "@expo-google-fonts/swanky-and-moo-moo";
 import { Lemonada_300Light } from "@expo-google-fonts/lemonada";
-import { PoiretOne_400Regular } from '@expo-google-fonts/poiret-one';
+import { PoiretOne_400Regular } from "@expo-google-fonts/poiret-one";
 import { ShadowsIntoLight_400Regular } from "@expo-google-fonts/shadows-into-light";
 import { PictureAdderContext } from "./compnents/contexts/picModalContext";
 import { DSAdderContext } from "./compnents/contexts/DSModalContext";
+import { SettingsContext } from "./compnents/contexts/gearModalContext";
 import { PinContext } from "./compnents/contexts/staticPinContext";
 import { MapCenterContext } from "./compnents/contexts/mapCenterContext";
 import { MapZoomContext } from "./compnents/contexts/mapZoomContext";
@@ -34,7 +40,11 @@ import { SessionContext } from "./compnents/contexts/sessionContext";
 import MapPage from "./compnents/mapPage";
 import AuthenticationPage from "./compnents/authenticationPage";
 import { getCurrentCoordinates } from "./compnents/helpers/permissionsHelpers";
-import { sessionCheck, userCheck, sessionRefresh } from "./supabaseCalls/authenticateSupabaseCalls";
+import {
+  sessionCheck,
+  userCheck,
+  sessionRefresh,
+} from "./supabaseCalls/authenticateSupabaseCalls";
 
 const { width, height } = Dimensions.get("window");
 
@@ -43,6 +53,7 @@ export default function App() {
   const [masterSwitch, setMasterSwitch] = useState(true);
   const [picAdderModal, setPicAdderModal] = useState(false);
   const [diveSiteAdderModal, setDiveSiteAdderModal] = useState(false);
+  const [gearModal, setGearModal] = useState(false);
   const [uploadedFile, setUploadedFile] = useState(null);
 
   const [activeSession, setActiveSession] = useState(null);
@@ -59,7 +70,7 @@ export default function App() {
     DDVal: "0",
   });
 
-   const [selectedDiveSite, setSelectedDiveSite] = useState({
+  const [selectedDiveSite, setSelectedDiveSite] = useState({
     SiteName: "",
     Latitude: "",
     Longitude: "",
@@ -110,7 +121,7 @@ export default function App() {
     ShadowsIntoLight_400Regular,
     PoiretOne_400Regular,
     Lemonada_300Light,
-    SwankyandMooMoo_400Regular
+    SwankyandMooMoo_400Regular,
   });
 
   useLayoutEffect(() => {
@@ -119,21 +130,20 @@ export default function App() {
       // await getCurrentLocation();
 
       try {
-        const valuless = await AsyncStorage.getItem('token')
-        const value = JSON.parse(valuless)
-        if (value !== null){
-          if(value.session.refresh_token){
-            let newSession = await sessionRefresh(value.session.refresh_token)
-            setActiveSession(newSession)
+        const valuless = await AsyncStorage.getItem("token");
+        const value = JSON.parse(valuless);
+        if (value !== null) {
+          if (value.session.refresh_token) {
+            let newSession = await sessionRefresh(value.session.refresh_token);
+            setActiveSession(newSession);
           }
         }
-        let sessionID = await sessionCheck()
+        let sessionID = await sessionCheck();
         // console.log("what are theses", sessionID)
-        await AsyncStorage.removeItem('token')
-      } catch(error) {
-        console.log("no dice:", error)
-      };
-  
+      } catch (error) {
+        console.log("no dice:", error);
+      }
+
       setAppIsReady(true);
     }
     prepare();
@@ -155,56 +165,64 @@ export default function App() {
 
   return (
     <View onLayout={onLayoutRootView} style={styles.container}>
-      <SelectedDiveSiteContext.Provider value={{ selectedDiveSite, setSelectedDiveSite }}>
-        <PictureContext.Provider value={{ uploadedFile, setUploadedFile }}>
-          <SliderContext.Provider value={{ sliderVal, setSliderVal }}>
-            <AnimalSelectContext.Provider
-              value={{ animalSelection, setAnimalSelection }}
-            >
-              <PinSpotContext.Provider value={{ dragPin, setDragPin }}>
-                <MasterContext.Provider
-                  value={{ masterSwitch, setMasterSwitch }}
-                >
-                  <MapZoomContext.Provider value={{ zoomlev, setZoomLev }}>
-                    <MapBoundariesContext.Provider
-                      value={{ boundaries, setBoundaries }}
-                    >
-                      <MapRegionContext.Provider value={{ region, setRegion }}>
-                        <PinContext.Provider
-                          value={{ pinValues, setPinValues }}
+      <SettingsContext.Provider value={{ gearModal, setGearModal }}>
+        <SelectedDiveSiteContext.Provider
+          value={{ selectedDiveSite, setSelectedDiveSite }}
+        >
+          <PictureContext.Provider value={{ uploadedFile, setUploadedFile }}>
+            <SliderContext.Provider value={{ sliderVal, setSliderVal }}>
+              <AnimalSelectContext.Provider
+                value={{ animalSelection, setAnimalSelection }}
+              >
+                <PinSpotContext.Provider value={{ dragPin, setDragPin }}>
+                  <MasterContext.Provider
+                    value={{ masterSwitch, setMasterSwitch }}
+                  >
+                    <MapZoomContext.Provider value={{ zoomlev, setZoomLev }}>
+                      <MapBoundariesContext.Provider
+                        value={{ boundaries, setBoundaries }}
+                      >
+                        <MapRegionContext.Provider
+                          value={{ region, setRegion }}
                         >
-                          <PictureAdderContext.Provider
-                            value={{ picAdderModal, setPicAdderModal }}
+                          <PinContext.Provider
+                            value={{ pinValues, setPinValues }}
                           >
-                            <DSAdderContext.Provider
-                              value={{
-                                diveSiteAdderModal,
-                                setDiveSiteAdderModal,
-                              }}
+                            <PictureAdderContext.Provider
+                              value={{ picAdderModal, setPicAdderModal }}
                             >
-                              <MapCenterContext.Provider
-                                value={{ mapCenter, setMapCenter }}
+                              <DSAdderContext.Provider
+                                value={{
+                                  diveSiteAdderModal,
+                                  setDiveSiteAdderModal,
+                                }}
                               >
-                                <SessionContext.Provider
-                                value={{ activeSession, setActiveSession }}
+                                <MapCenterContext.Provider
+                                  value={{ mapCenter, setMapCenter }}
                                 >
-
-                                {activeSession ? <MapPage/> : <AuthenticationPage/>}
-
-                                </SessionContext.Provider>
-                              </MapCenterContext.Provider>
-                            </DSAdderContext.Provider>
-                          </PictureAdderContext.Provider>
-                        </PinContext.Provider>
-                      </MapRegionContext.Provider>
-                    </MapBoundariesContext.Provider>
-                  </MapZoomContext.Provider>
-                </MasterContext.Provider>
-              </PinSpotContext.Provider>
-            </AnimalSelectContext.Provider>
-          </SliderContext.Provider>
-        </PictureContext.Provider>
-      </SelectedDiveSiteContext.Provider>
+                                  <SessionContext.Provider
+                                    value={{ activeSession, setActiveSession }}
+                                  >
+                                    {activeSession ? (
+                                      <MapPage />
+                                    ) : (
+                                      <AuthenticationPage />
+                                    )}
+                                  </SessionContext.Provider>
+                                </MapCenterContext.Provider>
+                              </DSAdderContext.Provider>
+                            </PictureAdderContext.Provider>
+                          </PinContext.Provider>
+                        </MapRegionContext.Provider>
+                      </MapBoundariesContext.Provider>
+                    </MapZoomContext.Provider>
+                  </MasterContext.Provider>
+                </PinSpotContext.Provider>
+              </AnimalSelectContext.Provider>
+            </SliderContext.Provider>
+          </PictureContext.Provider>
+        </SelectedDiveSiteContext.Provider>
+      </SettingsContext.Provider>
     </View>
   );
 }

@@ -2,11 +2,13 @@ import React, { useState, useContext } from "react";
 import GuideModal from "./modals/howToGuideModal";
 import DiveSiteModal from "./modals/diveSiteAdderModal";
 import PicUploadModal from "./modals/picUploaderModal";
+import SettingsModal from "./modals/settingsModal";
 import { DiveSitesContext } from "./contexts/diveSiteToggleContext";
 import { PictureAdderContext } from "./contexts/picModalContext";
 import { DSAdderContext } from "./contexts/DSModalContext";
 import { PinContext } from "./contexts/staticPinContext";
 import { PictureContext } from "./contexts/pictureContext";
+import { SessionContext } from "./contexts/sessionContext";
 import {
   StyleSheet,
   View,
@@ -35,11 +37,11 @@ export default function FABButtons() {
   const { diveSitesTog, setDiveSitesTog } = useContext(DiveSitesContext);
   const { pinValues, setPinValues } = useContext(PinContext);
   const { uploadedFile, setUploadedFile } = useContext(PictureContext);
-
   const { picAdderModal, setPicAdderModal } = useContext(PictureAdderContext);
   const { diveSiteAdderModal, setDiveSiteAdderModal } =
     useContext(DSAdderContext);
   const [guideModal, setGuideModal] = useState(false);
+  const [gearModal, setGearModal] = useState(false);
 
   const rotationVal = useSharedValue(0);
   const transYanchor = useSharedValue(0);
@@ -48,6 +50,7 @@ export default function FABButtons() {
   const transYphoto = useSharedValue(0);
   const transYgeo = useSharedValue(0);
   const transYinfo = useSharedValue(0);
+  const transYgear = useSharedValue(0);
 
   const animalWidth = useSharedValue(1000);
   const geocodeWidth = useSharedValue(1000);
@@ -71,6 +74,7 @@ export default function FABButtons() {
       transYphoto.value = withTiming(0);
       transYgeo.value = withTiming(0);
       transYinfo.value = withTiming(0);
+      transYgear.value = withTiming(0);
       animalWidth.value = withTiming(1000);
       geocodeWidth.value = withTiming(1000);
     } else {
@@ -81,6 +85,7 @@ export default function FABButtons() {
       transYphoto.value = withSpring(-215);
       transYgeo.value = withSpring(-265);
       transYinfo.value = withSpring(-315);
+      transYgear.value = withSpring(-365);
     }
   };
 
@@ -148,6 +153,12 @@ export default function FABButtons() {
     };
   });
 
+  const transGearY = useAnimatedStyle(() => {
+    return {
+      transform: [{ translateY: transYgear.value }],
+    };
+  });
+
   const togglePicModal = () => {
     setPicAdderModal(!picAdderModal);
 
@@ -183,6 +194,14 @@ export default function FABButtons() {
 
   return (
     <View style={styles.fab}>
+      <Animated.View
+        style={[styles.buttonwrapper, styles.optionWrapper, transGearY]}
+      >
+        <TouchableWithoutFeedback onPress={() => setGearModal(!gearModal)}>
+          <MaterialIcons name="settings" color="aquamarine" size={32} />
+        </TouchableWithoutFeedback>
+      </Animated.View>
+
       <Animated.View
         style={[styles.buttonwrapper, styles.optionWrapper, transInfoY]}
       >
@@ -318,6 +337,24 @@ export default function FABButtons() {
             </TouchableWithoutFeedback>
           </View>
           <GuideModal />
+        </View>
+      </Modal>
+
+      <Modal visible={gearModal} animationType="slide" transparent={true}>
+        <View style={styles.modalStyle}>
+          <View style={styles.titleAlt}>
+            <View>
+              <Text style={styles.headerAlt}>Settings</Text>
+            </View>
+            <TouchableWithoutFeedback
+              onPress={() => setGearModal(!gearModal)}
+            >
+              <View style={styles.closeButtonAlt}>
+                <FontAwesome name="close" color="#BD9F9F" size={28} />
+              </View>
+            </TouchableWithoutFeedback>
+          </View>
+          <SettingsModal />
         </View>
       </Modal>
     </View>
