@@ -40,3 +40,8 @@ Automated animal ID from photo machine learning
 
 # ScreenShots
 !["Screenshot of App"](https://github.com/Freem11/divego-mobile/blob/master/frontend/DiveGoMobile/compnents/png/Main.PNG)
+!["Screenshot of FABs"](https://github.com/Freem11/divego-mobile/blob/master/frontend/DiveGoMobile/compnents/png/MainMenu.PNG)
+!["Screenshot of Dive Site Form"](https://github.com/Freem11/divego-mobile/blob/master/frontend/DiveGoMobile/compnents/png/NewSite.PNG)
+!["Screenshot of Photo Upload Form"](https://github.com/Freem11/divego-mobile/blob/master/frontend/DiveGoMobile/compnents/png/NewPhoto.PNG)
+!["Screenshot of Pin Drop"](https://github.com/Freem11/divego-mobile/blob/master/frontend/DiveGoMobile/compnents/png/PInDrop.PNG)
+!["Screenshot of Site Photos"](https://github.com/Freem11/divego-mobile/blob/master/frontend/DiveGoMobile/compnents/png/SitePhotos.PNG)
