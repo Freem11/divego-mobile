@@ -43,7 +43,7 @@ export const register = async (registerDetails) => {
   }
 
   if (user && session) {
-    console.log(user, session);
+    // console.log(user, session);
     return { user, session };
   }
 };
@@ -59,7 +59,7 @@ export const signInStandard = async (loginDetails) => {
   }
 
   if (user && session) {
-    console.log(user, session);
+    // console.log(user, session);
     return { user, session };
   }
 };
@@ -74,7 +74,7 @@ export const signInFaceBook = async () => {
   }
 
   if (user && session) {
-    console.log(user, session);
+    // console.log(user, session);
     return { user, session };
   }
 };
@@ -91,7 +91,7 @@ export const signInGoogle = async () => {
   }
 
   if (user && session) {
-    console.log(user, session);
+    // console.log(user, session);
     return { user, session };
   }
 };

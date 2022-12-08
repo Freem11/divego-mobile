@@ -27,7 +27,8 @@ if (data) {
         dateTaken: values.dateTaken,
         latitude: values.latitude,
         longitude: values.longitude,
-        month: monthID
+        month: monthID,
+        UserID: values.UserID
       },
     ]);
 

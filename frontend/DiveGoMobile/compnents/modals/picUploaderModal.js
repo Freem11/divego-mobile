@@ -27,6 +27,7 @@ import { removePhoto } from "../../supabaseCalls/uploadSupabaseCalls";
 import { insertPhotoWaits } from "../../supabaseCalls/photoWaitSupabaseCalls";
 // import { insertPhotoWaits } from "../../axiosCalls/photoWaitAxiosCalls";
 import { scale } from "react-native-size-matters";
+import { userCheck } from "../../supabaseCalls/authenticateSupabaseCalls";
 
 const { width, height } = Dimensions.get("window");
 
@@ -107,6 +108,8 @@ export default function PicUploadModal() {
     }
   };
 
+  let UserId;
+  
   useEffect(() => {
     if (pinValues.PicDate === "") {
       let Rnow = new Date();
@@ -120,7 +123,17 @@ export default function PicUploadModal() {
     } else {
       setPinValues(pinValues);
     }
+
+    const getUser = async () => {
+      UserId = await userCheck();
+      setPinValues({ ...pinValues, UserId: UserId.id });
+    };
+  
+    getUser();
+
   }, []);
+
+  console.log("glarg", pinValues)
 
   const showDatePicker = () => {
     setDatePickerVisible(true);

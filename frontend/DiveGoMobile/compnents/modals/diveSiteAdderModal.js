@@ -5,12 +5,14 @@ import {
   TextInput,
   TouchableWithoutFeedback,
 } from "react-native";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { DSAdderContext } from "../contexts/DSModalContext";
 import { insertDiveSiteWaits } from "../../supabaseCalls/diveSiteWaitSupabaseCalls";
 // import { insertDiveSiteWaits } from "../../axiosCalls/diveSiteWaitAxiosCalls";
 import { getCurrentCoordinates } from "../helpers/permissionsHelpers";
+import { userCheck } from "../../supabaseCalls/authenticateSupabaseCalls";
+
 
 let SiteNameVar = false;
 let LatVar = false;
@@ -25,6 +27,7 @@ export default function DiveSiteModal() {
     Site: "",
     Latitude: "",
     Longitude: "",
+    UserID: "",
   });
 
   const [formValidation, SetFormValidation] = useState({
@@ -33,6 +36,18 @@ export default function DiveSiteModal() {
     LngVal: false,
   });
 
+  let UserId;
+
+  useEffect(() => {
+    const getUser = async () => {
+      UserId = await userCheck();
+      setFormVals({ ...formVals, UserID: UserId.id });
+    };
+  
+    getUser();
+  }, []);
+
+  console.log("narg", formVals)
 
   const getCurrentLocation = async () => {
     try {

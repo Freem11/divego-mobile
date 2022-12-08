@@ -28,7 +28,7 @@ const handleLogout = async() => {
               fontSize: 24
             }}
           >
-            Logout
+             Sign Out
           </Text>
         </View>
       </TouchableWithoutFeedback>
