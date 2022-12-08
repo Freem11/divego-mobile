@@ -25,6 +25,7 @@ export const userCheck = async() => {
 };
 
 export const register = async (registerDetails) => {
+  console.log("got", registerDetails)
   const { user, session, error } = await supabase.auth.signUp(
     {
       email: registerDetails.email,
@@ -38,12 +39,14 @@ export const register = async (registerDetails) => {
     }
   );
 
+  console.log(session, error)
+
   if (error) {
     console.log("couldn't register,", error);
   }
 
   if (user && session) {
-    // console.log(user, session);
+    console.log(user, session);
     return { user, session };
   }
 };
