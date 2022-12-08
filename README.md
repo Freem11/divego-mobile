@@ -4,6 +4,7 @@ Built with the dream of making every dive hold the chance for an unforgettable e
 
 # Available at
 Google Play Store: https://play.google.com/store/apps/details?id=com.DiveGo
+
 Apple App Store: https://apps.apple.com/ca/app/divego/id6443680026
 
 # Current Features:
