@@ -1,11 +1,10 @@
 import React, {
   useState,
-  useEffect,
   useCallback,
   useLayoutEffect,
 } from "react";
 import "react-native-url-polyfill/auto";
-import { StyleSheet, Text, View, Dimensions } from "react-native";
+import { StyleSheet, View, Dimensions } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
