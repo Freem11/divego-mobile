@@ -8,6 +8,8 @@ import { SelectedDiveSiteContext } from "../contexts/selectedDiveSiteContext";
 import { newGPSBoundaries } from "../helpers/mapHelpers";
 import { scale } from "react-native-size-matters";
 import Lightbox from "react-native-lightbox-v2";
+import { FontAwesome } from "@expo/vector-icons";
+import email from 'react-native-email'
 
 let IPSetter = 2;
 let IP;
@@ -57,6 +59,16 @@ export default function AnchorModal(lat, lng) {
     filterAnchorPhotos();
   }, []);
 
+  const handleEmail = (pic) => {
+    const to = ['DiveGo2022@gmail.com']
+    email(to, {
+        // Optional additional arguments
+        subject: `Reporting issue with picture: "${pic.label}" - ${pic.photoFile} `,
+        body: 'Type of issue: \n \n 1) Animal name not correct \n (Please provide correct animal name and we will correct the record)\n \n 2)Copy write image claim \n (Please provide proof that you own the submitted photo and we will remove it as you have requested)',
+        checkCanOpen: false // Call Linking.canOpenURL prior to Linking.openURL
+    }).catch(console.error)
+}
+
   return (
     <View style={{ maxHeight: "83%" }}>
       <Text
@@ -75,8 +87,10 @@ export default function AnchorModal(lat, lng) {
             anchorPics.map((pic) => {
               return (
                 <View key={pic.id} style={styles.picContainer}>
+                  <View style={styles.micro}>
+                  <FontAwesome name="flag" color="maroon" size={20} onLongPress={() => handleEmail(pic)} />
                   <Text style={styles.titleText}>{pic.label}</Text>
-
+                  </View>
                   <Lightbox activeProps={{height: '30%'}}>
                     <View style={styles.shadowbox}>
                       <Image
@@ -137,6 +151,7 @@ const styles = StyleSheet.create({
     fontFamily: "IndieFlower_400Regular",
     color: "#F0EEEB",
     fontSize: scale(15),
+    marginLeft: scale(12)
   },
   noSightings: {
     width: scale(200),
@@ -147,4 +162,8 @@ const styles = StyleSheet.create({
     fontSize: scale(15),
     color: "#F0EEEB",
   },
+  micro: {
+    display: "flex",
+    flexDirection: "row"
+  }
 });

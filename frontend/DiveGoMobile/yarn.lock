@@ -9729,6 +9729,13 @@
   dependencies:
     "dotenv" "^10.0.0"
 
+"react-native-email@^2.1.0":
+  "integrity" "sha512-k/J3HrYfkCy6GBjOY8vQWyvrtaYDZBGPV5sWMPiKKPh5tTcJbgUweOBsru5dM8C+fZkBommAOTxwrSg+0wX7gw=="
+  "resolved" "https://registry.npmjs.org/react-native-email/-/react-native-email-2.1.0.tgz"
+  "version" "2.1.0"
+  dependencies:
+    "qs" "6.10.3"
+
 "react-native-exif@^0.5.0":
   "integrity" "sha512-nt8JY1QhM3EE86Wk+IusJ8J37c3ecdRETlF5g/SFKmAt3E+vnQmWwWyuLNtJux/f1zBJXhQ9Dvb43BYfu8w2yQ=="
   "resolved" "https://registry.npmjs.org/react-native-exif/-/react-native-exif-0.5.0.tgz"
