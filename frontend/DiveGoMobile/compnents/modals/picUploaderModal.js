@@ -129,11 +129,9 @@ export default function PicUploadModal() {
       setPinValues({ ...pinValues, UserId: UserId.id });
     };
   
-    getUser();
+    // getUser();
 
   }, []);
-
-  console.log("glarg", pinValues)
 
   const showDatePicker = () => {
     setDatePickerVisible(true);

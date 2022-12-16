@@ -194,13 +194,13 @@ export default function FABButtons() {
 
   return (
     <View style={styles.fab}>
-      <Animated.View
+      {/* <Animated.View
         style={[styles.buttonwrapper, styles.optionWrapper, transGearY]}
       >
         <TouchableWithoutFeedback onPress={() => setGearModal(!gearModal)}>
           <MaterialIcons name="settings" color="aquamarine" size={32} />
         </TouchableWithoutFeedback>
-      </Animated.View>
+      </Animated.View> */}
 
       <Animated.View
         style={[styles.buttonwrapper, styles.optionWrapper, transInfoY]}

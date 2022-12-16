@@ -67,7 +67,7 @@ export default function App() {
     Latitude: "",
     Longitude: "",
     DDVal: "0",
-    UserId: ""
+    UserId: null
   });
 
   const [selectedDiveSite, setSelectedDiveSite] = useState({

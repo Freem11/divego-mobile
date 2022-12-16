@@ -27,7 +27,7 @@ export default function DiveSiteModal() {
     Site: "",
     Latitude: "",
     Longitude: "",
-    UserID: "",
+    UserID: null,
   });
 
   const [formValidation, SetFormValidation] = useState({
@@ -44,10 +44,8 @@ export default function DiveSiteModal() {
       setFormVals({ ...formVals, UserID: UserId.id });
     };
   
-    getUser();
+    // getUser();
   }, []);
-
-  console.log("narg", formVals)
 
   const getCurrentLocation = async () => {
     try {
