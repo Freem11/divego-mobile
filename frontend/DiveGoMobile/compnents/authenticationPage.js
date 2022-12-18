@@ -2,7 +2,7 @@ import { useWindowDimensions } from "react-native";
 import React, { useState } from "react";
 import SignInRoute from "./signIn";
 import SignUpRoute from "./signUp";
-import { TabView, SceneMap, TabBar } from "react-native-tab-view";
+// import { TabView, SceneMap, TabBar } from "react-native-tab-view";
 
 export default function AuthenticationPage() {
   const FirstRoute = React.memo(() => <SignInRoute />);
