@@ -289,10 +289,10 @@ const styles = StyleSheet.create({
     fontFamily: "PermanentMarker_400Regular",
     color: "#F0EEEB",
     fontSize: scale(17),
-    marginTop: scale(-5),
-    maxWidth: "65%",
-    minWidth: "65%",
-    textAlign: "left"
+    marginTop: scale(50),
+    width: scale(180),
+    textAlign: "left",
+    height: scale(100)
   },
   titleAlt: {
     display: "flex",
