@@ -11,6 +11,7 @@ import Map from "./GoogleMap";
 import MonthSlider from "./slider";
 import FABButtons from "./FABset";
 import Logo from "./logoButton";
+import AnimalTopAutoSuggest from "./AnimalSuggest";
 import { DiveSitesContext } from "./contexts/diveSiteToggleContext";
 import { MapCenterContext } from "./contexts/mapCenterContext";
 import { PictureAdderContext } from "./contexts/picModalContext";
@@ -75,7 +76,11 @@ export default function MapPage() {
 
             {masterSwitch && (
               <View style={styles.animalSelect}>
-                {token && (
+                <Text style={{ fontFamily: "Caveat_700Bold", fontSize: scale(14), width: scale(45), marginLeft: "4%", marginBottom: -4, zIndex: 0 }}>
+                    Selected:
+                  </Text>
+                <AnimalTopAutoSuggest/>
+                {/* {token && (
                   <Text style={{ fontFamily: "Caveat_700Bold", fontSize: scale(14) }}>
                     {" "}
                     Selected: {animalSelection}{" "}
@@ -86,7 +91,7 @@ export default function MapPage() {
                     {" "}
                     Selected: All{" "}
                   </Text>
-                )}
+                )} */}
               </View>
             )}
 
@@ -175,17 +180,19 @@ const styles = StyleSheet.create({
     opacity: 0.8,
   },
   animalSelect: {
+    display: "flex",
+    flexDirection: "row",
     position: "absolute",
     alignItems: "center",
     top: Constants.statusBarHeight + scale(43),
     width: scale(250),
-    height: scale(18),
-    zIndex: 2,
+    height: scale(25),
+    zIndex: 1,
     borderBottomRightRadius: scale(15),
     borderBottomLeftRadius: scale(15),
     opacity: 0.8,
     marginTop: scale(5),
-    paddingTop: scale(-7),
+    paddingTop: scale(0),
     backgroundColor: "white",
   },
   Fbuttons: {
