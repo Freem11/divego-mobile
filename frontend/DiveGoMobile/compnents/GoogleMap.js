@@ -10,14 +10,22 @@ import { AnimalSelectContext } from "./contexts/animalSelectContext";
 import { SliderContext } from "./contexts/sliderContext";
 import { SelectedDiveSiteContext } from "./contexts/selectedDiveSiteContext";
 import MapView, { PROVIDER_GOOGLE, Marker, Heatmap } from "react-native-maps";
-import { StyleSheet, View, Dimensions, Keyboard, Modal, Text, TouchableWithoutFeedback} from "react-native";
+import {
+  StyleSheet,
+  View,
+  Dimensions,
+  Keyboard,
+  Modal,
+  Text,
+  TouchableWithoutFeedback,
+} from "react-native";
 import { diveSitesFake, heatVals } from "./data/testdata";
 
 import mantaIOS from "../compnents/png/Manta32.png";
 import anchorClustIOS from "../compnents/png/ClusterAnchor24.png";
 import anchorIconIOS from "../compnents/png/SiteAnchor20.png";
 
-import { calculateZoom, formatHeatVals} from "./helpers/mapHelpers";
+import { calculateZoom, formatHeatVals } from "./helpers/mapHelpers";
 import { setupClusters } from "./helpers/clusterHelpers";
 import useSupercluster from "use-supercluster";
 // import { diveSites } from "../axiosCalls/diveSiteAxiosCalls";
@@ -30,22 +38,21 @@ import { FontAwesome } from "@expo/vector-icons";
 
 const { width, height } = Dimensions.get("window");
 
-let IPSetter = 2
-let IP
+let IPSetter = 2;
+let IP;
 //Desktop = 10.0.0.253
 //Laptop = 10.0.0.68
 //Library = 10.44.22.110
 
 if (IPSetter === 1) {
-  IP = '10.0.0.253'
-} else if (IPSetter === 2){
-  IP = '10.0.0.68'
-} else if (IPSetter === 3){
-  IP = '10.44.22.110'
+  IP = "10.0.0.253";
+} else if (IPSetter === 2) {
+  IP = "10.0.0.68";
+} else if (IPSetter === 3) {
+  IP = "10.44.22.110";
 }
 
-let filePath = `http://${IP}:5000/wetmap/src/uploads/`
-
+let filePath = `http://${IP}:5000/wetmap/src/uploads/`;
 
 export default function Map() {
   const { masterSwitch } = useContext(MasterContext);
@@ -57,8 +64,11 @@ export default function Map() {
   const { sliderVal } = useContext(SliderContext);
   const { animalSelection } = useContext(AnimalSelectContext);
   const { dragPin, setDragPin } = useContext(PinSpotContext);
-  const { selectedDiveSite, setSelectedDiveSite } = useContext(SelectedDiveSiteContext)
-  
+  const { selectedDiveSite, setSelectedDiveSite } = useContext(
+    SelectedDiveSiteContext
+  );
+
+  const [tempMarker, setTempMarker] = useState([]);
   const [mapRef, setMapRef] = useState(null);
   const [newSites, setnewSites] = useState([]);
   const [newHeat, setNewHeat] = useState([]);
@@ -78,7 +88,11 @@ export default function Map() {
       let filteredDiveSites = await diveSites(boundaries);
       !diveSitesTog ? setnewSites([]) : setnewSites(filteredDiveSites);
 
-      let filteredHeatPoints = await heatPoints(boundaries, sliderVal, animalSelection);
+      let filteredHeatPoints = await heatPoints(
+        boundaries,
+        sliderVal,
+        animalSelection
+      );
       setNewHeat(formatHeatVals(filteredHeatPoints));
 
       let zoom = calculateZoom(
@@ -92,24 +106,43 @@ export default function Map() {
       setRegion({
         latitude: currentMapPosition.center.latitude,
         longitude: currentMapPosition.center.longitude,
-        latitudeDelta: boundaries.northEast.latitude - boundaries.southWest.latitude,
-        longitudeDelta: boundaries.northEast.longitude - boundaries.southWest.longitude,
+        latitudeDelta:
+          boundaries.northEast.latitude - boundaries.southWest.latitude,
+        longitudeDelta:
+          boundaries.northEast.longitude - boundaries.southWest.longitude,
       });
 
       setMapCenter({
         lat: currentMapPosition.center.latitude,
         lng: currentMapPosition.center.longitude,
       });
-     
     }
   };
+
+  useEffect(() => {
+    if (mapRef) {
+      mapRef.animateCamera({
+        center: {
+          latitude: selectedDiveSite.Latitude,
+          longitude: selectedDiveSite.Longitude,
+        },
+        zoom: 12,
+      });
+      setTempMarker([selectedDiveSite.Latitude, selectedDiveSite.Longitude])
+
+      setTimeout(() => {
+        setTempMarker([])
+      }, "2000")
+      
+    }
+  }, [selectedDiveSite]);
 
   useEffect(() => {
     handleMapChange();
   }, []);
 
   useEffect(() => {
-    handleMapChange(); 
+    handleMapChange();
   }, [diveSitesTog, sliderVal, animalSelection]);
 
   useEffect(() => {
@@ -126,19 +159,17 @@ export default function Map() {
       });
       Keyboard.dismiss();
     }
-
   }, [mapCenter]);
 
-  let zoomier = calculateZoom(
-    width,
-    boundaries[2],
-    boundaries[0]
-  );
+  let zoomier = calculateZoom(width, boundaries[2], boundaries[0]);
 
-  if (mapRef && zoomier < 4){
-    mapRef.animateCamera({center: {latitude: mapCenter.lat, longitude: mapCenter.lng}, zoom: 4})
-  } 
-  
+  if (mapRef && zoomier < 4) {
+    mapRef.animateCamera({
+      center: { latitude: mapCenter.lat, longitude: mapCenter.lng },
+      zoom: 4,
+    });
+  }
+
   const points = setupClusters(newSites);
 
   const { clusters, supercluster } = useSupercluster({
@@ -153,9 +184,9 @@ export default function Map() {
       SiteName: diveSiteName,
       Latitude: lat,
       Longitude: lng,
-    })
-    setSiteModal(!siteModal)
-  }
+    });
+    setSiteModal(!siteModal);
+  };
 
   return (
     <View style={styles.container}>
@@ -177,6 +208,16 @@ export default function Map() {
           <Heatmap points={newHeat} radius={20} />
         )}
 
+        {tempMarker.length > 1 && (
+             <Marker
+             coordinate={{
+               latitude: tempMarker[0],
+               longitude: tempMarker[1],
+             }}
+             image={mantaIOS}
+           />
+        )}
+
         {!masterSwitch && (
           <Marker
             draggable={true}
@@ -196,10 +237,8 @@ export default function Map() {
 
         {clusters.map((cluster) => {
           const [longitude, latitude] = cluster.geometry.coordinates;
-          const {
-            cluster: isCluster,
-            point_count: pointCount,
-          } = cluster.properties;
+          const { cluster: isCluster, point_count: pointCount } =
+            cluster.properties;
 
           if (isCluster) {
             return (
@@ -209,8 +248,14 @@ export default function Map() {
                 // title={pointCount.toString() + " sites"}
                 image={anchorClustIOS}
                 onPress={() => {
-                  const expansionZoom = Math.min(supercluster.getClusterExpansionZoom(cluster.id),12);
-                  mapRef.animateCamera({center: {latitude, longitude}, zoom: expansionZoom})
+                  const expansionZoom = Math.min(
+                    supercluster.getClusterExpansionZoom(cluster.id),
+                    12
+                  );
+                  mapRef.animateCamera({
+                    center: { latitude, longitude },
+                    zoom: expansionZoom,
+                  });
                 }}
               ></Marker>
             );
@@ -221,9 +266,10 @@ export default function Map() {
               coordinate={{ latitude: latitude, longitude: longitude }}
               image={anchorIconIOS}
               // title={cluster.properties.siteID}
-              onPress={() => setupAnchorModal(cluster.properties.siteID, latitude, longitude)}
-            >
-            </Marker>
+              onPress={() =>
+                setupAnchorModal(cluster.properties.siteID, latitude, longitude)
+              }
+            ></Marker>
           );
         })}
       </MapView>
@@ -234,9 +280,7 @@ export default function Map() {
             <View>
               <Text style={styles.headerAlt}>{selectedDiveSite.SiteName}</Text>
             </View>
-            <TouchableWithoutFeedback
-              onPress={() => setSiteModal(!siteModal)}
-            >
+            <TouchableWithoutFeedback onPress={() => setSiteModal(!siteModal)}>
               <View style={styles.closeButtonAlt}>
                 <FontAwesome name="close" color="#BD9F9F" size={28} />
               </View>
@@ -266,10 +310,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#355D71",
     borderRadius: 20,
-    marginLeft: '10%',
-    marginRight: '10%',
-    marginTop: '15%',
-    marginBottom: '15%',
+    marginLeft: "10%",
+    marginRight: "10%",
+    marginTop: "15%",
+    marginBottom: "15%",
     shadowOpacity: 0.2,
     shadowRadius: 50,
   },
@@ -292,7 +336,7 @@ const styles = StyleSheet.create({
     marginTop: scale(50),
     width: scale(180),
     textAlign: "left",
-    height: scale(100)
+    height: scale(100),
   },
   titleAlt: {
     display: "flex",

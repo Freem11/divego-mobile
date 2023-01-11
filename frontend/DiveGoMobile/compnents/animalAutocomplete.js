@@ -3,42 +3,79 @@ import { StyleSheet, View } from "react-native";
 import { AutocompleteDropdown } from "react-native-autocomplete-dropdown";
 import { photos } from "./data/testdata";
 import { getAnimalNames } from "../supabaseCalls/photoSupabaseCalls";
+import { diveSites } from "../supabaseCalls/diveSiteSupabaseCalls";
 // import { getAnimalNames } from "../axiosCalls/photoAxiosCalls";
-import { AnimalSelectContext } from "./contexts/animalSelectContext";
+import { MapBoundariesContext } from "./contexts/mapBoundariesContext";
 import addIndexNumber from "./helpers/optionHelpers";
+import { SelectedDiveSiteContext } from "./contexts/selectedDiveSiteContext";
 
 export default function AnimalAutoComplete() {
-  const { setAnimalSelection } = useContext(AnimalSelectContext);
+  const { selectedDiveSite, setSelectedDiveSite } = useContext(SelectedDiveSiteContext);
+  const { boundaries, setBoundaries } = useContext(MapBoundariesContext);
   const [list, setList] = useState([]);
 
-  const handleAnimalList = async () => {
-    let animalArray = []
-    let animalData = await getAnimalNames();
-    animalData.forEach((animal) => {
-      if (!animalArray.includes(animal.label)){
-        animalArray.push(animal.label)
+  let diveSiteData
+
+  const handleDiveSiteList = async () => {
+    let diveSiteArray = []
+
+    let minLat = boundaries[1]
+    let maxLat = boundaries[3]
+
+    let minLng = boundaries[0] 
+    let maxLng = boundaries[2]
+
+    diveSiteData = null
+    diveSiteArray = []
+    diveSiteData = await diveSites({minLat, maxLat, minLng, maxLng});
+
+    if (diveSiteData){
+    diveSiteData.forEach((diveSite) => {
+      if (!diveSiteArray.includes(diveSite.name)){
+        diveSiteArray.push(diveSite.name)
       }
     })
-    setList(addIndexNumber(animalArray));
+    setList(addIndexNumber(diveSiteArray));
+  }
   }
 
   useEffect(() => {
-    handleAnimalList()
+    handleDiveSiteList()
   }, []);
 
-  const handleConfirm = (animal) => {
-    if (animal !== null) {
-      setAnimalSelection(animal.title);
+  useEffect(() => {
+    handleDiveSiteList()
+  }, [boundaries]);
+
+  const handleConfirm = async(diveSite) => {
+    if (diveSite !== null) {
+
+      let minLat2 = boundaries[1]
+      let maxLat2 = boundaries[3]
+  
+      let minLng2 = boundaries[0] 
+      let maxLng2 = boundaries[2]
+
+      let diveSiteSet = await diveSites({minLat: minLat2, maxLat: maxLat2, minLng: minLng2, maxLng: maxLng2});
+
+      if(diveSiteSet){
+       
+        diveSiteSet.forEach((site) => {
+          if(site.name === diveSite.title)
+          setSelectedDiveSite({SiteName: site.name, Latitude: site.lat, Longitude: site.lng});
+        })
+      }
+     
     }
   };
 
   const handleClear = () => {
-    setAnimalSelection("");
-    handleAnimalList()
+    // setSelectedDiveSite({SiteName: "", Latitude: "", Longitude: ""});
+    handleDiveSiteList()
   };
 
   const handleChangeText = () => {
-    handleAnimalList()
+    handleDiveSiteList()
   };
 
   return (
