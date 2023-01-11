@@ -52,7 +52,6 @@ export default function DiveSiteAutoComplete() {
 
   const handleConfirm = async(diveSite) => {
     if (diveSite !== null) {
-
       let minLat2 = boundaries[1]
       let maxLat2 = boundaries[3]
   

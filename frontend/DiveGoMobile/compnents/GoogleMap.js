@@ -133,7 +133,7 @@ export default function Map() {
 
       setTimeout(() => {
         setTempMarker([])
-      }, "2000")
+      }, 2000)
       
     }
   }, [selectedDiveSite]);
@@ -209,7 +209,7 @@ export default function Map() {
           <Heatmap points={newHeat} radius={20} />
         )}
 
-        {tempMarker.length > 1 && (
+        {tempMarker.length > 0 && (
              <Marker
              coordinate={{
                latitude: tempMarker[0],
