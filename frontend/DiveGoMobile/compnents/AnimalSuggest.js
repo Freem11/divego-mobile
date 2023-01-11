@@ -13,17 +13,17 @@ import AnimalSuggestListItem from "./AnimalSuggestListItem";
 import { MaterialIcons } from "@expo/vector-icons";
 import { scale } from 'react-native-size-matters';
 import { AnimalSelectContext } from "./contexts/animalSelectContext";
-import AutocompleteInput from "react-native-autocomplete-input";
 
 export default function AnimalTopAutoSuggest(props) {
   // const { setPin, pin, formValidation, SetFormValidation } = props;
   const { animalSelection, setAnimalSelection } = useContext(AnimalSelectContext);
   const [list, setList] = useState([]);
 
-  const handleChange = async (text) => {
-    setAnimalSelection(text);
-    // SetFormValidation({...formValidation, AnimalVal: false})
+  const [animalText, setAnimalText] = useState({Name: ""});
 
+  const handleChange = async (text) => {
+    setAnimalText({ Name: text})
+    
     if (text.length > 0) {
       let newfilteredList = await getAnimalNamesThatFit(text);
       let animalArray = []
@@ -40,26 +40,37 @@ export default function AnimalTopAutoSuggest(props) {
 
   const handleClear = () => {
     setAnimalSelection("");
+    setAnimalText({Name: ""})
     setList([]);
     Keyboard.dismiss();
   };
 
   return (
     <View >
-      <View style={styles.container}>
+      <View style={styles.container} keyboardShouldPersistTaps={"always"}>
         <TextInput
           style={ styles.suggestInput}
           placeholder={"All"}
-          value={animalSelection}
+          value={animalText.Name}
           placeholderTextColor="black"
-          // color="#F0EEEB"
           onChangeText={handleChange}
         ></TextInput>
-        {animalSelection.length > 1 && (
+        {animalText.Name.length > 1 && (
           <TouchableWithoutFeedback onPress={handleClear}>
             <View style={styles.xButton}>
               <MaterialIcons
                 name="highlight-remove"
+                size={18}
+                color="grey"
+              />
+            </View>
+          </TouchableWithoutFeedback>
+        )}
+         {animalText.Name.length < 2 && (
+          <TouchableWithoutFeedback>
+            <View style={styles.aButton}>
+              <MaterialIcons
+                name="keyboard-arrow-down"
                 size={18}
                 color="grey"
               />
@@ -76,6 +87,8 @@ export default function AnimalTopAutoSuggest(props) {
               name={animal}
               animalSelection={animalSelection}
               setAnimalSelection={setAnimalSelection}
+              animalText={animalText}
+              setAnimalText={setAnimalText}
               setList={setList}
             />
           );
@@ -95,19 +108,26 @@ const styles = StyleSheet.create({
 
   },
   xButton: {
-    marginTop: 1,
-    marginLeft: -26,
+    marginTop: 0,
+    marginLeft: -24,
+  },
+  aButton: {
+    marginTop: 0,
+    marginLeft: -24,
+    zIndex: -1
   },
   suggestInput: {
     width: '86%',
     height: 19,
     paddingLeft: 10,
-    paddingRight: 20,
-    backgroundColor: "#f5eded",
-    borderRadius: 5,
+    paddingRight: 25,
+    // backgroundColor: "#f5eded",
+    borderColor: "gray",
+    borderWidth: 0.5,
+    borderRadius: 10,
     marginTop: 0,
     fontSize: scale(16),
-    textAlign: "left",
+    textAlign: "center",
     fontFamily: "Caveat_700Bold",
     overflow: "hidden",
   },

@@ -1,10 +1,11 @@
 import { StyleSheet, View, Text, Keyboard } from "react-native";
 
 const AnimalSuggestListItem = (props) => {
-  const { setList, setAnimalSelection, animalSelection, name } = props;
+  const { setList, setAnimalSelection, animalSelection, name, setAnimalText, animalText} = props;
 
   const handleSelect = (text) => {
     setAnimalSelection(text);
+    setAnimalText({ Name: text });
     setList([]);
     Keyboard.dismiss();
   };

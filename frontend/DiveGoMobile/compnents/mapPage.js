@@ -76,7 +76,7 @@ export default function MapPage() {
 
             {masterSwitch && (
               <View style={styles.animalSelect}>
-                <Text style={{ fontFamily: "Caveat_700Bold", fontSize: scale(14), width: scale(45), marginLeft: "4%", marginBottom: -4, zIndex: 0 }}>
+                <Text style={{ fontFamily: "Caveat_700Bold", fontSize: scale(15), width: scale(45), marginLeft: "4%", marginRight: "1%", zIndex: 0, marginTop :1 }}>
                     Selected:
                   </Text>
                 <AnimalTopAutoSuggest/>
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     top: Constants.statusBarHeight + scale(43),
     width: scale(250),
-    height: scale(25),
+    height: scale(30),
     zIndex: 1,
     borderBottomRightRadius: scale(15),
     borderBottomLeftRadius: scale(15),
