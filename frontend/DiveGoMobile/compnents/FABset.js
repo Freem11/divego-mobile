@@ -18,7 +18,7 @@ import {
   Platform,
   KeyboardAvoidingView,
 } from "react-native";
-import { MaterialIcons, FontAwesome5, FontAwesome } from "@expo/vector-icons";
+import { MaterialIcons, FontAwesome5, FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
 import Animated, {
   useSharedValue,
   interpolate,
@@ -27,7 +27,7 @@ import Animated, {
   withSpring,
   withTiming,
 } from "react-native-reanimated";
-import AnimalAutoComplete from "./animalAutocomplete";
+import DiveSiteAutoComplete from "./diveSiteAutocomplete";
 import GeocodeAutocomplete from "./geocodeAutocomplete";
 import { removePhoto } from "../supabaseCalls/uploadSupabaseCalls";
 // import { removePhoto } from "../axiosCalls/uploadAxiosCalls";
@@ -80,9 +80,9 @@ export default function FABButtons() {
     } else {
       rotationVal.value = withSpring(45);
       transYanchor.value = withSpring(-65);
-      transYsearch.value = withSpring(-115);
-      transYsite.value = withSpring(-165);
-      transYphoto.value = withSpring(-215);
+      transYsearch.value = withSpring(-215);
+      transYsite.value = withSpring(-115);
+      transYphoto.value = withSpring(-165);
       transYgeo.value = withSpring(-265);
       transYinfo.value = withSpring(-315);
       transYgear.value = withSpring(-365);
@@ -242,7 +242,7 @@ export default function FABButtons() {
         <Animated.View
           style={[styles.buttonwrapper, styles.optionWrapper, transSearchY]}
         >
-          <MaterialIcons name="search" color="aquamarine" size={32} />
+          <MaterialCommunityIcons name="map-search-outline" color="aquamarine" size={32} />
         </Animated.View>
       </TouchableWithoutFeedback>
 
@@ -271,7 +271,7 @@ export default function FABButtons() {
         keyboardVerticalOffset={Platform.OS === "android" ? 200 : 0}
       >
         <Animated.View style={[styles.animal, animalReveal]}>
-          <AnimalAutoComplete/>
+          <DiveSiteAutoComplete/>
         </Animated.View>
       </KeyboardAvoidingView>
 
@@ -401,7 +401,7 @@ const styles = StyleSheet.create({
     bottom: 5,
   },
   animal: {
-    bottom: 152,
+    bottom: 253,
     width: 0,
     right: 30,
     borderRadius: 10,

@@ -22,6 +22,7 @@ import {
 import { diveSitesFake, heatVals } from "./data/testdata";
 
 import mantaIOS from "../compnents/png/Manta32.png";
+import anchorGold from "../compnents/png/icons8-anchor-24.png";
 import anchorClustIOS from "../compnents/png/ClusterAnchor24.png";
 import anchorIconIOS from "../compnents/png/SiteAnchor20.png";
 
@@ -214,7 +215,7 @@ export default function Map() {
                latitude: tempMarker[0],
                longitude: tempMarker[1],
              }}
-             image={mantaIOS}
+             image={anchorGold}
            />
         )}
 

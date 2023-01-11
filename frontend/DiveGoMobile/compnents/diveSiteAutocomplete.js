@@ -9,7 +9,7 @@ import { MapBoundariesContext } from "./contexts/mapBoundariesContext";
 import addIndexNumber from "./helpers/optionHelpers";
 import { SelectedDiveSiteContext } from "./contexts/selectedDiveSiteContext";
 
-export default function AnimalAutoComplete() {
+export default function DiveSiteAutoComplete() {
   const { selectedDiveSite, setSelectedDiveSite } = useContext(SelectedDiveSiteContext);
   const { boundaries, setBoundaries } = useContext(MapBoundariesContext);
   const [list, setList] = useState([]);

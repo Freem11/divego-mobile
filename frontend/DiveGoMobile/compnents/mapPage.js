@@ -80,18 +80,6 @@ export default function MapPage() {
                     Selected:
                   </Text>
                 <AnimalTopAutoSuggest/>
-                {/* {token && (
-                  <Text style={{ fontFamily: "Caveat_700Bold", fontSize: scale(14) }}>
-                    {" "}
-                    Selected: {animalSelection}{" "}
-                  </Text>
-                )}
-                {!token && (
-                  <Text style={{ fontFamily: "Caveat_700Bold", fontSize: scale(14) }}>
-                    {" "}
-                    Selected: All{" "}
-                  </Text>
-                )} */}
               </View>
             )}
 

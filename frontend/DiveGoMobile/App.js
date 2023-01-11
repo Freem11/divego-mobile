@@ -127,7 +127,7 @@ export default function App() {
   useLayoutEffect(() => {
     async function prepare() {
       await SplashScreen.preventAutoHideAsync();
-      // await getCurrentLocation();
+      await getCurrentLocation();
 
       try {
         const valuless = await AsyncStorage.getItem("token");

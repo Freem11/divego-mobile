@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, ScrollView } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 export default function GuideModal() {
   return (
@@ -20,6 +20,11 @@ export default function GuideModal() {
           <Text style={styles.textSt}>
             Change the month by adjusting the month slider at the top of the
             page.
+          </Text>
+          <Text style={styles.textSt}>
+            Click this Menu to change what sea creature you are looking for,
+            this list is made up of creatures that already exist in the system,
+            so add new ones with your own photos to expand the list!
           </Text>
           <Text style={styles.textSt}>
             Users submit photos of animals and dive sites they have seen/ been
@@ -68,10 +73,10 @@ export default function GuideModal() {
               Click this icon to toggle the photo uploader window, in this
               window you can upload photos of the animals you have seen, the
               system will take the date the photo was taken as well as the GPS
-              coordinates, if they are part of the photo, if not click the
-              pin icon to the right of the fields to open another map page to
-              drop a pin. Doing so will generate a set of GPS cooridnates for
-              your photo.
+              coordinates, if they are part of the photo, if not click the pin
+              icon to the right of the fields to open another map page to drop a
+              pin. Doing so will generate a set of GPS cooridnates for your
+              photo.
             </Text>
           </View>
 
@@ -85,7 +90,11 @@ export default function GuideModal() {
                 marginRight: 5,
               }}
             >
-              <MaterialIcons name="add-location-alt" color="#9B884E" size={24} />
+              <MaterialIcons
+                name="add-location-alt"
+                color="#9B884E"
+                size={24}
+              />
             </View>
 
             <Text style={styles.blurb}>
@@ -107,13 +116,19 @@ export default function GuideModal() {
                 marginRight: 5,
               }}
             >
-              <MaterialIcons name="search" color="#9B884E" size={24} />
+              <MaterialCommunityIcons
+                name="map-search-outline"
+                color="#9B884E"
+                size={24}
+              />
             </View>
 
             <Text style={styles.blurb}>
-              Click this icon to change what sea creature you are looking for,
-              this list is made up of creatures that already exist in the
-              system, so add new ones with your own photos to expand the list!
+              Click this icon to open the dive site search tool, the list of dive sites is limited to the area of the map you have on screen,
+               moving the map will change the dive site list,
+               start typing the name of the dive site you are looking for and the autocomplete will filter to your site,
+               Select a dive site of your choice and the map will pan and zoom the the dive site and temporarily place yellow icon to indicate which site you have selected
+               The yellow icon is to help find your specific site in more congested diving areas  
             </Text>
           </View>
 
@@ -155,7 +170,7 @@ const styles = StyleSheet.create({
   textSt: {
     fontFamily: "IndieFlower_400Regular",
     marginBottom: 10,
-    color:"#F0EEEB"
+    color: "#F0EEEB",
   },
   topSec: {
     flex: 1,
@@ -179,7 +194,7 @@ const styles = StyleSheet.create({
     fontFamily: "IndieFlower_400Regular",
     height: "100%",
     width: "80%",
-    color:"#F0EEEB"
+    color: "#F0EEEB",
   },
   explore: {
     marginTop: "0%",
@@ -203,7 +218,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     width: "100%",
     flexDirection: "row",
-    maxHeight: 150,
+    maxHeight: 400,
   },
   anchor: {
     marginTop: 20,
