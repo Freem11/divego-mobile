@@ -27,8 +27,11 @@ export default function AnimalAutoComplete() {
 
     diveSiteData = null
     diveSiteArray = []
-    diveSiteData = await diveSites({minLat, maxLat, minLng, maxLng});
 
+    if (boundaries.length > 0 ){
+      diveSiteData = await diveSites({minLat, maxLat, minLng, maxLng});
+    }
+   
     if (diveSiteData){
     diveSiteData.forEach((diveSite) => {
       if (!diveSiteArray.includes(diveSite.name)){
