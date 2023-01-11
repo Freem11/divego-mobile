@@ -50,7 +50,7 @@ export default function AnimalTopAutoSuggest(props) {
       <View style={styles.container} keyboardShouldPersistTaps={"always"}>
         <TextInput
           style={ styles.suggestInput}
-          placeholder={"All"}
+          placeholder={"all the fish in the sea"}
           value={animalText.Name}
           placeholderTextColor="black"
           onChangeText={handleChange}
