@@ -72,7 +72,6 @@ export default function DiveSiteAutoComplete() {
   };
 
   const handleClear = () => {
-    // setSelectedDiveSite({SiteName: "", Latitude: "", Longitude: ""});
     handleDiveSiteList()
   };
 
