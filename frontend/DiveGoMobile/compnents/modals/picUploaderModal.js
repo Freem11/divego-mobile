@@ -450,8 +450,7 @@ const styles = StyleSheet.create({
     width: "100%",
     borderBottomRightRadius: 15,
     borderBottomLeftRadius: 15,
-    width: '100%',
-    minHeight: Platform.OS === "android" ? 500: 0
+    minHeight: Platform.OS === "android" ? 490: 0
   },
   input: {
     fontFamily: "IndieFlower_400Regular",
@@ -615,8 +614,7 @@ const styles = StyleSheet.create({
     borderTopColor: "darkgrey",
     borderColor: "transparent",
     borderBottomColor: "transparent",
-    bottom: Platform.OS === "android" ? "3%": "0%"
-    
+    bottom: Platform.OS === "android" ? "2%": "0%"
   },
   dateIcon: {
     backgroundColor: "#33586A",

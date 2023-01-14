@@ -193,7 +193,8 @@ const styles = StyleSheet.create({
     marginTop: "5%",
     marginBottom: 15,
     width: '100%',
-    minHeight: Platform.OS === "android" ? 500: 0
+    maxHeight: 514,
+    minHeight: Platform.OS === "android" ? 490: 0
   },
   inputContainer: {
     width: "100%",
@@ -265,7 +266,7 @@ const styles = StyleSheet.create({
     borderTopColor: "darkgrey",
     borderColor: "transparent",
     borderBottomColor: "transparent",
-    bottom: "1%",
+    bottom: Platform.OS === "android" ? "-2%": "0%"
   },
   inputContainerLower: {
     position: "absolute",

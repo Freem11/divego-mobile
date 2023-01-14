@@ -432,8 +432,6 @@ const styles = StyleSheet.create({
     marginBottom: '15%',
     shadowOpacity: 0.2,
     shadowRadius: 50,
-    paddingRight: 2,
-    paddingLeft: 2
   },
   closeButton: {
     position: "absolute",
