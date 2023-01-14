@@ -4,7 +4,7 @@ import React, {
   useLayoutEffect,
 } from "react";
 import "react-native-url-polyfill/auto";
-import { StyleSheet, View, Dimensions } from "react-native";
+import { StyleSheet, View, Dimensions, KeyboardAvoidingView } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
@@ -203,7 +203,7 @@ export default function App() {
                                   <SessionContext.Provider
                                     value={{ activeSession, setActiveSession }}
                                   >                       
-                                      <MapPage />                                 
+                                      <MapPage/>                                 
                                      {/* {activeSession ? (
                                       <MapPage />
                                     ) : (

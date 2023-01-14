@@ -17,6 +17,7 @@ import {
   Text,
   Platform,
   KeyboardAvoidingView,
+  ScrollView,
 } from "react-native";
 import { MaterialIcons, FontAwesome5, FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
 import Animated, {
@@ -42,6 +43,9 @@ export default function FABButtons() {
     useContext(DSAdderContext);
   const [guideModal, setGuideModal] = useState(false);
   const [gearModal, setGearModal] = useState(false);
+
+
+  const KeboardOffsetting = 0;
 
   const rotationVal = useSharedValue(0);
   const transYanchor = useSharedValue(0);
@@ -304,6 +308,7 @@ export default function FABButtons() {
         visible={diveSiteAdderModal}
         animationType="slide"
         transparent={true}
+        style={{minHeight: '50%'}}
       >
         <View style={styles.modalStyle}>
           <View style={styles.title}>
@@ -318,7 +323,7 @@ export default function FABButtons() {
               </View>
             </TouchableWithoutFeedback>
           </View>
-          <DiveSiteModal />
+          <DiveSiteModal/>
         </View>
       </Modal>
 
@@ -427,6 +432,8 @@ const styles = StyleSheet.create({
     marginBottom: '15%',
     shadowOpacity: 0.2,
     shadowRadius: 50,
+    paddingRight: 2,
+    paddingLeft: 2
   },
   closeButton: {
     position: "absolute",

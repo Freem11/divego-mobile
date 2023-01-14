@@ -4,6 +4,7 @@ import {
   View,
   TextInput,
   TouchableWithoutFeedback,
+  Platform,
 } from "react-native";
 import React, { useState, useContext, useEffect } from "react";
 import { FontAwesome5 } from "@expo/vector-icons";
@@ -192,6 +193,7 @@ const styles = StyleSheet.create({
     marginTop: "5%",
     marginBottom: 15,
     width: '100%',
+    minHeight: Platform.OS === "android" ? 500: 0
   },
   inputContainer: {
     width: "100%",
