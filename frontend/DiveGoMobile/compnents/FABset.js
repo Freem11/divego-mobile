@@ -308,7 +308,6 @@ export default function FABButtons() {
         visible={diveSiteAdderModal}
         animationType="slide"
         transparent={true}
-        style={{minHeight: '50%'}}
       >
         <View style={styles.modalStyle}>
           <View style={styles.title}>

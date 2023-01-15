@@ -21,7 +21,7 @@ import { PinContext } from "./contexts/staticPinContext";
 import { AnimalSelectContext } from "./contexts/animalSelectContext";
 import { MonthSelectContext } from "./contexts/monthSelectContext";
 
-import { scale } from 'react-native-size-matters';
+import { scale } from "react-native-size-matters";
 
 export default function MapPage() {
   const { masterSwitch, setMasterSwitch } = useContext(MasterContext);
@@ -46,7 +46,7 @@ export default function MapPage() {
     setMasterSwitch(true);
     setPicAdderModal(!picAdderModal);
   };
-  
+
   useEffect(() => {
     if (animalSelection.length > 0) {
       setToken(true);
@@ -62,7 +62,12 @@ export default function MapPage() {
           <KeyboardAvoidingView style={styles.container} behavior="height">
             {masterSwitch && (
               <View style={styles.monthText}>
-                <Text style={{ fontFamily: "PermanentMarker_400Regular", fontSize: scale(15) }}>
+                <Text
+                  style={{
+                    fontFamily: "PermanentMarker_400Regular",
+                    fontSize: scale(15),
+                  }}
+                >
                   {monthVal}
                 </Text>
               </View>
@@ -76,10 +81,20 @@ export default function MapPage() {
 
             {masterSwitch && (
               <View style={styles.animalSelect}>
-                <Text style={{ fontFamily: "Caveat_700Bold", fontSize: scale(15), width: scale(45), marginLeft: "4%", marginRight: "1%", zIndex: 0, marginTop :1 }}>
-                    Selected:
-                  </Text>
-                <AnimalTopAutoSuggest/>
+                <Text
+                  style={{
+                    fontFamily: "Caveat_700Bold",
+                    fontSize: scale(15),
+                    width: scale(45),
+                    marginLeft: "4%",
+                    marginRight: "1%",
+                    zIndex: 0,
+                    marginTop: Platform.OS === "android" ? scale(4): scale(1),
+                  }}
+                >
+                  Selected:
+                </Text>
+                <AnimalTopAutoSuggest />
               </View>
             )}
 
@@ -97,11 +112,10 @@ export default function MapPage() {
                       color: "#9B884E",
                       fontFamily: "PermanentMarker_400Regular",
                       fontSize: scale(15),
-                      width: '90%',
+                      width: "90%",
                       height: "100%",
                       textAlign: "center",
                       backgroundColor: "#355D71",
-
                     }}
                   >
                     Set Pin
@@ -198,7 +212,7 @@ const styles = StyleSheet.create({
   PinButton: {
     position: "absolute",
     alignItems: "center",
-    textAlign: 'center',
+    textAlign: "center",
     bottom: scale(28),
     backgroundColor: "#355D71",
     borderWidth: 1,
@@ -206,7 +220,7 @@ const styles = StyleSheet.create({
     borderColor: "transparent",
     marginBottom: 5,
     borderRadius: scale(5),
-    width: '50%',
+    width: "50%",
     zIndex: 2,
   },
 });
