@@ -5,6 +5,7 @@ import { getPhotosforAnchor } from "../../supabaseCalls/photoSupabaseCalls";
 import { SliderContext } from "../contexts/sliderContext";
 import { MonthSelectContext } from "../contexts/monthSelectContext";
 import { SelectedDiveSiteContext } from "../contexts/selectedDiveSiteContext";
+import { AnimalSelectContext } from "../contexts/animalSelectContext";
 import { newGPSBoundaries } from "../helpers/mapHelpers";
 import { scale } from "react-native-size-matters";
 import Lightbox from "react-native-lightbox-v2";
@@ -32,6 +33,8 @@ export default function AnchorModal(lat, lng) {
   const { selectedDiveSite } = useContext(SelectedDiveSiteContext);
   const [anchorPics, setAnchorPics] = useState([]);
   const { monthVal } = useContext(MonthSelectContext);
+  const { animalSelection } = useContext(AnimalSelectContext)
+
 
   const filterAnchorPhotos = async () => {
     let { minLat, maxLat, minLng, maxLng } = newGPSBoundaries(
@@ -41,6 +44,7 @@ export default function AnchorModal(lat, lng) {
 
     try {
       const photos = await getPhotosforAnchor({
+        animalSelection,
         sliderVal,
         minLat,
         maxLat,
