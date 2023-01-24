@@ -77,13 +77,13 @@ export default function DiveSiteModal() {
       SiteNameVar = false;
     }
 
-    if (formVals.Latitude === "" || formVals.Latitude === null) {
+    if (formVals.Latitude === "" || formVals.Latitude === null || isNaN(formVals.Latitude)) {
       LatVar = true;
     } else {
       LatVar = false;
     }
 
-    if (formVals.Longitude === "" || formVals.Longitude === null) {
+    if (formVals.Longitude === "" || formVals.Longitude === null || isNaN(formVals.Longitude)) {
       LngVar = true;
     } else {
       LngVar = false;
@@ -98,8 +98,8 @@ export default function DiveSiteModal() {
 
     if (
       formVals.Site === "" ||
-      formVals.Latitude == "" ||
-      formVals.Longitude == ""
+      formVals.Latitude == "" || isNaN(formVals.Latitude) ||
+      formVals.Longitude == "" || isNaN(formVals.Longitude)
     ) {
       return;
     } else {
@@ -128,7 +128,8 @@ export default function DiveSiteModal() {
           style={formValidation.LatVal ? styles.inputRed : styles.input}
           value={formVals.Latitude}
           placeholder={"Latitude"}
-          editable={false}
+          keyboardType="numbers-and-punctuation"
+          // editable={false}
           fontSize={18}
           placeholderTextColor="grey"
           color="#F0EEEB"
@@ -139,7 +140,8 @@ export default function DiveSiteModal() {
           style={formValidation.LngVal ? styles.inputRed : styles.input}
           value={formVals.Longitude}
           placeholder={"Longitude"}
-          editable={false}
+          keyboardType="numbers-and-punctuation"
+          // editable={false}
           fontSize={18}
           placeholderTextColor="grey"
           color="#F0EEEB"
