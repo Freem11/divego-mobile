@@ -80,4 +80,23 @@ if (data) {
     return data;
   }
   }; 
+
+  export const getAnimalMultiSelect = async (text) => {
+
+    console.log("api gets", text)
+    const { data, error } = await supabase
+    .from("photos")
+    .select("id, label")
+    .ilike("label", "%" + text + "%")
+    .limit(7)
+  
+  if (error) {
+    console.log("couldn't do it,", error);
+    return [];
+  }
+  
+  if (data) {
+    return data;
+  }
+  };
     

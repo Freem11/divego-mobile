@@ -103,3 +103,58 @@ export const updateHeatPoint = async (values) => {
     return data;
   }
 };
+
+export const multiHeatPoints = async (GPSBubble, slider, animalArray) => {
+
+  let minLat, maxLat, minLng, maxLng;
+
+  if (GPSBubble.maxLat) {
+    minLat = GPSBubble.minLat;
+    maxLat = GPSBubble.maxLat;
+    minLng = GPSBubble.minLng;
+    maxLng = GPSBubble.maxLng;
+  } else {
+    minLat = GPSBubble.southWest.latitude;
+    maxLat = GPSBubble.northEast.latitude;
+    minLng = GPSBubble.southWest.longitude;
+    maxLng = GPSBubble.northEast.longitude;
+  }
+
+  let creatureList 
+  animalArray.forEach(creature => {
+ 
+    if (creatureList === undefined){
+      creatureList =  creature + ","
+    } else{
+      creatureList = creatureList + creature + ","
+
+  }
+    
+  });
+
+  let creatureListFinal
+
+  if(creatureList !== undefined){
+    creatureListFinal = creatureList.slice(0,-1)
+ 
+  }
+  
+  const { data, error } = await supabase
+    .from("heatPoints")
+    .select()
+    .filter('animal', 'in', '(' + creatureListFinal + ')')
+    .eq("month", slider)
+    .gte("lat", minLat)
+    .gte("lng", minLng)
+    .lte("lat", maxLat)
+    .lte("lng", maxLng)
+
+  if (error) {
+    console.log("couldn't do it,", error);
+    return [];
+  }
+
+  if (data) {
+    return data;
+  }
+  }

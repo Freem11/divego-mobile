@@ -32,6 +32,7 @@ import { MasterContext } from "./compnents/contexts/masterContext";
 import { PinSpotContext } from "./compnents/contexts/pinSpotContext";
 import { SliderContext } from "./compnents/contexts/sliderContext";
 import { AnimalSelectContext } from "./compnents/contexts/animalSelectContext";
+import { AnimalMultiSelectContext } from "./compnents/contexts/animalMultiSelectContext";
 import { PictureContext } from "./compnents/contexts/pictureContext";
 import { SelectedDiveSiteContext } from "./compnents/contexts/selectedDiveSiteContext";
 import { SessionContext } from "./compnents/contexts/sessionContext";
@@ -77,6 +78,8 @@ export default function App() {
   });
 
   const [animalSelection, setAnimalSelection] = useState("");
+
+  const [animalMultiSelection, setAnimalMultiSelection] = useState([]);
 
   const [mapCenter, setMapCenter] = useState({
     lat: 49.246292,
@@ -165,6 +168,7 @@ export default function App() {
 
   return (
     <View onLayout={onLayoutRootView} style={styles.container}>
+      <AnimalMultiSelectContext.Provider value={{ animalMultiSelection, setAnimalMultiSelection }}>
       <SettingsContext.Provider value={{ gearModal, setGearModal }}>
         <SelectedDiveSiteContext.Provider
           value={{ selectedDiveSite, setSelectedDiveSite }}
@@ -224,6 +228,7 @@ export default function App() {
           </PictureContext.Provider>
         </SelectedDiveSiteContext.Provider>
       </SettingsContext.Provider>
+      </AnimalMultiSelectContext.Provider>
     </View>
   );
 }

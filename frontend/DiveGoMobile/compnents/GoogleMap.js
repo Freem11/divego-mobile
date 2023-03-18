@@ -7,6 +7,7 @@ import { MapZoomContext } from "./contexts/mapZoomContext";
 import { MasterContext } from "./contexts/masterContext";
 import { PinSpotContext } from "./contexts/pinSpotContext";
 import { AnimalSelectContext } from "./contexts/animalSelectContext";
+import { AnimalMultiSelectContext } from "./contexts/animalMultiSelectContext";
 import { SliderContext } from "./contexts/sliderContext";
 import { SelectedDiveSiteContext } from "./contexts/selectedDiveSiteContext";
 import MapView, { PROVIDER_GOOGLE, Marker, Heatmap } from "react-native-maps";
@@ -32,7 +33,7 @@ import useSupercluster from "use-supercluster";
 // import { diveSites } from "../axiosCalls/diveSiteAxiosCalls";
 import { diveSites } from "../supabaseCalls/diveSiteSupabaseCalls";
 // import { heatPoints } from "../axiosCalls/heatPointAxiosCalls";
-import { heatPoints } from "../supabaseCalls/heatPointSupabaseCalls";
+import { heatPoints, multiHeatPoints } from "../supabaseCalls/heatPointSupabaseCalls";
 import AnchorModal from "./modals/anchorModal";
 import { scale } from "react-native-size-matters";
 import { FontAwesome } from "@expo/vector-icons";
@@ -64,6 +65,7 @@ export default function Map() {
   const { diveSitesTog } = useContext(DiveSitesContext);
   const { sliderVal } = useContext(SliderContext);
   const { animalSelection } = useContext(AnimalSelectContext);
+  const { animalMultiSelection } = useContext(AnimalMultiSelectContext);
   const { dragPin, setDragPin } = useContext(PinSpotContext);
   const { selectedDiveSite, setSelectedDiveSite } = useContext(
     SelectedDiveSiteContext
@@ -89,10 +91,16 @@ export default function Map() {
       let filteredDiveSites = await diveSites(boundaries);
       !diveSitesTog ? setnewSites([]) : setnewSites(filteredDiveSites);
 
-      let filteredHeatPoints = await heatPoints(
+      // let filteredHeatPoints = await heatPoints(
+      //   boundaries,
+      //   sliderVal,
+      //   animalSelection
+      // );
+
+      let filteredHeatPoints = await multiHeatPoints(
         boundaries,
         sliderVal,
-        animalSelection
+        animalMultiSelection
       );
       setNewHeat(formatHeatVals(filteredHeatPoints));
 
@@ -144,7 +152,7 @@ export default function Map() {
 
   useEffect(() => {
     handleMapChange();
-  }, [diveSitesTog, sliderVal, animalSelection]);
+  }, [diveSitesTog, sliderVal, animalSelection, animalMultiSelection]);
 
   useEffect(() => {
     setDragPin(mapCenter);

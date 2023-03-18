@@ -12,6 +12,7 @@ import MonthSlider from "./slider";
 import FABButtons from "./FABset";
 import Logo from "./logoButton";
 import AnimalTopAutoSuggest from "./AnimalSuggest";
+import AnimalMultiSelect from "./multiSelect";
 import { DiveSitesContext } from "./contexts/diveSiteToggleContext";
 import { MapCenterContext } from "./contexts/mapCenterContext";
 import { PictureAdderContext } from "./contexts/picModalContext";
@@ -30,6 +31,7 @@ export default function MapPage() {
   const { animalSelection } = useContext(AnimalSelectContext);
   const [monthVal, setMonthVal] = useState("");
   const { picAdderModal, setPicAdderModal } = useContext(PictureAdderContext);
+  
   const [token, setToken] = useState(false);
   const [diveSitesTog, setDiveSitesTog] = useState(true);
   const [mapCenter, setMapCenter] = useState({
@@ -94,9 +96,11 @@ export default function MapPage() {
                 >
                   Selected:
                 </Text>
-                <AnimalTopAutoSuggest />
+               
               </View>
             )}
+
+            {masterSwitch && ( <AnimalMultiSelect />)}
 
             {masterSwitch && (
               <View style={styles.Fbuttons}>
@@ -188,7 +192,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     top: Constants.statusBarHeight + scale(43),
     width: scale(250),
-    height: scale(30),
+    height: "auto",
     zIndex: 1,
     borderBottomRightRadius: scale(15),
     borderBottomLeftRadius: scale(15),
