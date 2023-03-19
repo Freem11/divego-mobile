@@ -31,39 +31,49 @@ export default function AnimalTopAutoSuggest(props) {
 
   const [animalText, setAnimalText] = useState("Select Sea Creatures");
 
-useEffect(() => {
-    
-  if (animalMultiSelection.length > 0){
-    setPlacehodler("Selected (" + animalMultiSelection.length.toString() + ") Creatures")
-  } else {
-    setPlacehodler("Select Sea Creatures")
-  }
-}, [animalMultiSelection])
+  useEffect(() => {
+    if (animalMultiSelection.length > 0) {
+      setPlacehodler(
+        "Selected (" + animalMultiSelection.length.toString() + ") Creatures"
+      );
+    } else {
+      setPlacehodler("Select Sea Creatures");
+    }
+  }, [animalMultiSelection]);
 
   const handleChange = async (text) => {
-
-    setAnimalText({ Name: text})
+    setAnimalText({ Name: text });
 
     if (text.length > 0) {
-     
       let newfilteredList = await getAnimalMultiSelect(text);
-      let animalArray = []
+      let animalArray = [];
       newfilteredList.forEach((animal) => {
-        if (!animalArray.includes(animal.label)){
-          animalArray.push(animal.label)
+        if (!animalArray.includes(animal.label)) {
+          animalArray.push(animal.label);
         }
-        })
+      });
       setList(animalArray);
     } else {
       setList([]);
     }
   };
 
+
+  const handleClearTag = async(text) => {
+
+    if (animalMultiSelection.includes(text)){
+      setAnimalMultiSelection(animalMultiSelection.filter(item => item !== text));
+    } 
+  }
+
   const handleClear = () => {
-    if (animalMultiSelection.length > 0){
-      setPlacehodler("Selected (" + animalMultiSelection.length.toString() + ") Creatures")
+
+    if (animalMultiSelection.length > 0) {
+      setPlacehodler(
+        "Selected (" + animalMultiSelection.length.toString() + ") Creatures"
+      );
     } else {
-      setPlacehodler("Select Sea Creatures")
+      setPlacehodler("Select Sea Creatures");
     }
     setList([]);
     Keyboard.dismiss();
@@ -94,25 +104,53 @@ useEffect(() => {
                 setList={setList}
               />
             );
-          })
-        }
-        {list.length > 0 && 
-        <TouchableWithoutFeedback onPress={handleClear}>
-        <View style={[styles.ImageButton]}>
-          <Text
-            style={{
-              color: "#9B884E",
-              fontFamily: "PermanentMarker_400Regular",
-              fontSize: scale(12),
-              opacity: 1
-            }}
-          >
-            Close
-          </Text>
+          })}
+        {list.length > 0 && (
+          <TouchableWithoutFeedback onPress={handleClear}>
+            <View style={[styles.ImageButton]}>
+              <Text
+                style={{
+                  color: "#9B884E",
+                  fontFamily: "PermanentMarker_400Regular",
+                  fontSize: scale(12),
+                  opacity: 1,
+                }}
+              >
+                Close
+              </Text>
+            </View>
+          </TouchableWithoutFeedback>
+        )}
+        <View style={[styles.tagContainer]}>
+          {animalMultiSelection.length > 0 &&
+            animalMultiSelection.map((animal) => {
+              return (
+                <TouchableWithoutFeedback onPress={() => handleClearTag(animal)} key={animal}>
+                  <View style={[styles.animalTag]} key={animal}>
+                    <Text
+                      style={{
+                        color: "lightgrey",
+                        fontFamily: "PermanentMarker_400Regular",
+                        fontSize: scale(12),
+                      }}
+                    >
+                      {animal}
+                    </Text>
+                    {/* <TouchableWithoutFeedback onPress={handleClearTag(animal)}> */}
+                      <View style={styles.xButton}>
+                        <MaterialIcons
+                          name="highlight-remove"
+                          size={18}
+                          color="lightgrey"
+                        />
+                      </View>
+                    {/* </TouchableWithoutFeedback> */}
+                  </View>
+                </TouchableWithoutFeedback>
+              );
+            })}
         </View>
-      </TouchableWithoutFeedback>}
       </View>
-      
     </View>
   );
 }
@@ -126,8 +164,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   xButton: {
-    marginTop: 0,
-    marginLeft: -24,
+    margin: 2,
   },
   aButton: {
     marginTop: 0,
@@ -162,10 +199,12 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   listcont: {
+    display: "flex",
     marginTop: "15%",
     position: "absolute",
-    borderTopLeftRadius:scale(15),
+    borderTopLeftRadius: scale(15),
     borderTopRightRadius: scale(15),
+    width: scale(230),
   },
   ImageButton: {
     backgroundColor: "#33586A",
@@ -186,5 +225,23 @@ const styles = StyleSheet.create({
     shadowRadius: 6.27,
 
     elevation: 10,
+  },
+  tagContainer: {
+    backgroundColor: "pink",
+    display: "flex",
+    flexDirection: "row",
+    marginLeft: scale(-100),
+    marginTop: scale(5),
+    maxWidth: scale(230),
+  },
+  animalTag: {
+    display: "flex",
+    flexDirection: "row",
+    borderColor: "lightgrey",
+    borderWidth: 2,
+    borderRadius: 10,
+    margin: 2,
+    paddingLeft: 2,
+    paddingRight: 2
   },
 });
