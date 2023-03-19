@@ -86,21 +86,22 @@ export default function MapPage() {
                 <Text
                   style={{
                     fontFamily: "Caveat_700Bold",
-                    fontSize: scale(15),
-                    width: scale(45),
+                    fontSize: scale(13),
+                    width: scale(50),
                     marginLeft: "4%",
                     marginRight: "1%",
                     zIndex: 0,
-                    marginTop: Platform.OS === "android" ? scale(4): scale(1),
+                    marginTop: Platform.OS === "android" ? scale(4): scale(-4),
+                    paddingLeft: 12
                   }}
                 >
                   Selected:
                 </Text>
-               
+               <AnimalTopAutoSuggest/>
               </View>
             )}
 
-            {masterSwitch && ( <AnimalMultiSelect />)}
+            {/* {masterSwitch && ( <AnimalMultiSelect />)} */}
 
             {masterSwitch && (
               <View style={styles.Fbuttons}>
@@ -192,7 +193,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     top: Constants.statusBarHeight + scale(43),
     width: scale(250),
-    height: "auto",
+    height: scale(27),
     zIndex: 1,
     borderBottomRightRadius: scale(15),
     borderBottomLeftRadius: scale(15),

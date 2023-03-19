@@ -83,7 +83,6 @@ if (data) {
 
   export const getAnimalMultiSelect = async (text) => {
 
-    console.log("api gets", text)
     const { data, error } = await supabase
     .from("photos")
     .select("id, label")

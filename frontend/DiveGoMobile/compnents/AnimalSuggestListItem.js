@@ -4,17 +4,26 @@ const AnimalSuggestListItem = (props) => {
   const { setList, setAnimalSelection, animalSelection, name, setAnimalText, animalText} = props;
 
   const handleSelect = (text) => {
-    setAnimalSelection(text);
-    setAnimalText({ Name: text });
-    setList([]);
+
+    if (animalSelection.includes(text)){
+      setAnimalSelection(animalSelection.filter(item => item !== text));
+    } else {
+      setAnimalSelection([...animalSelection, text]);
+    }
+    
+    setAnimalText(text);
+    // setList([]);
     Keyboard.dismiss();
+    
   };
 
+  console.log("selctions", animalSelection)
+  
   return (
-    <View id={name} style={styles.suggestion}>
+    <View id={name} style={animalSelection.includes(name) ? styles.selected : styles.suggestion}>
       <View>
         <Text
-          style={{ fontFamily: "IndieFlower_400Regular", textAlign: "center", color:"black" }}
+          style={animalSelection.includes(name) ? styles.textSelected : styles.textReg}
           onPress={() => handleSelect(name)}
         >
           {name}
@@ -32,13 +41,34 @@ const styles = StyleSheet.create({
     marginTop: 1,
     paddingTop: 3,
     backgroundColor: "#FFFFFF",
-    borderRadius: 3,
     textAlign: "center",
     alignContent: "center",
     listStyle: "none",
     opacity: 1,
     transform: [{  translateY: 0 }],
   },
+  selected: {
+    width: 165,
+    height: 25,
+    marginTop: 1,
+    paddingTop: 3,
+    backgroundColor: "lightgrey",
+    textAlign: "center",
+    alignContent: "center",
+    listStyle: "none",
+    opacity: 1,
+    transform: [{  translateY: 0 }],
+  },
+  textReg:{
+    fontFamily: "IndieFlower_400Regular",
+    textAlign: "center",
+    color:"black"
+  },
+  textSelected:{
+    fontFamily: "IndieFlower_400Regular",
+    textAlign: "center",
+    color:"grey"
+  }
 });
 
 export default AnimalSuggestListItem;

@@ -14,7 +14,7 @@ export const sessionRefresh = async(refresh_token) => {
   }
 
   if (data) {
-    console.log(data);
+    // console.log(data);
     return data;
   }
 };
