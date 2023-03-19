@@ -99,3 +99,44 @@ if (data) {
   }
   };
     
+
+  export const getPhotosforAnchorMulti = async (value) => {
+
+    let creatureList 
+    value.animalMultiSelection.forEach(creature => {
+   
+      if (creatureList === undefined){
+        creatureList =  creature + ","
+      } else{
+        creatureList = creatureList + creature + ","
+  
+    }
+      
+    });
+  
+    let creatureListFinal
+  
+    if(creatureList !== undefined){
+      creatureListFinal = creatureList.slice(0,-1)
+   
+    }
+
+    const { data, error } = await supabase
+    .from("photos")
+    .select()
+    .filter('label', 'in', '(' + creatureListFinal + ')')
+    .eq("month", value.sliderVal)
+    .gte("latitude", value.minLat)
+    .gte("longitude", value.minLng)
+    .lte("latitude", value.maxLat)
+    .lte("longitude", value.maxLng)
+
+  if (error) {
+    console.log("couldn't do it,", error);
+    return [];
+  }
+
+  if (data) {
+    return data;
+  }
+  }; 

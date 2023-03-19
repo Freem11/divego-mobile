@@ -17,8 +17,6 @@ const AnimalSuggestListItem = (props) => {
     
   };
 
-  console.log("selctions", animalSelection)
-  
   return (
     <View id={name} style={animalSelection.includes(name) ? styles.selected : styles.suggestion}>
       <View>

@@ -1,16 +1,17 @@
 import { StyleSheet, Text, View, Image, ScrollView } from "react-native";
 import React, { useState, useContext, useEffect } from "react";
-import { getPhotosforAnchor } from "../../supabaseCalls/photoSupabaseCalls";
+import { getPhotosforAnchor, getPhotosforAnchorMulti } from "../../supabaseCalls/photoSupabaseCalls";
 // import { getPhotosforAnchor } from "../../axiosCalls/photoAxiosCalls";
 import { SliderContext } from "../contexts/sliderContext";
 import { MonthSelectContext } from "../contexts/monthSelectContext";
 import { SelectedDiveSiteContext } from "../contexts/selectedDiveSiteContext";
 import { AnimalSelectContext } from "../contexts/animalSelectContext";
+import { AnimalMultiSelectContext } from "../contexts/animalMultiSelectContext";
 import { newGPSBoundaries } from "../helpers/mapHelpers";
 import { scale } from "react-native-size-matters";
 import Lightbox from "react-native-lightbox-v2";
 import { FontAwesome } from "@expo/vector-icons";
-import email from 'react-native-email'
+import email from "react-native-email";
 
 let IPSetter = 2;
 let IP;
@@ -33,8 +34,8 @@ export default function AnchorModal(lat, lng) {
   const { selectedDiveSite } = useContext(SelectedDiveSiteContext);
   const [anchorPics, setAnchorPics] = useState([]);
   const { monthVal } = useContext(MonthSelectContext);
-  const { animalSelection } = useContext(AnimalSelectContext)
-
+  const { animalSelection } = useContext(AnimalSelectContext);
+  const { animalMultiSelection } = useContext(AnimalMultiSelectContext);
 
   const filterAnchorPhotos = async () => {
     let { minLat, maxLat, minLng, maxLng } = newGPSBoundaries(
@@ -43,8 +44,8 @@ export default function AnchorModal(lat, lng) {
     );
 
     try {
-      const photos = await getPhotosforAnchor({
-        animalSelection,
+      const photos = await getPhotosforAnchorMulti({
+        animalMultiSelection,
         sliderVal,
         minLat,
         maxLat,
@@ -64,14 +65,15 @@ export default function AnchorModal(lat, lng) {
   }, []);
 
   const handleEmail = (pic) => {
-    const to = ['DiveGo2022@gmail.com']
+    const to = ["DiveGo2022@gmail.com"];
     email(to, {
-        // Optional additional arguments
-        subject: `Reporting issue with picture: "${pic.label}" - ${pic.photoFile} `,
-        body: 'Type of issue: \n \n 1) Animal name not correct \n (Please provide correct animal name and we will correct the record)\n \n 2)Copy write image claim \n (Please provide proof that you own the submitted photo and we will remove it as you have requested)',
-        checkCanOpen: false // Call Linking.canOpenURL prior to Linking.openURL
-    }).catch(console.error)
-}
+      // Optional additional arguments
+      subject: `Reporting issue with picture: "${pic.label}" - ${pic.photoFile} `,
+      body:
+        "Type of issue: \n \n 1) Animal name not correct \n (Please provide correct animal name and we will correct the record)\n \n 2)Copy write image claim \n (Please provide proof that you own the submitted photo and we will remove it as you have requested)",
+      checkCanOpen: false, // Call Linking.canOpenURL prior to Linking.openURL
+    }).catch(console.error);
+  };
 
   return (
     <View style={{ maxHeight: "83%" }}>
@@ -92,10 +94,15 @@ export default function AnchorModal(lat, lng) {
               return (
                 <View key={pic.id} style={styles.picContainer}>
                   <View style={styles.micro}>
-                  <FontAwesome name="flag" color="maroon" size={20} onLongPress={() => handleEmail(pic)} />
-                  <Text style={styles.titleText}>{pic.label}</Text>
+                    <FontAwesome
+                      name="flag"
+                      color="maroon"
+                      size={20}
+                      onLongPress={() => handleEmail(pic)}
+                    />
+                    <Text style={styles.titleText}>{pic.label}</Text>
                   </View>
-                  <Lightbox activeProps={{height: '30%'}}>
+                  <Lightbox activeProps={{ height: "30%" }}>
                     <View style={styles.shadowbox}>
                       <Image
                         source={{
@@ -155,7 +162,7 @@ const styles = StyleSheet.create({
     fontFamily: "IndieFlower_400Regular",
     color: "#F0EEEB",
     fontSize: scale(15),
-    marginLeft: scale(12)
+    marginLeft: scale(12),
   },
   noSightings: {
     width: scale(200),
@@ -168,6 +175,6 @@ const styles = StyleSheet.create({
   },
   micro: {
     display: "flex",
-    flexDirection: "row"
-  }
+    flexDirection: "row",
+  },
 });

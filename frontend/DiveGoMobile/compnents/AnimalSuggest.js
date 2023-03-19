@@ -17,6 +17,7 @@ import { getAnimalMultiSelect } from "../supabaseCalls/photoSupabaseCalls";
 import { AnimalMultiSelectContext } from "./contexts/animalMultiSelectContext";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import { Button } from "react-native-paper";
+import AnimalTag from "./AnimalTags";
 
 export default function AnimalTopAutoSuggest(props) {
   // const { setPin, pin, formValidation, SetFormValidation } = props;
@@ -58,13 +59,13 @@ export default function AnimalTopAutoSuggest(props) {
     }
   };
 
-  const handleClearTag = async (text) => {
-    if (animalMultiSelection.includes(text)) {
-      setAnimalMultiSelection(
-        animalMultiSelection.filter((item) => item !== text)
-      );
-    }
-  };
+  // const handleClearTag = async (text) => {
+  //   if (animalMultiSelection.includes(text)) {
+  //     setAnimalMultiSelection(
+  //       animalMultiSelection.filter((item) => item !== text)
+  //     );
+  //   }
+  // };
 
   const handleClear = () => {
     if (animalMultiSelection.length > 0) {
@@ -144,38 +145,50 @@ export default function AnimalTopAutoSuggest(props) {
           </TouchableWithoutFeedback>
         )}
 
+       
         <View style={[styles.tagContainer]}>
           {animalMultiSelection.length > 0 &&
             animalMultiSelection.map((animal) => {
               return (
-                <TouchableWithoutFeedback
-                  onPress={() => handleClearTag(animal)}
-                  key={animal}
-                >
-                  <View style={[styles.animalTag]} key={animal}>
-                    <Text
-                      style={{
-                        color: "lightgrey",
-                        fontFamily: "PermanentMarker_400Regular",
-                        fontSize: scale(12),
-                      }}
-                    >
-                      {animal}
-                    </Text>
-                    {/* <TouchableWithoutFeedback onPress={handleClearTag(animal)}> */}
-                    <View style={styles.xButton}>
-                      <MaterialIcons
-                        name="highlight-remove"
-                        size={18}
-                        color="lightgrey"
-                      />
-                    </View>
-                    {/* </TouchableWithoutFeedback> */}
-                  </View>
-                </TouchableWithoutFeedback>
+                <AnimalTag 
+                key={animal}
+                animalMultiSelection={animalMultiSelection}
+                setAnimalMultiSelection={setAnimalMultiSelection}
+                animalName={animal}
+                />
+                // <View key={animal} style={{backgroundColor: "blue"}}>
+                // <TouchableWithoutFeedback
+                //   onPress={() => handleClearTag(animal)}
+                // >
+                //   <View style={[styles.tagBody]}>
+                //   <View style={[styles.animalTag]}>
+                //     <Text
+                //       style={{
+                //         color: "lightgrey",
+                //         fontFamily: "PermanentMarker_400Regular",
+                //         fontSize: scale(12),
+                //         marginBottom : 2,
+                //       }}
+                //     >
+                //       {animal}
+                //     </Text>
+                //     <View style={styles.xButton}>
+                //       <MaterialIcons
+                //         name="highlight-remove"
+                //         size={18}
+                //         color="lightgrey"
+                //       />
+                //     </View>
+                //     </View>
+                //   </View>
+
+                // </TouchableWithoutFeedback>
+                // </View>
               );
             })}
         </View>
+    
+
       </View>
     </View>
   );
@@ -238,7 +251,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     height: scale(35),
-    width: scale(155),
+    width: 165,
     marginLeft: 0,
     opacity: 1,
     marginTop: 0,
@@ -253,21 +266,12 @@ const styles = StyleSheet.create({
     elevation: 10,
   },
   tagContainer: {
-    // backgroundColor: "pink",
+    // backgroundColor: "darkgreen",
     display: "flex",
     flexDirection: "row",
     marginLeft: scale(-100),
     marginTop: scale(5),
-    maxWidth: scale(230),
-  },
-  animalTag: {
-    display: "flex",
-    flexDirection: "row",
-    borderColor: "lightgrey",
-    borderWidth: 2,
-    borderRadius: 10,
-    margin: 2,
-    paddingLeft: 2,
-    paddingRight: 2,
+    // width: 150,
+    // height:50
   },
 });
