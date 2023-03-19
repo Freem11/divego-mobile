@@ -87,7 +87,7 @@ if (data) {
     .from("photos")
     .select("id, label")
     .ilike("label", "%" + text + "%")
-    .limit(7)
+    .limit(10)
   
   if (error) {
     console.log("couldn't do it,", error);

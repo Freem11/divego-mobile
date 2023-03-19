@@ -27,9 +27,9 @@ export default function AnimalTopAutoSuggest(props) {
     AnimalMultiSelectContext
   );
   const [list, setList] = useState([]);
-  const [placehodler, setPlacehodler] = useState("");
+  const [placehodler, setPlacehodler] = useState("Select Sea Creatures");
 
-  const [animalText, setAnimalText] = useState("Select Sea Creatures");
+  const [animalText, setAnimalText] = useState("");
 
   useEffect(() => {
     if (animalMultiSelection.length > 0) {
@@ -42,7 +42,7 @@ export default function AnimalTopAutoSuggest(props) {
   }, [animalMultiSelection]);
 
   const handleChange = async (text) => {
-    setAnimalText({ Name: text });
+    setAnimalText(text);
 
     if (text.length > 0) {
       let newfilteredList = await getAnimalMultiSelect(text);
@@ -58,16 +58,15 @@ export default function AnimalTopAutoSuggest(props) {
     }
   };
 
-
-  const handleClearTag = async(text) => {
-
-    if (animalMultiSelection.includes(text)){
-      setAnimalMultiSelection(animalMultiSelection.filter(item => item !== text));
-    } 
-  }
+  const handleClearTag = async (text) => {
+    if (animalMultiSelection.includes(text)) {
+      setAnimalMultiSelection(
+        animalMultiSelection.filter((item) => item !== text)
+      );
+    }
+  };
 
   const handleClear = () => {
-
     if (animalMultiSelection.length > 0) {
       setPlacehodler(
         "Selected (" + animalMultiSelection.length.toString() + ") Creatures"
@@ -76,6 +75,7 @@ export default function AnimalTopAutoSuggest(props) {
       setPlacehodler("Select Sea Creatures");
     }
     setList([]);
+    setAnimalText("");
     Keyboard.dismiss();
   };
 
@@ -85,7 +85,7 @@ export default function AnimalTopAutoSuggest(props) {
         <TextInput
           style={styles.suggestInput}
           placeholder={placehodler}
-          value={animalText.Name}
+          value={animalText}
           placeholderTextColor="grey"
           onChangeText={handleChange}
         ></TextInput>
@@ -105,7 +105,29 @@ export default function AnimalTopAutoSuggest(props) {
               />
             );
           })}
-        {list.length > 0 && (
+        {animalText.length > 0 && list.length === 0 && (
+          <Text
+            style={{
+              width: 165,
+              height: 25,
+              marginTop: 1,
+              paddingTop: 3,
+              backgroundColor: "#FFFFFF",
+              textAlign: "center",
+              alignContent: "center",
+              // listStyle: "none",
+              opacity: 1,
+              transform: [{ translateY: 0 }],
+              fontFamily: "IndieFlower_400Regular",
+              textAlign: "center",
+              color: "maroon",
+            }}
+          >
+            No Sea Creatures Found
+          </Text>
+        )}
+
+        {animalText.length > 0 && (
           <TouchableWithoutFeedback onPress={handleClear}>
             <View style={[styles.ImageButton]}>
               <Text
@@ -121,11 +143,15 @@ export default function AnimalTopAutoSuggest(props) {
             </View>
           </TouchableWithoutFeedback>
         )}
+
         <View style={[styles.tagContainer]}>
           {animalMultiSelection.length > 0 &&
             animalMultiSelection.map((animal) => {
               return (
-                <TouchableWithoutFeedback onPress={() => handleClearTag(animal)} key={animal}>
+                <TouchableWithoutFeedback
+                  onPress={() => handleClearTag(animal)}
+                  key={animal}
+                >
                   <View style={[styles.animalTag]} key={animal}>
                     <Text
                       style={{
@@ -137,13 +163,13 @@ export default function AnimalTopAutoSuggest(props) {
                       {animal}
                     </Text>
                     {/* <TouchableWithoutFeedback onPress={handleClearTag(animal)}> */}
-                      <View style={styles.xButton}>
-                        <MaterialIcons
-                          name="highlight-remove"
-                          size={18}
-                          color="lightgrey"
-                        />
-                      </View>
+                    <View style={styles.xButton}>
+                      <MaterialIcons
+                        name="highlight-remove"
+                        size={18}
+                        color="lightgrey"
+                      />
+                    </View>
                     {/* </TouchableWithoutFeedback> */}
                   </View>
                 </TouchableWithoutFeedback>
@@ -157,7 +183,7 @@ export default function AnimalTopAutoSuggest(props) {
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
+    width: "95%",
     flexDirection: "row",
     overflow: "hidden",
     alignContent: "center",
@@ -227,7 +253,7 @@ const styles = StyleSheet.create({
     elevation: 10,
   },
   tagContainer: {
-    backgroundColor: "pink",
+    // backgroundColor: "pink",
     display: "flex",
     flexDirection: "row",
     marginLeft: scale(-100),
@@ -242,6 +268,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     margin: 2,
     paddingLeft: 2,
-    paddingRight: 2
+    paddingRight: 2,
   },
 });

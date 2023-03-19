@@ -91,7 +91,7 @@ export default function MapPage() {
                     marginLeft: "4%",
                     marginRight: "1%",
                     zIndex: 0,
-                    marginTop: Platform.OS === "android" ? scale(4): scale(-4),
+                    marginTop: Platform.OS === "android" ? scale(4): scale(1),
                     paddingLeft: 12
                   }}
                 >
