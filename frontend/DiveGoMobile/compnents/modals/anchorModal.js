@@ -30,6 +30,7 @@ if (IPSetter === 1) {
 let filePath = `/Users/matthewfreeman/divego/wetmap/src/components/uploads/`;
 
 export default function AnchorModal(lat, lng) {
+  
   const { sliderVal } = useContext(SliderContext);
   const { selectedDiveSite } = useContext(SelectedDiveSiteContext);
   const [anchorPics, setAnchorPics] = useState([]);
@@ -70,23 +71,43 @@ export default function AnchorModal(lat, lng) {
       // Optional additional arguments
       subject: `Reporting issue with picture: "${pic.label}" - ${pic.photoFile} `,
       body:
-        "Type of issue: \n \n 1) Animal name not correct \n (Please provide correct animal name and we will correct the record)\n \n 2)Copy write image claim \n (Please provide proof that you own the submitted photo and we will remove it as you have requested)",
+        "Type of issue: \n \n 1) Animal name not correct \n (Please provide the correct animal name and we will correct the record)\n \n 2)Copy write image claim \n (Please provide proof that you own the submitted photo and we will remove it as you have requested)",
+      checkCanOpen: false, // Call Linking.canOpenURL prior to Linking.openURL
+    }).catch(console.error);
+  };
+
+  const handleEmailDS = () => {
+    const to = ["DiveGo2022@gmail.com"];
+    email(to, {
+      // Optional additional arguments
+      subject: `Reporting issue with Dive Site: "${lat.SiteName}" at Latitude: ${lat.Lat} Longitude: ${lat.Lng} `,
+      body:
+        "Type of issue: \n \n 1) Dive Site name not correct \n (Please provide the correct dive site name and we will correct the record)\n \n 2)Dive Site GPS Coordiantes are not correct \n (Please provide a correct latitude and longitude and we will update the record)",
       checkCanOpen: false, // Call Linking.canOpenURL prior to Linking.openURL
     }).catch(console.error);
   };
 
   return (
     <View style={{ maxHeight: "83%" }}>
+      <View style={styles.flagger}>
       <Text
         style={{
           fontFamily: "Caveat_400Regular",
           fontSize: scale(20),
           marginLeft: scale(20),
+          marginRight: scale(40),
           color: "#F0EEEB",
         }}
       >
         {monthVal} Sightings
       </Text>
+      <FontAwesome
+        name="flag"
+        color="maroon"
+        size={20}
+        onLongPress={() => handleEmailDS()}
+        />
+      </View>
       <ScrollView>
         <View style={styles.container}>
           {anchorPics &&
@@ -177,4 +198,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
   },
+  flagger:{
+    flexDirection: "row"
+  }
 });

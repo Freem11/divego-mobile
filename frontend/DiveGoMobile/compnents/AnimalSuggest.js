@@ -20,10 +20,6 @@ import { Button } from "react-native-paper";
 import AnimalTag from "./AnimalTags";
 
 export default function AnimalTopAutoSuggest(props) {
-  // const { setPin, pin, formValidation, SetFormValidation } = props;
-  // const { animalSelection, setAnimalSelection } = useContext(
-  //   AnimalSelectContext
-  // );
   const { animalMultiSelection, setAnimalMultiSelection } = useContext(
     AnimalMultiSelectContext
   );
@@ -58,14 +54,6 @@ export default function AnimalTopAutoSuggest(props) {
       setList([]);
     }
   };
-
-  // const handleClearTag = async (text) => {
-  //   if (animalMultiSelection.includes(text)) {
-  //     setAnimalMultiSelection(
-  //       animalMultiSelection.filter((item) => item !== text)
-  //     );
-  //   }
-  // };
 
   const handleClear = () => {
     if (animalMultiSelection.length > 0) {
@@ -156,34 +144,6 @@ export default function AnimalTopAutoSuggest(props) {
                 setAnimalMultiSelection={setAnimalMultiSelection}
                 animalName={animal}
                 />
-                // <View key={animal} style={{backgroundColor: "blue"}}>
-                // <TouchableWithoutFeedback
-                //   onPress={() => handleClearTag(animal)}
-                // >
-                //   <View style={[styles.tagBody]}>
-                //   <View style={[styles.animalTag]}>
-                //     <Text
-                //       style={{
-                //         color: "lightgrey",
-                //         fontFamily: "PermanentMarker_400Regular",
-                //         fontSize: scale(12),
-                //         marginBottom : 2,
-                //       }}
-                //     >
-                //       {animal}
-                //     </Text>
-                //     <View style={styles.xButton}>
-                //       <MaterialIcons
-                //         name="highlight-remove"
-                //         size={18}
-                //         color="lightgrey"
-                //       />
-                //     </View>
-                //     </View>
-                //   </View>
-
-                // </TouchableWithoutFeedback>
-                // </View>
               );
             })}
         </View>
@@ -271,7 +231,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginLeft: scale(-100),
     marginTop: scale(5),
-    // width: 150,
+    width: 200,
     // height:50
   },
 });

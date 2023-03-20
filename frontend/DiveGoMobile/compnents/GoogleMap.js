@@ -172,10 +172,10 @@ export default function Map() {
 
   let zoomier = calculateZoom(width, boundaries[2], boundaries[0]);
 
-  if (mapRef && zoomier < 4) {
+  if (mapRef && zoomier < 2) {
     mapRef.animateCamera({
       center: { latitude: mapCenter.lat, longitude: mapCenter.lng },
-      zoom: 4,
+      zoom: 2,
     });
   }
 
@@ -185,7 +185,7 @@ export default function Map() {
     points,
     bounds: boundaries,
     zoom: zoomlev,
-    options: { radius: 75, maxZoom: 12, minZoom: 3 },
+    options: { radius: 75, maxZoom: 16, minZoom: 1 },
   });
 
   const setupAnchorModal = (diveSiteName, lat, lng) => {
@@ -206,8 +206,8 @@ export default function Map() {
         mapType="satellite"
         initialRegion={region}
         mapType={"satellite"}
-        maxZoomLevel={12}
-        minZoomLevel={3}
+        maxZoomLevel={16}
+        minZoomLevel={1}
         ref={(ref) => setMapRef(ref)}
         onMapReady={() => handleMapChange()}
         onRegionChangeComplete={() => handleMapChange()}
@@ -259,7 +259,7 @@ export default function Map() {
                 onPress={() => {
                   const expansionZoom = Math.min(
                     supercluster.getClusterExpansionZoom(cluster.id),
-                    12
+                    16
                   );
                   mapRef.animateCamera({
                     center: { latitude, longitude },
@@ -295,7 +295,11 @@ export default function Map() {
               </View>
             </TouchableWithoutFeedback>
           </View>
-          <AnchorModal />
+          <AnchorModal 
+          SiteName={selectedDiveSite.SiteName}
+          Lat={selectedDiveSite.Latitude}
+          Lng={selectedDiveSite.Longitude}
+            />
         </View>
       </Modal>
     </View>
