@@ -2,10 +2,9 @@ import {
   StyleSheet,
   View,
   Text,
-  Keyboard,
   TouchableWithoutFeedback,
 } from "react-native";
-import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 import { scale } from "react-native-size-matters";
 
 const AnimalTag = (props) => {
@@ -20,13 +19,12 @@ const AnimalTag = (props) => {
   };
 
   return (
-    <View key={animalName} style={styles.tagBody} >
       <TouchableWithoutFeedback onPress={() => handleClearTag(animalName)}>
         <View style={[styles.tagBody]}>
           <View style={[styles.animalTag]}>
             <Text
               style={{
-                color: "lightgrey",
+                color: "#355D71",
                 fontFamily: "PermanentMarker_400Regular",
                 fontSize: scale(12),
                 marginBottom: 2,
@@ -40,13 +38,12 @@ const AnimalTag = (props) => {
               <MaterialIcons
                 name="highlight-remove"
                 size={18}
-                color="lightgrey"
+                color="#355D71"
               />
             </View>
           </View>
         </View>
       </TouchableWithoutFeedback>
-    </View>
   );
 };
 
@@ -55,15 +52,20 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     borderWidth: 1,
     borderRadius: 10,
-    borderColor: "lightgrey",
-    height: 25
+    borderColor: "gold",
+    backgroundColor: "white",
+    height: 25,
+    marginRight: 5,
+    marginBottom: 5,
   },
   animalTag:{
     flexDirection: "row",
+    marginTop: 1,
+    marginLeft: 3
   },
   xButton:{
-    marginTop: 2,
-    marginRight: 2,
+    marginTop: 1,
+    marginRight: 3,
     marginBottom: 4
   }
 });

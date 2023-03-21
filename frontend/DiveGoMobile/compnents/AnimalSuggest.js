@@ -8,15 +8,10 @@ import {
   TextInput,
   Keyboard,
 } from "react-native";
-// import { getAnimalNamesThatFit } from "../axiosCalls/photoAxiosCalls";
-import { getAnimalNamesThatFit } from "../supabaseCalls/photoSupabaseCalls";
 import AnimalSuggestListItem from "./AnimalSuggestListItem";
 import { scale } from "react-native-size-matters";
-import { AnimalSelectContext } from "./contexts/animalSelectContext";
 import { getAnimalMultiSelect } from "../supabaseCalls/photoSupabaseCalls";
 import { AnimalMultiSelectContext } from "./contexts/animalMultiSelectContext";
-import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
-import { Button } from "react-native-paper";
 import AnimalTag from "./AnimalTags";
 
 export default function AnimalTopAutoSuggest(props) {
@@ -104,7 +99,6 @@ export default function AnimalTopAutoSuggest(props) {
               backgroundColor: "#FFFFFF",
               textAlign: "center",
               alignContent: "center",
-              // listStyle: "none",
               opacity: 1,
               transform: [{ translateY: 0 }],
               fontFamily: "IndieFlower_400Regular",
@@ -133,8 +127,8 @@ export default function AnimalTopAutoSuggest(props) {
           </TouchableWithoutFeedback>
         )}
 
-       
-        <View style={[styles.tagContainer]}>
+
+      <View style={styles.tagContainer}>
           {animalMultiSelection.length > 0 &&
             animalMultiSelection.map((animal) => {
               return (
@@ -147,9 +141,11 @@ export default function AnimalTopAutoSuggest(props) {
               );
             })}
         </View>
-    
 
       </View>
+
+
+      
     </View>
   );
 }
@@ -175,10 +171,10 @@ const styles = StyleSheet.create({
     height: scale(19),
     paddingLeft: 10,
     paddingRight: 25,
-    // backgroundColor: "#f5eded",
     borderColor: "gray",
     borderWidth: 0.5,
     borderRadius: 10,
+    marginTop: 0,
     marginBottom: 2,
     fontSize: scale(16),
     textAlign: "center",
@@ -191,7 +187,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     backgroundColor: "pink",
     borderRadius: 10,
-    // color: "#F0EEEB",
     fontSize: 15,
     textAlign: "center",
     fontFamily: "IndieFlower_400Regular",
@@ -199,7 +194,7 @@ const styles = StyleSheet.create({
   },
   listcont: {
     display: "flex",
-    marginTop: "15%",
+    marginTop: scale(30),
     position: "absolute",
     borderTopLeftRadius: scale(15),
     borderTopRightRadius: scale(15),
@@ -212,7 +207,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     height: scale(35),
     width: 165,
-    marginLeft: 0,
+    marginBottom: 7,
     opacity: 1,
     marginTop: 0,
     shadowColor: "#000",
@@ -226,12 +221,15 @@ const styles = StyleSheet.create({
     elevation: 10,
   },
   tagContainer: {
-    // backgroundColor: "darkgreen",
-    display: "flex",
-    flexDirection: "row",
+    position: "relative",
+    marginTop: scale(0),
     marginLeft: scale(-100),
-    marginTop: scale(5),
-    width: 200,
-    // height:50
+    justifyContent: "center",
+    flexDirection: "row",
+    flex: 1,
+    flexWrap: 'wrap',
+    alignContent: "center",
+    alignItems: "center",
   },
+
 });

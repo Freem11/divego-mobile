@@ -12,7 +12,6 @@ import MonthSlider from "./slider";
 import FABButtons from "./FABset";
 import Logo from "./logoButton";
 import AnimalTopAutoSuggest from "./AnimalSuggest";
-import AnimalMultiSelect from "./multiSelect";
 import { DiveSitesContext } from "./contexts/diveSiteToggleContext";
 import { MapCenterContext } from "./contexts/mapCenterContext";
 import { PictureAdderContext } from "./contexts/picModalContext";
@@ -21,7 +20,6 @@ import { PinSpotContext } from "./contexts/pinSpotContext";
 import { PinContext } from "./contexts/staticPinContext";
 import { AnimalSelectContext } from "./contexts/animalSelectContext";
 import { MonthSelectContext } from "./contexts/monthSelectContext";
-
 import { scale } from "react-native-size-matters";
 
 export default function MapPage() {
@@ -31,7 +29,7 @@ export default function MapPage() {
   const { animalSelection } = useContext(AnimalSelectContext);
   const [monthVal, setMonthVal] = useState("");
   const { picAdderModal, setPicAdderModal } = useContext(PictureAdderContext);
-  
+
   const [token, setToken] = useState(false);
   const [diveSitesTog, setDiveSitesTog] = useState(true);
   const [mapCenter, setMapCenter] = useState({
@@ -100,8 +98,6 @@ export default function MapPage() {
                <AnimalTopAutoSuggest/>
               </View>
             )}
-
-            {/* {masterSwitch && ( <AnimalMultiSelect />)} */}
 
             {masterSwitch && (
               <View style={styles.Fbuttons}>
