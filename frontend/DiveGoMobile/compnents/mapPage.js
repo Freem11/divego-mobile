@@ -21,6 +21,11 @@ import { PinContext } from "./contexts/staticPinContext";
 import { AnimalSelectContext } from "./contexts/animalSelectContext";
 import { MonthSelectContext } from "./contexts/monthSelectContext";
 import { scale } from "react-native-size-matters";
+import { AntDesign } from "@expo/vector-icons";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+} from "react-native-reanimated";
 
 export default function MapPage() {
   const { masterSwitch, setMasterSwitch } = useContext(MasterContext);
@@ -36,6 +41,22 @@ export default function MapPage() {
     lat: 49.246292,
     lng: -123.116226,
   });
+
+  const transYtags = useSharedValue(0);
+
+  const transTagsY = useAnimatedStyle(() => {
+    return {
+      transform: [{ translateY: transYtags.value }],
+    };
+  });
+
+  const startTagAnimations = () => {
+    if (transYtags.value === 0) {
+      transYtags.value = 1000;
+    } else {
+      transYtags.value = 0;
+    }
+  };
 
   const onNavigate = () => {
     setPinValues({
@@ -85,17 +106,22 @@ export default function MapPage() {
                   style={{
                     fontFamily: "Caveat_700Bold",
                     fontSize: scale(13),
-                    width: scale(50),
-                    marginLeft: "4%",
+                    width: scale(51),
+                    marginLeft: "1%",
                     marginRight: "1%",
                     zIndex: 0,
-                    marginTop: Platform.OS === "android" ? scale(4): scale(1),
+                    marginTop: Platform.OS === "android" ? scale(-2): scale(0),
                     paddingLeft: 12
                   }}
                 >
                   Selected:
                 </Text>
-               <AnimalTopAutoSuggest/>
+               <AnimalTopAutoSuggest 
+               transTagsY={transTagsY}
+               />
+               <TouchableWithoutFeedback onPress={startTagAnimations}>
+               <AntDesign name="tags" color="#355D71" size={24} style={{position: "absolute", left: "87.5%", top: "13%"}}/>
+               </TouchableWithoutFeedback>
               </View>
             )}
 
@@ -156,7 +182,7 @@ const styles = StyleSheet.create({
     flex: 1,
     position: "absolute",
     alignItems: "center",
-    top: Constants.statusBarHeight + scale(10),
+    top: Constants.statusBarHeight + scale(0),
     width: "80%",
     height: scale(38),
     zIndex: 2,
@@ -172,7 +198,7 @@ const styles = StyleSheet.create({
     flex: 1,
     position: "absolute",
     alignItems: "center",
-    top: Constants.statusBarHeight + scale(10),
+    top: Constants.statusBarHeight + scale(2),
     width: "10%",
     height: scale(20),
     zIndex: 3,
@@ -187,9 +213,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     position: "absolute",
     alignItems: "center",
-    top: Constants.statusBarHeight + scale(43),
+    top: Constants.statusBarHeight + scale(33),
     width: scale(250),
-    height: scale(27),
+    height: scale(30),
     zIndex: 1,
     borderBottomRightRadius: scale(15),
     borderBottomLeftRadius: scale(15),

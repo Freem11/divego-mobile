@@ -13,8 +13,10 @@ import { scale } from "react-native-size-matters";
 import { getAnimalMultiSelect } from "../supabaseCalls/photoSupabaseCalls";
 import { AnimalMultiSelectContext } from "./contexts/animalMultiSelectContext";
 import AnimalTag from "./AnimalTags";
+import Animated from "react-native-reanimated";
 
 export default function AnimalTopAutoSuggest(props) {
+  const { transTagsY } = props;
   const { animalMultiSelection, setAnimalMultiSelection } = useContext(
     AnimalMultiSelectContext
   );
@@ -127,25 +129,23 @@ export default function AnimalTopAutoSuggest(props) {
           </TouchableWithoutFeedback>
         )}
 
-
-      <View style={styles.tagContainer}>
-          {animalMultiSelection.length > 0 &&
-            animalMultiSelection.map((animal) => {
-              return (
-                <AnimalTag 
-                key={animal}
-                animalMultiSelection={animalMultiSelection}
-                setAnimalMultiSelection={setAnimalMultiSelection}
-                animalName={animal}
-                />
-              );
-            })}
-        </View>
-
+        <Animated.View
+        style={[transTagsY]}>
+          <View style={styles.tagContainer}>
+            {animalMultiSelection.length > 0 &&
+              animalMultiSelection.map((animal) => {
+                return (
+                  <AnimalTag
+                    key={animal}
+                    animalMultiSelection={animalMultiSelection}
+                    setAnimalMultiSelection={setAnimalMultiSelection}
+                    animalName={animal}
+                  />
+                );
+              })}
+          </View>
+        </Animated.View>
       </View>
-
-
-      
     </View>
   );
 }
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
     zIndex: -1,
   },
   suggestInput: {
-    width: "86%",
+    width: "84%",
     height: scale(19),
     paddingLeft: 10,
     paddingRight: 25,
@@ -180,6 +180,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontFamily: "Caveat_700Bold",
     overflow: "hidden",
+    // backgroundColor: "blue"
   },
   suggestInputRed: {
     width: 200,
@@ -196,9 +197,6 @@ const styles = StyleSheet.create({
     display: "flex",
     marginTop: scale(30),
     position: "absolute",
-    borderTopLeftRadius: scale(15),
-    borderTopRightRadius: scale(15),
-    width: scale(230),
   },
   ImageButton: {
     backgroundColor: "#33586A",
@@ -227,9 +225,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexDirection: "row",
     flex: 1,
-    flexWrap: 'wrap',
+    flexWrap: "wrap",
     alignContent: "center",
     alignItems: "center",
+    width: scale(340),
   },
-
 });
