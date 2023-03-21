@@ -228,16 +228,17 @@ export default function PicUploadModal() {
         let formattedDate;
         let newLatitude;
         let newLongitude;
-        if (image.exif.DateTimeOriginal) {
-          formattedDate = formatDate(image.exif.DateTimeOriginal);
+        
+        if (image.assets[0].exif.DateTimeOriginal) {
+          formattedDate = formatDate(image.assets[0].exif.DateTimeOriginal);
           DateVar = false
         } else {
           formattedDate = pinValues.PicDate;
         }
 
-        if (image.exif.GPSLatitude) {
-          newLatitude = image.exif.GPSLatitude.toString();
-          newLongitude = image.exif.GPSLongitude.toString();
+        if (image.assets[0].exif.GPSLatitude) {
+          newLatitude = image.assets[0].exif.GPSLatitude.toString();
+          newLongitude = image.assets[0].exif.GPSLongitude.toString();
         } else {
           newLatitude = pinValues.Latitude;
           newLongitude = pinValues.Longitude;
@@ -254,11 +255,11 @@ export default function PicUploadModal() {
         LngVar = false
         LatVar = false
 
-        let fileToUpload = createFile(image.uri);
+        let fileToUpload = createFile(image.assets[0].uri);
         const data = new FormData();
         data.append("image", fileToUpload);
 
-        const newFilePath = await uploadphoto(data, image.uri);
+        const newFilePath = await uploadphoto(data, image.assets[0].uri);
         setUploadedFile(newFilePath);
 
         setPinValues({

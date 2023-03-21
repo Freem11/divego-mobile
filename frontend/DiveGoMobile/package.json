@@ -39,7 +39,7 @@
     "react": "18.02.0",
     "react-autosuggest": "^10.1.0",
     "react-dom": "18.2.0",
-    "react-native": "0.71.3",
+    "react-native": "0.71.4",
     "react-native-autocomplete-dropdown": "^2.0.7",
     "react-native-autocomplete-input": "^5.1.1",
     "react-native-autosuggest": "^1.0.1",
