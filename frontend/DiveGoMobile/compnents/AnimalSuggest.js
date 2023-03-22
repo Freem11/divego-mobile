@@ -76,7 +76,9 @@ export default function AnimalTopAutoSuggest(props) {
           onChangeText={handleChange}
         ></TextInput>
       </View>
-      <View style={styles.listcont}>
+
+      
+      <View style={styles.listcont} pointerEvents={'box-none'}>
         {list.length > 0 &&
           list.map((animal) => {
             return (
@@ -130,8 +132,8 @@ export default function AnimalTopAutoSuggest(props) {
         )}
 
         <Animated.View
-        style={[transTagsY]}>
-          <View style={styles.tagContainer}>
+        style={[transTagsY]} pointerEvents={'box-none'}>
+          <View style={styles.tagContainer} pointerEvents={'box-none'}>
             {animalMultiSelection.length > 0 &&
               animalMultiSelection.map((animal) => {
                 return (
@@ -197,6 +199,7 @@ const styles = StyleSheet.create({
     display: "flex",
     marginTop: scale(30),
     position: "absolute",
+    // backgroundColor: "pink",
   },
   ImageButton: {
     backgroundColor: "#33586A",
@@ -229,5 +232,6 @@ const styles = StyleSheet.create({
     alignContent: "center",
     alignItems: "center",
     width: scale(340),
+    // backgroundColor: "pink"
   },
 });

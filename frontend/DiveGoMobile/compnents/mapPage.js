@@ -52,7 +52,7 @@ export default function MapPage() {
 
   const startTagAnimations = () => {
     if (transYtags.value === 0) {
-      transYtags.value = 1000;
+      transYtags.value = -10000;
     } else {
       transYtags.value = 0;
     }
