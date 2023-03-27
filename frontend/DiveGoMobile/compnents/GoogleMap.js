@@ -10,6 +10,7 @@ import { AnimalSelectContext } from "./contexts/animalSelectContext";
 import { AnimalMultiSelectContext } from "./contexts/animalMultiSelectContext";
 import { SliderContext } from "./contexts/sliderContext";
 import { SelectedDiveSiteContext } from "./contexts/selectedDiveSiteContext";
+import { HeatPointsContext } from "./contexts/heatPointsContext";
 import MapView, { PROVIDER_GOOGLE, Marker, Heatmap } from "react-native-maps";
 import {
   StyleSheet,
@@ -26,7 +27,6 @@ import mantaIOS from "../compnents/png/Manta32.png";
 import anchorGold from "../compnents/png/icons8-anchor-24.png";
 import anchorClustIOS from "../compnents/png/ClusterAnchor24.png";
 import anchorIconIOS from "../compnents/png/SiteAnchor20.png";
-
 import { calculateZoom, formatHeatVals } from "./helpers/mapHelpers";
 import { setupClusters } from "./helpers/clusterHelpers";
 import useSupercluster from "use-supercluster";
@@ -70,11 +70,11 @@ export default function Map() {
   const { selectedDiveSite, setSelectedDiveSite } = useContext(
     SelectedDiveSiteContext
   );
+  const { newHeat, setNewHeat } = useContext(HeatPointsContext);
 
   const [tempMarker, setTempMarker] = useState([]);
   const [mapRef, setMapRef] = useState(null);
   const [newSites, setnewSites] = useState([]);
-  const [newHeat, setNewHeat] = useState([]);
   const [anchorPics, setAnchorPics] = useState([]);
   const [siteModal, setSiteModal] = useState(false);
 
@@ -99,7 +99,7 @@ export default function Map() {
 
       let filteredHeatPoints = await multiHeatPoints(
         boundaries,
-        sliderVal,
+        // sliderVal,
         animalMultiSelection
       );
       setNewHeat(formatHeatVals(filteredHeatPoints));
@@ -185,7 +185,7 @@ export default function Map() {
     points,
     bounds: boundaries,
     zoom: zoomlev,
-    options: { radius: 75, maxZoom: 16, minZoom: 1 },
+    options: { radius: 75, maxZoom: 16, minZoom: 3 },
   });
 
   const setupAnchorModal = (diveSiteName, lat, lng) => {

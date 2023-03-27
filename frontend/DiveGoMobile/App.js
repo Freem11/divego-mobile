@@ -5,6 +5,7 @@ import React, {
 } from "react";
 import "react-native-url-polyfill/auto";
 import { StyleSheet, View, Dimensions, KeyboardAvoidingView } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
@@ -36,6 +37,7 @@ import { AnimalMultiSelectContext } from "./compnents/contexts/animalMultiSelect
 import { PictureContext } from "./compnents/contexts/pictureContext";
 import { SelectedDiveSiteContext } from "./compnents/contexts/selectedDiveSiteContext";
 import { SessionContext } from "./compnents/contexts/sessionContext";
+import { HeatPointsContext } from "./compnents/contexts/heatPointsContext";
 
 import MapPage from "./compnents/mapPage";
 import AuthenticationPage from "./compnents/authenticationPage";
@@ -60,6 +62,7 @@ export default function App() {
 
   let currentMonth = new Date().getMonth() + 1;
   const [sliderVal, setSliderVal] = useState(currentMonth);
+  const [newHeat, setNewHeat] = useState([]);
 
   const [pinValues, setPinValues] = useState({
     PicFile: null,
@@ -167,7 +170,8 @@ export default function App() {
   }
 
   return (
-    <View onLayout={onLayoutRootView} style={styles.container}>
+    <GestureHandlerRootView onLayout={onLayoutRootView} style={styles.container}>
+      <HeatPointsContext.Provider value={{newHeat, setNewHeat}}>
       <AnimalMultiSelectContext.Provider value={{ animalMultiSelection, setAnimalMultiSelection }}>
       <SettingsContext.Provider value={{ gearModal, setGearModal }}>
         <SelectedDiveSiteContext.Provider
@@ -229,7 +233,8 @@ export default function App() {
         </SelectedDiveSiteContext.Provider>
       </SettingsContext.Provider>
       </AnimalMultiSelectContext.Provider>
-    </View>
+      </HeatPointsContext.Provider>
+    </GestureHandlerRootView>
   );
 }
 

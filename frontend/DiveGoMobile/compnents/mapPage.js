@@ -5,6 +5,7 @@ import {
   Text,
   TouchableWithoutFeedback,
   KeyboardAvoidingView,
+  Dimensions,
 } from "react-native";
 import Constants from "expo-constants";
 import Map from "./GoogleMap";
@@ -12,6 +13,7 @@ import MonthSlider from "./slider";
 import FABButtons from "./FABset";
 import Logo from "./logoButton";
 import AnimalTopAutoSuggest from "./AnimalSuggest";
+import PhotoMenu from "../compnents/PhotoMenu";
 import { DiveSitesContext } from "./contexts/diveSiteToggleContext";
 import { MapCenterContext } from "./contexts/mapCenterContext";
 import { PictureAdderContext } from "./contexts/picModalContext";
@@ -26,6 +28,8 @@ import Animated, {
   useSharedValue,
   useAnimatedStyle,
 } from "react-native-reanimated";
+
+let SCREEN_WIDTH = Dimensions.get('window').width
 
 export default function MapPage() {
   const { masterSwitch, setMasterSwitch } = useContext(MasterContext);
@@ -101,6 +105,12 @@ export default function MapPage() {
             )}
 
             {masterSwitch && (
+              <View style={styles.carrousel}>
+                <PhotoMenu style={{ zIndex: 3 }} />
+              </View>
+            )}
+
+            {masterSwitch && (
               <View style={styles.animalSelect}>
                 <Text
                   style={{
@@ -110,18 +120,21 @@ export default function MapPage() {
                     marginLeft: "1%",
                     marginRight: "1%",
                     zIndex: 0,
-                    marginTop: Platform.OS === "android" ? scale(-2): scale(0),
-                    paddingLeft: 12
+                    marginTop: Platform.OS === "android" ? scale(-2) : scale(0),
+                    paddingLeft: 12,
                   }}
                 >
                   Selected:
                 </Text>
-               <AnimalTopAutoSuggest 
-               transTagsY={transTagsY}
-               />
-               <TouchableWithoutFeedback onPress={startTagAnimations}>
-               <AntDesign name="tags" color="#355D71" size={24} style={{position: "absolute", left: "87.5%", top: "13%"}}/>
-               </TouchableWithoutFeedback>
+                <AnimalTopAutoSuggest transTagsY={transTagsY} />
+                <TouchableWithoutFeedback onPress={startTagAnimations}>
+                  <AntDesign
+                    name="tags"
+                    color="#355D71"
+                    size={24}
+                    style={{ position: "absolute", left: "87.5%", top: "13%" }}
+                  />
+                </TouchableWithoutFeedback>
               </View>
             )}
 
@@ -248,6 +261,18 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     borderRadius: scale(5),
     width: "50%",
+    zIndex: 2,
+  },
+  carrousel: {
+    flex: 1,
+    position: "absolute",
+    justifyContent: "center",
+    flexDirection: "column",
+    // flexWrap: "wrap",
+    alignContent: "center",
+    alignItems: "center",
+    top: Constants.statusBarHeight + scale(60),
+    // minWidth: SCREEN_WIDTH,
     zIndex: 2,
   },
 });

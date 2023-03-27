@@ -78,7 +78,7 @@ export default function AnimalTopAutoSuggest(props) {
       </View>
 
       
-      <View style={styles.listcont} pointerEvents={'box-none'}>
+      {/* <View style={styles.listcont} pointerEvents={'box-none'}>
         {list.length > 0 &&
           list.map((animal) => {
             return (
@@ -129,9 +129,9 @@ export default function AnimalTopAutoSuggest(props) {
               </Text>
             </View>
           </TouchableWithoutFeedback>
-        )}
+        )} */}
 
-        <Animated.View
+        {/* <Animated.View
         style={[transTagsY]} pointerEvents={'box-none'}>
           <View style={styles.tagContainer} pointerEvents={'box-none'}>
             {animalMultiSelection.length > 0 &&
@@ -146,8 +146,8 @@ export default function AnimalTopAutoSuggest(props) {
                 );
               })}
           </View>
-        </Animated.View>
-      </View>
+        </Animated.View> */}
+      {/* </View> */}
     </View>
   );
 }
