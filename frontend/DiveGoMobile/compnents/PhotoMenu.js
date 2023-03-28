@@ -26,7 +26,7 @@ import Animated, {
   Easing,
   interpolate,
 } from "react-native-reanimated";
-import { Gesture, GestureDetector } from "react-native-gesture-handler";
+import { Gesture, GestureDetector, gestureHandlerRootHOC } from "react-native-gesture-handler";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 // import { getPhotosforAnchor } from "../../axiosCalls/photoAxiosCalls";
 // import { SliderContext } from "../contexts/sliderContext";
@@ -81,7 +81,6 @@ export default function PhotoMenu() {
     context.value = {x: xValue.value }
   })
   .onUpdate((event) => {
-    console.log(event)
     if (event.velocityX > 500 || event.velocityX < -500){
       xValue.value = ((event.translationX * 2) + context.value.x)
     } else if (event.velocityX > 700 || event.velocityX < -700){
@@ -91,7 +90,6 @@ export default function PhotoMenu() {
     } 
   })
   .onEnd((event) => {
-    console.log("where", xValue.value, picMenuSize/2)
       if (xValue.value > (picMenuSize /2)-180){
         xValue.value = (picMenuSize/2)- 175
       } else if (xValue.value < (-picMenuSize /2)+180){
@@ -195,11 +193,12 @@ export default function PhotoMenu() {
 
   return (
     <GestureDetector gesture={animatePicMenu}>
-    <Animated.View style={[styles.container2, animatedPictureStyle]}>
+    <Animated.View style={[styles.container2, animatedPictureStyle, {minWidth: areaPics.length*120}]}>
       {areaPics &&
         areaPics.map((pic) => {
           return (
             <PhotoMenuListItem 
+            key={pic.id}
             pic={pic}
             setAnimalMultiSelection={setAnimalMultiSelection}
             animalMultiSelection={animalMultiSelection}
@@ -214,12 +213,12 @@ export default function PhotoMenu() {
 const styles = StyleSheet.create({
   container2: {
     // flex: 1,
-    position: "absolute",
+    // position: "absolute",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-evenly",
     top: 20,
-    minWidth: SCREEN_WIDTH,
+    // minWidth: picCaddy,
     // backgroundColor: 'green'
   },
   picContainer2: {

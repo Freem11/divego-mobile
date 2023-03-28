@@ -28,6 +28,7 @@ import Animated, {
   useSharedValue,
   useAnimatedStyle,
 } from "react-native-reanimated";
+import { gestureHandlerRootHOC } from "react-native-gesture-handler";
 
 let SCREEN_WIDTH = Dimensions.get('window').width
 

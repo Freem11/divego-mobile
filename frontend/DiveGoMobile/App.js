@@ -170,7 +170,7 @@ export default function App() {
   }
 
   return (
-    <GestureHandlerRootView onLayout={onLayoutRootView} style={styles.container}>
+    <GestureHandlerRootView onLayout={onLayoutRootView} style={{flex: 1}}>
       <HeatPointsContext.Provider value={{newHeat, setNewHeat}}>
       <AnimalMultiSelectContext.Provider value={{ animalMultiSelection, setAnimalMultiSelection }}>
       <SettingsContext.Provider value={{ gearModal, setGearModal }}>

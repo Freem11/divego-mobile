@@ -1,14 +1,11 @@
 import { useState } from "react";
 import { StyleSheet, Text, View, Image,  TouchableWithoutFeedback, } from "react-native";
 
-const handleDragStart = (e) => e.preventDefault();
-
 const PhotoMenuListItem = (props) => {
   const { pic, setAnimalMultiSelection, animalMultiSelection } = props;
 
   const handleSelect = (name) => {
 
-    console.log("Selecting", name)
     if (animalMultiSelection.includes(name)) {
       setAnimalMultiSelection(
         animalMultiSelection.filter((item) => item !== name)
@@ -17,8 +14,6 @@ const PhotoMenuListItem = (props) => {
       setAnimalMultiSelection([...animalMultiSelection, name]);
     }
   };
-
-  console.log(pic)
 
   return (
     <TouchableWithoutFeedback onPress={() => handleSelect(pic.label)} key={pic.id}>
