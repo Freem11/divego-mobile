@@ -64,6 +64,7 @@ export default function PhotoMenu() {
 
   useEffect(() => {
     setPicMenuSize(areaPics.length*120)
+    xValue.value = 0
   }, [areaPics.length])
 
   const xValue = useSharedValue(0);
