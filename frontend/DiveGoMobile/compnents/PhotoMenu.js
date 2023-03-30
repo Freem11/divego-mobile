@@ -16,6 +16,7 @@ import {
   getPhotosforAnchor,
   getPhotosforAnchorMulti,
   getPhotosforMapArea,
+  getHistoData,
 } from "../supabaseCalls/photoSupabaseCalls";
 import Animated, {
   useSharedValue,
@@ -72,7 +73,7 @@ export default function PhotoMenu() {
  
   const animatePicMenu = Gesture.Pan()
   .onBegin(()=>{
-    if (xValue.value > (picMenuSize /2)-180){
+    if (xValue.value > (picMenuSize/2)-180){
       xValue.value = (picMenuSize/2)- 175
     } else if (xValue.value < (-picMenuSize /2)+180){
       xValue.value = (-picMenuSize/2)+ 175
@@ -109,6 +110,21 @@ export default function PhotoMenu() {
   });
 
   const filterPhotosForMapArea = async () => {
+
+      try {
+        const harpy = await getHistoData({
+          animals: animalMultiSelection,
+          minLat: boundaries[1],
+          maxLat: boundaries[3],
+          minLng: boundaries[0],
+          maxLng: boundaries[2],
+        })
+        console.log("hey harpo", harpy)
+      } catch (e) {
+        console.log({ title: "Error", message: e.message });
+      }
+
+
     if (boundaries[0] > boundaries[2]) {
       try {
         const AmericanPhotos = await getPhotosforMapArea({
