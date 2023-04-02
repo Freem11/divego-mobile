@@ -47,6 +47,7 @@ if (data) {
   .from("photos")
   .select("label")
   .ilike("label", "%" + value + "%")
+  .limit(10)
 
 if (error) {
   console.log("couldn't do it,", error);
@@ -102,7 +103,7 @@ if (data) {
 
   export const getPhotosforAnchorMulti = async (value) => {
 
-    let creatureList 
+    let creatureList
     value.animalMultiSelection.forEach(creature => {
    
       if (creatureList === undefined){
@@ -121,11 +122,37 @@ if (data) {
    
     }
 
+    if (creatureListFinal === undefined) {
+      creatureListFinal = ""
+    }
+
+    if (value.animalMultiSelection.length === 0 || value.animalMultiSelection === null) {
+
+      const { data, error } = await supabase
+      .from("photos")
+      .select()
+      .ilike("label", "%" + creatureListFinal + "%")
+      // .eq("month", value.sliderVal)
+      .gte("latitude", value.minLat)
+      .gte("longitude", value.minLng)
+      .lte("latitude", value.maxLat)
+      .lte("longitude", value.maxLng)
+  
+    if (error) {
+      console.log("couldn't do it,", error);
+      return [];
+    }
+  
+    if (data) {
+      return data;
+    }
+
+   } else {
     const { data, error } = await supabase
     .from("photos")
     .select()
     .filter('label', 'in', '(' + creatureListFinal + ')')
-    .eq("month", value.sliderVal)
+    // .eq("month", value.sliderVal)
     .gte("latitude", value.minLat)
     .gte("longitude", value.minLng)
     .lte("latitude", value.maxLat)
@@ -139,6 +166,8 @@ if (data) {
   if (data) {
     return data;
   }
+   }
+    
   }; 
 
   export const getPhotosforMapArea = async (value) => {
@@ -163,7 +192,7 @@ if (data) {
 
   export const getHistoData = async (values) => {
 
-    const { data, error } = await supabase.rpc("histogram", {animals: values.animals, max_lat: values.maxLat, min_lat: values.minLat, max_lng: values.maxLng, min_lng: values.minLng})
+    const { data, error } = await supabase.rpc("histogram3", {animals: values.animals, max_lat: values.maxLat, min_lat: values.minLat, max_lng: values.maxLng, min_lng: values.minLng})
 
     if (error) {
       console.log("couldn't do it,", error);

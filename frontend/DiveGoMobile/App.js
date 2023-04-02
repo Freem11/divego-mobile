@@ -11,16 +11,27 @@ import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { IndieFlower_400Regular } from "@expo-google-fonts/indie-flower";
 import { PermanentMarker_400Regular } from "@expo-google-fonts/permanent-marker";
+import { OriginalSurfer_400Regular } from '@expo-google-fonts/original-surfer';
 import {
   Caveat_400Regular,
   Caveat_500Medium,
   Caveat_600SemiBold,
   Caveat_700Bold,
 } from "@expo-google-fonts/caveat";
+import { Knewave_400Regular } from '@expo-google-fonts/knewave';
 import { SwankyandMooMoo_400Regular } from "@expo-google-fonts/swanky-and-moo-moo";
 import { Lemonada_300Light } from "@expo-google-fonts/lemonada";
 import { PoiretOne_400Regular } from "@expo-google-fonts/poiret-one";
 import { ShadowsIntoLight_400Regular } from "@expo-google-fonts/shadows-into-light";
+import { BubblegumSans_400Regular } from '@expo-google-fonts/bubblegum-sans';
+import {
+  Baloo2_400Regular,
+  Baloo2_500Medium,
+  Baloo2_600SemiBold,
+  Baloo2_700Bold,
+  Baloo2_800ExtraBold,
+} from '@expo-google-fonts/baloo-2';
+
 import { PictureAdderContext } from "./compnents/contexts/picModalContext";
 import { DSAdderContext } from "./compnents/contexts/DSModalContext";
 import { SettingsContext } from "./compnents/contexts/gearModalContext";
@@ -128,6 +139,14 @@ export default function App() {
     PoiretOne_400Regular,
     Lemonada_300Light,
     SwankyandMooMoo_400Regular,
+    OriginalSurfer_400Regular,
+    Knewave_400Regular,
+    BubblegumSans_400Regular,
+    Baloo2_400Regular,
+    Baloo2_500Medium,
+    Baloo2_600SemiBold,
+    Baloo2_700Bold,
+    Baloo2_800ExtraBold,
   });
 
   useLayoutEffect(() => {

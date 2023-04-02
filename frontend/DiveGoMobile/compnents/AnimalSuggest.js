@@ -66,72 +66,8 @@ export default function AnimalTopAutoSuggest(props) {
   };
 
   return (
-    <View>
-      <View style={styles.container} keyboardShouldPersistTaps={"always"}>
-        <TextInput
-          style={styles.suggestInput}
-          placeholder={placehodler}
-          value={animalText}
-          placeholderTextColor="grey"
-          onChangeText={handleChange}
-        ></TextInput>
-      </View>
-
-      
-      {/* <View style={styles.listcont} pointerEvents={'box-none'}>
-        {list.length > 0 &&
-          list.map((animal) => {
-            return (
-              <AnimalSuggestListItem
-                key={animal}
-                name={animal}
-                animalSelection={animalMultiSelection}
-                setAnimalSelection={setAnimalMultiSelection}
-                animalText={animalText}
-                setAnimalText={setAnimalText}
-                setList={setList}
-              />
-            );
-          })}
-        {animalText.length > 0 && list.length === 0 && (
-          <Text
-            style={{
-              width: 165,
-              height: 25,
-              marginTop: 1,
-              paddingTop: 3,
-              backgroundColor: "#FFFFFF",
-              textAlign: "center",
-              alignContent: "center",
-              opacity: 1,
-              transform: [{ translateY: 0 }],
-              fontFamily: "IndieFlower_400Regular",
-              textAlign: "center",
-              color: "maroon",
-            }}
-          >
-            No Sea Creatures Found
-          </Text>
-        )}
-
-        {animalText.length > 0 && (
-          <TouchableWithoutFeedback onPress={handleClear}>
-            <View style={[styles.ImageButton]}>
-              <Text
-                style={{
-                  color: "#9B884E",
-                  fontFamily: "PermanentMarker_400Regular",
-                  fontSize: scale(12),
-                  opacity: 1,
-                }}
-              >
-                Close
-              </Text>
-            </View>
-          </TouchableWithoutFeedback>
-        )} */}
-
-        {/* <Animated.View
+    <View style={{flex: 1, alignSelf: "center", justifyContent: "center"}}>
+        <Animated.View
         style={[transTagsY]} pointerEvents={'box-none'}>
           <View style={styles.tagContainer} pointerEvents={'box-none'}>
             {animalMultiSelection.length > 0 &&
@@ -146,8 +82,7 @@ export default function AnimalTopAutoSuggest(props) {
                 );
               })}
           </View>
-        </Animated.View> */}
-      {/* </View> */}
+        </Animated.View>
     </View>
   );
 }
@@ -223,8 +158,10 @@ const styles = StyleSheet.create({
   },
   tagContainer: {
     position: "relative",
+    alignSelf: "center",
+    justifyContent: "center",
     marginTop: scale(0),
-    marginLeft: scale(-100),
+    // marginLeft: scale(-100),
     justifyContent: "center",
     flexDirection: "row",
     flex: 1,
@@ -232,6 +169,6 @@ const styles = StyleSheet.create({
     alignContent: "center",
     alignItems: "center",
     width: scale(340),
-    // backgroundColor: "pink"
+    // backgroundColor: "green"
   },
 });

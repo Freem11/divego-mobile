@@ -47,7 +47,7 @@ export default function AnchorModal(lat, lng) {
     try {
       const photos = await getPhotosforAnchorMulti({
         animalMultiSelection,
-        sliderVal,
+        // sliderVal,
         minLat,
         maxLat,
         minLng,
@@ -90,7 +90,7 @@ export default function AnchorModal(lat, lng) {
   return (
     <View style={{ maxHeight: "83%" }}>
       <View style={styles.flagger}>
-      <Text
+      {/* <Text
         style={{
           fontFamily: "Caveat_400Regular",
           fontSize: scale(20),
@@ -100,7 +100,7 @@ export default function AnchorModal(lat, lng) {
         }}
       >
         {monthVal} Sightings
-      </Text>
+      </Text> */}
       <FontAwesome
         name="flag"
         color="maroon"
@@ -109,11 +109,11 @@ export default function AnchorModal(lat, lng) {
         />
       </View>
       <ScrollView>
-        <View style={styles.container}>
+        <View style={styles.container3}>
           {anchorPics &&
             anchorPics.map((pic) => {
               return (
-                <View key={pic.id} style={styles.picContainer}>
+                <View key={pic.id} style={styles.picContainer3}>
                   <View style={styles.micro}>
                     <FontAwesome
                       name="flag"
@@ -143,7 +143,7 @@ export default function AnchorModal(lat, lng) {
             })}
           {anchorPics.length === 0 && (
             <Text style={styles.noSightings}>
-              No Sightings At This Site Yet For This Time Of Year!
+              No Sightings At This Site Yet!
             </Text>
           )}
         </View>
@@ -153,28 +153,29 @@ export default function AnchorModal(lat, lng) {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  container3: {
     flex: 1,
-    backgroundColor: "#355D71",
+    backgroundColor: "transparent",
     alignItems: "center",
     marginBottom: "30%",
     marginTop: "5%",
     marginRight: scale(10),
     marginLeft: scale(10),
   },
-  picContainer: {
+  picContainer3: {
     width: scale(200),
     height: scale(100),
     marginBottom: scale(30),
+    backgroundColor: "538bdb"
   },
   shadowbox: {
-    shadowColor: "#000",
+    // shadowColor: "#000",
     shadowOffset: {
-      width: 0,
-      height: 5,
+      width: 2,
+      height: 2,
     },
-    shadowOpacity: 0.34,
-    shadowRadius: 6.27,
+    shadowOpacity: 0.8,
+    shadowRadius: 5,
 
     elevation: 10,
   },
@@ -199,6 +200,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   flagger:{
-    flexDirection: "row"
+    flexDirection: "row",
+    position: "absolute",
+    top: -45,
+    left: -15
   }
 });

@@ -1123,6 +1123,16 @@
   dependencies:
     "@types/hammerjs" "^2.0.36"
 
+"@expo-google-fonts/baloo-2@^0.2.3":
+  "integrity" "sha512-irXW8eqvMqR2IbeXncQw33Hj3P47Wrv11qF0NMGrcQ7zOqzncUOBzXhN/OngKQpGTPyeI6lmv/GAb4cpb9xA+Q=="
+  "resolved" "https://registry.npmjs.org/@expo-google-fonts/baloo-2/-/baloo-2-0.2.3.tgz"
+  "version" "0.2.3"
+
+"@expo-google-fonts/bubblegum-sans@^0.2.3":
+  "integrity" "sha512-EIBke4yXGLC49OK0LGY35TJNTkT51AcjYLO93CsTHwLADiexB5DCpm2x6OsVnSU9hmQEZ03Tm1gXC+h/kKEBCw=="
+  "resolved" "https://registry.npmjs.org/@expo-google-fonts/bubblegum-sans/-/bubblegum-sans-0.2.3.tgz"
+  "version" "0.2.3"
+
 "@expo-google-fonts/caveat@^0.2.2":
   "integrity" "sha512-z7kc/7BIwPFTL6el51V2OaLtvxrhtofwqiCk4b0nLCh2kzsso+5IA1fI4NXziou5jEkh9Lt+FE3OUSFQdVVSAQ=="
   "resolved" "https://registry.npmjs.org/@expo-google-fonts/caveat/-/caveat-0.2.2.tgz"
@@ -1133,10 +1143,25 @@
   "resolved" "https://registry.npmjs.org/@expo-google-fonts/indie-flower/-/indie-flower-0.2.2.tgz"
   "version" "0.2.2"
 
+"@expo-google-fonts/knewave@^0.2.3":
+  "integrity" "sha512-FEXCLHw+AmlTn7VcBlKyi1Ir8lrPYGyRp7cqxL1/Bk30KJ9pollqkpBOTm6EQqkVb/lM+UgmeyizmaNlj/IRAg=="
+  "resolved" "https://registry.npmjs.org/@expo-google-fonts/knewave/-/knewave-0.2.3.tgz"
+  "version" "0.2.3"
+
 "@expo-google-fonts/lemonada@^0.2.2":
   "integrity" "sha512-dj5XnqvjdyXkQN64zpabHD/E2wKkQGHgrXtDq7b4fgAIEML0s8DBGJUXOx++JQj/w27J0BhrMBltTa6tVzeaLw=="
   "resolved" "https://registry.npmjs.org/@expo-google-fonts/lemonada/-/lemonada-0.2.2.tgz"
   "version" "0.2.2"
+
+"@expo-google-fonts/montserrat@^0.2.3":
+  "integrity" "sha512-9imhwIs6j5uyTkTxoNplC5T8ERES1W98ZgF7kf7OaypnbcoLoIW0wKH6oudecZyiEqoSktC7epkRpj+UEUvzWg=="
+  "resolved" "https://registry.npmjs.org/@expo-google-fonts/montserrat/-/montserrat-0.2.3.tgz"
+  "version" "0.2.3"
+
+"@expo-google-fonts/original-surfer@^0.2.3":
+  "integrity" "sha512-YC6YQ4zRIOlLwvfnP8eXODy661DjrXib3sk2hRyXwvhkojVNDL/ZS3fDZztDpKe2Cuz73g4Hal9NXBjxwDa06g=="
+  "resolved" "https://registry.npmjs.org/@expo-google-fonts/original-surfer/-/original-surfer-0.2.3.tgz"
+  "version" "0.2.3"
 
 "@expo-google-fonts/permanent-marker@^0.2.2":
   "integrity" "sha512-efXLcRS5VEpHzyYVFgjVWJU+4bTGvByuIv0mK3zEJPWe34O9wYZIy5C9ZfX0NBPIaBk6Ud4L2/MiljrQUepIpw=="
@@ -1147,6 +1172,11 @@
   "integrity" "sha512-Jp4EwQ4mYG/n5rBZDa63NLoj5KPRhwGwWZgh8j6EK2ZFd0qd8afGVcF5vKuehErwBATajxEFp7fpgH/SoI744w=="
   "resolved" "https://registry.npmjs.org/@expo-google-fonts/poiret-one/-/poiret-one-0.2.2.tgz"
   "version" "0.2.2"
+
+"@expo-google-fonts/raleway@^0.2.3":
+  "integrity" "sha512-31D87kwraBhf59VPXEUQxRQjMCIUqNrvmWmfcyRremnwjdvSyu7LAjT6KmTZB/kAuRHJRGY4KFPQDhnPhxkZ7A=="
+  "resolved" "https://registry.npmjs.org/@expo-google-fonts/raleway/-/raleway-0.2.3.tgz"
+  "version" "0.2.3"
 
 "@expo-google-fonts/shadows-into-light@^0.2.2":
   "integrity" "sha512-LcIT/6pMXDl7bTU6dNu7tyl1Q+1f0d/WVMJ1TxUX/ZtB3ytAyFJ2cDN/odRpE3hmFT1aJoNMdiI7jNa6j6gl6Q=="
@@ -11206,6 +11236,13 @@
   "integrity" "sha512-+pQxkjO8cKv4RKTHOFS0fSHQ11HkWgb+imUPSOS8mwoChkR33aSuzV/6P4t9JCJgsus4qLAlB6BUosdIxw7GTA=="
   "resolved" "https://registry.npmjs.org/react-native-image-picker/-/react-native-image-picker-4.8.5.tgz"
   "version" "4.8.5"
+
+"react-native-inset-shadow@^1.0.3":
+  "integrity" "sha512-4UXuSrenJtOWKcV0zSqHLQ47Oxn+BXdmxFxYXf5rE8KletbTvQq8ziZsX8MSEegUGWDcJJ3Mw+1OVbPJxm4lZg=="
+  "resolved" "https://registry.npmjs.org/react-native-inset-shadow/-/react-native-inset-shadow-1.0.3.tgz"
+  "version" "1.0.3"
+  dependencies:
+    "prop-types" "^15.7.2"
 
 "react-native-iphone-x-helper@^1.0.3", "react-native-iphone-x-helper@^1.3.1":
   "integrity" "sha512-HOf0jzRnq2/aFUcdCJ9w9JGzN3gdEg0zFE4FyYlp4jtidqU03D5X7ZegGKfT1EWteR0gPBGp9ye5T5FvSWi9Yg=="

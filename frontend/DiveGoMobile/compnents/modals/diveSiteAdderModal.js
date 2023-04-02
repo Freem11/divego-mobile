@@ -13,7 +13,8 @@ import { insertDiveSiteWaits } from "../../supabaseCalls/diveSiteWaitSupabaseCal
 // import { insertDiveSiteWaits } from "../../axiosCalls/diveSiteWaitAxiosCalls";
 import { getCurrentCoordinates } from "../helpers/permissionsHelpers";
 import { userCheck } from "../../supabaseCalls/authenticateSupabaseCalls";
-
+import InsetShadow from "react-native-inset-shadow";
+import { scale } from "react-native-size-matters";
 
 let SiteNameVar = false;
 let LatVar = false;
@@ -44,7 +45,7 @@ export default function DiveSiteModal() {
       UserId = await userCheck();
       setFormVals({ ...formVals, UserID: UserId.id });
     };
-  
+
     // getUser();
   }, []);
 
@@ -70,20 +71,27 @@ export default function DiveSiteModal() {
   };
 
   const handleSubmit = () => {
-
     if (formVals.Site === "" || formVals.Site === null) {
       SiteNameVar = true;
     } else {
       SiteNameVar = false;
     }
 
-    if (formVals.Latitude === "" || formVals.Latitude === null || isNaN(formVals.Latitude)) {
+    if (
+      formVals.Latitude === "" ||
+      formVals.Latitude === null ||
+      isNaN(formVals.Latitude)
+    ) {
       LatVar = true;
     } else {
       LatVar = false;
     }
 
-    if (formVals.Longitude === "" || formVals.Longitude === null || isNaN(formVals.Longitude)) {
+    if (
+      formVals.Longitude === "" ||
+      formVals.Longitude === null ||
+      isNaN(formVals.Longitude)
+    ) {
       LngVar = true;
     } else {
       LngVar = false;
@@ -98,8 +106,10 @@ export default function DiveSiteModal() {
 
     if (
       formVals.Site === "" ||
-      formVals.Latitude == "" || isNaN(formVals.Latitude) ||
-      formVals.Longitude == "" || isNaN(formVals.Longitude)
+      formVals.Latitude == "" ||
+      isNaN(formVals.Latitude) ||
+      formVals.Longitude == "" ||
+      isNaN(formVals.Longitude)
     ) {
       return;
     } else {
@@ -112,54 +122,97 @@ export default function DiveSiteModal() {
   return (
     <View style={styles.container}>
       <View style={styles.inputContainer}>
-        <TextInput
-          style={formValidation.SiteNameVal ? styles.inputRed : styles.input}
-          value={formVals.Site}
-          placeholder={"Site Name"}
-          placeholderTextColor="grey"
-          color="#F0EEEB"
-          fontSize={18}
-          onChangeText={(siteText) =>
-            setFormVals({ ...formVals, Site: siteText })
-          }
-        ></TextInput>
+        <InsetShadow
+          containerStyle={{
+            borderRadius: 25,
+            height: 40,
+            width: 200,
+            marginRight: 18,
+            marginTop: 1,
+          }}
+          elevation={20}
+          shadowRadius={15}
+          shadowOpacity={0.3}
+        >
+          <TextInput
+            style={formValidation.SiteNameVal ? styles.inputRed : styles.input}
+            value={formVals.Site}
+            placeholder={"Site Name"}
+            placeholderTextColor="darkgrey"
+            color="#F0EEEB"
+            fontSize={18}
+            onChangeText={(siteText) =>
+              setFormVals({ ...formVals, Site: siteText })
+            }
+          ></TextInput>
+        </InsetShadow>
 
-        <TextInput
-          style={formValidation.LatVal ? styles.inputRed : styles.input}
-          value={formVals.Latitude}
-          placeholder={"Latitude"}
-          keyboardType="numbers-and-punctuation"
-          // editable={false}
-          fontSize={18}
-          placeholderTextColor="grey"
-          color="#F0EEEB"
-          onChangeText={(text) => setFormVals({ ...formVals, Latitude: text })}
-        ></TextInput>
+        <InsetShadow
+          containerStyle={{
+            borderRadius: 25,
+            height: 40,
+            width: 200,
+            marginRight: 18,
+            marginTop: 10,
+          }}
+          elevation={20}
+          shadowRadius={15}
+          shadowOpacity={0.3}
+        >
+          <TextInput
+            style={formValidation.LatVal ? styles.inputRed : styles.input}
+            value={formVals.Latitude}
+            placeholder={"Latitude"}
+            keyboardType="numbers-and-punctuation"
+            // editable={false}
+            fontSize={18}
+            placeholderTextColor="darkgrey"
+            color="#F0EEEB"
+            onChangeText={(text) =>
+              setFormVals({ ...formVals, Latitude: text })
+            }
+          ></TextInput>
+        </InsetShadow>
 
-        <TextInput
-          style={formValidation.LngVal ? styles.inputRed : styles.input}
-          value={formVals.Longitude}
-          placeholder={"Longitude"}
-          keyboardType="numbers-and-punctuation"
-          // editable={false}
-          fontSize={18}
-          placeholderTextColor="grey"
-          color="#F0EEEB"
-          onChangeText={(text) => setFormVals({ ...formVals, Longitude: text })}
-        ></TextInput>
+        <InsetShadow
+          containerStyle={{
+            borderRadius: 25,
+            height: 40,
+            width: 200,
+            marginRight: 18,
+            marginTop: 12,
+          }}
+          elevation={20}
+          shadowRadius={15}
+          shadowOpacity={0.3}
+        >
+          <TextInput
+            style={formValidation.LngVal ? styles.inputRed : styles.input}
+            value={formVals.Longitude}
+            placeholder={"Longitude"}
+            keyboardType="numbers-and-punctuation"
+            // editable={false}
+            fontSize={18}
+            placeholderTextColor="darkgrey"
+            color="#F0EEEB"
+            onChangeText={(text) =>
+              setFormVals({ ...formVals, Longitude: text })
+            }
+          ></TextInput>
+        </InsetShadow>
       </View>
 
       <TouchableWithoutFeedback onPress={getCurrentLocation}>
         <View style={[styles.GPSbutton]}>
-          <FontAwesome5 name="map" color="#9B884E" size={28} />
+          <FontAwesome5 name="map" color="gold" size={28} />
           <Text
             style={{
               marginLeft: 5,
-              fontFamily: "Caveat_700Bold",
-              color: "#9B884E",
+              fontFamily: "BubblegumSans_400Regular",
+              color: "gold",
             }}
           >
-            I'm At The Dive Site
+            I'm at the dive site
           </Text>
         </View>
       </TouchableWithoutFeedback>
@@ -168,7 +221,7 @@ export default function DiveSiteModal() {
         <TouchableWithoutFeedback onPress={handleSubmit}>
           <Text
             style={{
-              color: "#9B884E",
+              color: "gold",
               fontSize: 17,
               marginTop: 8,
               fontFamily: "PermanentMarker_400Regular",
@@ -176,7 +229,7 @@ export default function DiveSiteModal() {
               alignSelf: "center",
               justifyContent: "center",
               alignContent: "center",
-              textAlign: "center"
+              textAlign: "center",
             }}
           >
             Submit Dive Site
@@ -190,12 +243,12 @@ export default function DiveSiteModal() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#355D71",
+    backgroundColor: "#538bdb",
     alignItems: "center",
-    marginTop: "5%",
-    marginBottom: 15,
-    width: '100%',
-    minHeight: Platform.OS === "android" ? 490: 0
+    justifyContent: "center",
+    marginBottom: "40%",
+    width: "100%",
+    minHeight: Platform.OS === "android" ? 490 : 0,
   },
   inputContainer: {
     width: "100%",
@@ -204,7 +257,7 @@ const styles = StyleSheet.create({
   },
   input: {
     fontFamily: "IndieFlower_400Regular",
-    backgroundColor: "#33586A",
+    backgroundColor: "#538bdb",
     borderRadius: 10,
     width: 200,
     height: 40,
@@ -236,7 +289,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   GPSbutton: {
-    backgroundColor: "#33586A",
+    backgroundColor: "#538bdb",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
@@ -244,7 +297,7 @@ const styles = StyleSheet.create({
     height: 35,
     width: 150,
     marginLeft: "30%",
-    marginTop: 5,
+    marginTop: scale(30),
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -263,11 +316,11 @@ const styles = StyleSheet.create({
     marginLeft: 70,
     borderWidth: 0.3,
     zIndex: 2,
-    width: '85%',
+    width: "85%",
     borderTopColor: "darkgrey",
     borderColor: "transparent",
     borderBottomColor: "transparent",
-    bottom: Platform.OS === "android" ? "0%": "0%"
+    bottom: Platform.OS === "android" ? scale(-45) : scale(-105),
   },
   inputContainerLower: {
     position: "absolute",

@@ -4,8 +4,8 @@ import { scale } from 'react-native-size-matters';
 
 export default function Logo() {
   return (
-    <View style={styles.container}>
-      <Text style={{ fontFamily: "Caveat_400Regular", fontSize: scale(20) }}>DiveGo</Text>
+    <View style={styles.container} pointerEvents={"none"}>
+      <Text pointerEvents={"none"} style={{ fontFamily: "Caveat_400Regular", fontSize: scale(20) }}>DiveGo</Text>
     </View>
   );
 }

@@ -29,12 +29,20 @@ const styles = StyleSheet.create({
     height: 25,
     marginTop: 1,
     paddingTop: 3,
-    backgroundColor: "#33586A",
+    backgroundColor: "#538bdb",
     borderRadius: 5,
     textAlign: "center",
     alignContent: "center",
     listStyle: "none",
-    transform: [{ translateX: 25 }],
+    transform: [{ translateX: 18 }],
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.34,
+    shadowRadius: 6.27,
+
+    elevation: 20,
   },
 });
 

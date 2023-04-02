@@ -14,6 +14,7 @@ import FABButtons from "./FABset";
 import Logo from "./logoButton";
 import AnimalTopAutoSuggest from "./AnimalSuggest";
 import PhotoMenu from "../compnents/PhotoMenu";
+import Historgram from "./histogram/histogramBody";
 import { DiveSitesContext } from "./contexts/diveSiteToggleContext";
 import { MapCenterContext } from "./contexts/mapCenterContext";
 import { PictureAdderContext } from "./contexts/picModalContext";
@@ -30,7 +31,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { gestureHandlerRootHOC } from "react-native-gesture-handler";
 
-let SCREEN_WIDTH = Dimensions.get('window').width
+let SCREEN_WIDTH = Dimensions.get("window").width;
 
 export default function MapPage() {
   const { masterSwitch, setMasterSwitch } = useContext(MasterContext);
@@ -86,7 +87,7 @@ export default function MapPage() {
       <MapCenterContext.Provider value={{ mapCenter, setMapCenter }}>
         <DiveSitesContext.Provider value={{ diveSitesTog, setDiveSitesTog }}>
           <KeyboardAvoidingView style={styles.container} behavior="height">
-            {masterSwitch && (
+            {/* {masterSwitch && (
               <View style={styles.monthText}>
                 <Text
                   style={{
@@ -97,13 +98,13 @@ export default function MapPage() {
                   {monthVal}
                 </Text>
               </View>
-            )}
+            )} */}
 
-            {masterSwitch && (
+            {/* {masterSwitch && (
               <View style={styles.slider}>
                 <MonthSlider style={{ zIndex: 3 }} />
               </View>
-            )}
+            )} */}
 
             {masterSwitch && (
               <View style={styles.carrousel}>
@@ -113,21 +114,11 @@ export default function MapPage() {
 
             {masterSwitch && (
               <View style={styles.animalSelect}>
-                <Text
-                  style={{
-                    fontFamily: "Caveat_700Bold",
-                    fontSize: scale(13),
-                    width: scale(51),
-                    marginLeft: "1%",
-                    marginRight: "1%",
-                    zIndex: 0,
-                    marginTop: Platform.OS === "android" ? scale(-2) : scale(0),
-                    paddingLeft: 12,
-                  }}
-                >
-                  Selected:
-                </Text>
                 <AnimalTopAutoSuggest transTagsY={transTagsY} />
+              </View>
+            )}
+
+            {masterSwitch && (
                 <TouchableWithoutFeedback onPress={startTagAnimations}>
                   <AntDesign
                     name="tags"
@@ -136,7 +127,6 @@ export default function MapPage() {
                     style={{ position: "absolute", left: "87.5%", top: "13%" }}
                   />
                 </TouchableWithoutFeedback>
-              </View>
             )}
 
             {masterSwitch && (
@@ -164,7 +154,14 @@ export default function MapPage() {
                 </TouchableWithoutFeedback>
               </View>
             )}
-            <Logo style={styles.Logo} />
+
+            {masterSwitch && (
+              <View style={styles.Hist} pointerEvents={"none"}>
+                <Historgram style={{ zIndex: 2 }} />
+              </View>
+            )}
+
+            <Logo style={styles.Logo} pointerEvents={"none"} />
             <Map style={{ zIndex: 1 }} />
           </KeyboardAvoidingView>
         </DiveSitesContext.Provider>
@@ -227,16 +224,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     position: "absolute",
     alignItems: "center",
-    top: Constants.statusBarHeight + scale(33),
-    width: scale(250),
-    height: scale(30),
+    justifyContent: "center",
+    top: Constants.statusBarHeight + scale(100),
     zIndex: 1,
-    borderBottomRightRadius: scale(15),
-    borderBottomLeftRadius: scale(15),
-    opacity: 0.8,
-    marginTop: scale(5),
-    paddingTop: scale(0),
-    backgroundColor: "white",
   },
   Fbuttons: {
     alignItems: "center",
@@ -247,7 +237,7 @@ const styles = StyleSheet.create({
     height: 40,
     zIndex: 2,
     borderRadius: 15,
-    opacity: 0.8,
+    opacity: 1,
     paddingTop: -5,
   },
   PinButton: {
@@ -272,8 +262,20 @@ const styles = StyleSheet.create({
     // flexWrap: "wrap",
     alignContent: "center",
     alignItems: "center",
-    top: Constants.statusBarHeight + scale(60),
+    top: Constants.statusBarHeight + scale(0),
     // minWidth: SCREEN_WIDTH,
     zIndex: 2,
+  },
+  Hist: {
+    alignItems: "center",
+    position: "absolute",
+    bottom: scale(30),
+    left: scale(75),
+    width: scale(190),
+    height: 100,
+    zIndex: 2,
+    borderRadius: 15,
+    opacity: 0.8,
+    backgroundColor: "transparent",
   },
 });

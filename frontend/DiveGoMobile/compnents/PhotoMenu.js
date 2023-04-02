@@ -16,7 +16,6 @@ import {
   getPhotosforAnchor,
   getPhotosforAnchorMulti,
   getPhotosforMapArea,
-  getHistoData,
 } from "../supabaseCalls/photoSupabaseCalls";
 import Animated, {
   useSharedValue,
@@ -27,7 +26,7 @@ import Animated, {
   Easing,
   interpolate,
 } from "react-native-reanimated";
-import { Gesture, GestureDetector, gestureHandlerRootHOC } from "react-native-gesture-handler";
+import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 // import { getPhotosforAnchor } from "../../axiosCalls/photoAxiosCalls";
 // import { SliderContext } from "../contexts/sliderContext";
@@ -110,20 +109,6 @@ export default function PhotoMenu() {
   });
 
   const filterPhotosForMapArea = async () => {
-
-      try {
-        const harpy = await getHistoData({
-          animals: animalMultiSelection,
-          minLat: boundaries[1],
-          maxLat: boundaries[3],
-          minLng: boundaries[0],
-          maxLng: boundaries[2],
-        })
-        console.log("hey harpo", harpy)
-      } catch (e) {
-        console.log({ title: "Error", message: e.message });
-      }
-
 
     if (boundaries[0] > boundaries[2]) {
       try {

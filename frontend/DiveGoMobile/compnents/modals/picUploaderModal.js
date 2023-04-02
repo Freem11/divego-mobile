@@ -28,6 +28,7 @@ import { insertPhotoWaits } from "../../supabaseCalls/photoWaitSupabaseCalls";
 // import { insertPhotoWaits } from "../../axiosCalls/photoWaitAxiosCalls";
 import { scale } from "react-native-size-matters";
 import { userCheck } from "../../supabaseCalls/authenticateSupabaseCalls";
+import InsetShadow from "react-native-inset-shadow";
 
 const { width, height } = Dimensions.get("window");
 
@@ -50,7 +51,6 @@ let DateVar = false;
 let AnimalVar = false;
 let LatVar = false;
 let LngVar = false;
-
 
 export default function PicUploadModal() {
   const { setMasterSwitch } = useContext(MasterContext);
@@ -109,7 +109,7 @@ export default function PicUploadModal() {
   };
 
   let UserId;
-  
+
   useEffect(() => {
     if (pinValues.PicDate === "") {
       let Rnow = new Date();
@@ -128,9 +128,8 @@ export default function PicUploadModal() {
       UserId = await userCheck();
       setPinValues({ ...pinValues, UserId: UserId.id });
     };
-  
-    // getUser();
 
+    // getUser();
   }, []);
 
   const showDatePicker = () => {
@@ -157,7 +156,6 @@ export default function PicUploadModal() {
   }
 
   const handleSubmit = () => {
-   
     if (pinValues.PicFile === "" || pinValues.PicFile === null) {
       PicVar = true;
     } else {
@@ -220,7 +218,7 @@ export default function PicUploadModal() {
       setPicAdderModal(!picAdderModal);
     }
   };
-  
+
   const handleImageUpload = async () => {
     try {
       const image = await chooseImageHandler();
@@ -228,10 +226,10 @@ export default function PicUploadModal() {
         let formattedDate;
         let newLatitude;
         let newLongitude;
-        
+
         if (image.assets[0].exif.DateTimeOriginal) {
           formattedDate = formatDate(image.assets[0].exif.DateTimeOriginal);
-          DateVar = false
+          DateVar = false;
         } else {
           formattedDate = pinValues.PicDate;
         }
@@ -251,9 +249,9 @@ export default function PicUploadModal() {
           });
         }
 
-        AnimalVar = false
-        LngVar = false
-        LatVar = false
+        AnimalVar = false;
+        LngVar = false;
+        LatVar = false;
 
         let fileToUpload = createFile(image.assets[0].uri);
         const data = new FormData();
@@ -278,7 +276,6 @@ export default function PicUploadModal() {
           LatVal: LatVar,
           LngVal: LngVar,
         });
-
 
         // fetch(`http://${IP}:5000/api/upload`, {
         //   method: "POST",
@@ -310,23 +307,25 @@ export default function PicUploadModal() {
   return (
     <View style={styles.container}>
       <View style={styles.picContainer}>
-        <Image
-          source={{
-            uri: `https://lsakqvscxozherlpunqx.supabase.co/storage/v1/object/public/${uploadedFile}`,
-          }}
-          style={formValidation.PictureVal ? styles.imgStyleRed : styles.imgStyle}
-        />
+          <Image
+            source={{
+              uri: `https://lsakqvscxozherlpunqx.supabase.co/storage/v1/object/public/${uploadedFile}`,
+            }}
+            style={
+              formValidation.PictureVal ? styles.imgStyleRed : styles.imgStyle
+            }
+          />
       </View>
 
       <TouchableWithoutFeedback onPress={handleImageUpload}>
         <View style={[styles.ImageButton]}>
-          <FontAwesome name="picture-o" color="#9B884E" size={28} />
+          <FontAwesome name="picture-o" color="gold" size={28} />
           <Text
             style={{
               marginLeft: scale(5),
-              color: "#9B884E",
-              fontFamily: "PermanentMarker_400Regular",
-              fontSize: scale(12),
+              color: "gold",
+              fontFamily: "IndieFlower_400Regular",
+              fontSize: scale(14),
             }}
           >
             Choose an Image
@@ -335,19 +334,37 @@ export default function PicUploadModal() {
       </TouchableWithoutFeedback>
 
       <View style={styles.calZone}>
-        <TextInput
-          style={formValidation.DateVal ? styles.inputCalRed : styles.inputCal}
-          value={pinValues.PicDate}
-          placeholder={"Date"}
-          editable={false}
-          color={colorDate}
-          fontSize={21}
-          placeholderTextColor={colorDate}
-          onChangeText={(text) => setPinValues({ ...pinValues, Animal: text })}
-        ></TextInput>
+        <InsetShadow
+          containerStyle={{
+            borderRadius: 25,
+            height: 40,
+            width: 200,
+            marginRight: 18,
+            marginLeft: 1,
+            marginTop: 2,
+          }}
+          elevation={20}
+          shadowRadius={15}
+          shadowOpacity={0.3}
+        >
+          <TextInput
+            style={
+              formValidation.DateVal ? styles.inputCalRed : styles.inputCal
+            }
+            value={pinValues.PicDate}
+            placeholder={"Date"}
+            editable={false}
+            color={colorDate}
+            fontSize={21}
+            placeholderTextColor={colorDate}
+            onChangeText={(text) =>
+              setPinValues({ ...pinValues, Animal: text })
+            }
+          ></TextInput>
+        </InsetShadow>
         <TouchableWithoutFeedback onPress={showDatePicker}>
           <View style={styles.dateIcon}>
-            <FontAwesome name="calendar" color="#9B884E" size={28} />
+            <FontAwesome name="calendar" color="gold" size={28} style={{marginLeft: 1.5, marginTop: 2}}/>
             <DateTimePickerModal
               date={new Date(pinValues.PicDate)}
               isVisible={datePickerVisible}
@@ -364,7 +381,12 @@ export default function PicUploadModal() {
         keyboardVerticalOffset={AnimalKeboardOffset}
         style={styles.autocomplete}
       >
-        <AnimalAutoSuggest pin={pinValues} setPin={setPinValues} formValidation={formValidation} SetFormValidation={SetFormValidation}/>
+        <AnimalAutoSuggest
+          pin={pinValues}
+          setPin={setPinValues}
+          formValidation={formValidation}
+          SetFormValidation={SetFormValidation}
+        />
       </KeyboardAvoidingView>
 
       <View
@@ -373,42 +395,69 @@ export default function PicUploadModal() {
           width: "100%",
           justifyContent: "center",
           marginBottom: "5%",
+          marginRight: 5
         }}
       >
-        <View>
-          <TextInput
-            style={formValidation.LatVal ? styles.inputRed : styles.input}
-            value={pinValues.Latitude}
-            placeholder={"Latitude"}
-            editable={false}
-            placeholderTextColor="grey"
-            fontSize={18}
-            color="#F0EEEB"
-            onChangeText={(text) =>
-              setPinValues({ ...pinValues, Latitude: text })
-            }
-          ></TextInput>
+        <View style={{marginLeft: 5}}>
+          <InsetShadow
+            containerStyle={{
+              borderRadius: 25,
+              height: 40,
+              width: 200,
+              marginRight: 7,
+              marginTop: 10,
+            }}
+            elevation={20}
+            shadowRadius={15}
+            shadowOpacity={0.3}
+          >
+            <TextInput
+              style={formValidation.LatVal ? styles.inputRed : styles.input}
+              value={pinValues.Latitude}
+              placeholder={"Latitude"}
+              editable={false}
+              placeholderTextColor="darkgrey"
+              fontSize={18}
+              color="#F0EEEB"
+              onChangeText={(text) =>
+                setPinValues({ ...pinValues, Latitude: text })
+              }
+            ></TextInput>
+          </InsetShadow>
 
-          <TextInput
-            style={formValidation.LngVal ? styles.inputRed : styles.input}
-            value={pinValues.Longitude}
-            placeholder={"Longitude"}
-            editable={false}
-            placeholderTextColor="grey"
-            fontSize={18}
-            color="#F0EEEB"
-            onChangeText={(text) =>
-              setPinValues({ ...pinValues, Longitude: text })
-            }
-          ></TextInput>
+          <InsetShadow
+            containerStyle={{
+              borderRadius: 25,
+              height: 40,
+              width: 200,
+              marginRight: 7,
+              marginTop: 15,
+            }}
+            elevation={20}
+            shadowRadius={15}
+            shadowOpacity={0.3}
+          >
+            <TextInput
+              style={formValidation.LngVal ? styles.inputRed : styles.input}
+              value={pinValues.Longitude}
+              placeholder={"Longitude"}
+              editable={false}
+              placeholderTextColor="darkgrey"
+              fontSize={18}
+              color="#F0EEEB"
+              onChangeText={(text) =>
+                setPinValues({ ...pinValues, Longitude: text })
+              }
+            ></TextInput>
+          </InsetShadow>
         </View>
 
-        <View style={{ marginLeft: 7, marginTop: 15 }}>
+        <View style={{ marginLeft: 25, marginTop: 15 }}>
           <TouchableWithoutFeedback onPress={onNavigate}>
             <View style={[styles.LocButton]}>
               <MaterialIcons
                 name="location-pin"
-                color="#9B884E"
+                color="gold"
                 size={38}
                 style={{ zIndex: -1 }}
               />
@@ -421,7 +470,7 @@ export default function PicUploadModal() {
         <TouchableWithoutFeedback onPress={handleSubmit}>
           <Text
             style={{
-              color: "#9B884E",
+              color: "gold",
               fontSize: 17,
               marginTop: 8,
               fontFamily: "PermanentMarker_400Regular",
@@ -444,49 +493,59 @@ export default function PicUploadModal() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#355D71",
+    backgroundColor: "#538bdb",
     alignItems: "center",
-    marginTop: scale(55),
-    marginBottom: 15,
+    justifyContent: "center",
+    // marginTop: scale(55),
+    // marginBottom: 15,
     width: "100%",
     borderBottomRightRadius: 15,
     borderBottomLeftRadius: 15,
-    minHeight: Platform.OS === "android" ? 490: 0
+    minHeight: Platform.OS === "android" ? 490 : 0,
   },
   input: {
     fontFamily: "IndieFlower_400Regular",
-    backgroundColor: "#33586A",
+    backgroundColor: "#538bdb",
     borderRadius: 10,
-    width: 200,
+    width: 205,
     height: 40,
     alignSelf: "center",
-    marginBottom: 15,
-    marginLeft: -5,
+    marginBottom: 25,
+    // marginLeft: 5,
     textAlign: "center",
     overflow: "hidden",
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    shadowOffset: { width: 0, height: 0 },
   },
   inputRed: {
     fontFamily: "IndieFlower_400Regular",
     backgroundColor: "pink",
     borderRadius: 10,
-    width: 200,
+    width: 205,
     height: 40,
     alignSelf: "center",
     marginBottom: 15,
     marginLeft: -5,
     textAlign: "center",
     overflow: "hidden",
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    shadowOffset: { width: 0, height: 0 },
   },
   inputCal: {
     fontFamily: "IndieFlower_400Regular",
-    backgroundColor: "#33586A",
+    backgroundColor: "#538bdb",
     borderRadius: 10,
     width: 200,
     height: 40,
     alignSelf: "center",
     marginBottom: 15,
     textAlign: "center",
-    marginRight: 20,
+    // marginRight: 20,
+    // shadowOpacity: 0.3,
+    // shadowRadius: 5,
+    // shadowOffset: {width: 0, height: 0}
   },
   inputCalRed: {
     fontFamily: "IndieFlower_400Regular",
@@ -498,6 +557,9 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     textAlign: "center",
     marginRight: 20,
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    shadowOffset: { width: 0, height: 0 },
   },
   header: {
     fontSize: 20,
@@ -511,7 +573,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   ImageButton: {
-    backgroundColor: "#33586A",
+    backgroundColor: "#538bdb",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
@@ -520,20 +582,21 @@ const styles = StyleSheet.create({
     width: scale(160),
     marginLeft: 0,
     marginTop: 15,
-    marginBottom: 20,
+    marginBottom: scale(25),
     shadowColor: "#000",
     shadowOffset: {
-      width: 0,
-      height: 5,
+      width: 1,
+      height: 1,
     },
-    shadowOpacity: 0.34,
-    shadowRadius: 6.27,
+    shadowOpacity: 0.5,
+    shadowRadius: 6,
 
     elevation: 10,
   },
   picContainer: {
     alignItems: "center",
     justifyContent: "center",
+    marginBottom: scale(10),
     borderWidth: 0.3,
     borderRadius: scale(15),
     borderColor: "darkgrey",
@@ -542,11 +605,11 @@ const styles = StyleSheet.create({
     marginTop: -90,
     shadowColor: "#000",
     shadowOffset: {
-      width: 0,
-      height: 5,
+      width: 1,
+      height: 1,
     },
-    shadowOpacity: 0.34,
-    shadowRadius: 6.27,
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
 
     elevation: 20,
   },
@@ -575,25 +638,25 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     zIndex: -1,
-    backgroundColor: "#33586A",
+    backgroundColor: "#538bdb",
     borderRadius: 10,
-    marginLeft: 10,
-    marginTop: 10,
+    marginLeft: -15,
+    marginTop: 15,
     width: 38,
     shadowOffset: {
       width: 0,
-      height: 5,
+      height: 0,
     },
-    shadowOpacity: 0.34,
-    shadowRadius: 6.27,
+    shadowOpacity: 0.5,
+    shadowRadius: 5,
 
     elevation: 10,
   },
   calZone: {
     flexDirection: "row",
     justifyContent: "center",
-    marginLeft: -5,
-    marginBottom: -5,
+    marginLeft: 2,
+    marginBottom: 0,
   },
   autocomplete: {
     width: 275,
@@ -615,23 +678,23 @@ const styles = StyleSheet.create({
     borderTopColor: "darkgrey",
     borderColor: "transparent",
     borderBottomColor: "transparent",
-    bottom: Platform.OS === "android" ? "2%": "0%"
+    bottom: Platform.OS === "android" ? "2%" : "2%",
   },
   dateIcon: {
-    backgroundColor: "#33586A",
+    backgroundColor: "#538bdb",
     alignItems: "center",
     alignSelf: "center",
     borderRadius: 10,
     height: 35,
     width: 38,
-    marginTop: -15,
-    shadowColor: "#000",
+    marginTop: 3,
+    // shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 5,
+      height: 0,
     },
-    shadowOpacity: 0.34,
-    shadowRadius: 6.27,
+    shadowOpacity: 0.5,
+    shadowRadius: 5,
 
     elevation: 10,
   },
@@ -639,7 +702,7 @@ const styles = StyleSheet.create({
     width: "101%",
     height: "101%",
     borderRadius: 15,
-    backgroundColor: "#355D71",
+    backgroundColor: "#538bdb",
   },
   imgStyleRed: {
     width: "101%",

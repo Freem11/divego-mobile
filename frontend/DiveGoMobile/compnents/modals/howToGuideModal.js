@@ -46,7 +46,7 @@ export default function GuideModal() {
                 marginRight: 5,
               }}
             >
-              <MaterialIcons name="explore" color="#9B884E" size={24} />
+              <MaterialIcons name="explore" color="gold" size={24} />
             </View>
 
             <Text style={styles.blurb}>
@@ -66,7 +66,7 @@ export default function GuideModal() {
                 marginRight: 5,
               }}
             >
-              <MaterialIcons name="photo-camera" color="#9B884E" size={24} />
+              <MaterialIcons name="photo-camera" color="gold" size={24} />
             </View>
 
             <Text style={styles.blurb}>
@@ -92,7 +92,7 @@ export default function GuideModal() {
             >
               <MaterialIcons
                 name="add-location-alt"
-                color="#9B884E"
+                color="gold"
                 size={24}
               />
             </View>
@@ -118,7 +118,7 @@ export default function GuideModal() {
             >
               <MaterialCommunityIcons
                 name="map-search-outline"
-                color="#9B884E"
+                color="gold"
                 size={24}
               />
             </View>
@@ -142,7 +142,7 @@ export default function GuideModal() {
                 marginRight: 5,
               }}
             >
-              <MaterialIcons name="anchor" color="#9B884E" size={24} />
+              <MaterialIcons name="anchor" color="gold" size={24} />
             </View>
 
             <Text style={styles.blurb}>
@@ -159,7 +159,7 @@ export default function GuideModal() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#355D71",
+    backgroundColor: "#538bdb",
     alignItems: "flex-start",
     justifyContent: "center",
     marginBottom: "30%",
