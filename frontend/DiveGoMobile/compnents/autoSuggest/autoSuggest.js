@@ -7,9 +7,8 @@ import {
   TextInput,
   Keyboard,
 } from "react-native";
-// import { getAnimalNamesThatFit } from "../axiosCalls/photoAxiosCalls";
-import { getAnimalNamesThatFit } from "../supabaseCalls/photoSupabaseCalls";
-import AutoSuggestListItem from "./AutoSuggestListItem";
+import { getAnimalNamesThatFit } from "../../supabaseCalls/photoSupabaseCalls";
+import AutoSuggestListItem from "./autoSuggestListItem";
 import { MaterialIcons } from "@expo/vector-icons";
 import { scale } from "react-native-size-matters";
 import InsetShadow from "react-native-inset-shadow";
@@ -121,7 +120,6 @@ const styles = StyleSheet.create({
     marginRight: 5,
     backgroundColor: "#538bdb",
     borderRadius: 10,
-    // color: "#F0EEEB",
     fontSize: 15,
     textAlign: "center",
     fontFamily: "IndieFlower_400Regular",
@@ -136,7 +134,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     backgroundColor: "pink",
     borderRadius: 10,
-    // color: "#F0EEEB",
     fontSize: 15,
     textAlign: "center",
     fontFamily: "IndieFlower_400Regular",

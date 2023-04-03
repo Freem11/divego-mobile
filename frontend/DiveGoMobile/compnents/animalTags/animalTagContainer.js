@@ -1,18 +1,12 @@
 import React from "react";
-import { useState, useContext, useEffect } from "react";
+import { useContext } from "react";
 import {
   StyleSheet,
   View,
-  Text,
-  TouchableWithoutFeedback,
-  TextInput,
-  Keyboard,
 } from "react-native";
-import AnimalSuggestListItem from "./AnimalSuggestListItem";
 import { scale } from "react-native-size-matters";
-import { getAnimalMultiSelect } from "../supabaseCalls/photoSupabaseCalls";
-import { AnimalMultiSelectContext } from "./contexts/animalMultiSelectContext";
-import AnimalTag from "./AnimalTags";
+import { AnimalMultiSelectContext } from "../contexts/animalMultiSelectContext";
+import AnimalTag from "./animalTags";
 import Animated from "react-native-reanimated";
 
 export default function AnimalTopAutoSuggest(props) {
@@ -20,51 +14,7 @@ export default function AnimalTopAutoSuggest(props) {
   const { animalMultiSelection, setAnimalMultiSelection } = useContext(
     AnimalMultiSelectContext
   );
-  const [list, setList] = useState([]);
-  const [placehodler, setPlacehodler] = useState("Select Sea Creatures");
-
-  const [animalText, setAnimalText] = useState("");
-
-  useEffect(() => {
-    if (animalMultiSelection.length > 0) {
-      setPlacehodler(
-        "Selected (" + animalMultiSelection.length.toString() + ") Creatures"
-      );
-    } else {
-      setPlacehodler("Select Sea Creatures");
-    }
-  }, [animalMultiSelection]);
-
-  const handleChange = async (text) => {
-    setAnimalText(text);
-
-    if (text.length > 0) {
-      let newfilteredList = await getAnimalMultiSelect(text);
-      let animalArray = [];
-      newfilteredList.forEach((animal) => {
-        if (!animalArray.includes(animal.label)) {
-          animalArray.push(animal.label);
-        }
-      });
-      setList(animalArray);
-    } else {
-      setList([]);
-    }
-  };
-
-  const handleClear = () => {
-    if (animalMultiSelection.length > 0) {
-      setPlacehodler(
-        "Selected (" + animalMultiSelection.length.toString() + ") Creatures"
-      );
-    } else {
-      setPlacehodler("Select Sea Creatures");
-    }
-    setList([]);
-    setAnimalText("");
-    Keyboard.dismiss();
-  };
-
+ 
   return (
     <View style={{flex: 1, alignSelf: "center", justifyContent: "center"}}>
         <Animated.View
@@ -117,7 +67,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontFamily: "Caveat_700Bold",
     overflow: "hidden",
-    // backgroundColor: "blue"
   },
   suggestInputRed: {
     width: 200,
@@ -134,7 +83,6 @@ const styles = StyleSheet.create({
     display: "flex",
     marginTop: scale(30),
     position: "absolute",
-    // backgroundColor: "pink",
   },
   ImageButton: {
     backgroundColor: "#33586A",
@@ -161,7 +109,6 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     justifyContent: "center",
     marginTop: scale(0),
-    // marginLeft: scale(-100),
     justifyContent: "center",
     flexDirection: "row",
     flex: 1,
@@ -169,6 +116,5 @@ const styles = StyleSheet.create({
     alignContent: "center",
     alignItems: "center",
     width: scale(340),
-    // backgroundColor: "green"
   },
 });

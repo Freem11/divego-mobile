@@ -5,15 +5,13 @@ import {
   Text,
   TouchableWithoutFeedback,
   KeyboardAvoidingView,
-  Dimensions,
 } from "react-native";
 import Constants from "expo-constants";
 import Map from "./GoogleMap";
-import MonthSlider from "./slider";
 import FABButtons from "./FABset";
 import Logo from "./logoButton";
-import AnimalTopAutoSuggest from "./AnimalSuggest";
-import PhotoMenu from "../compnents/PhotoMenu";
+import AnimalTopAutoSuggest from "./animalTags/animalTagContainer";
+import PhotoMenu from "./photoMenu/photoMenu";
 import Historgram from "./histogram/histogramBody";
 import { DiveSitesContext } from "./contexts/diveSiteToggleContext";
 import { MapCenterContext } from "./contexts/mapCenterContext";
@@ -29,9 +27,6 @@ import Animated, {
   useSharedValue,
   useAnimatedStyle,
 } from "react-native-reanimated";
-import { gestureHandlerRootHOC } from "react-native-gesture-handler";
-
-let SCREEN_WIDTH = Dimensions.get("window").width;
 
 export default function MapPage() {
   const { masterSwitch, setMasterSwitch } = useContext(MasterContext);
@@ -87,25 +82,6 @@ export default function MapPage() {
       <MapCenterContext.Provider value={{ mapCenter, setMapCenter }}>
         <DiveSitesContext.Provider value={{ diveSitesTog, setDiveSitesTog }}>
           <KeyboardAvoidingView style={styles.container} behavior="height">
-            {/* {masterSwitch && (
-              <View style={styles.monthText}>
-                <Text
-                  style={{
-                    fontFamily: "PermanentMarker_400Regular",
-                    fontSize: scale(15),
-                  }}
-                >
-                  {monthVal}
-                </Text>
-              </View>
-            )} */}
-
-            {/* {masterSwitch && (
-              <View style={styles.slider}>
-                <MonthSlider style={{ zIndex: 3 }} />
-              </View>
-            )} */}
-
             {masterSwitch && (
               <View style={styles.carrousel}>
                 <PhotoMenu style={{ zIndex: 3 }} />
@@ -119,14 +95,14 @@ export default function MapPage() {
             )}
 
             {masterSwitch && (
-                <TouchableWithoutFeedback onPress={startTagAnimations}>
-                  <AntDesign
-                    name="tags"
-                    color="#355D71"
-                    size={24}
-                    style={{ position: "absolute", left: "87.5%", top: "13%" }}
-                  />
-                </TouchableWithoutFeedback>
+              <TouchableWithoutFeedback onPress={startTagAnimations}>
+                <AntDesign
+                  name="tags"
+                  color="#355D71"
+                  size={24}
+                  style={{ position: "absolute", left: "87.5%", top: "13%" }}
+                />
+              </TouchableWithoutFeedback>
             )}
 
             {masterSwitch && (
@@ -259,11 +235,9 @@ const styles = StyleSheet.create({
     position: "absolute",
     justifyContent: "center",
     flexDirection: "column",
-    // flexWrap: "wrap",
     alignContent: "center",
     alignItems: "center",
     top: Constants.statusBarHeight + scale(0),
-    // minWidth: SCREEN_WIDTH,
     zIndex: 2,
   },
   Hist: {

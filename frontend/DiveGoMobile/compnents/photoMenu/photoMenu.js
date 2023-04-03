@@ -1,115 +1,85 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  ScrollView,
-  Dimensions,
-  TouchableWithoutFeedback,
-} from "react-native";
+import { StyleSheet } from "react-native";
 import React, { useState, useContext, useEffect } from "react";
-import {
-  picClickheatPoints,
-  multiHeatPoints,
-} from "../supabaseCalls/heatPointSupabaseCalls";
-import {
-  getPhotosforAnchor,
-  getPhotosforAnchorMulti,
-  getPhotosforMapArea,
-} from "../supabaseCalls/photoSupabaseCalls";
+import { multiHeatPoints } from "../../supabaseCalls/heatPointSupabaseCalls";
+import { getPhotosforMapArea } from "../../supabaseCalls/photoSupabaseCalls";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
-  useDerivedValue,
-  withSpring,
   withTiming,
   Easing,
-  interpolate,
 } from "react-native-reanimated";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
-import Swipeable from "react-native-gesture-handler/Swipeable";
-// import { getPhotosforAnchor } from "../../axiosCalls/photoAxiosCalls";
-// import { SliderContext } from "../contexts/sliderContext";
-// import { MonthSelectContext } from "../contexts/monthSelectContext";
-// import { SelectedDiveSiteContext } from "../contexts/selectedDiveSiteContext";
-// import { AnimalSelectContext } from "../contexts/animalSelectContext";
-import { AnimalMultiSelectContext } from "./contexts/animalMultiSelectContext";
-import { HeatPointsContext } from "./contexts/heatPointsContext";
-import { MapBoundariesContext } from "./contexts/mapBoundariesContext";
-// import { newGPSBoundaries } from "../helpers/mapHelpers";
+import { AnimalMultiSelectContext } from "../contexts/animalMultiSelectContext";
+import { HeatPointsContext } from "../contexts/heatPointsContext";
+import { MapBoundariesContext } from "../contexts/mapBoundariesContext";
 import { scale } from "react-native-size-matters";
-import { formatHeatVals } from "./helpers/mapHelpers";
+import { formatHeatVals } from "../helpers/mapHelpers";
 import PhotoMenuListItem from "./photoMenuListItem";
 
-let SCREEN_WIDTH = Dimensions.get("window").width;
-
 export default function PhotoMenu() {
-  // const { sliderVal } = useContext(SliderContext);
-  // const { selectedDiveSite } = useContext(SelectedDiveSiteContext);
-  // const [anchorPics, setAnchorPics] = useState([]);
-  // const { monthVal } = useContext(MonthSelectContext);
-  // const { animalSelection } = useContext(AnimalSelectContext);
   const { animalMultiSelection, setAnimalMultiSelection } = useContext(
     AnimalMultiSelectContext
   );
-  const { boundaries, setBoundaries } = useContext(MapBoundariesContext);
-  const { newHeat, setNewHeat } = useContext(HeatPointsContext);
+  const { boundaries } = useContext(MapBoundariesContext);
+  const { setNewHeat } = useContext(HeatPointsContext);
   const [areaPics, setAreaPics] = useState([]);
 
   const [picMenuSize, setPicMenuSize] = useState(0);
 
   useEffect(() => {
-    setPicMenuSize(areaPics.length*120)
-  }, [])
+    setPicMenuSize(areaPics.length * 120);
+  }, []);
 
   useEffect(() => {
-    setPicMenuSize(areaPics.length*120)
-    xValue.value = 0
-  }, [areaPics.length])
+    setPicMenuSize(areaPics.length * 120);
+    xValue.value = 0;
+  }, [areaPics.length]);
 
   const xValue = useSharedValue(0);
-  const context = useSharedValue({x:0});
- 
+  const context = useSharedValue({ x: 0 });
+
   const animatePicMenu = Gesture.Pan()
-  .onBegin(()=>{
-    if (xValue.value > (picMenuSize/2)-180){
-      xValue.value = (picMenuSize/2)- 175
-    } else if (xValue.value < (-picMenuSize /2)+180){
-      xValue.value = (-picMenuSize/2)+ 175
-    }
-  })
-  .onStart(() => {
-    context.value = {x: xValue.value }
-  })
-  .onUpdate((event) => {
-    if (event.velocityX > 500 || event.velocityX < -500){
-      xValue.value = ((event.translationX * 2) + context.value.x)
-    } else if (event.velocityX > 700 || event.velocityX < -700){
-      xValue.value = ((event.translationX * 3) + context.value.x)
-    } else {
-      xValue.value = event.translationX + context.value.x
-    } 
-  })
-  .onEnd((event) => {
-      if (xValue.value > (picMenuSize /2)-180){
-        xValue.value = (picMenuSize/2)- 175
-      } else if (xValue.value < (-picMenuSize /2)+180){
-        xValue.value = (-picMenuSize/2)+ 175
+    .onBegin(() => {
+      if (xValue.value > picMenuSize / 2 - 180) {
+        xValue.value = picMenuSize / 2 - 175;
+      } else if (xValue.value < -picMenuSize / 2 + 180) {
+        xValue.value = -picMenuSize / 2 + 175;
       }
-  });
+    })
+    .onStart(() => {
+      context.value = { x: xValue.value };
+    })
+    .onUpdate((event) => {
+      if (event.velocityX > 500 || event.velocityX < -500) {
+        xValue.value = event.translationX * 2 + context.value.x;
+      } else if (event.velocityX > 700 || event.velocityX < -700) {
+        xValue.value = event.translationX * 3 + context.value.x;
+      } else {
+        xValue.value = event.translationX + context.value.x;
+      }
+    })
+    .onEnd((event) => {
+      if (xValue.value > picMenuSize / 2 - 180) {
+        xValue.value = picMenuSize / 2 - 175;
+      } else if (xValue.value < -picMenuSize / 2 + 180) {
+        xValue.value = -picMenuSize / 2 + 175;
+      }
+    });
 
   const animatedPictureStyle = useAnimatedStyle(() => {
     return {
       transform: [
         {
-          translateX: withTiming(xValue.value, {duration: 400, easing: Easing.inOut(Easing.linear)}),
+          translateX: withTiming(xValue.value, {
+            duration: 400,
+            easing: Easing.inOut(Easing.linear),
+          }),
         },
       ],
     };
   });
 
   const filterPhotosForMapArea = async () => {
-
     if (boundaries[0] > boundaries[2]) {
       try {
         const AmericanPhotos = await getPhotosforMapArea({
@@ -195,36 +165,37 @@ export default function PhotoMenu() {
 
   return (
     <GestureDetector gesture={animatePicMenu}>
-    <Animated.View style={[styles.container2, animatedPictureStyle, {minWidth: areaPics.length*120}]}>
-      {areaPics &&
-        areaPics.map((pic) => {
-          return (
-            <PhotoMenuListItem 
-            key={pic.id}
-            pic={pic}
-            setAnimalMultiSelection={setAnimalMultiSelection}
-            animalMultiSelection={animalMultiSelection}
-            />
-          );
-        })}
-    </Animated.View>
+      <Animated.View
+        style={[
+          styles.container2,
+          animatedPictureStyle,
+          { minWidth: areaPics.length * 120 },
+        ]}
+      >
+        {areaPics &&
+          areaPics.map((pic) => {
+            return (
+              <PhotoMenuListItem
+                key={pic.id}
+                pic={pic}
+                setAnimalMultiSelection={setAnimalMultiSelection}
+                animalMultiSelection={animalMultiSelection}
+              />
+            );
+          })}
+      </Animated.View>
     </GestureDetector>
   );
 }
 
 const styles = StyleSheet.create({
   container2: {
-    // flex: 1,
-    // position: "absolute",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-evenly",
     top: 20,
-    // minWidth: picCaddy,
-    // backgroundColor: 'green'
   },
   picContainer2: {
-    // flex: 1,
     alignItems: "center",
     justifyContent: "center",
     marginLeft: 0,
@@ -247,5 +218,4 @@ const styles = StyleSheet.create({
     fontSize: scale(15),
     color: "#F0EEEB",
   },
-
 });

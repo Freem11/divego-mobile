@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { StyleSheet, Text, View, Image,  TouchableWithoutFeedback, } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableWithoutFeedback, } from "react-native";
 
 const PhotoMenuListItem = (props) => {
   const { pic, setAnimalMultiSelection, animalMultiSelection } = props;
@@ -44,7 +43,6 @@ const PhotoMenuListItem = (props) => {
           borderBottomRightRadius: 15,
           borderBottomLeftRadius: 15,
           resizeMode: "cover",
-          // borderColor: "grey",
         }}
       />
     </View>

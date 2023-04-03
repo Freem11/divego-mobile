@@ -7,7 +7,6 @@ import {
   TouchableWithoutFeedback,
   Platform,
   KeyboardAvoidingView,
-  Dimensions,
 } from "react-native";
 import React, { useState, useEffect, useContext } from "react";
 import * as ImagePicker from "expo-image-picker";
@@ -20,31 +19,13 @@ import { formatDate, createFile } from "../helpers/imageUploadHelpers";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import moment from "moment";
-import AnimalAutoSuggest from "../AutoSuggest";
+import AnimalAutoSuggest from "../autoSuggest/autoSuggest";
 import { uploadphoto } from "../../supabaseCalls/uploadSupabaseCalls";
 import { removePhoto } from "../../supabaseCalls/uploadSupabaseCalls";
-// import { removePhoto } from "../../axiosCalls/uploadAxiosCalls";
 import { insertPhotoWaits } from "../../supabaseCalls/photoWaitSupabaseCalls";
-// import { insertPhotoWaits } from "../../axiosCalls/photoWaitAxiosCalls";
 import { scale } from "react-native-size-matters";
 import { userCheck } from "../../supabaseCalls/authenticateSupabaseCalls";
 import InsetShadow from "react-native-inset-shadow";
-
-const { width, height } = Dimensions.get("window");
-
-let IPSetter = 2;
-let IP;
-//Desktop = 10.0.0.253
-//Laptop = 10.0.0.68
-//Library = 10.44.22.110
-
-if (IPSetter === 1) {
-  IP = "10.0.0.253";
-} else if (IPSetter === 2) {
-  IP = "10.0.0.68";
-} else if (IPSetter === 3) {
-  IP = "10.44.22.110";
-}
 
 let PicVar = false;
 let DateVar = false;
@@ -276,28 +257,6 @@ export default function PicUploadModal() {
           LatVal: LatVar,
           LngVal: LngVar,
         });
-
-        // fetch(`http://${IP}:5000/api/upload`, {
-        //   method: "POST",
-        //   body: data,
-        // })
-        //   .then((response) => response.json())
-        //   .then((data) => {
-        //     console.log("data is", data)
-        //     setPinValues({
-        //       ...pinValues,
-        //       PicFile: data.fileName,
-        //       PicDate: formattedDate,
-        //       Latitude: newLatitude,
-        //       Longitude: newLongitude,
-        //     });
-        //     console.log("stored:", data.fileName);
-        //   })
-        //   .catch((err) => {
-        //     return err;
-        //   });
-
-        // setUploadedFile(image.uri);
       }
     } catch (e) {
       console.log("error: Photo Selection Cancelled", e.message);
@@ -496,8 +455,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#538bdb",
     alignItems: "center",
     justifyContent: "center",
-    // marginTop: scale(55),
-    // marginBottom: 15,
     width: "100%",
     borderBottomRightRadius: 15,
     borderBottomLeftRadius: 15,
@@ -511,7 +468,6 @@ const styles = StyleSheet.create({
     height: 40,
     alignSelf: "center",
     marginBottom: 25,
-    // marginLeft: 5,
     textAlign: "center",
     overflow: "hidden",
     shadowOpacity: 0.3,
@@ -542,10 +498,6 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginBottom: 15,
     textAlign: "center",
-    // marginRight: 20,
-    // shadowOpacity: 0.3,
-    // shadowRadius: 5,
-    // shadowOffset: {width: 0, height: 0}
   },
   inputCalRed: {
     fontFamily: "IndieFlower_400Regular",
@@ -688,7 +640,6 @@ const styles = StyleSheet.create({
     height: 35,
     width: 38,
     marginTop: 3,
-    // shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 0,

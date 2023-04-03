@@ -49,9 +49,8 @@ export default function Historgram() {
       } else {
         percentArr = dataArray.map((val) => (val / maxVal) * 100);
       }
-
       setHistoData(percentArr);
-      console.log("hey histo", dataArray, percentArr, maxVal);
+
     } catch (e) {
       console.log({ title: "Error", message: e.message });
     }
