@@ -80,6 +80,9 @@ export default function PhotoMenu() {
   });
 
   const filterPhotosForMapArea = async () => {
+
+    if (boundaries.length !== 0) {
+
     if (boundaries[0] > boundaries[2]) {
       try {
         const AmericanPhotos = await getPhotosforMapArea({
@@ -130,25 +133,30 @@ export default function PhotoMenu() {
         console.log({ title: "Error", message: e.message });
       }
     }
+  }
   };
 
   const filterHeatPointsForMapArea = async () => {
-    try {
-      const localHeatPoints = await multiHeatPoints(
-        {
-          minLat: boundaries[1],
-          maxLat: boundaries[3],
-          minLng: boundaries[0],
-          maxLng: boundaries[2],
-        },
-        animalMultiSelection
-      );
-      if (localHeatPoints) {
-        setNewHeat(formatHeatVals(localHeatPoints));
+
+    if (boundaries.length !== 0) {
+
+      try {
+        const localHeatPoints = await multiHeatPoints(
+          {
+            minLat: boundaries[1],
+            maxLat: boundaries[3],
+            minLng: boundaries[0],
+            maxLng: boundaries[2],
+          },
+          animalMultiSelection
+        );
+        if (localHeatPoints) {
+          setNewHeat(formatHeatVals(localHeatPoints));
+        }
+      } catch (e) {
+        console.log({ title: "Error", message: e.message });
       }
-    } catch (e) {
-      console.log({ title: "Error", message: e.message });
-    }
+    } 
   };
 
   useEffect(() => {

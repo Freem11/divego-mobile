@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     alignItems: "center",
     justifyContent: "center",
-    top: Constants.statusBarHeight + scale(100),
+    top: Constants.statusBarHeight + 100 + scale(10),
     zIndex: 1,
   },
   Fbuttons: {

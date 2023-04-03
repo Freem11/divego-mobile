@@ -41,8 +41,9 @@ const styles = StyleSheet.create({
   months: {
     width: "90%",
     flexDirection: "row",
-    marginLeft: 11,
-    marginBottom : 3
+    justifyContent: "space-evenly",
+    marginLeft: scale(11),
+    marginBottom : 3,
   },
   letter: {
     marginLeft: 1,
