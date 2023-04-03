@@ -17,7 +17,6 @@ import {
   Text,
   Platform,
   KeyboardAvoidingView,
-  ScrollView,
 } from "react-native";
 import { MaterialIcons, FontAwesome5, FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
 import Animated, {
@@ -28,10 +27,9 @@ import Animated, {
   withSpring,
   withTiming,
 } from "react-native-reanimated";
-import DiveSiteAutoComplete from "./diveSiteAutocomplete";
-import GeocodeAutocomplete from "./geocodeAutocomplete";
+import DiveSiteAutoComplete from "./diveSiteSearch/diveSiteAutocomplete";
+import GeocodeAutocomplete from "./locationSearch/geocodeAutocomplete";
 import { removePhoto } from "../supabaseCalls/uploadSupabaseCalls";
-// import { removePhoto } from "../axiosCalls/uploadAxiosCalls";
 import { scale } from "react-native-size-matters";
 
 export default function FABButtons() {
@@ -43,9 +41,6 @@ export default function FABButtons() {
     useContext(DSAdderContext);
   const [guideModal, setGuideModal] = useState(false);
   const [gearModal, setGearModal] = useState(false);
-
-
-  const KeboardOffsetting = 0;
 
   const rotationVal = useSharedValue(0);
   const transYanchor = useSharedValue(0);
@@ -193,8 +188,6 @@ export default function FABButtons() {
   } else {
     buttonOpac = 0.9;
   }
-
-  const AnimalKeboardOffset = 100;
 
   return (
     <View style={styles.fab}>

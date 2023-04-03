@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import { StyleSheet, View} from "react-native";
 import PlacesInput from "react-native-places-input";
-import config from '../config';
-import { MapCenterContext } from "./contexts/mapCenterContext";
+import config from '../../config';
+import { MapCenterContext } from "../contexts/mapCenterContext";
 
 export default function GeocodeAutoComplete() {
   const { setMapCenter} = useContext(MapCenterContext);

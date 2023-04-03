@@ -9,7 +9,7 @@ import {
 import Constants from "expo-constants";
 import Map from "./GoogleMap";
 import FABButtons from "./FABset";
-import Logo from "./logoButton";
+import Logo from "./logo/logoButton";
 import AnimalTopAutoSuggest from "./animalTags/animalTagContainer";
 import PhotoMenu from "./photoMenu/photoMenu";
 import Historgram from "./histogram/histogramBody";

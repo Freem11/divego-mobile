@@ -21,8 +21,6 @@ import {
   Text,
   TouchableWithoutFeedback,
 } from "react-native";
-import { diveSitesFake, heatVals } from "./data/testdata";
-
 import mantaIOS from "../compnents/png/Manta32.png";
 import anchorGold from "../compnents/png/icons8-anchor-24.png";
 import anchorClustIOS from "../compnents/png/ClusterAnchor24.png";
@@ -30,31 +28,13 @@ import anchorIconIOS from "../compnents/png/SiteAnchor20.png";
 import { calculateZoom, formatHeatVals } from "./helpers/mapHelpers";
 import { setupClusters } from "./helpers/clusterHelpers";
 import useSupercluster from "use-supercluster";
-// import { diveSites } from "../axiosCalls/diveSiteAxiosCalls";
 import { diveSites } from "../supabaseCalls/diveSiteSupabaseCalls";
-// import { heatPoints } from "../axiosCalls/heatPointAxiosCalls";
-import { heatPoints, multiHeatPoints } from "../supabaseCalls/heatPointSupabaseCalls";
+import { multiHeatPoints } from "../supabaseCalls/heatPointSupabaseCalls";
 import AnchorModal from "./modals/anchorModal";
 import { scale } from "react-native-size-matters";
 import { FontAwesome } from "@expo/vector-icons";
 
 const { width, height } = Dimensions.get("window");
-
-let IPSetter = 2;
-let IP;
-//Desktop = 10.0.0.253
-//Laptop = 10.0.0.68
-//Library = 10.44.22.110
-
-if (IPSetter === 1) {
-  IP = "10.0.0.253";
-} else if (IPSetter === 2) {
-  IP = "10.0.0.68";
-} else if (IPSetter === 3) {
-  IP = "10.44.22.110";
-}
-
-let filePath = `http://${IP}:5000/wetmap/src/uploads/`;
 
 export default function Map() {
   const { masterSwitch } = useContext(MasterContext);
@@ -75,7 +55,6 @@ export default function Map() {
   const [tempMarker, setTempMarker] = useState([]);
   const [mapRef, setMapRef] = useState(null);
   const [newSites, setnewSites] = useState([]);
-  const [anchorPics, setAnchorPics] = useState([]);
   const [siteModal, setSiteModal] = useState(false);
 
   const handleMapChange = async () => {
@@ -91,15 +70,8 @@ export default function Map() {
       let filteredDiveSites = await diveSites(boundaries);
       !diveSitesTog ? setnewSites([]) : setnewSites(filteredDiveSites);
 
-      // let filteredHeatPoints = await heatPoints(
-      //   boundaries,
-      //   sliderVal,
-      //   animalSelection
-      // );
-
       let filteredHeatPoints = await multiHeatPoints(
         boundaries,
-        // sliderVal,
         animalMultiSelection
       );
       setNewHeat(formatHeatVals(filteredHeatPoints));

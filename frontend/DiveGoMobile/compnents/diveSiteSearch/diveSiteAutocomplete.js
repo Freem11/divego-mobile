@@ -1,17 +1,14 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
 import { StyleSheet, View } from "react-native";
 import { AutocompleteDropdown } from "react-native-autocomplete-dropdown";
-import { photos } from "./data/testdata";
-import { getAnimalNames } from "../supabaseCalls/photoSupabaseCalls";
-import { diveSites } from "../supabaseCalls/diveSiteSupabaseCalls";
-// import { getAnimalNames } from "../axiosCalls/photoAxiosCalls";
-import { MapBoundariesContext } from "./contexts/mapBoundariesContext";
-import addIndexNumber from "./helpers/optionHelpers";
-import { SelectedDiveSiteContext } from "./contexts/selectedDiveSiteContext";
+import { diveSites } from "../../supabaseCalls/diveSiteSupabaseCalls";
+import { MapBoundariesContext } from "../contexts/mapBoundariesContext";
+import addIndexNumber from "../helpers/optionHelpers";
+import { SelectedDiveSiteContext } from "../contexts/selectedDiveSiteContext";
 
 export default function DiveSiteAutoComplete() {
-  const { selectedDiveSite, setSelectedDiveSite } = useContext(SelectedDiveSiteContext);
-  const { boundaries, setBoundaries } = useContext(MapBoundariesContext);
+  const { setSelectedDiveSite } = useContext(SelectedDiveSiteContext);
+  const { boundaries } = useContext(MapBoundariesContext);
   const [list, setList] = useState([]);
 
   let diveSiteData
