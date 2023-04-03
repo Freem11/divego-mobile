@@ -122,16 +122,8 @@ export default function MapPage() {
                       width: "90%",
                       height: "100%",
                       textAlign: "center",
-                      backgroundColor: "#538dbd",
-                      borderRadius: scale(10),
-                      shadowOffset: {
-                        width: 5,
-                        height: 5,
-                      },
-                      shadowOpacity: 0.5,
-                      shadowRadius: 5,
-                  
-                      elevation: 10,
+                      backgroundColor: "transparent",
+                      borderRadius: scale(15),
                     }}
                   >
                     Set Pin
@@ -161,18 +153,6 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     alignItems: "center",
     justifyContent: "center",
-  },
-  PinButton: {
-    position: "absolute",
-    alignItems: "center",
-    bottom: scale(30),
-    backgroundColor: "transparent",
-    width: scale(100),
-    height: scale(40),
-    zIndex: 2,
-    borderRadius: scale(15),
-    opacity: 0.8,
-    paddingTop: scale(-5),
   },
   slider: {
     flex: 1,
@@ -230,14 +210,21 @@ const styles = StyleSheet.create({
     alignItems: "center",
     textAlign: "center",
     bottom: scale(28),
-    backgroundColor: "transparent",
-    borderWidth: 1,
-    borderTopColor: "darkgrey",
-    borderColor: "transparent",
-    marginBottom: 5,
+    backgroundColor: "#538dbd",
     borderRadius: scale(10),
+    marginBottom: 0,
     width: "50%",
+    height: scale(30),
     zIndex: 2,
+    paddingTop: 3,
+    shadowOffset: {
+      width: 3,
+      height: 3,
+    },
+    shadowOpacity: 0.9,
+    shadowRadius: 5,
+
+    elevation: 10,
   },
   carrousel: {
     flex: 1,
