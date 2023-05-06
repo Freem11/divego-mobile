@@ -13,6 +13,7 @@ import {
   sessionCheck,
 } from "../supabaseCalls/authenticateSupabaseCalls";
 import { scale } from "react-native-size-matters";
+import InsetShadow from "react-native-inset-shadow";
 
 let emailVar = false;
 let passwordVar = false;
@@ -94,11 +95,23 @@ export default function SignUpRoute() {
   return (
     <View style={styles.container}>
     <View style={styles.inputContainer}>
+    <InsetShadow
+            containerStyle={{
+              borderRadius: 25,
+              height: 40,
+              width: 200,
+              marginRight: 7,
+              marginTop: 10,
+            }}
+            elevation={20}
+            shadowRadius={15}
+            shadowOpacity={0.3}
+          > 
       <TextInput
         style={formValidation.emailVal ? styles.inputRed : styles.input}
         value={formVals.email}
         placeholder={"Email"}
-        placeholderTextColor="grey"
+        placeholderTextColor="darkgrey"
         color="#F0EEEB"
         fontSize={18}
         onChangeText={(emailText) =>
@@ -106,53 +119,94 @@ export default function SignUpRoute() {
         }
         onFocus={() => setRegFail(null)}
       ></TextInput>
+</InsetShadow>
 
+<InsetShadow
+            containerStyle={{
+              borderRadius: 25,
+              height: 40,
+              width: 200,
+              marginRight: 7,
+              marginTop: 10,
+            }}
+            elevation={20}
+            shadowRadius={15}
+            shadowOpacity={0.3}
+          > 
       <TextInput
         style={formValidation.passwordVal ? styles.inputRed : styles.input}
         value={formVals.password}
         placeholder={"Password"}
         fontSize={18}
         secureTextEntry={true}
-        placeholderTextColor="grey"
+        placeholderTextColor="darkgrey"
         color="#F0EEEB"
         onChangeText={(passwordText) =>
           setFormVals({ ...formVals, password: passwordText })
         }
         onFocus={() => setRegFail(null)}
       ></TextInput>
+</InsetShadow>
 
+<InsetShadow
+            containerStyle={{
+              borderRadius: 25,
+              height: 40,
+              width: 200,
+              marginRight: 7,
+              marginTop: 10,
+            }}
+            elevation={20}
+            shadowRadius={15}
+            shadowOpacity={0.3}
+          > 
       <TextInput
         style={formValidation.firstNameVal ? styles.inputRed : styles.input}
         value={formVals.firstName}
         placeholder={"First Name"}
         fontSize={18}
-        placeholderTextColor="grey"
+        placeholderTextColor="darkgrey"
         color="#F0EEEB"
         onChangeText={(firstText) =>
           setFormVals({ ...formVals, firstName: firstText })
         }
         onFocus={() => setRegFail(null)}
       ></TextInput>
+</InsetShadow>
 
+<InsetShadow
+            containerStyle={{
+              borderRadius: 25,
+              height: 40,
+              width: 200,
+              marginRight: 7,
+              marginTop: 10,
+            }}
+            elevation={20}
+            shadowRadius={15}
+            shadowOpacity={0.3}
+          > 
       <TextInput
         style={formValidation.lastNameVal ? styles.inputRed : styles.input}
         value={formVals.lastName}
         placeholder={"Last Name"}
         fontSize={18}
-        placeholderTextColor="grey"
+        placeholderTextColor="darkgrey"
         color="#F0EEEB"
         onChangeText={(lastText) =>
           setFormVals({ ...formVals, lastName: lastText })
         }
         onFocus={() => setRegFail(null)}
       ></TextInput>
+      </InsetShadow>
+
     </View>
     {regFail && <Text style={styles.erroMsg}>{regFail}</Text>}
     <View style={styles.SubmitButton}>
       <TouchableWithoutFeedback onPress={handleSignUpSubmit}>
         <Text
           style={{
-            color: "#9B884E",
+            color: "gold",
             fontSize: 17,
             marginTop: 8,
             fontFamily: "PermanentMarker_400Regular",
@@ -174,7 +228,7 @@ export default function SignUpRoute() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#355D71",
+    backgroundColor: "#538dbd",
     alignItems: "center",
   },
   inputContainer: {
@@ -185,7 +239,7 @@ const styles = StyleSheet.create({
   },
   input: {
     fontFamily: "IndieFlower_400Regular",
-    backgroundColor: "#33586A",
+    backgroundColor: "#538dbd",
     borderRadius: 10,
     width: scale(200),
     height: 40,

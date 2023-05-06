@@ -24,8 +24,8 @@ const handleLogout = async() => {
             style={{
               paddingBottom: 5,
               fontFamily: "Caveat_700Bold",
-              color: "#9B884E",
-              fontSize: 24
+              color: "gold",
+              fontSize: 22
             }}
           >
              Sign Out
@@ -42,7 +42,7 @@ const handleLogout = async() => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#355D71",
+    backgroundColor: "#538bdb",
     alignItems: "flex-start",
     justifyContent: "center",
     marginBottom: "30%",
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   logoutButton: {
-    backgroundColor: "#33586A",
+    backgroundColor: "#538bdb",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",

@@ -230,12 +230,12 @@ export default function App() {
                                   <SessionContext.Provider
                                     value={{ activeSession, setActiveSession }}
                                   >                       
-                                      <MapPage/>                                 
-                                     {/* {activeSession ? (
+                                      {/* <MapPage/>                                  */}
+                                     {activeSession ? (
                                       <MapPage />
                                     ) : (
                                       <AuthenticationPage />
-                                    )} */}
+                                    )}
                                   </SessionContext.Provider>
                                 </MapCenterContext.Provider>
                               </DSAdderContext.Provider>

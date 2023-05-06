@@ -16,6 +16,7 @@ import {
   signInGoogle,
 } from "../supabaseCalls/authenticateSupabaseCalls";
 import { scale } from "react-native-size-matters";
+import InsetShadow from "react-native-inset-shadow";
 import facebookLogo from "../compnents/png/facebook.png";
 import googleLogo from "../compnents/png/google.png";
 
@@ -25,11 +26,11 @@ let passwordVar = false;
 export default function SignInRoute() {
   const { activeSession, setActiveSession } = useContext(SessionContext);
 
-  const [loginFail, setLoginFail] = useState(null)
+  const [loginFail, setLoginFail] = useState(null);
 
   const [formVals, setFormVals] = useState({
     email: "",
-    password: ""
+    password: "",
   });
 
   const [formValidation, SetFormValidation] = useState({
@@ -57,7 +58,7 @@ export default function SignInRoute() {
     });
 
     if (formVals.email === "" || formVals.password == "") {
-      setLoginFail("Please fill out both email and password")
+      setLoginFail("Please fill out both email and password");
       return;
     } else {
       let accessToken = await signInStandard(formVals);
@@ -65,7 +66,7 @@ export default function SignInRoute() {
         await AsyncStorage.setItem("token", JSON.stringify(accessToken));
         setActiveSession(accessToken);
       } else {
-        setLoginFail("The credentials you supplied are not valid")
+        setLoginFail("The credentials you supplied are not valid");
         return;
       }
       let checker = await sessionCheck();
@@ -76,40 +77,67 @@ export default function SignInRoute() {
   return (
     <View style={styles.container}>
       <View style={styles.inputContainer}>
-        <TextInput
-          style={formValidation.emailVal ? styles.inputRed : styles.input}
-          value={formVals.email}
-          placeholder={"Email"}
-          placeholderTextColor="grey"
-          color="#F0EEEB"
-          fontSize={18}
-          onChangeText={(emailsText) =>
-            setFormVals({ ...formVals, email: emailsText })
-          }
-          onFocus={() => setLoginFail(null)}
-        ></TextInput>
+        <InsetShadow
+          containerStyle={{
+            borderRadius: 25,
+            height: 40,
+            width: 200,
+            marginRight: 7,
+            marginTop: 10,
+          }}
+          elevation={20}
+          shadowRadius={15}
+          shadowOpacity={0.3}
+        >
+          <TextInput
+            style={formValidation.emailVal ? styles.inputRed : styles.input}
+            value={formVals.email}
+            placeholder={"Email"}
+            placeholderTextColor="darkgrey"
+            color="#F0EEEB"
+            fontSize={18}
+            onChangeText={(emailsText) =>
+              setFormVals({ ...formVals, email: emailsText })
+            }
+            onFocus={() => setLoginFail(null)}
+          ></TextInput>
+        </InsetShadow>
 
-        <TextInput
-          style={formValidation.passwordVal ? styles.inputRed : styles.input}
-          value={formVals.password}
-          placeholder={"Password"}
-          fontSize={18}
-          secureTextEntry={true}
-          placeholderTextColor="grey"
-          color="#F0EEEB"
-          onChangeText={(passwordsText) =>
-            setFormVals({ ...formVals, password: passwordsText })
-          }
-          onFocus={() => setLoginFail(null)}
-        ></TextInput>
-         {loginFail && <Text style={styles.erroMsg}>{loginFail}</Text>}
+        <InsetShadow
+          containerStyle={{
+            borderRadius: 25,
+            height: 40,
+            width: 200,
+            marginRight: 7,
+            marginTop: 10,
+          }}
+          elevation={20}
+          shadowRadius={15}
+          shadowOpacity={0.3}
+        >
+          <TextInput
+            style={formValidation.passwordVal ? styles.inputRed : styles.input}
+            value={formVals.password}
+            placeholder={"Password"}
+            fontSize={18}
+            secureTextEntry={true}
+            placeholderTextColor="darkgrey"
+            color="#F0EEEB"
+            onChangeText={(passwordsText) =>
+              setFormVals({ ...formVals, password: passwordsText })
+            }
+            onFocus={() => setLoginFail(null)}
+          ></TextInput>
+        </InsetShadow>
+
+        {loginFail && <Text style={styles.erroMsg}>{loginFail}</Text>}
       </View>
 
       <View style={styles.SubmitButton2}>
         <TouchableWithoutFeedback onPress={handleSignInSubmit}>
           <Text
             style={{
-              color: "#9B884E",
+              color: "gold",
               fontSize: 17,
               marginTop: 8,
               fontFamily: "PermanentMarker_400Regular",
@@ -124,46 +152,49 @@ export default function SignInRoute() {
           </Text>
         </TouchableWithoutFeedback>
       </View>
-    </View>
-    // {/* <TouchableWithoutFeedback onPress={signInGoogle}>
-    //   <View style={[styles.SignUpWithButtons]}>
-    //   <Image source={googleLogo} style={[styles.gLogo]}/>
-    //     <Text
-    //       style={{
-    //         color: "#FFFFFF",
-    //         fontFamily: "PermanentMarker_400Regular",
-    //         fontSize: scale(12),
-    //         opacity: 0.7
-    //       }}
-    //     >
-    //       Sign In With Google
-    //     </Text>
-    //   </View>
-    // </TouchableWithoutFeedback>
 
-    // <TouchableWithoutFeedback onPress={signInFaceBook}>
-    //   <View style={[styles.SignUpWithButtons]}>
-    //     <Image source={facebookLogo} style={[styles.fbLogo]}/>
-    //     <Text
-    //       style={{
-    //         marginLeft: scale(5),
-    //         color: "#FFFFFF",
-    //         fontFamily: "PermanentMarker_400Regular",
-    //         fontSize: scale(12),
-    //         opacity: 0.7
-    //       }}
-    //     >
-    //       Sign In With Facebook
-    //     </Text>
-    //   </View>
-    // </TouchableWithoutFeedback> */}
+        <View style={{marginTop:30}}>
+        <TouchableWithoutFeedback onPress={signInGoogle}>
+          <View style={[styles.SignUpWithButtons]}>
+            <Image source={googleLogo} style={[styles.gLogo]} />
+            <Text
+              style={{
+                color: "#FFFFFF",
+                fontFamily: "PermanentMarker_400Regular",
+                fontSize: scale(12),
+                opacity: 0.7,
+              }}
+            >
+              Sign In With Google
+            </Text>
+          </View>
+        </TouchableWithoutFeedback>
+
+        <TouchableWithoutFeedback onPress={signInFaceBook}>
+          <View style={[styles.SignUpWithButtons]}>
+            <Image source={facebookLogo} style={[styles.fbLogo]} />
+            <Text
+              style={{
+                marginLeft: scale(5),
+                color: "#FFFFFF",
+                fontFamily: "PermanentMarker_400Regular",
+                fontSize: scale(12),
+                opacity: 0.7,
+              }}
+            >
+              Sign In With Facebook
+            </Text>
+          </View>
+        </TouchableWithoutFeedback>
+        </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#355D71",
+    backgroundColor: "#538dbd",
     alignItems: "center",
   },
   inputContainer: {
@@ -174,7 +205,7 @@ const styles = StyleSheet.create({
   },
   input: {
     fontFamily: "IndieFlower_400Regular",
-    backgroundColor: "#33586A",
+    backgroundColor: "#538dbd",
     borderRadius: 10,
     width: scale(200),
     height: 40,
@@ -182,6 +213,15 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     textAlign: "center",
     overflow: "hidden",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 1,
+      height: 1,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 6,
+
+    elevation: 10,
   },
   inputRed: {
     fontFamily: "IndieFlower_400Regular",
@@ -193,6 +233,15 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     textAlign: "center",
     overflow: "hidden",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 1,
+      height: 1,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 6,
+
+    elevation: 10,
   },
   text: {
     fontSize: 18,
@@ -230,13 +279,14 @@ const styles = StyleSheet.create({
     marginBottom: "-23%",
   },
   SignUpWithButtons: {
-    backgroundColor: "#33586A",
+    backgroundColor: "#538dbd",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     borderRadius: scale(5),
     height: scale(35),
     width: scale(200),
+    marginTop: 20,
     margin: 10,
     shadowColor: "#000",
     shadowOffset: {
@@ -260,7 +310,7 @@ const styles = StyleSheet.create({
     opacity: 0.5,
     marginRight: 10,
   },
-  erroMsg:{
+  erroMsg: {
     margin: 5,
     padding: 7,
     color: "pink",
@@ -269,5 +319,5 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: "darkblue",
     borderWidth: 1,
-  }
+  },
 });

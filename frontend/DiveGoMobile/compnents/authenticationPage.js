@@ -2,7 +2,7 @@ import { useWindowDimensions } from "react-native";
 import React, { useState } from "react";
 import SignInRoute from "./signIn";
 import SignUpRoute from "./signUp";
-// import { TabView, SceneMap, TabBar } from "react-native-tab-view";
+import { TabView, SceneMap, TabBar } from "react-native-tab-view";
 
 export default function AuthenticationPage() {
   const FirstRoute = React.memo(() => <SignInRoute />);
@@ -27,14 +27,14 @@ export default function AuthenticationPage() {
       renderScene={renderScene}
       onIndexChange={setIndex}
       initialLayout={{ width: layout.width }}
-      style={{ backgroundColor: "#355D71", paddingTop: 25 }}
+      style={{ backgroundColor: "#538dbd", paddingTop: 25 }}
       renderTabBar={(props) => (
         <TabBar
           {...props}
-          style={{ backgroundColor: "#33586A" }}
+          style={{ backgroundColor: "#538dbd" }}
           indicatorStyle={{ backgroundColor: "darkgrey", height: 1 }}
           activeColor={"darkgrey"}
-          inactiveColor={"grey"}
+          inactiveColor={"lightgrey"}
           labelStyle={{ fontFamily: "PermanentMarker_400Regular" }}
         />
       )}
