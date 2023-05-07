@@ -14,6 +14,7 @@ import { PinContext } from "../contexts/staticPinContext";
 import { PictureAdderContext } from "../contexts/picModalContext";
 import { MasterContext } from "../contexts/masterContext";
 import { PictureContext } from "../contexts/pictureContext";
+import { SessionContext } from "../contexts/sessionContext";
 import { getToday } from "../helpers/picUploaderHelpers";
 import { formatDate, createFile } from "../helpers/imageUploadHelpers";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -35,6 +36,7 @@ let LngVar = false;
 
 export default function PicUploadModal() {
   const { setMasterSwitch } = useContext(MasterContext);
+  const { activeSession, setActiveSession } = useContext(SessionContext);
 
   const { pinValues, setPinValues } = useContext(PinContext);
   const { picAdderModal, setPicAdderModal } = useContext(PictureAdderContext);
@@ -90,7 +92,7 @@ export default function PicUploadModal() {
   };
 
   let UserId;
-
+ 
   useEffect(() => {
     if (pinValues.PicDate === "") {
       let Rnow = new Date();
@@ -110,7 +112,7 @@ export default function PicUploadModal() {
       setPinValues({ ...pinValues, UserId: UserId.id });
     };
 
-    // getUser();
+    getUser();
   }, []);
 
   const showDatePicker = () => {

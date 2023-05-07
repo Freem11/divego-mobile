@@ -46,7 +46,7 @@ export default function DiveSiteModal() {
       setFormVals({ ...formVals, UserID: UserId.id });
     };
 
-    // getUser();
+    getUser();
   }, []);
 
   const getCurrentLocation = async () => {

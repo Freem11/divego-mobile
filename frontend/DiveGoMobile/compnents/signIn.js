@@ -7,18 +7,24 @@ import {
   Image,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { SessionContext } from "./contexts/sessionContext";
 import {
   sessionCheck,
   signInStandard,
+  register,
   signInFaceBook,
-  signInGoogle,
 } from "../supabaseCalls/authenticateSupabaseCalls";
 import { scale } from "react-native-size-matters";
 import InsetShadow from "react-native-inset-shadow";
 import facebookLogo from "../compnents/png/facebook.png";
 import googleLogo from "../compnents/png/google.png";
+import * as Linking from "expo-linking";
+import * as WebBrowser from "expo-web-browser";
+import * as AuthSession from "expo-auth-session";
+import * as Google from "expo-auth-session/providers/google";
+
+WebBrowser.maybeCompleteAuthSession();
 
 let emailVar = false;
 let passwordVar = false;
@@ -31,12 +37,98 @@ export default function SignInRoute() {
   const [formVals, setFormVals] = useState({
     email: "",
     password: "",
+    firstName: "",
+    lastName: "",
   });
 
   const [formValidation, SetFormValidation] = useState({
-    emailVal: false,
-    passwordVal: false,
+    email: false,
+    password: false,
+    firstName: "",
+    lastName: "",
   });
+
+  const [accessToken, setAccessToken] = useState();
+  const [userInfo, setUserInfo] = useState();
+
+  const [req, res, promptAsync] = Google.useAuthRequest({
+    androidClientId:
+      "803518830612-eg8tkuvmqfv0hub44ic6168erjhirj3p.apps.googleusercontent.com",
+    iosClientId:
+      "803518830612-0b8sugup4gglstuc5gm3o6j2e1fp7208.apps.googleusercontent.com",
+    expoClientId:
+      "803518830612-ullrhq9lgcfe9ornlc5tffhtch7o5t07.apps.googleusercontent.com",
+  });
+
+  const handleOAuthSubmit = async (user) => {
+    let Fname;
+    let LName;
+
+    if (user.family_name) {
+      Fname = user.given_name;
+      LName = user.family_name;
+    } else {
+      Fname = user.given_name.split(" ").slice(0, -1).join(" ");
+      LName = user.given_name.split(" ").slice(-1)[0];
+    }
+
+    let Pword = user.id;
+    let MailE = user.email;
+
+    let accessToken = await OAuthSignIn({
+      password: Pword,
+      email: MailE,
+      firstName: Fname,
+      lastName: LName,
+    });
+
+    if (accessToken) {
+      await AsyncStorage.setItem("token", JSON.stringify(accessToken));
+      setActiveSession(accessToken);
+    } else {
+      setLoginFail("The credentials you supplied are not valid");
+      return;
+    }
+  };
+
+  async function OAuthSignIn(formVals) {
+    let accessToken = await signInStandard(formVals);
+    if (accessToken) {
+      await AsyncStorage.setItem("token", JSON.stringify(accessToken));
+      setActiveSession(accessToken);
+    } else {
+      let registrationToken = await register(formVals);
+      await AsyncStorage.setItem("token", JSON.stringify(registrationToken));
+      setActiveSession(registrationToken);
+    }
+  }
+
+  useEffect(() => {
+    handleGoogleSignIn();
+  }, [res]);
+
+  async function handleGoogleSignIn() {
+    if (res?.type === "success") {
+      await getUserData(res.authentication.accessToken);
+    }
+  }
+
+  async function getUserData(token) {
+    if (!token) return;
+
+    try {
+      const res = await fetch(`https://www.googleapis.com/userinfo/v2/me/`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      const user = await res.json();
+      
+      handleOAuthSubmit(user)
+      
+    } catch (err) {
+      console.log("error", err);
+    }
+  }
 
   const handleSignInSubmit = async () => {
     if (formVals.email === "" || formVals.email === null) {
@@ -153,8 +245,16 @@ export default function SignInRoute() {
         </TouchableWithoutFeedback>
       </View>
 
-        <View style={{marginTop:30}}>
-        <TouchableWithoutFeedback onPress={signInGoogle}>
+      <View style={{ marginTop: 30 }}>
+        <TouchableWithoutFeedback
+          onPress={
+            accessToken
+              ? getUserData
+              : () => {
+                  promptAsync();
+                }
+          }
+        >
           <View style={[styles.SignUpWithButtons]}>
             <Image source={googleLogo} style={[styles.gLogo]} />
             <Text
@@ -186,7 +286,9 @@ export default function SignInRoute() {
             </Text>
           </View>
         </TouchableWithoutFeedback>
-        </View>
+
+        <Text>{userInfo}</Text>
+      </View>
     </View>
   );
 }
