@@ -53,6 +53,7 @@
         "projectId": "01597466-ed8e-4963-a76b-d4f3a8ad4569"
       }
     },
-    "scheme": "com.DiveGo"
+    "scheme": ["com.DiveGo", "fb692861552452156"]
   }
 }
+//https://com.DiveGo://expo-development-client/?url=http%3A%2F%2F10.0.0.68%3A8081

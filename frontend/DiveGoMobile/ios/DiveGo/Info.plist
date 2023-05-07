@@ -26,6 +26,7 @@
         <key>CFBundleURLSchemes</key>
         <array>
           <string>com.DiveGo</string>
+          <string>fb692861552452156</string>
           <string>com.DiveGo</string>
         </array>
       </dict>

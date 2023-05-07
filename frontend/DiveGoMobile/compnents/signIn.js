@@ -23,6 +23,7 @@ import * as Linking from "expo-linking";
 import * as WebBrowser from "expo-web-browser";
 import * as AuthSession from "expo-auth-session";
 import * as Google from "expo-auth-session/providers/google";
+import * as Facebook from "expo-auth-session/providers/facebook";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -60,16 +61,26 @@ export default function SignInRoute() {
       "803518830612-ullrhq9lgcfe9ornlc5tffhtch7o5t07.apps.googleusercontent.com",
   });
 
+  const [req2, res2, promptAsync2] = Facebook.useAuthRequest({
+    clientId: "692861552452156"
+  })
+
   const handleOAuthSubmit = async (user) => {
+
     let Fname;
     let LName;
 
-    if (user.family_name) {
-      Fname = user.given_name;
-      LName = user.family_name;
+    if(user.name){
+      Fname = user.name.split(" ").slice(0, 1);
+      LName = user.name.split(" ").slice(-1);
     } else {
-      Fname = user.given_name.split(" ").slice(0, -1).join(" ");
-      LName = user.given_name.split(" ").slice(-1)[0];
+      if (user.family_name) {
+        Fname = user.given_name;
+        LName = user.family_name;
+      } else {
+        Fname = user.given_name.split(" ").slice(0, -1).join(" ");
+        LName = user.given_name.split(" ").slice(-1)[0];
+      }
     }
 
     let Pword = user.id;
@@ -105,28 +116,54 @@ export default function SignInRoute() {
 
   useEffect(() => {
     handleGoogleSignIn();
-  }, [res]);
+    handleFacebookSignIn();
+  }, [res, res2]);
 
   async function handleGoogleSignIn() {
     if (res?.type === "success") {
-      await getUserData(res.authentication.accessToken);
+      await getGoogleUserData(res.authentication.accessToken);
     }
   }
 
-  async function getUserData(token) {
+  async function getGoogleUserData(token) {
     if (!token) return;
 
     try {
       const res = await fetch(`https://www.googleapis.com/userinfo/v2/me/`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-
       const user = await res.json();
       
       handleOAuthSubmit(user)
       
     } catch (err) {
       console.log("error", err);
+    }
+  }
+
+  const handlePAsync = async () => {
+    const res1 = await promptAsync2()
+  }
+
+  async function getFacebokUserData(token2) {
+    if (!token2) return;
+
+    console.log("har", token2)
+    try {
+      const res2 = await fetch(`https://graph.facebook.com/me?access_token=${token2}&fields=id,name,email`);
+      const user2 = await res2.json();
+      
+      handleOAuthSubmit(user2)
+
+      console.log("use me", user2)
+    } catch (err) {
+      console.log("error", err);
+    }
+  }
+
+  async function handleFacebookSignIn() {
+    if (res2 && res2?.type === "success" && res2.authentication) {
+      await getFacebokUserData(res2.authentication.accessToken);
     }
   }
 
@@ -249,7 +286,7 @@ export default function SignInRoute() {
         <TouchableWithoutFeedback
           onPress={
             accessToken
-              ? getUserData
+              ? getGoogleUserData
               : () => {
                   promptAsync();
                 }
@@ -270,7 +307,9 @@ export default function SignInRoute() {
           </View>
         </TouchableWithoutFeedback>
 
-        <TouchableWithoutFeedback onPress={signInFaceBook}>
+        <TouchableWithoutFeedback   
+        onPress={handlePAsync}
+          >
           <View style={[styles.SignUpWithButtons]}>
             <Image source={facebookLogo} style={[styles.fbLogo]} />
             <Text
@@ -287,7 +326,7 @@ export default function SignInRoute() {
           </View>
         </TouchableWithoutFeedback>
 
-        <Text>{userInfo}</Text>
+        {/* <Text>{JSON.stringify(userInfo)}</Text> */}
       </View>
     </View>
   );
