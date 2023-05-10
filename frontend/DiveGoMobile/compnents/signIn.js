@@ -24,11 +24,19 @@ import * as WebBrowser from "expo-web-browser";
 import * as AuthSession from "expo-auth-session";
 import * as Google from "expo-auth-session/providers/google";
 import * as Facebook from "expo-auth-session/providers/facebook";
+import config from "../config";
 
 WebBrowser.maybeCompleteAuthSession();
 
 let emailVar = false;
 let passwordVar = false;
+
+const googleExpoClientId = config.EXPO_CLIENT_ID;
+const googleAndroidClientId = config.ANDROID_CLIENT_ID;
+const googleIOSClientId = config.IOS_CLIENT_ID;
+const facebookAppId = config.FACEBOOK_APP_ID;
+
+console.log("no id?", googleIOSClientId)
 
 export default function SignInRoute() {
   const { activeSession, setActiveSession } = useContext(SessionContext);
@@ -53,24 +61,20 @@ export default function SignInRoute() {
   const [userInfo, setUserInfo] = useState();
 
   const [req, res, promptAsync] = Google.useAuthRequest({
-    androidClientId:
-      "803518830612-eg8tkuvmqfv0hub44ic6168erjhirj3p.apps.googleusercontent.com",
-    iosClientId:
-      "803518830612-0b8sugup4gglstuc5gm3o6j2e1fp7208.apps.googleusercontent.com",
-    expoClientId:
-      "803518830612-ullrhq9lgcfe9ornlc5tffhtch7o5t07.apps.googleusercontent.com",
+    androidClientId: googleAndroidClientId,
+    iosClientId: googleIOSClientId,
+    expoClientId: googleExpoClientId,
   });
 
   const [req2, res2, promptAsync2] = Facebook.useAuthRequest({
-    clientId: "692861552452156"
-  })
+    clientId: facebookAppId,
+  });
 
   const handleOAuthSubmit = async (user) => {
-
     let Fname;
     let LName;
 
-    if(user.name){
+    if (user.name) {
       Fname = user.name.split(" ").slice(0, 1);
       LName = user.name.split(" ").slice(-1);
     } else {
@@ -104,6 +108,7 @@ export default function SignInRoute() {
 
   async function OAuthSignIn(formVals) {
     let accessToken = await signInStandard(formVals);
+    console.log("cccc", accessToken);
     if (accessToken) {
       await AsyncStorage.setItem("token", JSON.stringify(accessToken));
       setActiveSession(accessToken);
@@ -133,29 +138,30 @@ export default function SignInRoute() {
         headers: { Authorization: `Bearer ${token}` },
       });
       const user = await res.json();
-      
-      handleOAuthSubmit(user)
-      
+
+      handleOAuthSubmit(user);
     } catch (err) {
       console.log("error", err);
     }
   }
 
   const handlePAsync = async () => {
-    const res1 = await promptAsync2()
-  }
+    const res1 = await promptAsync2();
+  };
 
   async function getFacebokUserData(token2) {
     if (!token2) return;
 
-    console.log("har", token2)
+    console.log("har", token2);
     try {
-      const res2 = await fetch(`https://graph.facebook.com/me?access_token=${token2}&fields=id,name,email`);
+      const res2 = await fetch(
+        `https://graph.facebook.com/me?access_token=${token2}&fields=id,name,email`
+      );
       const user2 = await res2.json();
-      
-      handleOAuthSubmit(user2)
 
-      console.log("use me", user2)
+      handleOAuthSubmit(user2);
+
+      console.log("use me", user2);
     } catch (err) {
       console.log("error", err);
     }
@@ -307,9 +313,7 @@ export default function SignInRoute() {
           </View>
         </TouchableWithoutFeedback>
 
-        <TouchableWithoutFeedback   
-        onPress={handlePAsync}
-          >
+        <TouchableWithoutFeedback onPress={handlePAsync}>
           <View style={[styles.SignUpWithButtons]}>
             <Image source={facebookLogo} style={[styles.fbLogo]} />
             <Text
@@ -449,7 +453,7 @@ const styles = StyleSheet.create({
     height: 18,
     width: 18,
     opacity: 0.5,
-    marginRight: 10,
+    marginRight: 18,
   },
   erroMsg: {
     margin: 5,

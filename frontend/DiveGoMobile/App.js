@@ -156,6 +156,7 @@ export default function App() {
 
       try {
         const valuless = await AsyncStorage.getItem("token");
+
         const value = JSON.parse(valuless);
         if (value !== null) {
           if (value.session.refresh_token) {
@@ -163,7 +164,8 @@ export default function App() {
             setActiveSession(newSession);
           }
         }
-        let sessionID = await sessionCheck();
+        // let sessionID = await sessionCheck();
+       
         // console.log("what are theses", sessionID)
       } catch (error) {
         console.log("no dice:", error);

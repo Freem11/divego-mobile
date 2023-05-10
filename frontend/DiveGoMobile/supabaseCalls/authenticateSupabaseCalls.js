@@ -52,6 +52,7 @@ export const register = async (registerDetails) => {
 };
 
 export const signInStandard = async (loginDetails) => {
+  console.log("singin", loginDetails)
   const { user, session, error } = await supabase.auth.signIn({
     email: loginDetails.email,
     password: loginDetails.password,
@@ -62,7 +63,7 @@ export const signInStandard = async (loginDetails) => {
   }
 
   if (user && session) {
-    // console.log(user, session);
+    console.log("boobs", user, session);
     return { user, session };
   }
 };
