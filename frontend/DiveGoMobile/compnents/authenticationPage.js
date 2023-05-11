@@ -32,9 +32,9 @@ export default function AuthenticationPage() {
         <TabBar
           {...props}
           style={{ backgroundColor: "#538dbd" }}
-          indicatorStyle={{ backgroundColor: "darkgrey", height: 1 }}
-          activeColor={"darkgrey"}
-          inactiveColor={"lightgrey"}
+          indicatorStyle={{ backgroundColor: "lightgrey", height: 1 }}
+          activeColor={"lightgrey"}
+          inactiveColor={"darkgrey"}
           labelStyle={{ fontFamily: "PermanentMarker_400Regular" }}
         />
       )}

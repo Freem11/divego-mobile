@@ -25,6 +25,7 @@ import * as AuthSession from "expo-auth-session";
 import * as Google from "expo-auth-session/providers/google";
 import * as Facebook from "expo-auth-session/providers/facebook";
 import config from "../config";
+import Headliner from "../compnents/png/Headliner.png"
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -96,14 +97,6 @@ export default function SignInRoute() {
       firstName: Fname,
       lastName: LName,
     });
-
-    if (accessToken) {
-      await AsyncStorage.setItem("token", JSON.stringify(accessToken));
-      setActiveSession(accessToken);
-    } else {
-      setLoginFail("The credentials you supplied are not valid");
-      return;
-    }
   };
 
   async function OAuthSignIn(formVals) {
@@ -114,8 +107,13 @@ export default function SignInRoute() {
       setActiveSession(accessToken);
     } else {
       let registrationToken = await register(formVals);
+      if (registrationToken.session !== null) {
+      console.log("ddddd", registrationToken)
       await AsyncStorage.setItem("token", JSON.stringify(registrationToken));
       setActiveSession(registrationToken);
+      } else {
+        setLoginFail("You already have an account with this email"); 
+      }
     }
   }
 
@@ -211,6 +209,53 @@ export default function SignInRoute() {
 
   return (
     <View style={styles.container}>
+       <Image source={Headliner} style={[styles.Headliner]} />
+
+       <View style={{ marginTop: 30 }}>
+        <TouchableWithoutFeedback
+          onPress={
+            accessToken
+              ? getGoogleUserData
+              : () => {
+                  promptAsync();
+                }
+          }
+        >
+          <View style={[styles.SignUpWithButtons]}>
+            <Image source={googleLogo} style={[styles.gLogo]} />
+            <Text
+              style={{
+                color: "#FFFFFF",
+                fontFamily: "PermanentMarker_400Regular",
+                fontSize: scale(12),
+                opacity: 0.7,
+              }}
+            >
+              Sign In With Google
+            </Text>
+          </View>
+        </TouchableWithoutFeedback>
+
+        <TouchableWithoutFeedback onPress={handlePAsync}>
+          <View style={[styles.SignUpWithButtons]}>
+            <Image source={facebookLogo} style={[styles.fbLogo]} />
+            <Text
+              style={{
+                marginLeft: scale(5),
+                color: "#FFFFFF",
+                fontFamily: "PermanentMarker_400Regular",
+                fontSize: scale(12),
+                opacity: 0.7,
+              }}
+            >
+              Sign In With Facebook
+            </Text>
+          </View>
+        </TouchableWithoutFeedback>
+
+        {/* <Text>{JSON.stringify(userInfo)}</Text> */}
+      </View>
+
       <View style={styles.inputContainer}>
         <InsetShadow
           containerStyle={{
@@ -288,50 +333,7 @@ export default function SignInRoute() {
         </TouchableWithoutFeedback>
       </View>
 
-      <View style={{ marginTop: 30 }}>
-        <TouchableWithoutFeedback
-          onPress={
-            accessToken
-              ? getGoogleUserData
-              : () => {
-                  promptAsync();
-                }
-          }
-        >
-          <View style={[styles.SignUpWithButtons]}>
-            <Image source={googleLogo} style={[styles.gLogo]} />
-            <Text
-              style={{
-                color: "#FFFFFF",
-                fontFamily: "PermanentMarker_400Regular",
-                fontSize: scale(12),
-                opacity: 0.7,
-              }}
-            >
-              Sign In With Google
-            </Text>
-          </View>
-        </TouchableWithoutFeedback>
-
-        <TouchableWithoutFeedback onPress={handlePAsync}>
-          <View style={[styles.SignUpWithButtons]}>
-            <Image source={facebookLogo} style={[styles.fbLogo]} />
-            <Text
-              style={{
-                marginLeft: scale(5),
-                color: "#FFFFFF",
-                fontFamily: "PermanentMarker_400Regular",
-                fontSize: scale(12),
-                opacity: 0.7,
-              }}
-            >
-              Sign In With Facebook
-            </Text>
-          </View>
-        </TouchableWithoutFeedback>
-
-        {/* <Text>{JSON.stringify(userInfo)}</Text> */}
-      </View>
+      
     </View>
   );
 }
@@ -346,7 +348,7 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: "30%",
+    marginTop: "5%",
   },
   input: {
     fontFamily: "IndieFlower_400Regular",
@@ -465,4 +467,10 @@ const styles = StyleSheet.create({
     borderColor: "darkblue",
     borderWidth: 1,
   },
+  Headliner:{
+    height: '40%',
+    width: '100%',
+    marginLeft: "-3%",
+    marginTop: "12%",
+  }
 });

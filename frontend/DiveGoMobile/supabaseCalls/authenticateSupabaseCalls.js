@@ -43,6 +43,7 @@ export const register = async (registerDetails) => {
 
   if (error) {
     console.log("couldn't register,", error);
+    return { user, session };
   }
 
   if (user && session) {

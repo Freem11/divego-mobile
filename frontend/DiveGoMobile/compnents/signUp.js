@@ -4,6 +4,7 @@ import {
   View,
   TextInput,
   TouchableWithoutFeedback,
+  Image
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useState, useContext } from "react";
@@ -14,6 +15,7 @@ import {
 } from "../supabaseCalls/authenticateSupabaseCalls";
 import { scale } from "react-native-size-matters";
 import InsetShadow from "react-native-inset-shadow";
+import Headliner from "../compnents/png/Headliner.png"
 
 let emailVar = false;
 let passwordVar = false;
@@ -85,7 +87,7 @@ export default function SignUpRoute() {
         await AsyncStorage.setItem("token", JSON.stringify(registrationToken));
         setActiveSession(registrationToken);
       } else {
-        setRegFail(`A Verification Email has been Sent to ${formVals.email}`)
+        setRegFail(`You have already registered this account, please sign in`)
       }
       let checker = await sessionCheck();
       //  console.log("checkerbox", checker)
@@ -94,6 +96,8 @@ export default function SignUpRoute() {
 
   return (
     <View style={styles.container}>
+      <Image source={Headliner} style={[styles.Headliner]} />
+
     <View style={styles.inputContainer}>
     <InsetShadow
             containerStyle={{
@@ -235,7 +239,7 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: "30%",
+    marginTop: "15%",
   },
   input: {
     fontFamily: "IndieFlower_400Regular",
@@ -334,5 +338,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: "darkblue",
     borderWidth: 1,
+  },
+  Headliner:{
+    height: '40%',
+    width: '100%',
+    marginLeft: "-3%",
+    marginTop: "17%",
   }
 });
