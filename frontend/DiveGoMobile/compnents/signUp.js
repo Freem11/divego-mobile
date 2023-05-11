@@ -82,8 +82,8 @@ export default function SignUpRoute() {
       return;
     } else {
       let registrationToken = await register(formVals);
-      console.log("why fail", registrationToken)
-      if (registrationToken) {
+      console.log("reggie", registrationToken)
+      if (registrationToken.session !== null) {
         await AsyncStorage.setItem("token", JSON.stringify(registrationToken));
         setActiveSession(registrationToken);
       } else {

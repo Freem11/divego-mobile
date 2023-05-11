@@ -37,8 +37,6 @@ const googleAndroidClientId = config.ANDROID_CLIENT_ID;
 const googleIOSClientId = config.IOS_CLIENT_ID;
 const facebookAppId = config.FACEBOOK_APP_ID;
 
-console.log("no id?", googleIOSClientId)
-
 export default function SignInRoute() {
   const { activeSession, setActiveSession } = useContext(SessionContext);
 
@@ -101,14 +99,12 @@ export default function SignInRoute() {
 
   async function OAuthSignIn(formVals) {
     let accessToken = await signInStandard(formVals);
-    console.log("cccc", accessToken);
     if (accessToken) {
       await AsyncStorage.setItem("token", JSON.stringify(accessToken));
       setActiveSession(accessToken);
     } else {
       let registrationToken = await register(formVals);
       if (registrationToken.session !== null) {
-      console.log("ddddd", registrationToken)
       await AsyncStorage.setItem("token", JSON.stringify(registrationToken));
       setActiveSession(registrationToken);
       } else {
@@ -150,16 +146,13 @@ export default function SignInRoute() {
   async function getFacebokUserData(token2) {
     if (!token2) return;
 
-    console.log("har", token2);
     try {
       const res2 = await fetch(
         `https://graph.facebook.com/me?access_token=${token2}&fields=id,name,email`
       );
       const user2 = await res2.json();
-
       handleOAuthSubmit(user2);
 
-      console.log("use me", user2);
     } catch (err) {
       console.log("error", err);
     }
@@ -466,6 +459,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: "darkblue",
     borderWidth: 1,
+    marginTop: 20
   },
   Headliner:{
     height: '40%',

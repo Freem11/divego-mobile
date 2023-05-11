@@ -25,7 +25,6 @@ export const userCheck = async() => {
 };
 
 export const register = async (registerDetails) => {
-  console.log("got", registerDetails)
   const { user, session, error } = await supabase.auth.signUp(
     {
       email: registerDetails.email,
@@ -39,21 +38,17 @@ export const register = async (registerDetails) => {
     }
   );
 
-  console.log(session, error)
-
   if (error) {
     console.log("couldn't register,", error);
     return { user, session };
   }
 
   if (user && session) {
-    console.log(user, session);
     return { user, session };
   }
 };
 
 export const signInStandard = async (loginDetails) => {
-  console.log("singin", loginDetails)
   const { user, session, error } = await supabase.auth.signIn({
     email: loginDetails.email,
     password: loginDetails.password,
@@ -64,7 +59,6 @@ export const signInStandard = async (loginDetails) => {
   }
 
   if (user && session) {
-    console.log("boobs", user, session);
     return { user, session };
   }
 };
@@ -85,7 +79,6 @@ export const signInFaceBook = async () => {
 };
 
 export const signInGoogle = async () => {
-  console.log("made it")
   const { user, session, error } = await supabase.auth.signIn({
     provider: 'google'
   });
