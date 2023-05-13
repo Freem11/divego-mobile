@@ -91,8 +91,7 @@ export default function PicUploadModal() {
     }
   };
 
-  let UserId;
- 
+
   useEffect(() => {
     if (pinValues.PicDate === "") {
       let Rnow = new Date();
@@ -108,9 +107,14 @@ export default function PicUploadModal() {
     }
 
     const getUser = async () => {
-      UserId = await userCheck();
-      setPinValues({ ...pinValues, UserId: UserId.id });
+      let UserID = await userCheck();
+      console.log("ima",UserID.id)
+      setPinValues({ ...pinValues, UserId: UserID.id });
     };
+
+  //  {"app_metadata": 
+  //  {"provider": "email", "providers": ["email"]},
+  //   "aud": "authenticated", "confirmed_at": "2023-05-11T00:58:10.175114Z", "created_at": "2023-05-11T00:58:10.169011Z", "email": "divego2022@gmail.com", "email_confirmed_at": "2023-05-11T00:58:10.175114Z", "id": "40ced897-323a-4f98-9d7f-d6a0c0463415", "identities": [{"created_at": "2023-05-11T00:58:10.172786Z", "id": "40ced897-323a-4f98-9d7f-d6a0c0463415", "identity_data": [Object], "last_sign_in_at": "2023-05-11T00:58:10.172752Z", "provider": "email", "updated_at": "2023-05-11T00:58:10.172786Z", "user_id": "40ced897-323a-4f98-9d7f-d6a0c0463415"}], "last_sign_in_at": "2023-05-13T04:28:24.443999Z", "phone": "", "role": "authenticated", "updated_at": "2023-05-13T04:49:28.059881Z", "user_metadata": {}}
 
     getUser();
   }, []);
@@ -188,6 +192,7 @@ export default function PicUploadModal() {
     ) {
       return;
     } else {
+      console.log("wha?", pinValues)
       insertPhotoWaits(pinValues);
       setPinValues({
         PicFile: null,
@@ -327,7 +332,7 @@ export default function PicUploadModal() {
           <View style={styles.dateIcon}>
             <FontAwesome name="calendar" color="gold" size={28} style={{marginLeft: 1.5, marginTop: 2}}/>
             <DateTimePickerModal
-              date={new Date(pinValues.PicDate)}
+              // date={new Date(pinValues.PicDate)}
               isVisible={datePickerVisible}
               mode="date"
               onConfirm={handleConfirm}
