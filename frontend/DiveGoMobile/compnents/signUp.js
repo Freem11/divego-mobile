@@ -234,12 +234,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#538dbd",
     alignItems: "center",
+    justifyContent: "center",
   },
   inputContainer: {
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: "15%",
+    marginTop: "5%",
   },
   input: {
     fontFamily: "IndieFlower_400Regular",
@@ -338,11 +339,12 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: "darkblue",
     borderWidth: 1,
+    marginTop: scale(10)
   },
   Headliner:{
-    height: '40%',
+    height: scale(250),
     width: '100%',
     marginLeft: "-3%",
-    marginTop: "17%",
+    marginTop: "-5%",
   }
 });

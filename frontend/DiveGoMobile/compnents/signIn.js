@@ -204,7 +204,7 @@ export default function SignInRoute() {
     <View style={styles.container}>
        <Image source={Headliner} style={[styles.Headliner]} />
 
-       <View style={{ marginTop: 30 }}>
+       <View style={{ marginTop: "5%" }}>
         <TouchableWithoutFeedback
           onPress={
             accessToken
@@ -214,13 +214,14 @@ export default function SignInRoute() {
                 }
           }
         >
+          
           <View style={[styles.SignUpWithButtons]}>
             <Image source={googleLogo} style={[styles.gLogo]} />
             <Text
               style={{
                 color: "#FFFFFF",
                 fontFamily: "PermanentMarker_400Regular",
-                fontSize: scale(12),
+                fontSize: 12,
                 opacity: 0.7,
               }}
             >
@@ -237,7 +238,7 @@ export default function SignInRoute() {
                 marginLeft: scale(5),
                 color: "#FFFFFF",
                 fontFamily: "PermanentMarker_400Regular",
-                fontSize: scale(12),
+                fontSize: 12,
                 opacity: 0.7,
               }}
             >
@@ -248,6 +249,7 @@ export default function SignInRoute() {
 
         {/* <Text>{JSON.stringify(userInfo)}</Text> */}
       </View>
+      
 
       <View style={styles.inputContainer}>
         <InsetShadow
@@ -336,12 +338,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#538dbd",
     alignItems: "center",
+    justifyContent: "center",
   },
   inputContainer: {
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: "5%",
+    marginTop: scale(10),
   },
   input: {
     fontFamily: "IndieFlower_400Regular",
@@ -423,10 +426,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: scale(5),
-    height: scale(35),
-    width: scale(200),
-    marginTop: 20,
+    borderRadius: 5,
+    height: 35,
+    width: 200,
+    marginTop: scale(5),
     margin: 10,
     shadowColor: "#000",
     shadowOffset: {
@@ -459,12 +462,12 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: "darkblue",
     borderWidth: 1,
-    marginTop: 20
+    marginTop: scale(10)
   },
   Headliner:{
-    height: '40%',
+    height: scale(250),
     width: '100%',
     marginLeft: "-3%",
-    marginTop: "12%",
+    marginTop: "-5%",
   }
 });

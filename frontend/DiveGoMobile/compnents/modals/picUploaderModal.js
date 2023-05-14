@@ -108,13 +108,8 @@ export default function PicUploadModal() {
 
     const getUser = async () => {
       let UserID = await userCheck();
-      console.log("ima",UserID.id)
       setPinValues({ ...pinValues, UserId: UserID.id });
     };
-
-  //  {"app_metadata": 
-  //  {"provider": "email", "providers": ["email"]},
-  //   "aud": "authenticated", "confirmed_at": "2023-05-11T00:58:10.175114Z", "created_at": "2023-05-11T00:58:10.169011Z", "email": "divego2022@gmail.com", "email_confirmed_at": "2023-05-11T00:58:10.175114Z", "id": "40ced897-323a-4f98-9d7f-d6a0c0463415", "identities": [{"created_at": "2023-05-11T00:58:10.172786Z", "id": "40ced897-323a-4f98-9d7f-d6a0c0463415", "identity_data": [Object], "last_sign_in_at": "2023-05-11T00:58:10.172752Z", "provider": "email", "updated_at": "2023-05-11T00:58:10.172786Z", "user_id": "40ced897-323a-4f98-9d7f-d6a0c0463415"}], "last_sign_in_at": "2023-05-13T04:28:24.443999Z", "phone": "", "role": "authenticated", "updated_at": "2023-05-13T04:49:28.059881Z", "user_metadata": {}}
 
     getUser();
   }, []);
@@ -137,7 +132,7 @@ export default function PicUploadModal() {
 
   let colorDate;
   if (pinValues.PicDate === "") {
-    colorDate = "rgb(128,128,128)";
+    colorDate = "darkgrey";
   } else {
     colorDate = "#F0EEEB";
   }
@@ -319,6 +314,7 @@ export default function PicUploadModal() {
             }
             value={pinValues.PicDate}
             placeholder={"Date"}
+            placeholderTextColor="darkgrey"
             editable={false}
             color={colorDate}
             fontSize={21}
