@@ -5,6 +5,7 @@ import {
   TextInput,
   TouchableWithoutFeedback,
   Image,
+  KeyboardAvoidingView
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useState, useContext, useEffect } from "react";
@@ -200,6 +201,9 @@ export default function SignInRoute() {
     }
   };
 
+  const keboardOffset = Platform.OS === "ios" ? 100 : 0;
+
+
   return (
     <View style={styles.container}>
        <Image source={Headliner} style={[styles.Headliner]} />
@@ -250,7 +254,10 @@ export default function SignInRoute() {
         {/* <Text>{JSON.stringify(userInfo)}</Text> */}
       </View>
       
-
+      <KeyboardAvoidingView
+        behavior="position"
+        keyboardVerticalOffset={keboardOffset}
+      >
       <View style={styles.inputContainer}>
         <InsetShadow
           containerStyle={{
@@ -304,9 +311,9 @@ export default function SignInRoute() {
             onFocus={() => setLoginFail(null)}
           ></TextInput>
         </InsetShadow>
-
         {loginFail && <Text style={styles.erroMsg}>{loginFail}</Text>}
       </View>
+      </KeyboardAvoidingView>
 
       <View style={styles.SubmitButton2}>
         <TouchableWithoutFeedback onPress={handleSignInSubmit}>

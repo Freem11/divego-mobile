@@ -58,6 +58,7 @@ import {
   userCheck,
   sessionRefresh,
 } from "./supabaseCalls/authenticateSupabaseCalls";
+// import 'expo-dev-client';
 
 const { width, height } = Dimensions.get("window");
 
@@ -156,7 +157,7 @@ export default function App() {
 
       try {
         const valuless = await AsyncStorage.getItem("token");
-
+        if(valuless){
         const value = JSON.parse(valuless);
         if (value !== null) {
           if (value.session.refresh_token) {
@@ -164,13 +165,14 @@ export default function App() {
             setActiveSession(newSession);
           }
         }
+      }
         // let sessionID = await sessionCheck();
        
         // console.log("what are theses", sessionID)
       } catch (error) {
         console.log("no dice:", error);
       }
-
+    
       setAppIsReady(true);
     }
     prepare();

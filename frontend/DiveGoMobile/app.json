@@ -2,11 +2,26 @@
   "expo": {
     "name": "DiveGo",
     "slug": "DiveGoMobile",
-    "version": "1.0.19",
+    "version": "1.2.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
-    "plugins": ["expo-image-picker"],
+    "plugins": [
+      "expo-image-picker",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "compileSdkVersion": 31,
+            "targetSdkVersion": 31,
+            "buildToolsVersion": "31.0.0"
+          },
+          "ios": {
+            "deploymentTarget": "13.0"
+          }
+        }
+      ]
+    ],
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -28,11 +43,11 @@
         "googleMapsApiKey": "AIzaSyBo057BaDmQ2uGgKuunviNZoM9ry_U2SA0"
       },
       "bundleIdentifier": "com.DiveGo",
-      "buildNumber": "19"
+      "buildNumber": "23"
     },
     "android": {
       "package": "com.DiveGo",
-      "versionCode": 19,
+      "versionCode": 23,
       "config": {
         "googleMaps": {
           "apiKey": "AIzaSyBo057BaDmQ2uGgKuunviNZoM9ry_U2SA0"
@@ -56,4 +71,3 @@
     "scheme": ["com.DiveGo", "fb692861552452156"]
   }
 }
-//https://com.DiveGo://expo-development-client/?url=http%3A%2F%2F10.0.0.68%3A8081

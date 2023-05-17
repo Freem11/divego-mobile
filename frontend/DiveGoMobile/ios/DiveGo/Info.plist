@@ -17,7 +17,7 @@
     <key>CFBundlePackageType</key>
     <string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
     <key>CFBundleShortVersionString</key>
-    <string>1.0.19</string>
+    <string>1.2.1</string>
     <key>CFBundleSignature</key>
     <string>????</string>
     <key>CFBundleURLTypes</key>
@@ -30,9 +30,15 @@
           <string>com.DiveGo</string>
         </array>
       </dict>
+      <dict>
+        <key>CFBundleURLSchemes</key>
+        <array>
+          <string>exp+divegomobile</string>
+        </array>
+      </dict>
     </array>
     <key>CFBundleVersion</key>
-    <string>19</string>
+    <string>23</string>
     <key>GMSApiKey</key>
     <string>AIzaSyBo057BaDmQ2uGgKuunviNZoM9ry_U2SA0</string>
     <key>LSRequiresIPhoneOS</key>

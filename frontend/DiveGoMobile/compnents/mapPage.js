@@ -7,6 +7,7 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 import Constants from "expo-constants";
+import Device from "expo-device";
 import Map from "./GoogleMap";
 import FABButtons from "./FABset";
 import Logo from "./logo/logoButton";
@@ -158,7 +159,7 @@ const styles = StyleSheet.create({
     flex: 1,
     position: "absolute",
     alignItems: "center",
-    top: Constants.statusBarHeight + scale(0),
+    top:  Constants.statusBarHeight + scale(0),
     width: "80%",
     height: scale(38),
     zIndex: 2,

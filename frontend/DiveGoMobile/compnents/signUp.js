@@ -4,7 +4,8 @@ import {
   View,
   TextInput,
   TouchableWithoutFeedback,
-  Image
+  Image,
+  KeyboardAvoidingView,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useState, useContext } from "react";
@@ -15,7 +16,7 @@ import {
 } from "../supabaseCalls/authenticateSupabaseCalls";
 import { scale } from "react-native-size-matters";
 import InsetShadow from "react-native-inset-shadow";
-import Headliner from "../compnents/png/Headliner.png"
+import Headliner from "../compnents/png/Headliner.png";
 
 let emailVar = false;
 let passwordVar = false;
@@ -25,7 +26,7 @@ let lastVar = false;
 export default function SignUpRoute() {
   const { activeSession, setActiveSession } = useContext(SessionContext);
 
-  const [regFail, setRegFail] = useState(null)
+  const [regFail, setRegFail] = useState(null);
 
   const [formVals, setFormVals] = useState({
     email: "",
@@ -78,28 +79,34 @@ export default function SignUpRoute() {
       formVals.firstName == "" ||
       formVals.lastName == ""
     ) {
-      setRegFail("Please fill out all fields")
+      setRegFail("Please fill out all fields");
       return;
     } else {
       let registrationToken = await register(formVals);
-      console.log("reggie", registrationToken)
+      console.log("reggie", registrationToken);
       if (registrationToken.session !== null) {
         await AsyncStorage.setItem("token", JSON.stringify(registrationToken));
         setActiveSession(registrationToken);
       } else {
-        setRegFail(`You have already registered this account, please sign in`)
+        setRegFail(`You have already registered this account, please sign in`);
       }
       let checker = await sessionCheck();
       //  console.log("checkerbox", checker)
     }
   };
 
+  const keboardOffset = Platform.OS === "ios" ? 100 : 0;
+
   return (
     <View style={styles.container}>
       <Image source={Headliner} style={[styles.Headliner]} />
 
-    <View style={styles.inputContainer}>
-    <InsetShadow
+      <KeyboardAvoidingView
+        behavior="position"
+        keyboardVerticalOffset={keboardOffset}
+      >
+        <View style={styles.inputContainer}>
+          <InsetShadow
             containerStyle={{
               borderRadius: 25,
               height: 40,
@@ -110,22 +117,22 @@ export default function SignUpRoute() {
             elevation={20}
             shadowRadius={15}
             shadowOpacity={0.3}
-          > 
-      <TextInput
-        style={formValidation.emailVal ? styles.inputRed : styles.input}
-        value={formVals.email}
-        placeholder={"Email"}
-        placeholderTextColor="darkgrey"
-        color="#F0EEEB"
-        fontSize={18}
-        onChangeText={(emailText) =>
-          setFormVals({ ...formVals, email: emailText })
-        }
-        onFocus={() => setRegFail(null)}
-      ></TextInput>
-</InsetShadow>
+          >
+            <TextInput
+              style={formValidation.emailVal ? styles.inputRed : styles.input}
+              value={formVals.email}
+              placeholder={"Email"}
+              placeholderTextColor="darkgrey"
+              color="#F0EEEB"
+              fontSize={18}
+              onChangeText={(emailText) =>
+                setFormVals({ ...formVals, email: emailText })
+              }
+              onFocus={() => setRegFail(null)}
+            ></TextInput>
+          </InsetShadow>
 
-<InsetShadow
+          <InsetShadow
             containerStyle={{
               borderRadius: 25,
               height: 40,
@@ -136,23 +143,25 @@ export default function SignUpRoute() {
             elevation={20}
             shadowRadius={15}
             shadowOpacity={0.3}
-          > 
-      <TextInput
-        style={formValidation.passwordVal ? styles.inputRed : styles.input}
-        value={formVals.password}
-        placeholder={"Password"}
-        fontSize={18}
-        secureTextEntry={true}
-        placeholderTextColor="darkgrey"
-        color="#F0EEEB"
-        onChangeText={(passwordText) =>
-          setFormVals({ ...formVals, password: passwordText })
-        }
-        onFocus={() => setRegFail(null)}
-      ></TextInput>
-</InsetShadow>
+          >
+            <TextInput
+              style={
+                formValidation.passwordVal ? styles.inputRed : styles.input
+              }
+              value={formVals.password}
+              placeholder={"Password"}
+              fontSize={18}
+              secureTextEntry={true}
+              placeholderTextColor="darkgrey"
+              color="#F0EEEB"
+              onChangeText={(passwordText) =>
+                setFormVals({ ...formVals, password: passwordText })
+              }
+              onFocus={() => setRegFail(null)}
+            ></TextInput>
+          </InsetShadow>
 
-<InsetShadow
+          <InsetShadow
             containerStyle={{
               borderRadius: 25,
               height: 40,
@@ -163,22 +172,24 @@ export default function SignUpRoute() {
             elevation={20}
             shadowRadius={15}
             shadowOpacity={0.3}
-          > 
-      <TextInput
-        style={formValidation.firstNameVal ? styles.inputRed : styles.input}
-        value={formVals.firstName}
-        placeholder={"First Name"}
-        fontSize={18}
-        placeholderTextColor="darkgrey"
-        color="#F0EEEB"
-        onChangeText={(firstText) =>
-          setFormVals({ ...formVals, firstName: firstText })
-        }
-        onFocus={() => setRegFail(null)}
-      ></TextInput>
-</InsetShadow>
+          >
+            <TextInput
+              style={
+                formValidation.firstNameVal ? styles.inputRed : styles.input
+              }
+              value={formVals.firstName}
+              placeholder={"First Name"}
+              fontSize={18}
+              placeholderTextColor="darkgrey"
+              color="#F0EEEB"
+              onChangeText={(firstText) =>
+                setFormVals({ ...formVals, firstName: firstText })
+              }
+              onFocus={() => setRegFail(null)}
+            ></TextInput>
+          </InsetShadow>
 
-<InsetShadow
+          <InsetShadow
             containerStyle={{
               borderRadius: 25,
               height: 40,
@@ -189,43 +200,45 @@ export default function SignUpRoute() {
             elevation={20}
             shadowRadius={15}
             shadowOpacity={0.3}
-          > 
-      <TextInput
-        style={formValidation.lastNameVal ? styles.inputRed : styles.input}
-        value={formVals.lastName}
-        placeholder={"Last Name"}
-        fontSize={18}
-        placeholderTextColor="darkgrey"
-        color="#F0EEEB"
-        onChangeText={(lastText) =>
-          setFormVals({ ...formVals, lastName: lastText })
-        }
-        onFocus={() => setRegFail(null)}
-      ></TextInput>
-      </InsetShadow>
-
+          >
+            <TextInput
+              style={
+                formValidation.lastNameVal ? styles.inputRed : styles.input
+              }
+              value={formVals.lastName}
+              placeholder={"Last Name"}
+              fontSize={18}
+              placeholderTextColor="darkgrey"
+              color="#F0EEEB"
+              onChangeText={(lastText) =>
+                setFormVals({ ...formVals, lastName: lastText })
+              }
+              onFocus={() => setRegFail(null)}
+            ></TextInput>
+          </InsetShadow>
+        </View>
+        {regFail && <Text style={styles.erroMsg}>{regFail}</Text>}
+        </KeyboardAvoidingView>
+        <View style={styles.SubmitButton}>
+          <TouchableWithoutFeedback onPress={handleSignUpSubmit}>
+            <Text
+              style={{
+                color: "gold",
+                fontSize: 17,
+                marginTop: 8,
+                fontFamily: "PermanentMarker_400Regular",
+                width: "100%",
+                alignSelf: "center",
+                justifyContent: "center",
+                alignContent: "center",
+                textAlign: "center",
+              }}
+            >
+              Sign Up
+            </Text>
+          </TouchableWithoutFeedback>
+        </View>
     </View>
-    {regFail && <Text style={styles.erroMsg}>{regFail}</Text>}
-    <View style={styles.SubmitButton}>
-      <TouchableWithoutFeedback onPress={handleSignUpSubmit}>
-        <Text
-          style={{
-            color: "gold",
-            fontSize: 17,
-            marginTop: 8,
-            fontFamily: "PermanentMarker_400Regular",
-            width: "100%",
-            alignSelf: "center",
-            justifyContent: "center",
-            alignContent: "center",
-            textAlign: "center",
-          }}
-        >
-          Sign Up
-        </Text>
-      </TouchableWithoutFeedback>
-    </View>
-  </View>
   );
 }
 
@@ -330,7 +343,7 @@ const styles = StyleSheet.create({
     opacity: 0.5,
     marginRight: 10,
   },
-  erroMsg:{
+  erroMsg: {
     margin: 5,
     padding: 7,
     color: "pink",
@@ -339,12 +352,12 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: "darkblue",
     borderWidth: 1,
-    marginTop: scale(10)
+    marginTop: scale(10),
   },
-  Headliner:{
+  Headliner: {
     height: scale(250),
-    width: '100%',
+    width: "100%",
     marginLeft: "-3%",
     marginTop: "-5%",
-  }
+  },
 });
