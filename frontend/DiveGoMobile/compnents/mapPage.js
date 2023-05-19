@@ -7,7 +7,7 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 import Constants from "expo-constants";
-import Device from "expo-device";
+// import Device from "expo-device";
 import Map from "./GoogleMap";
 import FABButtons from "./FABset";
 import Logo from "./logo/logoButton";

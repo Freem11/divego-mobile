@@ -156,24 +156,24 @@ export default function App() {
       await getCurrentLocation();
 
       try {
-        const valuless = await AsyncStorage.getItem("token");
-        if(valuless){
-        const value = JSON.parse(valuless);
-        if (value !== null) {
-          if (value.session.refresh_token) {
-            let newSession = await sessionRefresh(value.session.refresh_token);
-            setActiveSession(newSession);
+        const asyncData = JSON.parse(await AsyncStorage.getItem("token"));
+        if (asyncData === null) { 
+          setAppIsReady(true);
+        } else {
+          if (asyncData.session.refresh_token) {
+            let newSession = await sessionRefresh(asyncData.session.refresh_token);
+            if (newSession){
+              setActiveSession(newSession);
+              setAppIsReady(true);
+            } 
+          } else {
+          setAppIsReady(true);
           }
         }
-      }
-        // let sessionID = await sessionCheck();
-       
-        // console.log("what are theses", sessionID)
       } catch (error) {
-        console.log("no dice:", error);
+        console.log("no dice:", error.message); 
+        // alert("aha!" + error.message)
       }
-    
-      setAppIsReady(true);
     }
     prepare();
   }, []);
