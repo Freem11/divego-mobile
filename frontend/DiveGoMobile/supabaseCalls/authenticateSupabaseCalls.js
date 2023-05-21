@@ -11,6 +11,7 @@ export const sessionRefresh = async(refresh_token) => {
 
   if (error) {
     console.log("couldn't refresh session,", error);
+    return null;
   }
 
   if (data) {

@@ -154,7 +154,6 @@ export default function App() {
     async function prepare() {
       await SplashScreen.preventAutoHideAsync();
       await getCurrentLocation();
-
       try {
         const asyncData = JSON.parse(await AsyncStorage.getItem("token"));
         if (asyncData === null) { 
@@ -162,7 +161,9 @@ export default function App() {
         } else {
           if (asyncData.session.refresh_token) {
             let newSession = await sessionRefresh(asyncData.session.refresh_token);
-            if (newSession){
+            if (newSession === null){
+              setAppIsReady(true);
+            } else {
               setActiveSession(newSession);
               setAppIsReady(true);
             } 
