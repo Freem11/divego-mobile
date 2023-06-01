@@ -5,7 +5,8 @@ import {
   ANDROID_CLIENT_ID,
   IOS_CLIENT_ID,
   EXPO_CLIENT_ID,
-  FACEBOOK_APP_ID
+  FACEBOOK_APP_ID,
+  ANDROID_HOME
 } from "@env";
 
 export default {
@@ -15,5 +16,6 @@ export default {
   ANDROID_CLIENT_ID,
   IOS_CLIENT_ID,
   EXPO_CLIENT_ID,
-  FACEBOOK_APP_ID
+  FACEBOOK_APP_ID,
+  ANDROID_HOME
 };

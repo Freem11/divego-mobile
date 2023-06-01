@@ -14,7 +14,6 @@ import {
   sessionCheck,
   signInStandard,
   register,
-  signInFaceBook,
 } from "../supabaseCalls/authenticateSupabaseCalls";
 import { scale } from "react-native-size-matters";
 import InsetShadow from "react-native-inset-shadow";
@@ -63,7 +62,6 @@ export default function SignInRoute() {
   const [req, res, promptAsync] = Google.useAuthRequest({
     androidClientId: googleAndroidClientId,
     iosClientId: googleIOSClientId,
-    expoClientId: googleExpoClientId,
   });
 
   const [req2, res2, promptAsync2] = Facebook.useAuthRequest({
@@ -115,11 +113,16 @@ export default function SignInRoute() {
   }
 
   useEffect(() => {
-    handleGoogleSignIn();
     handleFacebookSignIn();
-  }, [res, res2]);
+  }, [res2]);
+
+  useEffect(() => {
+    handleGoogleSignIn();
+  }, [res]);
+
 
   async function handleGoogleSignIn() {
+    alert("response?" + res.type)
     if (res?.type === "success") {
       await getGoogleUserData(res.authentication.accessToken);
     }
@@ -127,13 +130,11 @@ export default function SignInRoute() {
 
   async function getGoogleUserData(token) {
     if (!token) return;
-
     try {
-      const res = await fetch(`https://www.googleapis.com/userinfo/v2/me/`, {
+      const res = await fetch(`https://www.googleapis.com/userinfo/v2/me`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const user = await res.json();
-
       handleOAuthSubmit(user);
     } catch (err) {
       console.log("error", err);
@@ -210,13 +211,8 @@ export default function SignInRoute() {
 
        <View style={{ marginTop: "5%" }}>
         <TouchableWithoutFeedback
-          onPress={
-            accessToken
-              ? getGoogleUserData
-              : () => {
-                  promptAsync();
-                }
-          }
+          onPress={() => {promptAsync();}}
+          disabled={!req}
         >
           
           <View style={[styles.SignUpWithButtons]}>
