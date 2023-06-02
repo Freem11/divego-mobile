@@ -88,7 +88,7 @@ export default function AnchorModal(lat, lng) {
   };
 
   return (
-    <View style={{ maxHeight: "83%" }}>
+    <View style={{ maxHeight: scale(600), marginTop: scale(-10)}}>
       <View style={styles.flagger}>
       {/* <Text
         style={{
@@ -106,6 +106,7 @@ export default function AnchorModal(lat, lng) {
         color="maroon"
         size={20}
         onLongPress={() => handleEmailDS()}
+        style={styles.flagMajor}
         />
       </View>
       <ScrollView>
@@ -114,12 +115,14 @@ export default function AnchorModal(lat, lng) {
             anchorPics.map((pic) => {
               return (
                 <View key={pic.id} style={styles.picContainer3}>
+                  
                   <View style={styles.micro}>
                     <FontAwesome
                       name="flag"
                       color="maroon"
                       size={20}
                       onLongPress={() => handleEmail(pic)}
+                      style={styles.flag}
                     />
                     <Text style={styles.titleText}>{pic.label}</Text>
                   </View>
@@ -157,15 +160,15 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "transparent",
     alignItems: "center",
-    marginBottom: "30%",
-    marginTop: "5%",
+    marginBottom: "0%",
+    marginTop: "0%",
     marginRight: scale(10),
     marginLeft: scale(10),
   },
   picContainer3: {
-    width: scale(200),
-    height: scale(100),
-    marginBottom: scale(30),
+    width: scale(300),
+    height: scale(200),
+    marginBottom: scale(5),
     backgroundColor: "538bdb"
   },
   shadowbox: {
@@ -184,7 +187,14 @@ const styles = StyleSheet.create({
     fontFamily: "IndieFlower_400Regular",
     color: "#F0EEEB",
     fontSize: scale(15),
-    marginLeft: scale(12),
+    marginLeft: scale(-10),
+  },
+  flagMajor:{
+    left: scale(40)
+  },
+  flag: {
+    left: scale(257),
+    top: scale(2)
   },
   noSightings: {
     width: scale(200),
@@ -198,11 +208,19 @@ const styles = StyleSheet.create({
   micro: {
     display: "flex",
     flexDirection: "row",
+    position: "relative",
+    backgroundColor: "black",
+    opacity: 0.6,
+    width: "94%",
+    borderRadius: 5,
+    zIndex: 2,
+    left: 10,
+    top: 30
   },
   flagger:{
     flexDirection: "row",
     position: "absolute",
-    top: -45,
+    top: -33,
     left: -15
   }
 });
