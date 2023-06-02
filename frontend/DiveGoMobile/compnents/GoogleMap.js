@@ -20,6 +20,7 @@ import {
   Modal,
   Text,
   TouchableWithoutFeedback,
+  Platform,
 } from "react-native";
 import mantaIOS from "../compnents/png/Manta32.png";
 import anchorGold from "../compnents/png/icons8-anchor-24.png";
@@ -297,7 +298,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     marginLeft: "5%",
     marginRight: "5%",
-    marginTop: "5%",
+    marginTop: Platform.OS === "android" ? "5%" : "15%",
     marginBottom: "5%",
     shadowOpacity: 0.2,
     shadowRadius: 50,

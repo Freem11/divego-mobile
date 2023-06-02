@@ -88,7 +88,7 @@ export default function AnchorModal(lat, lng) {
   };
 
   return (
-    <View style={{ maxHeight: scale(600), marginTop: scale(-10)}}>
+    <View style={{ maxHeight: Platform.OS === "android" ? scale(570) : scale(600), marginTop: scale(-10)}}>
       <View style={styles.flagger}>
       {/* <Text
         style={{
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "transparent",
     alignItems: "center",
-    marginBottom: "0%",
+    marginBottom: "20%",
     marginTop: "0%",
     marginRight: scale(10),
     marginLeft: scale(10),
