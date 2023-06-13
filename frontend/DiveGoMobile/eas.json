@@ -1,6 +1,6 @@
 {
   "cli": {
-    "version": ">= 2.1.0"
+    "version": ">= 3.13.2"
   },
   "build": {
     "development": {
@@ -12,10 +12,10 @@
     },
     "production": {
       "env": {
-        "GOOGLE_MAPS_API_KEY_MOBILE": "AIzaSyBo057BaDmQ2uGgKuunviNZoM9ry_U2SA0",
+        "GOOGLE_MAPS_API_KEY_MOBILE": "AIzaSyCWZRCAe4bZZJVyA1sFafCmk4X8QMl8xgI",
         "SUPABASE_URL": "https://lsakqvscxozherlpunqx.supabase.co",
         "SUPABASE_API_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxzYWtxdnNjeG96aGVybHB1bnF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjQyOTIxMjYsImV4cCI6MTk3OTg2ODEyNn0.TROef3TdFCdqfVReFpesiMgowJEbRUXfYe3X3KmU0Qk",
-        "ANDROID_CLIENT_ID":"803518830612-eg8tkuvmqfv0hub44ic6168erjhirj3p.apps.googleusercontent.com",
+        "ANDROID_CLIENT_ID": "803518830612-ojvo6inq0ttrdmmnjgra9f542p79i8vs.apps.googleusercontent.com",
         "IOS_CLIENT_ID": "803518830612-0b8sugup4gglstuc5gm3o6j2e1fp7208.apps.googleusercontent.com",
         "EXPO_CLIENT_ID": "803518830612-ullrhq9lgcfe9ornlc5tffhtch7o5t07.apps.googleusercontent.com",
         "FACEBOOK_APP_ID": "692861552452156",

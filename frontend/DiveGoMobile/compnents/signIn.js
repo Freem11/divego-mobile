@@ -5,8 +5,10 @@ import {
   TextInput,
   TouchableWithoutFeedback,
   Image,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  Platform
 } from "react-native";
+import { authorize } from "react-native-app-auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useState, useContext, useEffect } from "react";
 import { SessionContext } from "./contexts/sessionContext";
@@ -37,6 +39,12 @@ const googleAndroidClientId = config.ANDROID_CLIENT_ID;
 const googleIOSClientId = config.IOS_CLIENT_ID;
 const facebookAppId = config.FACEBOOK_APP_ID;
 
+
+const UriRedirect = AuthSession.makeRedirectUri({
+  scheme: 'com.divego',
+  path: "redirect"
+})
+
 export default function SignInRoute() {
   const { activeSession, setActiveSession } = useContext(SessionContext);
 
@@ -62,11 +70,19 @@ export default function SignInRoute() {
   const [req, res, promptAsync] = Google.useAuthRequest({
     androidClientId: googleAndroidClientId,
     iosClientId: googleIOSClientId,
+    // expoClientId: googleExpoClientId
   });
 
   const [req2, res2, promptAsync2] = Facebook.useAuthRequest({
     clientId: facebookAppId,
   });
+
+  const configAndroid = {
+    issuer: 'https://accounts.google.com',
+    clientId: googleAndroidClientId,
+    redirectUrl: UriRedirect,
+    scopes: ['openid', 'profile'],
+  };
 
   const handleOAuthSubmit = async (user) => {
     let Fname;
@@ -117,13 +133,13 @@ export default function SignInRoute() {
   }, [res2]);
 
   useEffect(() => {
+    alert("response?" + res?.type)
     handleGoogleSignIn();
   }, [res]);
 
 
   async function handleGoogleSignIn() {
-    alert("response?" + res.type)
-    if (res?.type === "success") {
+    if (res && res?.type === "success") {
       await getGoogleUserData(res.authentication.accessToken);
     }
   }
@@ -140,6 +156,15 @@ export default function SignInRoute() {
       console.log("error", err);
     }
   }
+
+  const handleGAsync = async () => {
+    if (Platform.OS === "android"){
+      await authorize(configAndroid)
+      // await promptAsync( { showInRecents: true, useProxy: false } );
+    } else {
+      await promptAsync( { showInRecents: true, useProxy: false } );
+    }
+  };
 
   const handlePAsync = async () => {
     const res1 = await promptAsync2();
@@ -211,8 +236,8 @@ export default function SignInRoute() {
 
        <View style={{ marginTop: "5%" }}>
         <TouchableWithoutFeedback
-          onPress={() => {promptAsync();}}
-          disabled={!req}
+          onPress={handleGAsync}
+          // disabled={!req}
         >
           
           <View style={[styles.SignUpWithButtons]}>
