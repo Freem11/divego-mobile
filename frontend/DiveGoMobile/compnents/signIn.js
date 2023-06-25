@@ -8,7 +8,6 @@ import {
   KeyboardAvoidingView,
   Platform
 } from "react-native";
-import { authorize } from "react-native-app-auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useState, useContext, useEffect } from "react";
 import { SessionContext } from "./contexts/sessionContext";
@@ -28,6 +27,11 @@ import * as Google from "expo-auth-session/providers/google";
 import * as Facebook from "expo-auth-session/providers/facebook";
 import config from "../config";
 import Headliner from "../compnents/png/Headliner.png"
+import {
+  GoogleSignin,
+  GoogleSigninButton,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -39,10 +43,18 @@ const googleAndroidClientId = config.ANDROID_CLIENT_ID;
 const googleIOSClientId = config.IOS_CLIENT_ID;
 const facebookAppId = config.FACEBOOK_APP_ID;
 
+GoogleSignin.configure({
+  scopes: ['https://www.googleapis.com/auth/user.gender.read'], // what API you want to access on behalf of the user, default is email and profile
+  webClientId: googleExpoClientId, // client ID of type WEB for your server (needed to verify user ID and offline access)
+  offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
+  // hostedDomain: '', // specifies a hosted domain restriction
+  forceCodeForRefreshToken: true, // [Android] related to `serverAuthCode`, read the docs link below *.
+  // accountName: googleAndroidClientId, // [Android] specifies an account name on the device that should be used
+  iosClientId: googleIOSClientId, // [iOS] if you want to specify the client ID of type iOS (otherwise, it is taken from GoogleService-Info.plist)
+});
 
 const UriRedirect = AuthSession.makeRedirectUri({
   scheme: 'com.divego',
-  path: "redirect"
 })
 
 export default function SignInRoute() {
@@ -77,16 +89,41 @@ export default function SignInRoute() {
     clientId: facebookAppId,
   });
 
-  const configAndroid = {
-    issuer: 'https://accounts.google.com',
-    clientId: googleAndroidClientId,
-    redirectUrl: UriRedirect,
-    scopes: ['openid', 'profile'],
+  // const configAndroid = {
+  //   issuer: 'https://accounts.google.com',
+  //   clientId: googleAndroidClientId,
+  //   redirectUrl: UriRedirect,
+  //   scopes: ['openid', 'profile', 'email'],
+  // };
+
+  signIn = async () => {
+    try {
+
+     await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true })
+
+      const userInfo = await GoogleSignin.signIn();
+      alert(userInfo)
+
+      // setState({ userInfo });
+      handleOAuthSubmit(userInfo)
+    } catch (error) {
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        alert("canned")
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        alert("porgressing")
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        alert("no Gp serives")
+      } else {
+        alert(error)
+      }
+    }
   };
 
   const handleOAuthSubmit = async (user) => {
     let Fname;
     let LName;
+
+    alert(user.name + " " + user.id + " " + user.email)
 
     if (user.name) {
       Fname = user.name.split(" ").slice(0, 1);
@@ -133,7 +170,6 @@ export default function SignInRoute() {
   }, [res2]);
 
   useEffect(() => {
-    alert("response?" + res?.type)
     handleGoogleSignIn();
   }, [res]);
 
@@ -159,8 +195,10 @@ export default function SignInRoute() {
 
   const handleGAsync = async () => {
     if (Platform.OS === "android"){
-      await authorize(configAndroid)
-      // await promptAsync( { showInRecents: true, useProxy: false } );
+
+      // await signIn()
+      await promptAsync( { showInRecents: true, useProxy: false } );
+      
     } else {
       await promptAsync( { showInRecents: true, useProxy: false } );
     }

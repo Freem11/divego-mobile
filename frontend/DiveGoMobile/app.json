@@ -1,13 +1,14 @@
 {
   "expo": {
     "name": "DiveGo",
-    "slug": "DiveGoMobile",
+    "slug": "com.divego",
     "version": "1.2.25",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
     "plugins": [
       "expo-image-picker",
+      "@react-native-google-signin/google-signin",
       [
         "expo-build-properties",
         {
@@ -47,22 +48,27 @@
       "config": {
         "googleMapsApiKey": "AIzaSyCWZRCAe4bZZJVyA1sFafCmk4X8QMl8xgI"
       },
-      "bundleIdentifier": "com.DiveGo",
-      "buildNumber": "47"    
+      "bundleIdentifier": "com.divego",
+      "buildNumber": "47"
     },
     "android": {
-      "package": "com.DiveGo",
-      "versionCode": 47,
       "softwareKeyboardLayoutMode": "pan",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#00FFFFFF"
       },
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyCWZRCAe4bZZJVyA1sFafCmk4X8QMl8xgI"
+        },
+        "versionCode": 47
+      },
       "permissions": [
         "android.permission.ACCESS_COARSE_LOCATION",
         "android.permission.ACCESS_FINE_LOCATION",
         "android.permission.RECORD_AUDIO"
-      ]
+      ],
+      "package": "com.divego"
     },
     "web": {
       "favicon": "./assets/favicon.png"
