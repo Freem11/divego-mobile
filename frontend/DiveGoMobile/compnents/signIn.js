@@ -8,7 +8,6 @@ import {
   KeyboardAvoidingView,
   Platform
 } from "react-native";
-import { authorize } from "react-native-app-auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useState, useContext, useEffect } from "react";
 import { SessionContext } from "./contexts/sessionContext";
@@ -40,10 +39,10 @@ const googleIOSClientId = config.IOS_CLIENT_ID;
 const facebookAppId = config.FACEBOOK_APP_ID;
 
 
-const UriRedirect = AuthSession.makeRedirectUri({
-  scheme: 'com.divego',
-  path: "redirect"
-})
+// const UriRedirect = AuthSession.makeRedirectUri({
+//   scheme: 'com.divego',
+//   path: "redirect"
+// })
 
 export default function SignInRoute() {
   const { activeSession, setActiveSession } = useContext(SessionContext);
@@ -77,12 +76,12 @@ export default function SignInRoute() {
     clientId: facebookAppId,
   });
 
-  const configAndroid = {
-    issuer: 'https://accounts.google.com',
-    clientId: googleAndroidClientId,
-    redirectUrl: UriRedirect,
-    scopes: ['openid', 'profile'],
-  };
+  // const configAndroid = {
+  //   issuer: 'https://accounts.google.com',
+  //   clientId: googleAndroidClientId,
+  //   redirectUrl: UriRedirect,
+  //   scopes: ['openid', 'profile'],
+  // };
 
   const handleOAuthSubmit = async (user) => {
     let Fname;
@@ -159,8 +158,8 @@ export default function SignInRoute() {
 
   const handleGAsync = async () => {
     if (Platform.OS === "android"){
-      await authorize(configAndroid)
-      // await promptAsync( { showInRecents: true, useProxy: false } );
+      // await authorize(configAndroid)
+      await promptAsync( { showInRecents: true, useProxy: false } );
     } else {
       await promptAsync( { showInRecents: true, useProxy: false } );
     }
