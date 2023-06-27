@@ -27,6 +27,11 @@ import * as Google from "expo-auth-session/providers/google";
 import * as Facebook from "expo-auth-session/providers/facebook";
 import config from "../config";
 import Headliner from "../compnents/png/Headliner.png"
+import {
+  GoogleSignin,
+  GoogleSigninButton,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -38,6 +43,15 @@ const googleAndroidClientId = config.ANDROID_CLIENT_ID;
 const googleIOSClientId = config.IOS_CLIENT_ID;
 const facebookAppId = config.FACEBOOK_APP_ID;
 
+GoogleSignin.configure({
+  scopes: ['https://www.googleapis.com/auth/user.gender.read'], // what API you want to access on behalf of the user, default is email and profile
+  webClientId: googleExpoClientId, // client ID of type WEB for your server (needed to verify user ID and offline access)
+  offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
+  // hostedDomain: '', // specifies a hosted domain restriction
+  forceCodeForRefreshToken: true, // [Android] related to `serverAuthCode`, read the docs link below *.
+  // accountName: googleAndroidClientId, // [Android] specifies an account name on the device that should be used
+  iosClientId: googleIOSClientId, // [iOS] if you want to specify the client ID of type iOS (otherwise, it is taken from GoogleService-Info.plist)
+});
 
 // const UriRedirect = AuthSession.makeRedirectUri({
 //   scheme: 'com.divego',
@@ -87,6 +101,8 @@ export default function SignInRoute() {
     let Fname;
     let LName;
 
+    alert(user.name + " " + user.id + " " + user.email)
+
     if (user.name) {
       Fname = user.name.split(" ").slice(0, 1);
       LName = user.name.split(" ").slice(-1);
@@ -132,7 +148,6 @@ export default function SignInRoute() {
   }, [res2]);
 
   useEffect(() => {
-    alert("response?" + res?.type)
     handleGoogleSignIn();
   }, [res]);
 
